@@ -1,0 +1,6 @@
+*/*.db
+*/*.db.wal
+*/data/*
+**/.DS_Store
+.idea
+*.iml
