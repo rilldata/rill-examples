@@ -1,28 +1,5 @@
 WITH  
 
-SanFranciscoNormalized AS 
-(
-SELECT
-  'San Francisco' AS city,
-  'CA' AS state,
-  Opened AS start_event_date,
-  STRPTIME(Closed, '%m/%d/%Y %I:%M:%S %p') AS end_event_date,
-  CASE WHEN Longitude = '0.0' THEN NULL ELSE Longitude END AS longitude,
-  CASE WHEN Latitude = '0.0' THEN NULL ELSE Latitude END  AS latitude,
-  CaseID AS ticket_id,
-  SPLIT(Address, ', ')[1] AS street_address,
-  Street AS street,
-  SPLIT(Address, ', ')[-1]  AS zipcode,
-  CONCAT("Request Type", ': ', "Request Details") AS description, 
-  "Media URL" AS description_details,
-  Category AS category,
-  "Request Details" AS activity,
-  "Status" AS status,
-  Source AS method,
-  "Status Notes" AS outcome,
-  LOWER("Police District") AS neighborhoods, 
-FROM san_francisco
-),
 
 BerkeleyNormalized AS 
 (
@@ -128,8 +105,7 @@ SELECT * FROM SanJoseNormalized
 SELECT * FROM BostonNormalized
   UNION ALL 
 SELECT * FROM AustinNormalized
-  UNION ALL
-SELECT * FROM SanFranciscoNormalized
+
 )
 
 
