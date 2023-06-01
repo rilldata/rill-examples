@@ -7,7 +7,7 @@ SELECT
   'Berkeley' AS city,
   'CA' AS state, 
   Date_Opened  AS start_event_date,
-  STRPTIME(Date_Closed, '%m/%d/%Y %I:%M:%S %p') AS end_event_date,
+  Date_Closed AS end_event_date,
   Longitude AS longitude,
   Latitude AS latitude,
   Case_ID AS ticket_id,
