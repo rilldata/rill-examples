@@ -1,0 +1,4 @@
+# Visit https://docs.rilldata.com/ to learn more about Rill code files.
+
+type: "gcs"
+uri: "gs://pkg.rilldata.com/example-github-analytics/rilldata/rill/commit_details/*commit_details.parquet"

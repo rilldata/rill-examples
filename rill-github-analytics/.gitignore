@@ -1,0 +1,9 @@
+.DS_Store
+.vscode/
+.env
+*service-account.json
+
+# Rill
+*.db
+*.db.tmp
+*.db.wal
