@@ -12,7 +12,7 @@ measures:
     description: ""
     format_preset: humanize
   - label: Number of files touched
-    expression: count(*)
+    expression: count(distinct filename)
     name: total_records
     description: ""
     format_preset: humanize
