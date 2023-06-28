@@ -71,5 +71,5 @@ dimensions:
   - label: "Device Country"
     property: "device_country"
     description: ""
-smallest_time_grain: day
-default_time_range: ""
+smallest_time_grain: "hour"
+default_time_range: "P1D"
