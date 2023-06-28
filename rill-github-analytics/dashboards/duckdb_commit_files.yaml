@@ -36,6 +36,11 @@ measures:
     name: measure_4
     description: "The percentage of code changes that were deletions."
     format_preset: percentage
+  - label: "Files touched per commit"
+    expression: "count(*) / count(distinct commit_sha)"
+    name: measure_5
+    description: ""
+    format_preset: humanize
 dimensions:
   - label: Commit SHA
     property: commit_sha
