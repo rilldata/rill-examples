@@ -43,38 +43,50 @@ measures:
     format_preset: humanize
 dimensions:
   - label: Commit SHA
-    property: commit_sha
     description: ""
+    name: dimension
+    column: commit_sha
   - label: Commit message
-    property: commit_message
     description: ""
+    name: dimension_1
+    column: commit_message
   - label: Username
-    property: username
     description: ""
+    name: dimension_2
+    column: username
   - label: Filename
-    property: filename
     description: ""
+    name: dimension_3
+    column: filename
   - label: File extension
-    property: file_extension
     description: ""
+    name: dimension_4
+    column: file_extension
   - label: First directory
-    property: first_directory
     description: ""
+    name: dimension_5
+    column: first_directory
   - label: Second directory
-    property: second_directory_concat
     description: ""
+    name: dimension_6
+    column: second_directory_concat
   - label: File status
-    property: status
     description: ""
+    name: dimension_7
+    column: status
   - label: Previous filename
-    property: previous_filename
     description: ""
+    name: dimension_8
+    column: previous_filename
   - label: Patch
-    property: patch
     description: ""
+    name: dimension_9
+    column: patch
   - label: Commit URL
-    property: commit_url
     description: ""
+    name: dimension_10
+    column: commit_url
   - label: File URL
-    property: file_url
     description: ""
+    name: dimension_11
+    column: file_url
