@@ -36,7 +36,7 @@ measures:
     name: measure_2
     description: ""
     format_preset: humanize
-  - label: "Code deleted %"
+  - label: "Code deletion %"
     expression: "sum(deletions) / sum(changes)"
     name: measure_4
     description: "The percentage of code changes that were deletions."
