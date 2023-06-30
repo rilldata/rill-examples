@@ -21,22 +21,22 @@ measures:
     name: measure_6
     description: ""
     format_preset: humanize
-  - label: "Additions"
+  - label: "Code additions"
     expression: "sum(additions)"
     name: measure
     description: ""
     format_preset: humanize
-  - label: "Deletions"
+  - label: "Code deletions"
     expression: "sum(deletions)"
     name: measure_1
     description: ""
     format_preset: humanize
-  - label: "Changes"
+  - label: "Code changes"
     expression: "sum(changes)"
     name: measure_2
     description: ""
     format_preset: humanize
-  - label: "Delete %"
+  - label: "Code deleted %"
     expression: "sum(deletions) / sum(changes)"
     name: measure_4
     description: "The percentage of code changes that were deletions."
