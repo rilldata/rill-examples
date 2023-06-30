@@ -16,6 +16,11 @@ measures:
     name: total_records
     description: ""
     format_preset: humanize
+  - label: "Number of contributors"
+    expression: "count(distinct username)"
+    name: measure_6
+    description: ""
+    format_preset: humanize
   - label: "Additions"
     expression: "sum(additions)"
     name: measure
