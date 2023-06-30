@@ -12,7 +12,9 @@ cd rill-examples/rill-app-engagement
 rill start
 ```
 
-Start `rill start` fromt this directory to jump into this example.
+Start `rill start` from this directory to jump into this example.
+
+Rill will build your project from data sources to dashboard and then launch in a new browser window.
 
 ## Overview
 This dataset is an example of how an organization would use product analytics to understand user behavior. This specific data measures mobile app conversion data across the funnel, from view to download to sign-up. Typical users would include both marketing (spend improvement) and product (funnel optimization). Metrics include both summaries and conversion stats across key funnel steps.
