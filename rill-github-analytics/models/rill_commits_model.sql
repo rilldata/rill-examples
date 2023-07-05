@@ -28,4 +28,4 @@ SELECT
     additions + deletions AS changes, 
     old_path AS previous_file_path,
 FROM rill_commits_source c
-JOIN rill_modified_files f ON c.commit_hash = f.commit_hash
+LEFT JOIN rill_modified_files f ON c.commit_hash = f.commit_hash
