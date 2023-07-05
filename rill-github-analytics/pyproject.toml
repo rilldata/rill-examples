@@ -8,12 +8,11 @@ packages = [{include = "example_github_analytics"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-google-cloud-storage = "^2.9.0"
-python-dotenv = "^1.0.0"
 pandas = "^2.0.2"
+pydriller = "^2.5"
+pyarrow = "^12.0.1"
 fsspec = "^2023.6.0"
 gcsfs = "^2023.6.0"
-pyarrow = "^12.0.1"
 
 
 [build-system]
