@@ -2,6 +2,8 @@
 
 This project analyzes a Git project's commit activity. We use the [PyDriller Python library](https://pydriller.readthedocs.io/en/latest/) to traverse git commits, we store the data in Google Cloud Storage, and we analyze the data with an interactive Rill dashboard.
 
+Here's the dashboard deployed for the DuckDB repository: https://ui.rilldata.com/demo/rill-github-analytics/duckdb_commits
+
 Answer questions like:
 
 - What parts of your codebase are the most active? What parts have the most churn?
