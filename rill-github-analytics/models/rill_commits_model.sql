@@ -1,3 +1,5 @@
+-- @materialize: true
+
 SELECT
     author_date AS date,
     c.commit_hash,
