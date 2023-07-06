@@ -63,6 +63,10 @@ dimensions:
     label: File path
     column: file_path
     description: ""
+  - name: filename
+    label: Filename
+    column: filename
+    description: ""
   - name: file_extension
     label: File extension
     column: file_extension
@@ -74,10 +78,6 @@ dimensions:
   - name: second_directory
     label: Second directory
     column: second_directory_concat
-    description: ""
-  - name: filename
-    label: Filename
-    column: filename
     description: ""
   - name: previous_file_path
     label: Previous file path
