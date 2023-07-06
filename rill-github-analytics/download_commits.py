@@ -10,7 +10,7 @@ REPO_URL = f"https://github.com/{REPO_SLUG}.git"
 
 # Google Cloud configurations
 BUCKET_PATH = f"gs://rilldata-public/github-analytics/{REPO_SLUG}/commits"
-GCP_SERVICE_ACCOUNT_KEY_FILE = "example-github-analytics-service-account.json"
+GCP_SERVICE_ACCOUNT_KEY_FILE = "github-analytics-service-account.json"
 
 # Configure logging
 logging.basicConfig(
