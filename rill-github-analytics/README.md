@@ -1,6 +1,6 @@
 # GitHub analytics with Rill
 
-This project analyzes GitHub commit activity. We ping the GitHub API to fetch commit data, store it in Google Cloud Storage, and analyze it with a Rill dashboard.
+This project analyzes a Git project's commit activity. We use the [PyDriller Python library](https://pydriller.readthedocs.io/en/latest/) to traverse git commits, we store the data in Google Cloud Storage, and we analyze the data with an interactive Rill dashboard.
 
 Answer questions like:
 
@@ -9,7 +9,16 @@ Answer questions like:
 - How productive are your contributors? How does productivity change week over week?
 - What parts of your codebase are different contributors working on? With what programming languages?
 
-Follow the instructions below to setup the project for yourself!
+Follow the instructions below to analyze your own Git project.
+
+## Clone this repository
+
+To start, you'll want to clone this repository so you can edit the files and run the scripts.
+
+```bash
+git clone https://github.com/rilldata/rill-examples.git
+cd rill-github-analytics
+```
 
 ## Get a GitHub authentication token
 
@@ -21,42 +30,20 @@ Follow the instructions below to setup the project for yourself!
 export GITHUB_TOKEN=github_pat_...
 ```
 
-## Create a bucket in Google Cloud Storage and setup a service account
-
-Find your Project ID:
-
-```bash
-gcloud config get project
-```
+## Create a bucket in Google Cloud Storage and set up a service account
 
 1. Create a bucket in Google Cloud Storage
 2. See these instructions for setting up a GCS service account: https://docs.rilldata.com/deploy/credentials/gcs#how-to-create-a-service-account-using-the-google-cloud-console
-3. Save the service account key as a JSON file called `gcs_service_account.json`
-4. Save the path to the JSON file as an environment variable called `GOOGLE_APPLICATION_CREDENTIALS`
-
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS=/path/to/gcs_service_account.json
-```
+3. Save the service account key as a JSON file
 
 ## Run the download script
 
-The script hits the GitHub [ListCommits API](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits) to fetch a repositories commits. This API returns 100 commits at a time. The more interesting data comes from the GitHub [GetCommit API](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#get-a-commit). This API returns 1 commit at a time, with information like the number of lines changed, the files changed, and the languages used.
-
-GitHub enforces a rate limit of 5000 requests per hour. If you are analyzing a large repository, then you may hit the rate limit and need to run the script multiple times to download all the data.
-
-1. Edit the following variables in `download.py`:
+1. Edit the following variables in `download_commits.py`:
 
 - `REPO_SLUG`
-- `REPO_START_DATE`
-- `PROJECT_ID`
-- `BUCKET`
-- `BUCKET_SUBDIRECTORY`
-
-To find your repository's start date, run the following CLI command:
-
-```bash
-gh repo view --json createdAt {owner}/{repo}
-```
+- `REPO_URL` (if your repo isn't on GitHub)
+- `BUCKET_PATH`
+- `GCP_SERVICE_ACCOUNT_KEY_FILE`
 
 2. Run the script locally or setup a cronjob to run it periodically.
 
@@ -67,18 +54,26 @@ poetry install
 poetry run python3 download.py
 ```
 
-3. Upon completion, find the following files in your GCS bucket:
+3. Upon completion, find the following files at your provided `BUCKET_PATH`:
 
-- `commits/TIMESTAMP_commits.parquet`
-- `commit_details/TIMESTAMP_commit_details.parquet`
+- `commits/commits_{TIMESTAMP}.parquet`
+- `commits/modified_files_{TIMESTAMP}.parquet`
 
-## Start Rill
+## Edit the Rill artifacts and start Rill
 
-Install and start Rill
+1. Copy the `sources/duckdb_commits_source.yaml` and `sources/duckdb_modified_files_source.yaml` files and edit them to point to your bucket.
+2. Copy the `models/duckdb_commits_model.sql` file and edit it to point to your source.
+3. Copy the `dashboards/duckdb_commits.yaml` file and edit it to point to your model.
+4. Set authentication credentials: https://docs.rilldata.com/deploy/credentials/
+5. Install and start Rill
 
 ```bash
 curl -s https://cdn.rilldata.com/install.sh | bash
 rill start
 ```
 
-Go to your new dashboard and dig in!
+6. Explore your dashboard!
+
+## Publish your dashboard to Rill Cloud
+
+Run `rill deploy` in the project directory and follow the instructions.
