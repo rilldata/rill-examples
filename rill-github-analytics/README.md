@@ -17,7 +17,7 @@ To start, you'll want to clone this repository so you can edit the files and run
 
 ```bash
 git clone https://github.com/rilldata/rill-examples.git
-cd rill-github-analytics
+cd rill-examples/rill-github-analytics
 ```
 
 ## Get a GitHub authentication token
@@ -62,9 +62,9 @@ poetry run python3 download.py
 ## Edit the Rill artifacts and start Rill
 
 1. Copy the `sources/duckdb_commits_source.yaml` and `sources/duckdb_modified_files_source.yaml` files and edit them to point to your bucket.
-2. Copy the `models/duckdb_commits_model.sql` file and edit it to point to your source.
-3. Copy the `dashboards/duckdb_commits.yaml` file and edit it to point to your model.
-4. Set authentication credentials: https://docs.rilldata.com/deploy/credentials/
+2. Copy the `models/duckdb_commits_model.sql` file and edit it to point to your new sources.
+3. Copy the `dashboards/duckdb_commits.yaml` file and edit it to point to your new model.
+4. Configure your storage credentials: https://docs.rilldata.com/deploy/credentials/
 5. Install and start Rill
 
 ```bash
@@ -76,4 +76,4 @@ rill start
 
 ## Publish your dashboard to Rill Cloud
 
-Run `rill deploy` in the project directory and follow the instructions.
+Run `rill deploy` in your project directory and follow the instructions. [See docs](https://docs.rilldata.com/deploy/existing-project).
