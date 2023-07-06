@@ -22,16 +22,6 @@ git clone https://github.com/rilldata/rill-examples.git
 cd rill-examples/rill-github-analytics
 ```
 
-## Get a GitHub authentication token
-
-1. Go to your GitHub developer settings to create a fine-grained Personal Access Token: https://github.com/settings/tokens?type=beta
-2. Fill out the form and make sure to select the repositories you want to analyze.
-3. Save the token as an environment variable called `GITHUB_TOKEN`
-
-```bash
-export GITHUB_TOKEN=github_pat_...
-```
-
 ## Create a bucket in Google Cloud Storage and set up a service account
 
 1. Create a bucket in Google Cloud Storage
