@@ -1,0 +1,4 @@
+# Visit https://docs.rilldata.com/reference/project-files/sources to learn more about Rill source files.
+
+type: "duckdb"
+sql: "select * from read_csv('data/mapping.csv', auto_detect=true, ignore_errors=1, header=true)"

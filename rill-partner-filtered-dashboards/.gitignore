@@ -1,0 +1,4 @@
+# Rill
+*.db
+*.db.tmp
+*.db.wal

@@ -1,0 +1,8 @@
+compiler: rill-beta
+name: Partner-Filtered Dashboards Demo
+
+mock_users:
+  - email: admin@rilldata.com
+    admin: true
+  - email: john.smith@gmail.com
+  - email: anon@unknown.com
