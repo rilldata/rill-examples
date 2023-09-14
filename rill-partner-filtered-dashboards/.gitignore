@@ -1,4 +1,1 @@
-# Rill
-*.db
-*.db.tmp
-*.db.wal
+!data/*
