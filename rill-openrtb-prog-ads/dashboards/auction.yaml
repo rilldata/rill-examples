@@ -3,6 +3,7 @@
 title: "Programmatic Ads Auction"
 model: "auction_data_model"
 timeseries: "__time"
+default_time_range: P4W
 measures:
   - label: Requests
     expression: sum(bid_request_cnt)
