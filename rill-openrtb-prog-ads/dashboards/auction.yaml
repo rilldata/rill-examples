@@ -72,4 +72,4 @@ dimensions:
     property: "device_country"
     description: ""
 smallest_time_grain: "hour"
-default_time_range: "P7D"
+default_time_range: "P1W"
