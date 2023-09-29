@@ -3,7 +3,6 @@
 title: "Programmatic Ads Auction"
 model: "auction_data_model"
 timeseries: "__time"
-default_time_range: P4W
 measures:
   - label: Requests
     expression: sum(bid_request_cnt)
@@ -73,4 +72,4 @@ dimensions:
     property: "device_country"
     description: ""
 smallest_time_grain: "hour"
-default_time_range: "P1D"
+default_time_range: "P7D"
