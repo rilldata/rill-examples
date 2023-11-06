@@ -6,7 +6,7 @@ default_time_range: "P4W"
 smallest_time_grain: "day"
 timeseries: "__time"
 measures:
-  - label: "Total Cost"
+  - label: "Total Cost (USD)"
     expression: "SUM(cost)"
     name: measure
     description: "The sum of cost"
