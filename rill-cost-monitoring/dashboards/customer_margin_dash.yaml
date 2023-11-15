@@ -32,9 +32,9 @@ measures:
     description: "The count of unique companies"
     format_preset: humanize
 dimensions:
-  - label: Company
+  - label: Customer
     property: company
-    description: "The name of the company"
+    description: "The name of the customer"
   - label: Plan Name
     property: plan_name
     description: "The name of the billing plan"
