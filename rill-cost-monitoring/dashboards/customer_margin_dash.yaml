@@ -53,6 +53,6 @@ dimensions:
   - label: "Cost by Data Pipeline"
     property: "pipeline"
     description: "The pipeline incurring costs"
-  - label: "Costy by Environment"
+  - label: "Cost by Environment"
     property: "environment"
     description: "The environment incurring costs"
