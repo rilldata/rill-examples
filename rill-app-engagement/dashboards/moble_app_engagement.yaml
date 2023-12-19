@@ -5,6 +5,7 @@ model: "mobile_events_model"
 default_time_range: "P1W"
 smallest_time_grain: "hour"
 timeseries: "event_time"
+default_theme: custom_theme
 measures:
   - label: Page Views
     expression: sum(landing_page_view_cnt)
