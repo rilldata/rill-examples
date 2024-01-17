@@ -75,3 +75,15 @@ dimensions:
   - label: "Advertiser Name"
     property: "advertiser_name"
     description: "Advertiser Name"
+available_time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney
