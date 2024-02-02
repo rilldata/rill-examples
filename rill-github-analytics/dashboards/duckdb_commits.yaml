@@ -11,6 +11,11 @@ measures:
     name: measure_1
     description: ""
     format_preset: humanize
+  - label: "Test Measure"
+    expression: "count(distinct commit_hash)"
+    name: test_measure
+    description: ""
+    format_preset: humanize
   - label: Number of files touched
     expression: count(distinct filename)
     name: measure_2
