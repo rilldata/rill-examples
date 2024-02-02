@@ -1,2 +1,2 @@
 select *
-from bids_data_raw
+from {{ ref "bids_data_raw" }}
