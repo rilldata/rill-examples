@@ -11,7 +11,7 @@ measures:
     name: measure
     description: "The sum of cost"
     format_preset: currency_usd
-  - label: "TOTAL Revenue"
+  - label: "Total Revenue"
     expression: SUM(revenue)
     name: total_records
     description: The sum of revenue
