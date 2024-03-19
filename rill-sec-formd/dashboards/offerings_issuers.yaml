@@ -27,43 +27,43 @@ measures:
     format_preset: currency_usd
 dimensions:
   - label: Industry Group Type
-    property: offering_IndustryGroupType
+    column: offering_IndustryGroupType
     description: "The industry associated with this group"
   - label: Investment Fund Type
-    property: offering_InvestmentFundType
+    column: offering_InvestmentFundType
     description: "The investment Fund associated with this group"
   - label: Issuer Name
-    property: issuer_EntityName
+    column: issuer_EntityName
     description: "The issuer entity name"
   - label: "Issuer Phone Number"
-    property: "ISSUERPHONENUMBER"
+    column: "ISSUERPHONENUMBER"
     description: "Contact information for the issuer"
   - label: "Entity Type"
-    property: "ENTITYTYPE"
+    column: "ENTITYTYPE"
     description: "The entity type"
   - label: "Description"
-    property: "DESCRIPTIONOFOTHERTYPE"
+    column: "DESCRIPTIONOFOTHERTYPE"
     description: "Description of the offering type"
   - label: Recipient Name
-    property: recipient_name
+    column: recipient_name
     description: "The recipient's name"
   - label: "Type - Equity"
-    property: "ISEQUITYTYPE"
+    column: "ISEQUITYTYPE"
     description: "True if the offering represents equity"
   - label: "Type - Debt"
-    property: "ISDEBTTYPE"
+    column: "ISDEBTTYPE"
     description: "True if the offering represents debt"
   - label: "Type - Option to Acquire"
-    property: "ISOPTIONTOACQUIRETYPE"
+    column: "ISOPTIONTOACQUIRETYPE"
     description: "True if the offering represents an option to acquire"
   - label: "Type - Security to Acquire"
-    property: "ISSECURITYTOBEACQUIREDTYPE"
+    column: "ISSECURITYTOBEACQUIREDTYPE"
     description: "True if the offering represents security to acquire"
-  - label: "Type - Mineral Property"
-    property: "ISMINERALPROPERTYTYPE"
+  - label: "Type - Mineral column"
+    column: "ISMINERALcolumnTYPE"
     description: "True if the offering represents mineral rights"
   - label: "Central Index Key"
-    property: "CIK"
+    column: "CIK"
     description: "The Central Index Key (CIK) is used on the SEC's computer systems
       to identify corporations and individual people who have filed disclosures"
 title: SEC Form D Offerings

@@ -33,28 +33,28 @@ measures:
     format_preset: humanize
 dimensions:
   - label: Customer
-    property: company
+    column: company
     description: "The name of the customer"
   - label: Plan Name
-    property: plan_name
+    column: plan_name
     description: "The name of the billing plan"
   - label: "Cost by Region"
-    property: "location"
+    column: "location"
     description: "The region incurring costs"
   - label: Cost by Component
-    property: component
+    column: component
     description: "The component generating costs"
   - label: "Cost by App Name"
-    property: "app_name"
+    column: "app_name"
     description: "The app generating costs"
   - label: "Cost by SKU"
-    property: "sku_description"
+    column: "sku_description"
     description: "The sku description for costs"
   - label: "Cost by Data Pipeline"
-    property: "pipeline"
+    column: "pipeline"
     description: "The pipeline incurring costs"
   - label: "Cost by Environment"
-    property: "environment"
+    column: "environment"
     description: "The environment incurring costs"
 available_time_zones:
   - America/Los_Angeles

@@ -28,49 +28,49 @@ measures:
     format_preset: humanize
 dimensions:
   - label: City
-    property: city
+    column: city
     description: "City's 311 data"
   - label: Status Type
-    property: status_type
+    column: status_type
     description: "Status of ticket"
   - label: Category
-    property: category
+    column: category
     description: "Category of ticket"
   - label: "Street"
-    property: "street"
+    column: "street"
     description: "Street of request"
   - label: Activity
-    property: activity
+    column: activity
     description: ""
   - label: Description
-    property: description
+    column: description
     description: ""
   - label: Street Address
-    property: street_address
+    column: street_address
     description: ""
   - label: "Lattitude"
-    property: "latitude"
+    column: "latitude"
     description: ""
   - label: "Longitude"
-    property: "longitude"
+    column: "longitude"
     description: ""
   - label: Ticket ID
-    property: ticket_id
+    column: ticket_id
     description: ""
   - label: "Outcome"
-    property: "outcome"
+    column: "outcome"
     description: ""
   - label: "State"
-    property: "state"
+    column: "state"
     description: ""
   - label: "Neighborhood"
-    property: "neighborhood"
+    column: "neighborhood"
     description: ""
   - label: "Zipcode"
-    property: "zipcode"
+    column: "zipcode"
     description: ""
   - label: "Description Details"
-    property: "description_details"
+    column: "description_details"
     description: ""
 available_time_zones:
   - America/Los_Angeles

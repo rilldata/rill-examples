@@ -5,71 +5,74 @@ model: "auction_data_model"
 timeseries: "__time"
 measures:
   - label: Requests
+    name: requests
     expression: sum(bid_request_cnt)
     description: Total Requests
     format_preset: humanize
   - label: "Avg Bid Floor"
+    name: avg_bid_floor
     expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
     description: "Average Bid Floor"
     format_preset: currency_usd
   - label: "1D QPS"
+    name: 1d_qps
     expression: "sum(bid_request_cnt) / 86400 "
     description: "1D QPS"
     format_preset: humanize
 dimensions:
   - label: App Site Name
-    property: app_site_name
+    column: app_site_name
     description: ""
   - label: App Site Domain
-    property: app_site_domain
+    column: app_site_domain
     description: ""
   - label: Pub Name
-    property: pub_name
+    column: pub_name
     description: ""
   - label: App Site Cat
-    property: app_site_cat
+    column: app_site_cat
     description: ""
   - label: Ad Size
-    property: ad_size
+    column: ad_size
     description: ""
   - label: Device State
-    property: device_state
+    column: device_state
     description: ""
   - label: Device OS Version
-    property: device_osv
+    column: device_osv
     description: ""
   - label: Bid Floor Bucket
-    property: bid_floor_bucket
+    column: bid_floor_bucket
     description: ""
   - label: Platform Browser
-    property: platform_browser
+    column: platform_browser
     description: ""
   - label: Device OS
-    property: device_os
+    column: device_os
     description: ""
   - label: Device Type
-    property: device_type
+    column: device_type
     description: ""
   - label: Ad Position
-    property: ad_position
+    column: ad_position
     description: ""
   - label: Video Max Duration Bucket
-    property: video_max_duration_bucket
+    column: video_max_duration_bucket
     description: ""
   - label: Video Min Duration Bucket
-    property: video_min_duration_bucket
+    column: video_min_duration_bucket
     description: ""
   - label: Placement Type
-    property: placement_type
+    column: placement_type
     description: ""
   - label: Auction Type
-    property: auction_type
+    column: auction_type
     description: ""
   - label: App or Site
-    property: app_or_site
+    column: app_or_site
     description: ""
   - label: "Device Country"
-    property: "device_country"
+    column: "device_country"
     description: ""
 smallest_time_grain: "hour"
 default_time_range: "P1W"
