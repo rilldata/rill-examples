@@ -1,0 +1,32 @@
+kind: alert
+title: Test Alert
+refs:
+  - kind: MetricsView
+    name: customer_margin_dash
+watermark: inherit
+intervals:
+  duration: PT1M
+query:
+  name: MetricsViewAggregation
+  args:
+    metrics_view: customer_margin_dash
+    dimensions:
+      - name: company
+    measures:
+      - name: total_records
+    time_range:
+      iso_duration: P1W
+    having:
+      cond:
+        op: OPERATION_GTE
+        exprs:
+          - ident: total_records
+          - val: 0
+notify:
+    slack:
+        channels: []
+        webhooks: []
+        users:
+          - eugene.sevastianov@rilldata.com
+    email:
+      recipients: []
