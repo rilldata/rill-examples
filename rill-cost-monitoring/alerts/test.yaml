@@ -26,7 +26,7 @@ notify:
     slack:
         channels: []
         webhooks:
-          - https://hooks.slack.com/services/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
+          - https://hooks.slack.com/services/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
         users: []
     email:
       recipients: []
