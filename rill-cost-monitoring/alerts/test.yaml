@@ -24,9 +24,10 @@ query:
           - val: 0
 notify:
     slack:
-        channels: []
-        webhooks:
-          - https://hooks.slack.com/services/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
-        users: []
+        channels:
+          - eugene-notifications-test
+        webhooks: []
+        users:
+          - eugene.sevastianov@rilldata.com
     email:
       recipients: []
