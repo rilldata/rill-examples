@@ -60,7 +60,7 @@ dimensions:
     column: "ISSECURITYTOBEACQUIREDTYPE"
     description: "True if the offering represents security to acquire"
   - label: "Type - Mineral column"
-    column: "ISMINERALcolumnTYPE"
+    column: "ISMINERALPROPERTYTYPE"
     description: "True if the offering represents mineral rights"
   - label: "Central Index Key"
     column: "CIK"
