@@ -1,4 +1,4 @@
-type: https
+connector: https
 uri: https://data.austintexas.gov/api/views/xwdj-i9he/rows.csv?accessType=DOWNLOAD
 
 duckdb:
