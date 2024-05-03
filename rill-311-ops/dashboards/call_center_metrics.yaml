@@ -1,6 +1,7 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
 title: "311 Operational Metrics"
+type: metrics_view
 model: "normalized_311_model"
 default_time_range: ""
 smallest_time_grain: ""

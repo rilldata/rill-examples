@@ -1,3 +1,4 @@
+type: source
 connector: https
 uri: https://data.cityofberkeley.info/api/views/bscu-qpbu/rows.csv?accessType=DOWNLOAD
 

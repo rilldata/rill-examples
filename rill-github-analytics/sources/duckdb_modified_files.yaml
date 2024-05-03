@@ -1,5 +1,5 @@
 # Visit https://docs.rilldata.com/ to learn more about Rill code files.
-
+type: source
 connector: "gcs"
 uri: "gs://pkg.rilldata.com/example-github-analytics-pydriller/duckdb/duckdb/commits/modified_files*.parquet"
 # Workaround for caching problem

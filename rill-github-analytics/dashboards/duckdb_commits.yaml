@@ -2,6 +2,7 @@
 
 title: "DuckDB Commits"
 model: "duckdb_commits_model"
+type: metrics_view
 default_time_range: "P4W"
 smallest_time_grain: "day"
 timeseries: "date"

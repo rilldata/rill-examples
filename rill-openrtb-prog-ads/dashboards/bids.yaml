@@ -2,6 +2,7 @@
 
 title: "Programmatic Ads Bids"
 model: "bids_data_model"
+type: metrics_view
 timeseries: "__time"
 smallest_time_grain: "hour"
 default_time_range: "PT24H"
