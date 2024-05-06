@@ -1,6 +1,7 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
 title: Row-based security
+type: metrics_view
 model: margins_model
 timeseries: __time
 measures:

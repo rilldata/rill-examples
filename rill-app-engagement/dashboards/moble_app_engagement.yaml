@@ -1,6 +1,7 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
 title: "Mobile App Engagement Dashboard"
+type: metrics_view
 model: "mobile_events_model"
 default_time_range: "P1W"
 smallest_time_grain: "hour"

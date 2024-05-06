@@ -1,4 +1,4 @@
 # Visit https://docs.rilldata.com/reference/project-files/sources to learn more about Rill source files.
-
+type: source
 connector: "duckdb"
 sql: "select * from read_parquet('gs://rilldata-public/metrics_margin_monitoring.parquet')"
