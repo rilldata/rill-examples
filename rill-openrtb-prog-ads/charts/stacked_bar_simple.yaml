@@ -1,0 +1,30 @@
+kind: component
+data:
+  metrics_sql: |
+    SELECT
+    player_size,
+    __time as time_grain_hour,
+    overall_spend
+    FROM
+        bids
+    ORDER BY
+        __time DESC
+    LIMIT 200
+    OFFSET 0
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Google's stock price over time.",
+    "data": {"name": "table"},
+    "width": 700,
+    "height": 400,
+  
+  "mark": {"type": "bar", "width": 40},
+  "encoding": {
+    "x": {"field": "time_grain_hour", "type": "ordinal"},
+    "y": {"field": "overall_spend", "type": "quantitative"},
+    "color": {"field": "player_size", "type": "nominal"}
+    }
+  }
+

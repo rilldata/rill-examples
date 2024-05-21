@@ -1,0 +1,79 @@
+kind: component
+data:
+  metrics_sql: |
+    SELECT
+    __time as time_grain_hour,
+    overall_spend
+    FROM
+        bids
+    ORDER BY
+        __time DESC
+    LIMIT 200
+    OFFSET 0
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Google's stock price over time.",
+    "data": {"name": "table"},
+    "width": 700,
+    "height": 400,
+    "layer": [
+      {
+        "mark": {
+          "type": "area"
+        },
+        "encoding": {
+          "x": {
+            "field": "time_grain_hour", 
+            "type": "temporal",
+            "axis": {"title": ""}
+          },
+          "y": {
+            "axis": {
+              "orient": "right",
+              "title": ""
+            },
+            "field": "overall_spend", 
+            "type": "quantitative"
+          },
+              "tooltip": [
+          {"title": "Time", "field": "time_grain_hour", "type": "temporal"},
+          {"title": "Price", "field": "overall_spend", "type": "quantitative"}
+        ]
+        }
+      },
+      {
+        "transform": [{"filter": {"param": "hover", "empty": false}}],
+        "mark": {"type": "rule", "color": "royalblue", "strokeWidth": 3},
+        "encoding": {
+          "x": {"type": "temporal", "field": "time_grain_hour"},
+          "y": {"field": "overall_spend", "type": "quantitative"}
+
+        }
+      },
+      {
+        "mark": "point",
+        "encoding": {
+          "x": {"field": "time_grain_hour", "type": "temporal"},
+          "y": {"field": "overall_spend", "type": "quantitative"},
+          "opacity": {
+            "condition": {"param": "hover", "value": 1},
+            "value": 0
+          }
+        },
+        "params": [
+          {
+            "name": "hover",
+            "select": {
+              "type": "point",
+              "encodings": ["x"],
+              "nearest": true,
+              "on": "mouseover"
+            }
+          }
+        ]
+      }
+    ]
+  }
+

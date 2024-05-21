@@ -1,0 +1,28 @@
+kind: component
+data:
+  metrics_sql: |
+    SELECT advertiser_name, 
+      overall_spend,
+      impressions
+    FROM bids
+    LIMIT 200
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Drag out a rectangular brush to highlight points.",
+    "data": {"name": "table"},
+    "params": [{
+      "name": "brush",
+      "select": "interval"
+    }],
+    "mark": "point",
+    "encoding": {
+      "x": {"field": "overall_spend", "type": "quantitative"},
+      "y": {"field": "impressions", "type": "quantitative"},
+      "color": {
+        "condition": {"param": "brush", "field": "advertiser_name", "type": "nominal"},
+        "value": "grey"
+      }
+    }
+  }

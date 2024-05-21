@@ -1,0 +1,39 @@
+kind: dashboard
+columns: 9
+gap: 5
+items:
+  - component: area_rill_no_comparison
+    height: 4
+    width: 10
+    x: 0
+    y: 2
+  - component: KPI
+    height: 2
+    width: 3
+    x: 0
+    y: 0
+  - component: KPI
+    height: 2
+    width: 3
+    x: 3
+    y: 0
+  - component: KPI
+    height: 2
+    width: 3
+    x: 6
+    y: 0
+  - component: stacked_bar
+    height: 4
+    width: 5
+    x: 0
+    y: 6
+  - component: time_chart_sample
+    height: 4
+    width: 4
+    x: 5
+    y: 6
+  - component: stacked_area_chart
+    height: 5
+    width: 9
+    x: 0
+    y: 10

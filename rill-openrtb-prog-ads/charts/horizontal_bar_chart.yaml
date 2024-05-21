@@ -1,0 +1,21 @@
+# Bar chart for top advertiser names
+
+kind: component
+data:
+  metrics_sql: |
+    SELECT advertiser_name, overall_spend
+    FROM bids
+    ORDER BY overall_spend DESC
+    LIMIT 20
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"name": "table"},
+    "mark": "bar",
+    "width": "container",
+    "encoding": {
+      "y": {"axis": {"orient": "left"}, "field": "advertiser_name", "type": "nominal", "sort": null},
+      "x": {"field": "overall_spend", "type": "quantitative"}
+    }
+  }

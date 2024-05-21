@@ -1,0 +1,220 @@
+kind: component
+data:
+  metrics_sql: |
+    SELECT advertiser_name, AGGREGATE(overall_spend)
+    FROM Bids_Sample_Dash
+    GROUP BY advertiser_name
+    ORDER BY overall_spend DESC
+    LIMIT 20
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "text": "Sales YTD",
+      "anchor": "start",
+      "offset": -17,
+      "font": "Arial",
+      "fontSize": 16,
+      "fontWeight": 400,
+      "color": "#a0a0a0"
+    },
+    "data": {
+      "values": [
+        {"date": "2023-01-01", "value": 6000, "target": 10000},
+        {"date": "2023-02-01", "value": 8000, "target": 10000},
+        {"date": "2023-03-01", "value": 9000, "target": 10000},
+        {"date": "2023-04-01", "value": 10000, "target": 12000},
+        {"date": "2023-05-01", "value": 8000, "target": 12000},
+        {"date": "2023-06-01", "value": 14000, "target": 12000},
+        {"date": "2023-07-01", "value": 6000, "target": 14000},
+        {"date": "2023-08-01", "value": 15000, "target": 14000},
+        {"date": "2023-09-01", "value": 18000, "target": 14000},
+        {"date": "2023-10-01", "value": 12000, "target": 16000},
+        {"date": "2023-11-01", "value": 12000, "target": 16000},
+        {"date": "2023-12-01", "value": 14000, "target": 16000}
+      ]
+    },
+    "height": 100,
+    "width": 250,
+    "layer": [
+      {
+        "mark": {
+          "type": "area",
+          "color": {
+            "x1": 1,
+            "y1": 1,
+            "x2": 1,
+            "y2": 0,
+            "gradient": "linear",
+            "stops": [
+              {"offset": 0, "color": "white"},
+              {"offset": 1, "color": "#ebebeb"}
+            ]
+          }
+        },
+        "encoding": {
+          "x": {"field": "date", "type": "temporal", "axis": null},
+          "y": {"field": "value", "type": "quantitative", "axis": null}
+        }
+      },
+      {
+        "mark": {
+          "type": "line",
+          "color": "#9c9c9c",
+          "strokeWidth": 1,
+          "strokeDash": [3, 3]
+        },
+        "encoding": {
+          "x": {"field": "date", "type": "temporal", "axis": null},
+          "y": {"field": "target", "type": "quantitative", "axis": null}
+        }
+      },
+      {
+        "mark": {"type": "line", "size": 1, "tooltip": true},
+        "encoding": {
+          "color": {"value": "#000"},
+          "x": {"field": "date", "type": "temporal"},
+          "y": {"field": "value", "type": "quantitative"}
+        }
+      },
+      {
+        "transform": [
+          {
+            "joinaggregate": [{"op": "max", "field": "date", "as": "latest_date"}]
+          },
+          {"filter": "datum.date == datum.latest_date"}
+        ],
+        "mark": {
+          "type": "point",
+          "tooltip": true,
+          "fill": "white",
+          "strokeWidth": 1
+        },
+        "encoding": {
+          "color": {
+            "condition": {
+              "test": "datum.value >= datum.target",
+              "value": "green"
+            },
+            "value": "red"
+          },
+          "opacity": {"value": 1},
+          "size": {"value": 70},
+          "x": {"field": "date", "type": "temporal"},
+          "y": {"field": "value", "type": "quantitative"}
+        }
+      },
+      {
+        "transform": [
+          {"joinaggregate": [{"op": "max", "field": "value", "as": "maxVal"}]},
+          {
+            "joinaggregate": [{"op": "max", "field": "date", "as": "latest_date"}]
+          },
+          {"filter": "datum.date == datum.latest_date"},
+          {
+            "calculate": "timeFormat(datum.date,'%b-%Y') + ': '+ format(datum.value,'$,.2s')",
+            "as": "Title"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "dx": 0,
+          "dy": -45,
+          "xOffset": 0,
+          "yOffset": -10,
+          "angle": 0,
+          "align": "right",
+          "baseline": "bottom",
+          "font": "sans-serif",
+          "fontSize": 18,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+          "limit": 0
+        },
+        "encoding": {
+          "x": {"field": "date", "type": "temporal"},
+          "y": {"field": "maxVal", "type": "quantitative"},
+          "text": {"field": "Title"}
+        }
+      },
+      {
+        "transform": [
+          {"joinaggregate": [{"op": "max", "field": "value", "as": "maxVal"}]},
+          {
+            "joinaggregate": [{"op": "max", "field": "date", "as": "latest_date"}]
+          },
+          {"filter": "datum.date == datum.latest_date"},
+          {
+            "calculate": "'⚋ Target: '+ format(datum.target,'$,.2s')",
+            "as": "targetText"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "dx": 0,
+          "dy": -25,
+          "xOffset": 0,
+          "yOffset": -10,
+          "angle": 0,
+          "align": "right",
+          "baseline": "bottom",
+          "font": "sans-serif",
+          "fontSize": 12,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+          "limit": 0,
+          "color": {"expr": "datum.value < datum.target ? 'red' : 'green'"}
+        },
+        "encoding": {
+          "x": {"field": "date", "type": "temporal"},
+          "y": {"field": "maxVal", "type": "quantitative"},
+          "text": {"field": "targetText"}
+        }
+      },
+      {
+        "transform": [
+          {"joinaggregate": [{"op": "max", "field": "value", "as": "maxVal"}]},
+          {"calculate": "toDate(datum.date)", "as": "parsed_date"},
+          {
+            "window": [{"op": "rank", "as": "rank"}],
+            "sort": [{"field": "parsed_date", "order": "descending"}]
+          },
+          {"filter": "datum.rank == 1 || datum.rank == 2"},
+          {"calculate": "datum.rank == 1 ? datum.value : 0", "as": "val1"},
+          {"calculate": "datum.rank == 2 ? datum.value : 0", "as": "val2"},
+          {"joinaggregate": [{"op": "max", "field": "val1", "as": "val1X"}]},
+          {"joinaggregate": [{"op": "max", "field": "val2", "as": "val2X"}]},
+          {"calculate": "max(datum.val1X) - max(datum.val2X)", "as": "finalVal"},
+          {
+            "calculate": "datum.rank == 1 ? (datum.finalVal > 0 ? '▲ ' : datum.finalVal < 0 ? '▼ ' : '▷ ') + 'Change this month: ' + (datum.finalVal > 0 ? '+' : '') + format(datum.finalVal,'$,.2s') : ''",
+            "as": "subTitle"
+          }
+        ],
+        "mark": {
+          "type": "text",
+          "dx": 0,
+          "dy": -15,
+          "xOffset": 0,
+          "yOffset": -15,
+          "angle": 0,
+          "align": "right",
+          "baseline": "top",
+          "font": "sans-serif",
+          "fontSize": 12,
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+          "limit": 0,
+          "color": {
+            "expr": "datum.finalVal < 0 ? 'red' : datum.finalVal > 0 ? 'green' : 'gray'"
+          }
+        },
+        "encoding": {
+          "x": {"field": "date", "type": "temporal"},
+          "y": {"field": "maxVal", "type": "quantitative"},
+          "text": {"field": "subTitle"}
+        }
+      }
+    ],
+    "view": {"stroke": "transparent"},
+    "config": {}
+  }

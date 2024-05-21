@@ -1,0 +1,34 @@
+## This is a sample comment
+kind: component
+data:
+  metrics_sql: |
+    SELECT
+    __time as time_grain_hour,
+    overall_spend
+    FROM
+        bids
+    ORDER BY
+        __time DESC
+    LIMIT 200
+    OFFSET 0
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "Simple area chart",
+    "data": {"name": "table"},
+    "width": "container",
+    "height": 400,
+    "mark": {"type": "area"},
+    "encoding": {
+      "x": {
+        "field": "time_grain_hour",
+        "type": "temporal"
+      },
+      "y": {
+        "field": "overall_spend",
+        "type": "quantitative"
+      }
+    }
+  }
+
