@@ -4,7 +4,7 @@ title: "311 Operational Metrics"
 type: metrics_view
 model: "normalized_311_model"
 default_time_range: ""
-smallest_time_grain: ""
+smallest_time_grain: "hour"
 timeseries: "start_event_date"
 measures:
   - label: "Median Time to Resolve Ticket (Hours)"

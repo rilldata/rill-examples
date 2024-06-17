@@ -1,30 +1,5 @@
 WITH  
 
-
-BerkeleyNormalized AS 
-(
-SELECT
-  'Berkeley' AS city,
-  'CA' AS state, 
-  Date_Opened  AS start_event_date,
-  Date_Closed AS end_event_date,
-  Longitude AS longitude,
-  Latitude AS latitude,
-  Case_ID AS ticket_id,
-  LOWER(Street_Address) AS street_address,
-  array_slice(Street_Address, LENGTH(SPLIT(Street_Address, ' ')[1]) + 2, 100) AS street,
-  NULL AS zipcode,
-  SPLIT(REPLACE(REPLACE(Request_Detail, 'Commercial ', ''), 'Residential ', ''), ' - ')[1] AS description, 
-  REPLACE(REPLACE(Request_Detail, 'Commercial ', ''), 'Residential ', '') AS description_details, 
-  Request_Category AS category,
-  Request_SubCategory AS activity,
-  Case_Status AS status,
-  NULL AS method,
-  NULL AS outcome,
-  LOWER(Neighborhood) AS neighborhood,
-FROM berkeley
-),
-
 SanJoseNormalized AS 
 (
 SELECT
@@ -98,14 +73,11 @@ FROM austin
 ),
 
 Together AS (
-SELECT * FROM BerkeleyNormalized
-  UNION ALL
 SELECT * FROM SanJoseNormalized
   UNION ALL 
 SELECT * FROM BostonNormalized
   UNION ALL 
 SELECT * FROM AustinNormalized
-
 )
 
 
