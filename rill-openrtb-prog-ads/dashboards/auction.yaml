@@ -22,58 +22,58 @@ measures:
     format_preset: humanize
 dimensions:
   - label: App Site Name
-    column: app_site_name
+    expression: app_site_name
     description: ""
   - label: App Site Domain
-    column: app_site_domain
+    expression: app_site_domain
     description: ""
   - label: Pub Name
-    column: pub_name
+    expression: pub_name
     description: ""
   - label: App Site Cat
-    column: app_site_cat
+    expression: app_site_cat
     description: ""
   - label: Ad Size
-    column: ad_size
+    expression: ad_size
     description: ""
   - label: Device State
-    column: device_state
+    expression: device_state
     description: ""
   - label: Device OS Version
-    column: device_osv
+    expression: device_osv
     description: ""
   - label: Bid Floor Bucket
-    column: bid_floor_bucket
+    expression: bid_floor_bucket
     description: ""
   - label: Platform Browser
-    column: platform_browser
+    expression: platform_browser
     description: ""
   - label: Device OS
-    column: device_os
+    expression: device_os
     description: ""
   - label: Device Type
-    column: device_type
+    expression: device_type
     description: ""
   - label: Ad Position
-    column: ad_position
+    expression: ad_position
     description: ""
   - label: Video Max Duration Bucket
-    column: video_max_duration_bucket
+    expression: video_max_duration_bucket
     description: ""
   - label: Video Min Duration Bucket
-    column: video_min_duration_bucket
+    expression: video_min_duration_bucket
     description: ""
   - label: Placement Type
-    column: placement_type
+    expression: placement_type
     description: ""
   - label: Auction Type
-    column: auction_type
+    expression: auction_type
     description: ""
   - label: App or Site
-    column: app_or_site
+    expression: app_or_site
     description: ""
   - label: "Device Country"
-    column: "device_country"
+    expression: "device_country"
     description: ""
 smallest_time_grain: "hour"
 default_time_range: "P1W"

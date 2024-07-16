@@ -69,70 +69,70 @@ measures:
     format_preset: currency_usd
 dimensions:
   - label: Adomain
-    column: adomain
+    expression: adomain
     description: ""
   - label: Advertiser Name
-    column: advertiser_name
+    expression: advertiser_name
     description: ""
   - label: App or Site
-    column: app_or_site
+    expression: app_or_site
     description: ""
   - label: Site Domain
-    column: app_site_domain
+    expression: app_site_domain
     description: ""
   - label: App Name
-    column: app_site_name
+    expression: app_site_name
     description: ""
   - label: Auction Type
-    column: auction_type
+    expression: auction_type
     description: ""
   - label: Bid Floor Bucket
-    column: bid_floor_bucket
+    expression: bid_floor_bucket
     description: ""
   - label: Campaign Name
-    column: campaign_name
+    expression: campaign_name
     description: ""
   - label: Creative type
-    column: creative_type
+    expression: creative_type
     description: ""
   - label: Device OS
-    column: device_os
+    expression: device_os
     description: ""
   - label: Device OSV
-    column: device_osv
+    expression: device_osv
     description: ""
   - label: Device Region
-    column: device_region
+    expression: device_region
     description: ""
   - label: Device Type
-    column: device_type
+    expression: device_type
     description: ""
   - label: Interstitial
-    column: interstitial
+    expression: interstitial
     description: ""
   - label: Line Item Name
-    column: line_item_name
+    expression: line_item_name
     description: ""
   - label: Placement Type
-    column: placement_type
+    expression: placement_type
     description: ""
   - label: Platform Browser
-    column: platform_browser
+    expression: platform_browser
     description: ""
   - label: Player Size
-    column: player_size
+    expression: player_size
     description: ""
   - label: Privacy
-    column: privacy
+    expression: privacy
     description: ""
   - label: Pub Name
-    column: pub_name
+    expression: pub_name
     description: ""
   - label: SDK
-    column: sdk
+    expression: sdk
     description: ""
   - label: Video Activity
-    column: video_activity
+    expression: video_activity
     description: ""
 available_time_zones:
   - America/Los_Angeles

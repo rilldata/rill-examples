@@ -1,6 +1,6 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
-title: Column-based security
+title: expression-based security
 type: metrics_view
 model: margins_model
 timeseries: __time
@@ -32,28 +32,28 @@ measures:
     format_preset: humanize
 dimensions:
   - label: Company
-    column: company
+    expression: company
     description: "The name of the company"
   - label: Plan Name
-    column: plan_name
+    expression: plan_name
     description: "The name of the billing plan"
   - label: "Cost by Region"
-    column: "location"
+    expression: "location"
     description: "The region incurring costs"
   - label: Cost by Component
-    column: component
+    expression: component
     description: "The component generating costs"
   - label: "Cost by App Name"
-    column: "app_name"
+    expression: "app_name"
     description: "The app generating costs"
   - label: "Cost by SKU"
-    column: "sku_description"
+    expression: "sku_description"
     description: "The sku description for costs"
   - label: "Cost by Data Pipeline"
-    column: "pipeline"
+    expression: "pipeline"
     description: "The pipeline incurring costs"
   - label: "Costy by Environment"
-    column: "environment"
+    expression: "environment"
     description: "The environment incurring costs"
 available_time_zones:
   - America/Los_Angeles

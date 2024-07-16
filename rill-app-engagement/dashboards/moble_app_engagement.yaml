@@ -55,25 +55,25 @@ measures:
     format_preset: percentage
 dimensions:
   - label: New vs Existing
-    column: new_existing
+    expression: new_existing
     description: "New vs. Returning"
   - label: "Referral Source"
-    column: "referral_source"
+    expression: "referral_source"
     description: "User Referral Source"
   - label: "Country"
-    column: "country"
+    expression: "country"
     description: "Device Location"
   - label: "Device Make"
-    column: "device_make"
+    expression: "device_make"
     description: "Device Make"
   - label: "Network"
-    column: "network"
+    expression: "network"
     description: "Connection Type"
   - label: "App Version"
-    column: "app_version"
+    expression: "app_version"
     description: "Internal App Version"
   - label: "Advertiser Name"
-    column: "advertiser_name"
+    expression: "advertiser_name"
     description: "Advertiser Name"
 available_time_zones:
   - America/Los_Angeles

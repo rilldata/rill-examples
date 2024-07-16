@@ -50,41 +50,41 @@ measures:
 dimensions:
   - name: commit_hash
     label: Commit hash
-    column: commit_hash
+    expression: commit_hash
     description: ""
   - name: commit_message
     label: Commit message
-    column: commit_message
+    expression: commit_message
     description: ""
   - name: username
     label: Username
-    column: username
+    expression: username
     description: ""
   - name: file_path
     label: File path
-    column: file_path
+    expression: file_path
     description: ""
   - name: filename
     label: Filename
-    column: filename
+    expression: filename
     description: ""
   - name: file_extension
     label: File extension
-    column: file_extension
+    expression: file_extension
     description: ""
   - name: first_directory
     label: First directory
-    column: first_directory
+    expression: first_directory
     description: ""
   - name: second_directory
     label: Second directory
-    column: second_directory_concat
+    expression: second_directory_concat
     description: ""
   - name: previous_file_path
     label: Previous file path
-    column: previous_file_path
+    expression: previous_file_path
     description: ""
   - name: is_merge_commit
     label: Merge commit
-    column: is_merge_commit
+    expression: is_merge_commit
     description: "True if the commit is a merge commit"
