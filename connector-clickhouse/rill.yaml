@@ -1,0 +1,8 @@
+compiler: rillv1
+
+title: "ClickHouse commits"
+
+olap_connector: clickhouse
+
+features:
+  clickhouseModeling: true
