@@ -26,7 +26,7 @@ clickhouse server
 Replace the below git URL with the one you want to analyze.
 
 ```bash
-scripts/data-import.sh git@github.com:ClickHouse/ClickHouse.git
+scripts/data-import.sh https://github.com/ClickHouse/ClickHouse
 ```
 
 ## Install and start Rill
