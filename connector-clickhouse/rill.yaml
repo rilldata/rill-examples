@@ -5,7 +5,7 @@ title: "ClickHouse Demo"
 olap_connector: clickhouse
 
 ignore_paths:
-  - "clickhouse_data"
+  - "/clickhouse_data"
 
 features:
   clickhouseModeling: true
