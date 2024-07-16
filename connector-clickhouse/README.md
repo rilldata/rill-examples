@@ -43,4 +43,4 @@ Start Rill:
 rill start
 ```
 
-This will open Rill in your browser. Navigate to ...
+This will open Rill in your browser. Navigate to http://localhost:9009/dashboard/git_commits to see the dashboard.
