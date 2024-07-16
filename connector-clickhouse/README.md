@@ -1,47 +1,46 @@
-# Rill Clickhouse demo
+# Analyzing GitHub commits with Rill + Clickhouse
 
-### Prerequisite
-
-- Clone this repo
+To start, clone this repository and navigate to the `connector-clickhouse` directory.
 
 ```bash
 git clone git@github.com:rilldata/rill-examples.git && cd rill-examples/connector-clickhouse
 ```
 
-- Install Clickhouse
+## Install and start ClickHouse
+
+Install ClickHouse:
 
 ```bash
 curl https://clickhouse.com/ | sh
 ```
 
-- Start clickhouse local server
+Start a ClickHouse Local server in a contained directory:
 
 ```bash
+mkdir clickhouse_data && cd clickhouse_data
 clickhouse server
 ```
 
-- Install Rill
+## Import data from a GitHub repository
 
-```base
-curl https://rill.sh | sh
-```
-
-## Steps to run Rill Demo
-
-Note: Run below steps from root directory of this repo.
-
-Step 1: Import data for your github repository
+Replace the below git URL with the one you want to analyze.
 
 ```bash
 scripts/data-import.sh git@github.com:ClickHouse/ClickHouse.git
 ```
 
-Change the repo url to use your own repo.
+## Install and start Rill
 
-Step 2: Start rill (Assumes clickhouse is running on localhost:9000)
+Install Rill:
+
+```bash
+curl https://rill.sh | sh
+```
+
+Start Rill:
 
 ```bash
 rill start
 ```
 
-This will open up browser with a Rill dashboard showing GitHub commits for the provided repo.
+This will open Rill in your browser. Navigate to ...

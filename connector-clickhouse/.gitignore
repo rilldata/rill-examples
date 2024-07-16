@@ -3,3 +3,5 @@
 # Rill
 .env
 tmp
+
+clickhouse_data
