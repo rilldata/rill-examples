@@ -1,3 +1,5 @@
 .DS_Store
-*.db
-*.db.wal
+
+# Rill
+.env
+tmp
