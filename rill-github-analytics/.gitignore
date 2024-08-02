@@ -4,6 +4,5 @@
 *service-account.json
 
 # Rill
-*.db
-*.db.tmp
-*.db.wal
+.env
+tmp
