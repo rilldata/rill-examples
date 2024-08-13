@@ -31,10 +31,12 @@ measures:
     description: "The count of unique companies"
     format_preset: humanize
 dimensions:
-  - label: Company
+  - name: company
+    label: Company
     expression: company
     description: "The name of the company"
-  - label: Plan Name
+  - name: plan_name
+    label: Plan Name
     expression: plan_name
     description: "The name of the billing plan"
   - label: "Cost by Region"
@@ -49,10 +51,12 @@ dimensions:
   - label: "Cost by SKU"
     expression: "sku_description"
     description: "The sku description for costs"
-  - label: "Cost by Data Pipeline"
+  - name: pipeline
+    label: "Cost by Data Pipeline"
     expression: "pipeline"
     description: "The pipeline incurring costs"
-  - label: "Costy by Environment"
+  - name: environment
+    label: "Costy by Environment"
     expression: "environment"
     description: "The environment incurring costs"
 available_time_zones:
