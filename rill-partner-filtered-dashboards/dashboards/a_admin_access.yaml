@@ -5,55 +5,63 @@ type: metrics_view
 model: margins_model
 timeseries: __time
 measures:
-  - label: "Total Cost"
+  - name: total_cost
+    label: "Total Cost"
     expression: "SUM(cost)"
-    name: measure
     description: "The sum of cost"
     format_preset: currency_usd
-  - label: Total Revenue
+  - name: total_revenue
+    label: Total Revenue
     expression: SUM(revenue)
-    name: total_records
     description: The sum of revenue
     format_preset: currency_usd
-  - label: "Net Revenue"
+  - name: net_revenue
+    label: "Net Revenue"
     expression: "SUM(revenue) - SUM(cost)"
-    name: measure_2
     description: "The sum of revenue minus the sum of cost"
     format_preset: currency_usd
-  - label: "Margin"
+  - name: margin
+    label: "Margin"
     expression: "(SUM(revenue) - SUM(cost))/SUM(revenue)"
-    name: measure_1
     description: "Net revenue divided by sum of revenue"
     format_preset: percentage
-  - label: "Unique Customers"
+  - name: unique_customers
+    label: "Unique Customers"
     expression: "COUNT(DISTINCT company)"
-    name: measure_3
     description: "The count of unique companies"
     format_preset: humanize
 dimensions:
-  - label: Company
+  - name: company
     expression: company
+    label: Company
     description: "The name of the company"
-  - label: Plan Name
+  - name: plan_name
     expression: plan_name
+    label: Plan Name
     description: "The name of the billing plan"
-  - label: "Cost by Region"
+  - name: location
     expression: "location"
+    label: "Cost by Region"
     description: "The region incurring costs"
-  - label: Cost by Component
+  - name: component
     expression: component
+    label: Cost by Component
     description: "The component generating costs"
-  - label: "Cost by App Name"
+  - name: app_name
     expression: "app_name"
+    label: "Cost by App Name"
     description: "The app generating costs"
-  - label: "Cost by SKU"
+  - name: sku_description
     expression: "sku_description"
+    label: "Cost by SKU"
     description: "The sku description for costs"
-  - label: "Cost by Data Pipeline"
+  - name: pipeline
     expression: "pipeline"
+    label: "Cost by Data Pipeline"
     description: "The pipeline incurring costs"
-  - label: "Costy by Environment"
+  - name: environment
     expression: "environment"
+    label: "Cost by Environment"
     description: "The environment incurring costs"
 available_time_zones:
   - America/Los_Angeles
