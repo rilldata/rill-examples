@@ -43,7 +43,7 @@ The project uses Poetry to manage its Python virtual environment. [Install Poetr
 
 ```bash
 poetry install
-poetry run python3 download.py
+poetry run python3 download_commits.py
 ```
 
 3. Upon completion, find the following files at your provided `BUCKET_PATH`:
