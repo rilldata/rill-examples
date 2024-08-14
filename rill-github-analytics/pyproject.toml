@@ -10,7 +10,7 @@ packages = [{include = "example_github_analytics"}]
 python = "^3.10"
 pandas = "^2.0.2"
 pydriller = "^2.5"
-pyarrow = "^12.0.1"
+pyarrow = "^17.0.0"
 fsspec = "^2023.6.0"
 gcsfs = "^2023.6.0"
 
