@@ -1,4 +1,4 @@
-# Analyzing GitHub commits with Rill + Clickhouse
+# Analyzing GitHub commits with Rill and Clickhouse
 
 To start, clone this repository and navigate to the `connector-clickhouse` directory.
 
