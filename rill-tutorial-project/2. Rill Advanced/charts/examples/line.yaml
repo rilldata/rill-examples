@@ -1,0 +1,46 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+data:
+  sql: |
+    SELECT * FROM (VALUES 
+      ('Monday', 300),
+      ('Tuesday', 150),
+      ('Wednesday', 200),
+      ('Thursday', 400),
+      ('Friday', 650),
+      ('Saturday', 575),
+      ('Sunday', 500)
+    ) AS t(day_of_week, revenue)
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "name": "table" },
+    "mark": "line",
+    "width": "container",
+    "height": 500,
+    "encoding": {
+      "x": {
+        "field": "day_of_week",
+        "type": "ordinal",
+        "axis": { "title": "Day of the Week" },
+        "sort": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ]
+      },
+      "y": {
+        "field": "revenue",
+        "type": "quantitative",
+        "axis": { "title": "Revenue" }
+      }
+    }
+  }

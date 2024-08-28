@@ -1,0 +1,52 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+type: metrics_view
+
+title: "My Advanced Tutorial Project"
+#table: example_table # Choose a table to underpin your dashboard
+model: advanced_commits___model
+
+timeseries: author_date # Select an actual timestamp column (if any) from your table
+
+dimensions: 
+- column: directory_path
+  label: "The directory"
+  description: "The directory path"
+
+- column: filename
+  label: "The filename"
+  description: "The name of the modified filename"
+
+- column: author_name
+  label: "The Author's Name"
+  description: "The name of the author of the commit"
+
+- column: commit_msg
+  label: "The commit message"
+  description: "The commit description attached."
+
+measures:
+- expression: "SUM(total_line_changes)"
+  label: "Total number of Lines changed"
+  description: "the total number of lines changes, addition and deletion"
+
+- name: net_line_changes
+  expression: "SUM(net_line_changes)"
+  label: "Net number of Lines changed"
+  description: "the total net number of lines changes"
+
+- expression: "SUM(num_commits)"
+  label: "Number of Commits"
+  description: "The total number of commits"
+
+- expression: "(SUM(deleted_lines)/(SUM(deleted_lines)+SUM(added_lines)))"
+  label: "Code Deletion Percent %"
+  description: "The percent of code deletion"
+  format_preset: percentage
+
+#- expression: "count(author_date)"
+#  name: count
+
+security:
+  access: "{{ .user.admin }} AND '{{ .user.domain }}' == 'rilldata.com'"

@@ -1,0 +1,18 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+data:
+  sql: |   
+    select     
+      author_name,
+      author_date,
+      added_lines,
+      deleted_lines,
+    from advanced_commits___model
+    where author_date > '2024-07-21 00:00:00 Z'
+
+bar_chart:
+  x: author_date
+  y: added_lines

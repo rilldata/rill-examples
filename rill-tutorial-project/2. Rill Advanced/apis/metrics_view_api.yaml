@@ -1,0 +1,9 @@
+# API YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/apis
+# Test your API endpoint at http://localhost:9009/v1/instances/default/api/metrics_view_api
+type: api
+name: metrics_view_api
+
+metrics_sql: SELECT author_name, net_line_changes FROM dashboard_1 where author_date > '2024-07-01 00:00:00 Z' order by net_line_changes DESC limit 10
+
+# SELECT author_name, commits FROM dashboard_1 where author_date > '2024-07-01 00:00:00 Z' order by commits DESC limit 10

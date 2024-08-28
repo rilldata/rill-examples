@@ -1,0 +1,50 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+data:
+  sql: |
+    SELECT * FROM (VALUES 
+        ('Point A', 1, 2),
+        ('Point B', 2, 3),
+        ('Point C', 3, 6),
+        ('Point D', 4, 8),
+        ('Point E', 5, 5),
+        ('Point F', 6, 7),
+        ('Point G', 7, 10),
+        ('Point H', 8, 6),
+        ('Point I', 9, 9),
+        ('Point J', 10, 12)
+    ) AS t(name, x_value, y_value)
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "name": "table" },
+    "mark": "point",
+    "width": "container",
+    "height": 500,
+    "encoding": {
+      "x": {
+        "field": "x_value",
+        "type": "quantitative",
+        "axis": { "title": "Point"}
+      },
+      "y": {
+        "field": "y_value",
+        "type": "quantitative",
+        "axis": { "title": "Point", "orient": "left"  }
+      },
+        "color": {
+          "field": "name",
+          "type": "nominal",
+          "legend": {"title": "Point Name"}
+        },
+        "tooltip": [
+          {"field": "name", "type": "nominal", "title": "Point Name"},
+          {"field": "x_value", "type": "quantitative", "title": "X Value"},
+          {"field": "y_value", "type": "quantitative", "title": "Y Value"}
+        ]
+    }
+  }

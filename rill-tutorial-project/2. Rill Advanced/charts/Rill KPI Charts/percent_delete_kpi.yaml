@@ -1,0 +1,10 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+kpi:
+  metric_view: dashboard_1
+  time_range: P1W
+  measure: measure_3
+  comparison_range: P1W

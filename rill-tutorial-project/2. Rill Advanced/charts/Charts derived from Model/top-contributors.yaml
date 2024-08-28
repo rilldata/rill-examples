@@ -1,0 +1,36 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+data:
+  sql: |
+    select     
+      author_name,
+      sum(net_line_changes) as net_lines
+    from advanced_commits___model
+    where author_date > '2024-07-21 00:00:00 Z'
+    group by author_name
+    order by net_lines desc
+    limit 5
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "name": "table" },
+    "mark": "bar",
+    "width": "container",
+    "height": 500,
+    "encoding": {
+      "y": {
+        "field": "author_name",
+        "type": "nominal",
+        "axis": { "title": "",
+                  "orient": "left" }
+      },
+      "x": {
+        "field": "net_lines",
+        "type": "quantitative",
+        "axis": { "title": "# of commits" }
+      }
+    }
+  }

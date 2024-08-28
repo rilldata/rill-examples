@@ -1,0 +1,14 @@
+type: model 
+
+incremental: true
+refresh:
+  cron: 0 8 * * *
+
+#splits_concurrency: 3
+
+splits:
+  glob:
+    connector: s3
+    path: s3://rilldata-public-s3/data/folder*/*.parquet
+
+sql: SELECT * FROM read_parquet('{{ .split.uri }}')
