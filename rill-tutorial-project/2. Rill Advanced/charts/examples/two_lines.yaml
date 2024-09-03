@@ -44,7 +44,33 @@ vega_lite: |
               "field": "revenue",
               "type": "quantitative",
               "axis": { "title": "Revenue" }
-            }
+            },
+            "color" : { "value": "#AE67A2"}
+              }
+          },
+        {
+        "mark": "line",
+        "encoding": {
+            "x": {
+              "field": "day_of_week",
+              "type": "ordinal",
+              "axis": { "title": "Day of the Week" },
+              "sort": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+              ]
+            },
+            "y": {
+              "field": "revenue2",
+              "type": "quantitative",
+              "axis": { "title": "Revenue" }
+            },
+            "color" : { "value": "#00FF76"}
           }
         }
     ]

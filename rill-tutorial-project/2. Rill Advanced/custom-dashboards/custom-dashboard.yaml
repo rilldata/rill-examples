@@ -30,7 +30,6 @@ items:
     width: 3
     x: 8
     y: 2
-
   - component:
       markdown:
         content: "Highest Contributors"
