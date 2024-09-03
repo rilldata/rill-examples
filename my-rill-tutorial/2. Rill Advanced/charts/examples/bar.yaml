@@ -1,0 +1,44 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+data:
+  sql: |
+      SELECT
+          category,
+          value
+      FROM
+          (VALUES
+              ('Adidas', 50),
+              ('Nike', 80),
+              ('FILA', 45),
+              ('Converse', 45),
+          ) AS data(category, value)
+
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "name": "table" },
+    "mark": "bar",
+    "width": "container",
+    "height": 500,
+    "encoding": {
+      "x": {
+        "field": "category",
+        "type": "ordinal",
+        "axis": { "title": "Category" }
+      },
+      "y": {
+        "field": "value",
+        "type": "quantitative",
+        "axis": { "title": "Value" }
+      },
+        "color": {
+          "field": "category",
+          "type": "nominal",
+          "legend": {"title": "Brand"}
+        }
+    }
+  }

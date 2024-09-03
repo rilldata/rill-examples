@@ -1,0 +1,59 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+data:
+  sql: |   
+    select     
+      author_name,
+      sum(added_lines) as added_lines,
+      sum(deleted_lines) as deleted_lines,
+    from advanced_commits___model
+    where author_date > '2024-07-21 00:00:00 Z'
+    group by author_name
+    
+    
+  
+    
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"name": "table"},
+    "width": "container",
+    "height": 360,
+    "transform": [
+        {
+          "fold": ["added_lines", "deleted_lines"],
+          "as": ["line_type", "line_count"]
+        },
+        {
+          "calculate": "datum.line_type === 'added_lines' ? 'Added Lines' : 'Deleted Lines'",
+          "as": "Line Type"
+        }
+        
+      ],
+    "mark": "bar",
+    "encoding": {
+      "x": {
+        "field": "author_name",
+        "type": "nominal"
+      },
+      "y": {
+        "aggregate": "sum",
+        "field": "line_count",
+        "type": "quantitative",
+        "stack": "normalize"
+      },
+        "color": {
+          "field": "Line Type",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Added Lines", "Deleted Lines"],
+            "range": ["green", "red"]
+            }
+          }
+        }
+    }
+  
+  

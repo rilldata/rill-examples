@@ -1,0 +1,15 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+select:
+  valueField: earnings_base_model_dashboard
+  label: "label"
+  labelField: "labelField"
+  placeholder: "Test"
+#  tooltip:
+ 
+
+
+

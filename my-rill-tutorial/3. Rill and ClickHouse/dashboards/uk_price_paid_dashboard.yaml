@@ -1,0 +1,122 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+title: UK Price Paid Metrics
+connector: clickhouse
+table: uk_price_paid
+timeseries: date
+dimensions:
+  - label: Postcode1
+    column: postcode1
+    description: ""
+  - label: Postcode2
+    column: postcode2
+    description: ""
+  - label: Type
+    column: type
+    description: ""
+  - label: Duration
+    column: duration
+    description: ""
+  - label: Addr1
+    column: addr1
+    description: ""
+  - label: Addr2
+    column: addr2
+    description: ""
+  - label: Street
+    column: street
+    description: ""
+  - label: Locality
+    column: locality
+    description: ""
+  - label: Town
+    column: town
+    description: ""
+  - label: District
+    column: district
+    description: ""
+  - label: County
+    column: county
+    description: ""
+measures:
+  - name: total_price
+    label: Total Price
+    expression: SUM(price)
+    description: The total sum of all property prices.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: average_price
+    label: Average Price
+    expression: AVG(price)
+    description: The average price of properties.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: min_price
+    label: Minimum Price
+    expression: MIN(price)
+    description: The minimum price of properties.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: max_price
+    label: Maximum Price
+    expression: MAX(price)
+    description: The maximum price of properties.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: total_transactions
+    label: Total Transactions
+    expression: COUNT(*)
+    description: The total number of property transactions.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: new_build_transactions
+    label: New Build Transactions
+    expression: SUM(is_new)
+    description: The total number of transactions for new build properties.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: average_price_new_build
+    label: Average Price of New Build
+    expression: AVG(price * is_new)
+    description: The average price of new build properties.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: average_price_existing_build
+    label: Average Price of Existing Build
+    expression: AVG(price * (1 - is_new))
+    description: The average price of existing build properties.
+    format_preset: humanize
+    valid_percent_of_total: false
+available_time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney
+available_time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P3M
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
