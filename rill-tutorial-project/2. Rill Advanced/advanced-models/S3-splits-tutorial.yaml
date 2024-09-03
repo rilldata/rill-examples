@@ -1,8 +1,0 @@
-type: model 
-
-splits:
-  glob:
-    connector: s3
-    path: s3://rilldata-public-s3/github-analytics/Clickhouse/*/*/commits_*.parquet
-
-sql: SELECT * FROM read_parquet('{{ .split.uri }}')
