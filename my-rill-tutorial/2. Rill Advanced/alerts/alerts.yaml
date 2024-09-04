@@ -1,0 +1,16 @@
+type: alert
+
+# Check the alert every 10 minutes.
+refresh:
+  cron: "*/10 * * * *"
+
+# Query for all resources with a reconcile error.
+# The alert will trigger when the query result is not empty.
+data:
+  resource_status:
+    where_error: true
+
+# Send notifications by email
+notify:
+  email:
+    recipients: [roy.endo@rilldata.com]
