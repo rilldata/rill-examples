@@ -4,12 +4,7 @@
 type: component
 
 select:
-  valueField: earnings_base_model_dashboard
+  valueField: "1"
   label: "label"
   labelField: "labelField"
   placeholder: "Test"
-#  tooltip:
- 
-
-
-

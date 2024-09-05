@@ -2,7 +2,7 @@ type: alert
 
 # Check the alert every 10 minutes.
 refresh:
-  cron: "*/10 * * * *"
+  cron: "*/60 * * * *"
 
 # Query for all resources with a reconcile error.
 # The alert will trigger when the query result is not empty.

@@ -12,3 +12,5 @@ table:
 
   row_dimensions:
     - author_name
+  col_dimensions:
+    - filename

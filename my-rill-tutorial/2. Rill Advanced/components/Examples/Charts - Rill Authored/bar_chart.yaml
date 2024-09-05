@@ -1,0 +1,17 @@
+# Chart YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+
+type: component
+
+data:
+  metrics_sql: |
+    select 
+      measure_0,
+      date_trunc('day', author_date) as date 
+    from dashboard_1
+    where author_date > '2024-07-14 00:00:00 Z'
+
+bar_chart:
+  x: date
+  y: measure_0
+  
