@@ -14,4 +14,4 @@ data:
 # Send notifications by email
 notify:
   email:
-    recipients: [roy.endo@rilldata.com]
+    recipients: [your_email@domain.com]
