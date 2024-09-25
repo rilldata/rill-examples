@@ -17,7 +17,7 @@ items:
     width: 10
     height: 1
     x: 1
-    y: 1
+    y: 0
   - component:
       markdown:
         content: ""
@@ -27,24 +27,24 @@ items:
     width: 10
     height: 1
     x: 1
-    y: 0
+    y: 2
 
   - component: net_line_kpi
     height: 1
     width: 3
     x: 1
-    y: 2
+    y: 1
 
   - component: commit_kpi
     height: 1
     width: 4
     x: 4
-    y: 2
+    y: 1
   - component: percent_delete_kpi
     height: 1
     width: 3
     x: 8
-    y: 2
+    y: 1
   - component:
       markdown:
         content: "Highest Contributors"
@@ -67,6 +67,11 @@ items:
     y: 9
   - component: select_author
     height: 1
-    width: 2
+    width: 4
     x: 1
-    y: 0
+    y: 2
+  - component: select_timegrain
+    height: 1
+    width: 4
+    x: 7
+    y: 2

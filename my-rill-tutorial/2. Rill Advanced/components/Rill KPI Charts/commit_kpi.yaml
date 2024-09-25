@@ -1,4 +1,4 @@
-# Chart YAML
+# Component YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/charts
     
 type: component
@@ -11,6 +11,6 @@ input:
 
 kpi:
   metric_view: dashboard_1
-  time_range: '{{ .args.timegrain }}'
+  time_range: "P1W"
   measure: measure_2
   comparison_range: P1W

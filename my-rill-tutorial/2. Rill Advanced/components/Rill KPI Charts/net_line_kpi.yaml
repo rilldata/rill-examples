@@ -1,7 +1,12 @@
-# Chart YAML
+# Component YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/charts
     
 type: component
+
+input:
+ - name: timegrain
+   type: string
+   value: "P1W"
 
 kpi:
   metric_view: dashboard_1
