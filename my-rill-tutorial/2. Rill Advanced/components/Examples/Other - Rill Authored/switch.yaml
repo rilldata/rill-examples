@@ -1,8 +1,0 @@
-# Chart YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
-    
-type: component
-
-switch:
-  label: 'A switch'
-  value: "1"

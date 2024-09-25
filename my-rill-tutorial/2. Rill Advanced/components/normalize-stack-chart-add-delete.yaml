@@ -3,6 +3,15 @@
     
 type: component
 
+input:
+ - name: author
+   type: string
+   value: ""
+
+ - name: timegrain
+   type: string
+   value: 'P1W'
+
 data:
   sql: |   
     select     
@@ -10,10 +19,12 @@ data:
       sum(added_lines) as added_lines,
       sum(deleted_lines) as deleted_lines,
     from advanced_commits___model
-    where author_date > '2024-07-21 00:00:00 Z'
+    
+    {{ if .args.timegrain }} WHERE author_date > '{{ .args.timegrain.timestamp }}' {{ end }}
+    {{ if .args.author }} AND author_name = '{{ .args.author }}' {{ end }}
     group by author_name
     
-    
+# where author_date > '2024-07-21 00:00:00 Z'
   
     
 vega_lite: |

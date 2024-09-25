@@ -1,0 +1,16 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+    
+type: component
+
+
+output:
+  name: timegrain
+  type: string
+
+data:
+  sql: SELECT DISTINCT iso_duration, timestamp FROM timegrain
+
+select:
+  valueField: "iso_duration"
+  placeholder: "Time Grain"

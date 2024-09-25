@@ -3,8 +3,14 @@
     
 type: component
 
+input:
+ - name: timegrain
+   type: string
+   value: "P1W"
+
+
 kpi:
   metric_view: dashboard_1
-  time_range: P1W
+  time_range: '{{ .args.timegrain }}'
   measure: measure_2
   comparison_range: P1W

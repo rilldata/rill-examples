@@ -1,3 +1,7 @@
+-- Model SQL
+-- Reference documentation: https://docs.rilldata.com/reference/project-files/models
+-- @materialize: true
+
 SELECT
     a.*,
     b.filename,
@@ -9,4 +13,3 @@ INNER JOIN
     modified_files__ b
 ON
     a.commit_hash = b.commit_hash
-
