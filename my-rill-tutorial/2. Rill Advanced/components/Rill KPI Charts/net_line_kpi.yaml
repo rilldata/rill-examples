@@ -9,7 +9,7 @@ input:
    value: "P1W"
 
 kpi:
-  metric_view: dashboard_1
+  metrics_view: dashboard_1
   time_range: P1W
   measure: net_line_changes #if name is defined
   comparison_range: P1W

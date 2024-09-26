@@ -10,7 +10,7 @@ input:
 
 
 kpi:
-  metric_view: dashboard_1
+  metrics_view: dashboard_1
   time_range: "P1W"
   measure: measure_2
   comparison_range: P1W
