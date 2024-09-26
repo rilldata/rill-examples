@@ -1,8 +1,8 @@
 type: alert
 
-# Check the alert every 10 minutes.
+# Check the alert every 1st of the month.
 refresh:
-  cron: "*/60 * * * *"
+  cron: "0 0 1 * *"
 
 # Query for all resources with a reconcile error.
 # The alert will trigger when the query result is not empty.
@@ -13,4 +13,4 @@ data:
 # Send notifications by email
 notify:
   email:
-    recipients: [roy.endo@rilldata.com]
+    recipients: [email@domain.com]

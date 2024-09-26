@@ -39,4 +39,4 @@ GROUP BY
     --directory_path, filename, author_name, author_date
     ALL
 ORDER BY
-    directory_path DESC 
+    author_date DESC 
