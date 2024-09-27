@@ -1,0 +1,82 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+
+title: Superstore Model Metrics
+model: superstore_model
+timeseries: Order Date
+
+dimensions:
+  - label: Order Id
+    column: Order ID
+  - label: Ship Mode
+    column: Ship Mode
+  - label: Customer Id
+    column: Customer ID
+  - label: Customer Name
+    column: Customer Name
+  - label: Segment
+    column: Segment
+  - label: Country
+    column: Country
+  - label: City
+    column: City
+  - label: State
+    column: State
+    name: state
+  - label: Postal Code
+    column: Postal Code
+  - label: Region
+    column: Region
+  - label: Product Id
+    column: Product ID
+  - label: Category
+    column: Category
+  - label: Sub-Category
+    column: Sub-Category
+  - label: Product Name
+    column: Product Name
+
+measures:
+  - name: total_sales
+    label: Total Sales
+    expression: SUM(Sales)
+    description: The total sales amount from all orders.
+  - name: average_sales
+    label: Average Sales
+    expression: AVG(Sales)
+    description: The average sales amount per order.
+  - name: total_quantity
+    label: Total Quantity
+    expression: SUM(Quantity)
+    description: The total quantity of items sold.
+  - name: average_quantity
+    label: Average Quantity
+    expression: AVG(Quantity)
+    description: The average quantity of items sold per order.
+  - name: total_profit
+    label: Total Profit
+    expression: SUM(Profit)
+    description: The total profit from all orders.
+  - name: average_profit
+    label: Average Profit
+    expression: AVG(Profit)
+    description: The average profit per order.
+  - name: total_discount
+    label: Total Discount
+    expression: SUM(Discount)
+    description: The total discount given across all orders.
+  - name: average_discount
+    label: Average Discount
+    expression: AVG(Discount)
+    description: The average discount given per order.
+  - name: max_sales
+    label: Maximum Sales
+    expression: MAX(Sales)
+    description: The highest sales amount from a single order.
+  - name: min_sales
+    label: Minimum Sales
+    expression: MIN(Sales)
+    description: The lowest sales amount from a single order.

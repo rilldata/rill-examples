@@ -1,0 +1,47 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+
+type: component
+data:
+  metrics_sql: |
+    select state, total_sales from superstore_model_dashboard
+vega_lite: |
+  
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "name": "table"
+    },
+    "transform": [
+      {
+        "lookup": "state",
+        "from": {
+          "data": {
+            "url": "public/us-states.json",
+            "format": {
+              "type": "json",
+              "property": "features"
+            }
+          },
+          "key": "properties.NAME"
+        },
+        "as": "geo"
+      }
+    ],
+    "projection": {
+      "type": "albersUsa"
+    },
+    "mark": {
+      "type": "geoshape"
+    },
+    "encoding": {
+      "shape": {
+        "field": "geo",
+        "type": "geojson"
+      },
+      "color": {
+        "field": "total_sales",
+        "type": "quantitative"
+      }
+    }
+  }
