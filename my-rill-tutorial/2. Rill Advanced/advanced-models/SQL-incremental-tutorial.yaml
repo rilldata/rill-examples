@@ -1,7 +1,7 @@
 type: model
 materialize: true
 
-connector: bigquery
+#connector: bigquery
 #connector: snowflake
 
 sql: >

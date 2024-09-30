@@ -45,8 +45,11 @@ measures:
   description: "The percent of code deletion"
   format_preset: percentage
 
-#- expression: "count(author_date)"
-#  name: count
+- expression: sum(added_lines)
+  name: added_lines
+
+- expression: sum(deleted_lines)
+  name: deleted_lines
 
 security:
   access: "{{ .user.admin }} AND '{{ .user.domain }}' == 'rilldata.com'"

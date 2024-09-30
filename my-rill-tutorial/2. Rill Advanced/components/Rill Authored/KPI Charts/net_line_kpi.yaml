@@ -1,5 +1,5 @@
 # Component YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/charts
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
     
 type: component
 
@@ -11,5 +11,5 @@ input:
 kpi:
   metrics_view: dashboard_1
   time_range: P1W
-  measure: measure_3
+  measure: net_line_changes #if name is defined
   comparison_range: P1W

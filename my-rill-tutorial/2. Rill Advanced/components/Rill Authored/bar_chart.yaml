@@ -1,0 +1,27 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+    
+type: component
+
+input:
+ - name: author
+   type: string
+   value: ""
+
+
+data:
+  sql: |
+    select     
+      author_name,
+      sum(net_line_changes) as net_lines
+    from advanced_commits___model
+    where author_date > '2024-07-21 00:00:00'
+    {{ if .args.author }} AND author_name = '{{ .args.author }}' {{ end }}
+
+    group by author_name
+    order by net_lines desc
+    limit 5
+
+bar_chart:
+  x: author_name
+  y: net_lines

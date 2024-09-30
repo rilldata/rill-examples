@@ -1,0 +1,12 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+    
+type: component
+
+output:
+  name: switch
+  type: boolean
+
+switch:
+  label: 'switch'
+  value:  'True'

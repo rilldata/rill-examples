@@ -18,6 +18,7 @@ mock_users:
 features:
  - customDashboards
  - cloudDataViewer
+ - visualEditing
 
 vars:
   time_range: P1W
