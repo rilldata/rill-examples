@@ -1,0 +1,9 @@
+type: model
+incremental: true
+
+splits:
+  glob: gs://rendo-test/**/rilldata-incremental-model.csv
+
+
+
+sql: SELECT * FROM read_csv('{{ .split.uri }}', auto_detect=true, ignore_errors=1, header=true)
