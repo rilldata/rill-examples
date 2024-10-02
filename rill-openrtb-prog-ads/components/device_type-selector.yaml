@@ -1,0 +1,16 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+    
+type: component
+
+
+output:
+  name: device_type
+  type: string
+
+data:
+  metrics_sql: SELECT DISTINCT device_type FROM bids limit 10000 
+
+select:
+  valueField: "device_type"
+  placeholder: "Device Type"

@@ -1,0 +1,60 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+
+type: component
+data:
+  metrics_sql: select overall_spend from bids
+vega_lite: |
+  
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "name": "table" },
+    "mark": {
+      "type": "text",
+      "align": "center",
+      "baseline": "middle",
+      "fontSize": 24
+    },
+    "encoding": {
+      "text": {
+        "field": "overall_spend",
+        "type": "quantitative",
+        "format": "$,.2f"  
+      }
+    },
+    "layer": [
+      {
+        "mark": {
+          "type": "text",
+          "align": "center",
+          "baseline": "top",
+          "fontSize": 48,
+          "fontWeight": "bold",
+          "dy": -50
+        },
+        "encoding": {
+          "text": { "value": "Total Spend" }
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "center",
+          "baseline": "middle",
+          "fontSize": 32,
+          "dy": 80
+        },
+        "encoding": {
+          "text": {
+            "field": "overall_spend",
+            "type": "quantitative",
+            "format": "$,.2f"  
+          }
+        }
+      }
+    ],
+    "config": {
+      "view": { "stroke": "transparent" },
+      "axis": { "domain": false, "ticks": false, "labels": false }
+    }
+  }

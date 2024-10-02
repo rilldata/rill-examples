@@ -1,0 +1,49 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+input:
+  - name: bid_floor_bucket
+    type: string
+    value: ""
+
+  - name: sites_domain
+    type: string
+    value: ""
+
+  - name: device_type
+    type: string
+    value: ""
+
+  - name: placement_type
+    type: string
+    value: ""
+
+type: component
+data:
+  metrics_sql: >
+    select overall_spend, __time from bids
+      where __time > '2022-12-31'
+    {{ if .args.bid_floor_bucket }} AND bid_floor_bucket = '{{.args.bid_floor_bucket }}' {{ end }}
+    {{ if .args.sites_domain }} AND sites_domain = '{{ .args.sites_domain }}' {{end }}
+    {{ if .args.device_type }} AND device_type = '{{ .args.device_type }}' {{end }}
+    {{ if .args.placement_type }} AND placement_type = '{{ .args.placement_type}}' {{ end }}
+
+
+vega_lite: |
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A simple line chart showing overall spend over time.",
+    "data": { "name": "table" },
+    "mark": "line",
+    "encoding": {
+      "x": {
+        "field": "__time",
+        "type": "temporal",
+        "title": "Time"
+      },
+      "y": {
+        "field": "overall_spend",
+        "type": "quantitative",
+        "title": "Overall Spend"
+      }
+    }
+  }

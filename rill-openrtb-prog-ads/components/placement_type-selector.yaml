@@ -1,0 +1,16 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+    
+type: component
+
+
+output:
+  name: placement_type
+  type: string
+
+data:
+  metrics_sql: SELECT DISTINCT placement_type FROM bids limit 10000 
+
+select:
+  valueField: "placement_type"
+  placeholder: "Placement Type"

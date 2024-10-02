@@ -80,6 +80,7 @@ dimensions:
   - label: Site Domain
     expression: app_site_domain
     description: ""
+    name: sites_domain
   - label: App Name
     expression: app_site_name
     description: ""
@@ -89,6 +90,7 @@ dimensions:
   - label: Bid Floor Bucket
     expression: bid_floor_bucket
     description: ""
+    name: bid_floor_bucket
   - label: Campaign Name
     expression: campaign_name
     description: ""
@@ -97,7 +99,8 @@ dimensions:
     description: ""
   - label: Device OS
     expression: device_os
-    description: ""
+    description: 
+    
   - label: Device OSV
     expression: device_osv
     description: ""
@@ -107,6 +110,8 @@ dimensions:
   - label: Device Type
     expression: device_type
     description: ""
+    name: device_type
+
   - label: Interstitial
     expression: interstitial
     description: ""
@@ -116,6 +121,8 @@ dimensions:
   - label: Placement Type
     expression: placement_type
     description: ""
+    name: placement_type
+
   - label: Platform Browser
     expression: platform_browser
     description: ""

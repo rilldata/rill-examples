@@ -1,21 +1,74 @@
 type: dashboard #needs to change to canvas later
 title: "Canvas Dashboard"
-columns: 24
+columns: 48
 gap: 2
+
+variables:
+  - name: bid_floor_bucket
+    type: string
+    value: ""
+
+  - name: sites_domain
+    type: string
+    value: ""
+
+  - name: device_type
+    type: string
+    value: ""
+
+  - name: placement_type
+    type: string
+    value: ""
 
 items:
   - component:
       markdown:
-        content: "First Component"
+        content: "Bids Vs Auctions"
         css:
           font-size: "40px"
-          background-color: "#fff"
-    width: 4
+          background: "white"
+    width: 46
     height: 3
-    x: 2
+    x: 1
     y: 1
-  - component: component
+
+  - component: total_spend_bids
     height: 7
-    width: 14
-    x: 8
-    y: 2
+    width: 15
+    x: 5
+    y: 6
+  - component: total_requests
+    height: 7
+    width: 15
+    x: 27
+    y: 6
+  - component: bid_floor_bucket-selector
+    height: 2
+    width: 8
+    x: 3
+    y: 17
+  - component: sites_domain_selector
+    height: 2
+    width: 8
+    x: 15
+    y: 17
+  - component: device_type-selector
+    height: 2
+    width: 8
+    x: 27
+    y: 17
+  - component: placement_type-selector
+    height: 2
+    width: 8
+    x: 39
+    y: 17
+  - component: total-spend-filtered
+    height: 19
+    width: 44
+    x: 3
+    y: 20
+  - component: impression-by-placement-type
+    height: 20
+    width: 44
+    x: 3
+    y: 41
