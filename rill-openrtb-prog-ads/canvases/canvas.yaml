@@ -1,4 +1,4 @@
-type: canvas
+type: dashboard #needs to change to canvas later
 title: "Canvas Dashboard"
 columns: 24
 gap: 2
