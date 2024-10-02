@@ -22,40 +22,15 @@ vega_lite: |
         "format": ","
       }
     },
-    "layer": [
-      {
-        "mark": {
-          "type": "text",
-          "align": "center",
-          "baseline": "top",
-          "fontSize": 48,
-          "fontWeight": "bold",
-          "dy": -50
-        },
-        "encoding": {
-          "text": { "value": "Total Requests" }
-        }
-      },
-      {
-        "mark": {
-          "type": "text",
-          "align": "center",
-          "baseline": "middle",
-          "fontSize": 32,
-          "dy": 80
-        },
-        "encoding": {
-          "text": {
-            "field": "requests",
-            "type": "quantitative",
-            "format": ","
-          }
-        }
-      }
-    ],
     "config": {
       "view": { "stroke": "transparent" },
       "axis": { "domain": false, "ticks": false, "labels": false }
+    },
+    "title": {
+      "text": "Total Requests",
+      "fontSize": 48,
+      "fontWeight": "bold",
+      "align": "center",
+      "baseline": "top"
     }
   }
-

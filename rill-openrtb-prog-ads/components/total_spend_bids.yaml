@@ -19,42 +19,18 @@ vega_lite: |
       "text": {
         "field": "overall_spend",
         "type": "quantitative",
-        "format": "$,.2f"  
+        "format": ","
       }
     },
-    "layer": [
-      {
-        "mark": {
-          "type": "text",
-          "align": "center",
-          "baseline": "top",
-          "fontSize": 48,
-          "fontWeight": "bold",
-          "dy": -50
-        },
-        "encoding": {
-          "text": { "value": "Total Spend" }
-        }
-      },
-      {
-        "mark": {
-          "type": "text",
-          "align": "center",
-          "baseline": "middle",
-          "fontSize": 32,
-          "dy": 80
-        },
-        "encoding": {
-          "text": {
-            "field": "overall_spend",
-            "type": "quantitative",
-            "format": "$,.2f"  
-          }
-        }
-      }
-    ],
     "config": {
       "view": { "stroke": "transparent" },
       "axis": { "domain": false, "ticks": false, "labels": false }
+    },
+    "title": {
+      "text": "Total Spend",
+      "fontSize": 48,
+      "fontWeight": "bold",
+      "align": "center",
+      "baseline": "top"
     }
   }
