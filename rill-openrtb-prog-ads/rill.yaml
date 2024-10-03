@@ -1,2 +1,11 @@
 features:
  - customDashboards
+
+mock_users:
+- email: john@yourcompany.com
+  name: John Doe
+  admin: true
+- email: jane@partnercompany.com
+  groups:
+    - partners
+- email: anon@unknown.com
