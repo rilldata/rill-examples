@@ -12,6 +12,7 @@ security:
       names:
         - requests
         - avg_bid_floor
+        - app_site_name
         - 1d_qps
 measures:
   - label: Requests
@@ -33,6 +34,7 @@ dimensions:
   - label: App Site Name
     expression: app_site_name
     description: ""
+    name: app_site_name
   - label: App Site Domain
     expression: app_site_domain
     description: ""
