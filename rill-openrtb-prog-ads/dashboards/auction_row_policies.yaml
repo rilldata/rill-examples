@@ -1,6 +1,6 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
-title: "Row Policies Enabled Dashboard, expect an error!"
+title: "Row Policies Enabled Dashboard, No Measures displayed!!"
 model: "auction_data_model"
 type: metrics_view
 timeseries: "__time"
