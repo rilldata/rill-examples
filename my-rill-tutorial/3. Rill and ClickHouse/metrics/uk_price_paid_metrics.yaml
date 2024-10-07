@@ -1,0 +1,77 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+title: UK Price Paid Metrics
+connector: clickhouse
+table: uk_price_paid
+timeseries: date
+
+dimensions:
+  - label: Postcode1
+    column: postcode1
+  - label: Postcode2
+    column: postcode2
+  - label: Type
+    column: type
+  - label: Duration
+    column: duration
+  - label: Addr1
+    column: addr1
+  - label: Addr2
+    column: addr2
+  - label: Street
+    column: street
+  - label: Locality
+    column: locality
+  - label: Town
+    column: town
+  - label: District
+    column: district
+  - label: County
+    column: county
+
+measures:
+  - name: total_transactions
+    label: Total Transactions
+    expression: COUNT(*)
+    description: Total number of property transactions recorded.
+  - name: average_price
+    label: Average Price
+    expression: AVG(price)
+    description: Average price of properties sold.
+  - name: total_price
+    label: Total Price
+    expression: SUM(price)
+    description: Total sum of all property prices.
+  - name: max_price
+    label: Maximum Price
+    expression: MAX(price)
+    description: Highest property price recorded.
+  - name: min_price
+    label: Minimum Price
+    expression: MIN(price)
+    description: Lowest property price recorded.
+  - name: average_price_new_properties
+    label: Average Price of New Properties
+    expression: AVG(price * is_new)
+    description: Average price of properties marked as new.
+  - name: count_new_properties
+    label: Count of New Properties
+    expression: SUM(is_new)
+    description: Total number of new properties sold.
+  - name: average_price_by_type
+    label: Average Price by Type
+    expression: AVG(price)
+    description: Average price of properties grouped by type.
+  - name: max_price_by_district
+    label: Maximum Price by District
+    expression: MAX(price)
+    description: Highest property price recorded in each district.
+  - name: min_price_by_county
+    label: Minimum Price by County
+    expression: MIN(price)
+    description: Lowest property price recorded in each county.

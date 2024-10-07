@@ -5,7 +5,7 @@ type: component
 
 
 output:
-  name: timegrain
+  name: comparison
   type: string
 
 data:
@@ -18,8 +18,8 @@ data:
       ('P1M'),
       ('P3M'),
       ('P1Y')
-    ) AS t(timegrain)
+    ) AS t(comparison)
 
 select:
-  valueField: "timegrain"
-  placeholder: "Time grain"
+  valueField: "comparison"
+  placeholder: "Comparison"

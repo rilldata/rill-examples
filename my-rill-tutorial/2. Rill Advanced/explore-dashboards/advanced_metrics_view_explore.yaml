@@ -1,0 +1,24 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
+
+type: explore
+
+title: "advanced_metrics_view dashboard"
+metrics_view: advanced_metrics_view
+
+dimensions: '*'
+measures: '*'
+
+#theme: theme
+
+#time_ranges: 
+#  - PT15M // Simplified syntax to specify only the range
+#  - PT1H
+#  - PT6H
+#  - P7D
+
+#time_zones:
+#  - America/New_York
+
+#security:
+#  access: "{{ .user.admin }} AND '{{ .user.domain }}' == 'rilldata.com'"

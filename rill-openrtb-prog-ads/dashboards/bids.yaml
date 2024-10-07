@@ -18,7 +18,7 @@ measures:
     description: "Total Bids"
     format_preset: humanize
   - label: "Impressions"
-    name: impressions
+    name: impressions      #the name is defined for this measure as it is required when being called by components.
     expression: "sum(imp_cnt)"
     description: "Total Impressions"
     format_preset: humanize
@@ -121,7 +121,7 @@ dimensions:
   - label: Placement Type
     expression: placement_type
     description: ""
-    name: placement_type
+    name: placement_type #this dimension's name is defined to be used in Rill Component
 
   - label: Platform Browser
     expression: platform_browser

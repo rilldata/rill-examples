@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
+
+type: explore
+
+title: "My Tutorial Project"
+metrics_view: commits___model_metrics
+
+dimensions: '*'
+measures: '*'

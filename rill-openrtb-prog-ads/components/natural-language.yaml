@@ -1,0 +1,32 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+
+type: component
+data:
+  metrics_sql: |
+    select impressions, placement_type, __time from bids 
+vega_lite: >
+  
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A line chart showing impressions over time for different placement types.",
+    "data": { "name": "table" },
+    "mark": "line",
+    "encoding": {
+      "x": {
+        "field": "__time",
+        "type": "temporal",
+        "title": "Time"
+      },
+      "y": {
+        "field": "impressions",
+        "type": "quantitative",
+        "title": "Impressions"
+      },
+      "color": {
+        "field": "placement_type",
+        "type": "nominal",
+        "title": "Placement Type"
+      }
+    }
+  }

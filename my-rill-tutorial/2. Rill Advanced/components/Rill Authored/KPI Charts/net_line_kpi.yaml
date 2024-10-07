@@ -6,10 +6,14 @@ type: component
 input:
  - name: timegrain
    type: string
-   value: "P1W"
+   value: ""
+
+ - name: comparison
+   type: string
+   value: ""
 
 kpi:
-  metrics_view: dashboard_1
-  time_range: P1W
-  measure: net_line_changes #if name is defined
-  comparison_range: P1W
+  metrics_view: advanced_metrics_view
+  time_range: '{{ .args.timegrain }}'
+  measure: net_line_changes
+  comparison_range: '{{ .args.comparison }}'

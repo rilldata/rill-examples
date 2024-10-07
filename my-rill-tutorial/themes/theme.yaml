@@ -1,0 +1,8 @@
+# Theme YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/themes
+
+type: theme
+
+colors:
+  primary: plum
+  secondary: violet 

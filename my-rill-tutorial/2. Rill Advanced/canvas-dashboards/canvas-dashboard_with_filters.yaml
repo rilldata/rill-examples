@@ -7,6 +7,14 @@ variables:
     type: string
     value: ""
 
+  - name: timegrain
+    type: string
+    value: "P1W"
+
+  - name: comparison
+    type: string
+    value: ""
+
 items:
   - component:
       markdown:
@@ -72,6 +80,11 @@ items:
     y: 2
   - component: select_timegrain
     height: 1
-    width: 4
+    width: 2
     x: 7
+    y: 2
+  - component: select_comparison
+    height: 4
+    width: 2
+    x: 9
     y: 2
