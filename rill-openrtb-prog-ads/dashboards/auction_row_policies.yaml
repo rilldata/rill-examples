@@ -7,7 +7,7 @@ timeseries: "__time"
 
 security:
   access: true
-  row_filter: "Pub_Name IN (SELECT PubName FROM model WHERE domain = '{{ .user.domain }}')"
+  row_filter: "Pub_Name IN (SELECT PubName FROM model WHERE email = '{{ .user.email }}')"
 
 measures:
   - label: Requests

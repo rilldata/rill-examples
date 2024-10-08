@@ -2,10 +2,10 @@ features:
  - customDashboards
 
 mock_users:
-- email: john@rilldata.com
+- email: royendo@rilldata.com
   name: John Doe
   admin: true
 - email: jane@partnercompany.com
   groups:
     - partners
-- email: anon@domain.com
+- email: test@domain.com
