@@ -3,6 +3,6 @@
 
     SELECT * FROM (VALUES 
       ('Disney', 'test@domain.com'),
-      ('Disney', 'royendo@rilldata.com')
+      ('Disney', 'roy.endo@rilldata.com')
 
     ) AS t(PubName, email)
