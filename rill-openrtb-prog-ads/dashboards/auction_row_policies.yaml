@@ -7,13 +7,8 @@ timeseries: "__time"
 
 security:
   access: true
-  exclude:
-    - if: "'{{ .user.domain }}' != 'rilldata.com'"
-      names:
-        - requests
-        - avg_bid_floor
-        - app_site_name
-        - 1d_qps
+  row_filter: "Pub_Name IN (SELECT PubName FROM model WHERE domain = '{{ .user.domain }}')"
+
 measures:
   - label: Requests
     name: requests
@@ -41,6 +36,7 @@ dimensions:
   - label: Pub Name
     expression: pub_name
     description: ""
+    name: Pub_Name
   - label: App Site Cat
     expression: app_site_cat
     description: ""

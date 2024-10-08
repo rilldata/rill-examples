@@ -8,4 +8,4 @@ mock_users:
 - email: jane@partnercompany.com
   groups:
     - partners
-- email: anon@unknown.com
+- email: anon@domain.com
