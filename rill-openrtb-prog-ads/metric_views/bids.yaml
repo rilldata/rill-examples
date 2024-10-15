@@ -1,11 +1,11 @@
 # Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
-title: "Programmatic Ads Bids"
 model: "bids_data_model"
 type: metrics_view
+
 timeseries: "__time"
 smallest_time_grain: "hour"
-default_time_range: "PT24H"
+
 measures:
   - label: Advertising Spend Overall
     name: overall_spend
@@ -18,7 +18,7 @@ measures:
     description: "Total Bids"
     format_preset: humanize
   - label: "Impressions"
-    name: impressions      #the name is defined for this measure as it is required when being called by components.
+    name: impressions
     expression: "sum(imp_cnt)"
     description: "Total Impressions"
     format_preset: humanize
@@ -67,6 +67,7 @@ measures:
     expression: "sum(bid_floor)*1.0/sum(has_bid_floor_cnt)"
     description: "Average Bid Floor"
     format_preset: currency_usd
+
 dimensions:
   - label: Adomain
     expression: adomain
@@ -100,7 +101,6 @@ dimensions:
   - label: Device OS
     expression: device_os
     description: 
-    
   - label: Device OSV
     expression: device_osv
     description: ""
@@ -111,7 +111,6 @@ dimensions:
     expression: device_type
     description: ""
     name: device_type
-
   - label: Interstitial
     expression: interstitial
     description: ""
@@ -121,8 +120,7 @@ dimensions:
   - label: Placement Type
     expression: placement_type
     description: ""
-    name: placement_type #this dimension's name is defined to be used in Rill Component
-
+    name: placement_type 
   - label: Platform Browser
     expression: platform_browser
     description: ""
@@ -141,15 +139,3 @@ dimensions:
   - label: Video Activity
     expression: video_activity
     description: ""
-available_time_zones:
-  - America/Los_Angeles
-  - America/Chicago
-  - America/New_York
-  - Europe/London
-  - Europe/Paris
-  - Asia/Jerusalem
-  - Europe/Moscow
-  - Asia/Kolkata
-  - Asia/Shanghai
-  - Asia/Tokyo
-  - Australia/Sydney

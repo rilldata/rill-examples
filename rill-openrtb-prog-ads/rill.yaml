@@ -1,6 +1,3 @@
-features:
- - customDashboards
-
 mock_users:
 - email: roy.endo@rilldata.com
   name: John Doe
