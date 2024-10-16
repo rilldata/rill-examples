@@ -1,32 +1,18 @@
-# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
 
-title: "311 Operational Metrics"
+version: 1
 type: metrics_view
-model: "normalized_311_model"
-default_time_range: ""
+
+title: 311 Service Request Metrics
+model: normalized_311_model
+timeseries: start_event_date
 smallest_time_grain: "hour"
-timeseries: "start_event_date"
-measures:
-  - label: "Median Time to Resolve Ticket (Hours)"
-    expression: "MEDIAN(date_diff_in_hours)"
-    name: measure
-    description: ""
-    format_preset: humanize
-  - label: Total Tickets
-    expression: COUNT(DISTINCT ticket_id)
-    name: total_records
-    description: Total number of records present
-    format_preset: humanize
-  - label: "Total Locations"
-    expression: "COUNT(DISTINCT CONCAT(latitude, longitude))"
-    name: measure_1
-    description: ""
-    format_preset: humanize
-  - label: "Total Neighborhoods"
-    expression: "COUNT(DISTINCT(neighborhood))"
-    name: measure_2
-    description: ""
-    format_preset: humanize
+
+
+
+
 dimensions:
   - label: City
     expression: city
@@ -73,15 +59,25 @@ dimensions:
   - label: "Description Details"
     expression: "description_details"
     description: ""
-available_time_zones:
-  - America/Los_Angeles
-  - America/Chicago
-  - America/New_York
-  - Europe/London
-  - Europe/Paris
-  - Asia/Jerusalem
-  - Europe/Moscow
-  - Asia/Kolkata
-  - Asia/Shanghai
-  - Asia/Tokyo
-  - Australia/Sydney
+
+measures:
+  - label: "Median Time to Resolve Ticket (Hours)"
+    expression: "MEDIAN(date_diff_in_hours)"
+    name: measure
+    description: ""
+    format_preset: humanize
+  - label: Total Tickets
+    expression: COUNT(DISTINCT ticket_id)
+    name: total_records
+    description: Total number of records present
+    format_preset: humanize
+  - label: "Total Locations"
+    expression: "COUNT(DISTINCT CONCAT(latitude, longitude))"
+    name: measure_1
+    description: ""
+    format_preset: humanize
+  - label: "Total Neighborhoods"
+    expression: "COUNT(DISTINCT(neighborhood))"
+    name: measure_2
+    description: ""
+    format_preset: humanize
