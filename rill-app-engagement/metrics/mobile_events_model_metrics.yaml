@@ -1,11 +1,39 @@
-# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
 
-title: "Mobile App Engagement Dashboard"
+version: 1
 type: metrics_view
-model: "mobile_events_model"
-default_time_range: "P1W"
+
+title: Mobile Events Model Metrics
+model: mobile_events_model
+timeseries: event_time
+
 smallest_time_grain: "hour"
-timeseries: "event_time"
+
+dimensions:
+  - label: New vs Existing
+    expression: new_existing
+    description: "New vs. Returning"
+  - label: "Referral Source"
+    expression: "referral_source"
+    description: "User Referral Source"
+  - label: "Country"
+    expression: "country"
+    description: "Device Location"
+  - label: "Device Make"
+    expression: "device_make"
+    description: "Device Make"
+  - label: "Network"
+    expression: "network"
+    description: "Connection Type"
+  - label: "App Version"
+    expression: "app_version"
+    description: "Internal App Version"
+  - label: "Advertiser Name"
+    expression: "advertiser_name"
+    description: "Advertiser Name"
+
 measures:
   - label: Page Views
     expression: sum(landing_page_view_cnt)
@@ -53,37 +81,3 @@ measures:
     name: measure_7
     description: "Completion Rate"
     format_preset: percentage
-dimensions:
-  - label: New vs Existing
-    expression: new_existing
-    description: "New vs. Returning"
-  - label: "Referral Source"
-    expression: "referral_source"
-    description: "User Referral Source"
-  - label: "Country"
-    expression: "country"
-    description: "Device Location"
-  - label: "Device Make"
-    expression: "device_make"
-    description: "Device Make"
-  - label: "Network"
-    expression: "network"
-    description: "Connection Type"
-  - label: "App Version"
-    expression: "app_version"
-    description: "Internal App Version"
-  - label: "Advertiser Name"
-    expression: "advertiser_name"
-    description: "Advertiser Name"
-available_time_zones:
-  - America/Los_Angeles
-  - America/Chicago
-  - America/New_York
-  - Europe/London
-  - Europe/Paris
-  - Asia/Jerusalem
-  - Europe/Moscow
-  - Asia/Kolkata
-  - Asia/Shanghai
-  - Asia/Tokyo
-  - Australia/Sydney
