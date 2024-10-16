@@ -1,4 +1,4 @@
-compiler: rill-beta
-rill_version: 0.23.1
+compiler: rillv1
 
 title: GitHub Analytics
+description: GitHub Analytics

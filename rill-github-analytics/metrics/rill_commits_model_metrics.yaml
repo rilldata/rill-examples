@@ -1,0 +1,95 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+title: Rill Commits Model Metrics
+model: rill_commits_model
+timeseries: date
+smallest_time_grain: "day"
+
+dimensions:
+  - name: commit_hash
+    label: Commit hash
+    expression: commit_hash
+    description: ""
+  - name: commit_message
+    label: Commit message
+    expression: commit_message
+    description: ""
+  - name: username
+    label: Username
+    expression: username
+    description: ""
+  - name: file_path
+    label: File path
+    expression: file_path
+    description: ""
+  - name: filename
+    label: Filename
+    expression: filename
+    description: ""
+  - name: file_extension
+    label: File extension
+    expression: file_extension
+    description: ""
+  - name: first_directory
+    label: First directory
+    expression: first_directory
+    description: ""
+  - name: second_directory
+    label: Second directory
+    expression: second_directory_concat
+    description: ""
+  - name: previous_file_path
+    label: Previous file path
+    expression: previous_file_path
+    description: ""
+  - name: is_merge_commit
+    label: Merge commit
+    expression: is_merge_commit
+    description: "True if the commit is a merge commit"
+
+measures:
+  - label: "Number of commits"
+    expression: "count(distinct commit_hash)"
+    name: measure_1
+    description: ""
+    format_preset: humanize
+  - label: Number of files touched
+    expression: count(distinct filename)
+    name: measure_2
+    description: ""
+    format_preset: humanize
+  - label: "Number of contributors"
+    expression: "count(distinct username)"
+    name: measure_3
+    description: ""
+    format_preset: humanize
+  - label: "Code additions"
+    expression: "sum(additions)"
+    name: measure_4
+    description: ""
+    format_preset: humanize
+  - label: "Code deletions"
+    expression: "sum(deletions)"
+    name: measure_5
+    description: ""
+    format_preset: humanize
+  - label: "Code changes"
+    expression: "sum(changes)"
+    name: measure_6
+    description: ""
+    format_preset: humanize
+  - label: "Code deletion %"
+    expression: "sum(deletions) / sum(changes)"
+    name: measure_7
+    description: "The percentage of code changes that were deletions."
+    format_preset: percentage
+  - label: "Files touched per commit"
+    expression: "count(*) / count(distinct commit_hash)"
+    name: measure_8
+    description: ""
+    format_preset: humanize
