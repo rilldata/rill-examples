@@ -41,3 +41,7 @@ For Sellers:
 For Marketplaces/Technology Providers:
   - Troubleshoot campaigns and quickly identify ad server issues
   - Instantly view top-line revenue, volume, eCPM, and other key metrics without pulling complex reports
+
+## Extra Dashboard
+
+An additional dashboard is created with row policies enabled for specific emails. This is used in our embed examples found, [here](https://rill-embedding-example.netlify.app/).

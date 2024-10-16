@@ -1,14 +1,16 @@
-# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
 
 type: explore
-metrics_view: auction_row_policies
-title: "Programmatic Ads Auction"
 
-defaults:
-  time_range: "P1W"
+title: "Programmatic Ads Bids"
+metrics_view: bids_data_model_metrics
 
-dimensions: "*"
-measures: "*"
+dimensions: '*'
+measures: '*'
+
+#default:
+#  time_range: "PT24H"
 
 time_zones:
   - America/Los_Angeles

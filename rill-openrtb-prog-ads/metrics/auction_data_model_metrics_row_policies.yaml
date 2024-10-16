@@ -1,27 +1,16 @@
-# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
 
-model: "auction_data_model"
+version: 1
 type: metrics_view
 
-timeseries: "__time"
+model: auction_data_model
+timeseries: __time
 smallest_time_grain: "hour"
 
-measures:
-  - label: Requests
-    name: requests
-    expression: sum(bid_request_cnt)
-    description: Total Requests
-    format_preset: humanize
-  - label: "Avg Bid Floor"
-    name: avg_bid_floor
-    expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
-    description: "Average Bid Floor"
-    format_preset: currency_usd
-  - label: "1D QPS"
-    name: 1d_qps
-    expression: "sum(bid_request_cnt) / 86400 "
-    description: "1D QPS"
-    format_preset: humanize
+security:
+  access: true
+  row_filter: "Pub_Name IN (SELECT PubName FROM mapping WHERE domain = '{{ .user.domain }}' {{ if .user.email}} AND email = '{{.user.email}}' {{ end }})"
 
 dimensions:
   - label: App Site Name
@@ -30,6 +19,7 @@ dimensions:
   - label: App Site Domain
     expression: app_site_domain
     description: ""
+    name: app_site_domain
   - label: Pub Name
     expression: pub_name
     description: ""
@@ -69,6 +59,7 @@ dimensions:
   - label: Placement Type
     expression: placement_type
     description: ""
+    name: placement_type
   - label: Auction Type
     expression: auction_type
     description: ""
@@ -78,4 +69,19 @@ dimensions:
   - label: "Device Country"
     expression: "device_country"
     description: ""
-
+measures:
+  - label: Requests
+    name: requests
+    expression: sum(bid_request_cnt)
+    description: Total Requests
+    format_preset: humanize
+  - label: "Avg Bid Floor"
+    name: avg_bid_floor
+    expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
+    description: "Average Bid Floor"
+    format_preset: currency_usd
+  - label: "1D QPS"
+    name: 1d_qps
+    expression: "sum(bid_request_cnt) / 86400 "
+    description: "1D QPS"
+    format_preset: humanize

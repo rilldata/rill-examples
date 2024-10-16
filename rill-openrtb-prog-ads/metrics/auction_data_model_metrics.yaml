@@ -1,14 +1,12 @@
-# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
 
+version: 1
 model: "auction_data_model"
 type: metrics_view
 
 timeseries: "__time"
 smallest_time_grain: "hour"
-
-security:
-  access: true
-  row_filter: "Pub_Name IN (SELECT PubName FROM model WHERE email = '{{ .user.email }}')"
 
 measures:
   - label: Requests
@@ -26,19 +24,19 @@ measures:
     expression: "sum(bid_request_cnt) / 86400 "
     description: "1D QPS"
     format_preset: humanize
-    
+
+
 dimensions:
   - label: App Site Name
     expression: app_site_name
     description: ""
-    name: app_site_name
   - label: App Site Domain
     expression: app_site_domain
     description: ""
+    name: app_site_domain
   - label: Pub Name
     expression: pub_name
     description: ""
-    name: Pub_Name
   - label: App Site Cat
     expression: app_site_cat
     description: ""
@@ -75,6 +73,7 @@ dimensions:
   - label: Placement Type
     expression: placement_type
     description: ""
+    name: placement_type
   - label: Auction Type
     expression: auction_type
     description: ""
@@ -84,4 +83,3 @@ dimensions:
   - label: "Device Country"
     expression: "device_country"
     description: ""
-

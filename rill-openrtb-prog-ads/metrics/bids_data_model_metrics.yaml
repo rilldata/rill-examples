@@ -1,10 +1,13 @@
-# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
 
+version: 1
 model: "bids_data_model"
 type: metrics_view
 
 timeseries: "__time"
 smallest_time_grain: "hour"
+
 
 measures:
   - label: Advertising Spend Overall
