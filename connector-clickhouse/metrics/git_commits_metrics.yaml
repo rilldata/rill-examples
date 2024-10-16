@@ -1,5 +1,11 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
 type: metrics_view
-title: Git Commits
+
+title: Git commits Metrics
 table: file_changes
 timeseries: time
 
@@ -66,16 +72,3 @@ measures:
     expression: AVG(commit_files_modified)
     format_preset: humanize
     valid_percent_of_total: false
-
-available_time_zones:
-  - America/Los_Angeles
-  - America/Chicago
-  - America/New_York
-  - Europe/London
-  - Europe/Paris
-  - Asia/Jerusalem
-  - Europe/Moscow
-  - Asia/Kolkata
-  - Asia/Shanghai
-  - Asia/Tokyo
-  - Australia/Sydney
