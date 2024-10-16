@@ -1,0 +1,62 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+title: Commits Model 1 Metrics
+model: commits___model_1
+timeseries: author_date
+
+dimensions:
+  - label: Commit Hash
+    column: commit_hash
+  - label: Author Name
+    column: author_name
+  - label: Author Email
+    column: author_email
+  - label: Filename
+    column: filename
+
+measures:
+  - name: total_commits
+    label: Total Commits
+    expression: COUNT(commit_hash)
+    description: The total number of commits recorded in the dataset.
+  - name: total_added_lines
+    label: Total Added Lines
+    expression: SUM(added_lines)
+    description: The total number of lines added across all commits.
+  - name: total_deleted_lines
+    label: Total Deleted Lines
+    expression: SUM(deleted_lines)
+    description: The total number of lines deleted across all commits.
+  - name: average_added_lines_per_commit
+    label: Average Added Lines per Commit
+    expression: AVG(added_lines)
+    description: The average number of lines added per commit.
+  - name: average_deleted_lines_per_commit
+    label: Average Deleted Lines per Commit
+    expression: AVG(deleted_lines)
+    description: The average number of lines deleted per commit.
+  - name: max_added_lines_in_commit
+    label: Max Added Lines in a Commit
+    expression: MAX(added_lines)
+    description: The maximum number of lines added in a single commit.
+  - name: max_deleted_lines_in_commit
+    label: Max Deleted Lines in a Commit
+    expression: MAX(deleted_lines)
+    description: The maximum number of lines deleted in a single commit.
+  - name: min_added_lines_in_commit
+    label: Min Added Lines in a Commit
+    expression: MIN(added_lines)
+    description: The minimum number of lines added in a single commit.
+  - name: min_deleted_lines_in_commit
+    label: Min Deleted Lines in a Commit
+    expression: MIN(deleted_lines)
+    description: The minimum number of lines deleted in a single commit.
+  - name: distinct_authors
+    label: Distinct Authors
+    expression: COUNT(DISTINCT author_name)
+    description: The number of distinct authors who have made commits.

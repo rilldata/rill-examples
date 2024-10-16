@@ -84,7 +84,7 @@ items:
     x: 7
     y: 2
   - component: select_comparison
-    height: 4
+    height: 1
     width: 2
     x: 9
     y: 2

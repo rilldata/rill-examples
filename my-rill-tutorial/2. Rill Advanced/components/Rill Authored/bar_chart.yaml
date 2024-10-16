@@ -9,19 +9,9 @@ input:
    value: ""
 
 
-data:
-  sql: |
-    select     
-      author_name,
-      sum(net_line_changes) as net_lines
-    from advanced_commits___model
-    where author_date > '2024-07-21 00:00:00'
-    {{ if .args.author }} AND author_name = '{{ .args.author }}' {{ end }}
 
-    group by author_name
-    order by net_lines desc
-    limit 5
-
-bar_chart:
-  x: author_name
-  y: net_lines
+metrics_sql: metircs_layer
+dimension: author_name
+measure: net_line_changes
+type: bar_chart
+filter: top(5)

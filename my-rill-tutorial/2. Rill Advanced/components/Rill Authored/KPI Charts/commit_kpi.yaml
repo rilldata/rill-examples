@@ -6,13 +6,11 @@ type: component
 input:
  - name: timegrain
    type: string
-   value: ""
+   value: "P1W"
 
  - name: comparison
    type: string
    value: ""
-
-
 
 kpi:
   metrics_view: advanced_metrics_view

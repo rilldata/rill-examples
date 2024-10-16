@@ -1,24 +1,23 @@
 compiler: rillv1
 
-title: "Untitled Rill Project"
+title: "My Rill Tutorial"
 
 # These are example mock users to test your security policies.
 # Learn more: https://docs.rilldata.com/manage/security
 mock_users:
-- email: royendo@rilldata.com
-  name: John Doe
-  admin: true
+  - email: royendo@rilldata.com
+    name: John Doe
+    admin: true
 
-- email: your_email@domain.com
-  groups:
-    - tutorial-admin
+  - email: your_email@domain.com
+    groups:
+      - tutorial-admin
 
-- email: your_email2@domain.com
+  - email: your_email2@domain.com
 
 features:
- - customDashboards
- - cloudDataViewer
- - visualEditing
+  - customDashboards
+  - cloudDataViewer
 
 vars:
   time_range: P1W

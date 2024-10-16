@@ -6,7 +6,7 @@ type: component
 input:
  - name: timegrain
    type: string
-   value: ""
+   value: "P1W"
 
  - name: comparison
    type: string

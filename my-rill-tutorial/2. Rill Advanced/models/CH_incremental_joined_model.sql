@@ -12,7 +12,7 @@ WITH commit_file_stats AS (
     FROM
         commits__ a
     inner JOIN
-        modified_files__ b
+        CH_incremental_modified_files b
     ON
         a.commit_hash = b.commit_hash
 )
@@ -32,7 +32,7 @@ SELECT
     sum(deleted_lines) as deleted_lines, 
 
 FROM
-    commit_file_stats
+    CH_incremental_commits
 WHERE
     directory_path IS NOT NULL
     AND author_date < (CURRENT_DATE + INTERVAL '1 week')
