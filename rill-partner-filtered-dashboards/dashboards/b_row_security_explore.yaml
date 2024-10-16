@@ -1,0 +1,16 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
+
+type: explore
+
+title: "row security enabled via mappings.csv"
+metrics_view: b_row_security
+
+dimensions: '*'
+measures: '*'
+
+time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+

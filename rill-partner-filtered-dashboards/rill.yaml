@@ -1,4 +1,4 @@
-compiler: rill-beta
+compiler: rillv1
 name: Partner-Filtered Dashboards Demo
 
 mock_users:
