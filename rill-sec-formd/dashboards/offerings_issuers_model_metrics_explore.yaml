@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
+
+type: explore
+
+title: SEC Form D Offerings
+metrics_view: offerings_issuers_model_metrics
+
+dimensions: '*'
+measures: '*'
