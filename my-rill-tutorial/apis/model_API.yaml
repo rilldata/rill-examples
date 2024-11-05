@@ -1,0 +1,9 @@
+# API YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/apis
+# Test your API endpoint at http://localhost:9009/v1/instances/default/api/model_API
+
+type: api
+name: model_API
+
+sql: |
+  select author_name, sum(net_line_changes) as net_line_changes from advanced_commits___model where author_date > '2024-10-01 00:00:00' group by author_name order by net_line_changes DESC limit 15

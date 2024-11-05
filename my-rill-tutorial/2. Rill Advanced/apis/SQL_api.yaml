@@ -6,10 +6,11 @@ type: api
 name: SQL_api
 
 sql: |
-  SELECT author_name, 
+  SELECT 
+      author_name, 
       sum(net_line_changes) as net_line_changes,
-      FROM advanced_commits___model 
-      where author_date > '2024-07-01 00:00:00' 
-      group by author_name 
-      order by net_line_changes DESC  
-      limit 10
+  FROM advanced_commits___model 
+    where author_date > '2024-07-01 00:00:00' 
+    group by author_name 
+    order by net_line_changes DESC  
+    limit 10 

@@ -1,0 +1,9 @@
+# API YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/apis
+# Test your API endpoint at http://localhost:9009/v1/instances/default/api/metrics_view_tutorial_api
+
+type: api
+name: metrics_view_tutorial_api
+
+metrics_sql: |
+  select author_name, net_line_changes from advanced_metrics_view where author_date > '2024-10-01 00:00:00' order by net_line_changes DESC limit 15
