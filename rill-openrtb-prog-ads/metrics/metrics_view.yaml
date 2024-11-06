@@ -9,7 +9,7 @@ timeseries: __time
 smallest_time_grain: "hour"
 
 security:
-  access: "'{{ .attribute.test }}' == 'yes'"
+  access: "'{{ .attributes.test }}' == 'yes'"
 
 dimensions:
   - label: App Site Name
