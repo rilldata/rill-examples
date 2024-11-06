@@ -1,0 +1,86 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+version: 1
+type: metrics_view
+
+model: auction_data_model
+timeseries: __time
+smallest_time_grain: "hour"
+
+security:
+  access: "'{{ .attribute.test }}' == 'yes'"
+
+dimensions:
+  - label: App Site Name
+    expression: app_site_name
+    description: ""
+  - label: App Site Domain
+    expression: app_site_domain
+    description: ""
+    name: app_site_domain
+  - label: Pub Name
+    expression: pub_name
+    description: ""
+  - label: App Site Cat
+    expression: app_site_cat
+    description: ""
+  - label: Ad Size
+    expression: ad_size
+    description: ""
+  - label: Device State
+    expression: device_state
+    description: ""
+  - label: Device OS Version
+    expression: device_osv
+    description: ""
+  - label: Bid Floor Bucket
+    expression: bid_floor_bucket
+    description: ""
+  - label: Platform Browser
+    expression: platform_browser
+    description: ""
+  - label: Device OS
+    expression: device_os
+    description: ""
+  - label: Device Type
+    expression: device_type
+    description: ""
+  - label: Ad Position
+    expression: ad_position
+    description: ""
+  - label: Video Max Duration Bucket
+    expression: video_max_duration_bucket
+    description: ""
+  - label: Video Min Duration Bucket
+    expression: video_min_duration_bucket
+    description: ""
+  - label: Placement Type
+    expression: placement_type
+    description: ""
+    name: placement_type
+  - label: Auction Type
+    expression: auction_type
+    description: ""
+  - label: App or Site
+    expression: app_or_site
+    description: ""
+  - label: "Device Country"
+    expression: "device_country"
+    description: ""
+measures:
+  - label: Requests
+    name: requests
+    expression: sum(bid_request_cnt)
+    description: Total Requests
+    format_preset: humanize
+  - label: "Avg Bid Floor"
+    name: avg_bid_floor
+    expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
+    description: "Average Bid Floor"
+    format_preset: currency_usd
+  - label: "1D QPS"
+    name: 1d_qps
+    expression: "sum(bid_request_cnt) / 86400 "
+    description: "1D QPS"
+    format_preset: humanize

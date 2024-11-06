@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "metrics_view dashboard"
+metrics_view: metrics_view
+
+dimensions: '*'
+measures: '*'
