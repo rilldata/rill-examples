@@ -3,7 +3,7 @@
 
     SELECT * FROM (VALUES 
       ('Disney', 'x'),
-      ('Disney', 'y'),
+      ('Disney', 'yes'),
       ('LG USA', 'z'),
       ('Pluto', 'a')
     ) AS t(PubName, var)

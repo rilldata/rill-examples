@@ -9,7 +9,9 @@ timeseries: __time
 smallest_time_grain: "hour"
 
 security:
-  access: "'{{ .attributes.test }}' == 'yes'"
+  access: true
+  row_filter: "Pub_Name IN (SELECT PubName FROM test WHERE var = '{{ .attributes.test }}')"
+
 
 dimensions:
   - label: App Site Name

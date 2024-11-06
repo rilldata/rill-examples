@@ -8,6 +8,7 @@ mock_users:
 - email: someone@rilldata.com
   name: John Doe
   admin: true
+  attributes: {test: 'yes'}
 - email: jane@partnercompany.com
   groups:
     - partners
