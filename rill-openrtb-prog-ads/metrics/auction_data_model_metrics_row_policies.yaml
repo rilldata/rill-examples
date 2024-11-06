@@ -10,7 +10,7 @@ smallest_time_grain: "hour"
 
 security:
   access: true
-  row_filter: "Pub_Name IN (SELECT PubName FROM mapping WHERE domain = '{{ .user.domain }}' {{ if .user.email}} AND email = '{{.user.email}}' {{ end }})"
+  row_filter: "Pub_Name IN (SELECT PubName FROM mapping WHERE domain = '{{ .user.domain }}')"
 
 dimensions:
   - label: App Site Name
