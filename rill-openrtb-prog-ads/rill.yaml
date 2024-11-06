@@ -5,7 +5,7 @@ title: Open RTB Ads
 description: Open RTB Ads
 
 mock_users:
-- email: roy.endo@rilldata.com
+- email: someone@rilldata.com
   name: John Doe
   admin: true
 - email: jane@partnercompany.com
