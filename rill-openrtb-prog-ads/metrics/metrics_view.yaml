@@ -10,7 +10,7 @@ smallest_time_grain: "hour"
 
 security:
   access: true
-  row_filter: "Pub_Name IN (SELECT PubName FROM test WHERE var = '{{ .user.test }}')"
+  row_filter: "Pub_Name IN (SELECT PubName FROM test WHERE var = '{{ .test }}')"
 
 
 dimensions:
