@@ -3,8 +3,8 @@
 
 type: explore
 
-title: expression-based security
-metrics_view: c_column_security
+title: "Row-level security"
+metrics_view: b_row_security
 
 dimensions: '*'
 measures: '*'

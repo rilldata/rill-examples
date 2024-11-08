@@ -3,8 +3,8 @@
 
 type: explore
 
-title: "row security enabled via mappings.csv"
-metrics_view: b_row_security
+title: Column-level security
+metrics_view: c_column_security
 
 dimensions: '*'
 measures: '*'
