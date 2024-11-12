@@ -2,8 +2,8 @@
 -- Reference documentation: https://docs.rilldata.com/reference/project-files/models
 
     SELECT * FROM (VALUES 
-      ('Disney', 'x'),
-      ('Disney', 'yes'),
-      ('LG USA', 'z'),
-      ('Pluto', 'a')
-    ) AS t(PubName, var)
+      ('Disney', 'Value0'),
+      ('Disney', 'Value1'),
+      ('LG USA', 'Value2'),
+      ('Pluto', 'Value3')
+    ) AS t(PubName, custom_attribute)
