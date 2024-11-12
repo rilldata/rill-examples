@@ -11,7 +11,7 @@ smallest_time_grain: "hour"
 security:
   access: true
   row_filter: "Pub_Name IN (SELECT PubName FROM test WHERE custom_attribute = '{{ .user.custom_attribute_from_embed }}')"
-
+#row_filter: "Pub_Name = '{{ .user.embed_pub_name }}'"
 
 dimensions:
   - label: App Site Name
