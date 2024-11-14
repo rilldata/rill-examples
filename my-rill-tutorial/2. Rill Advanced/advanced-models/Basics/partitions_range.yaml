@@ -1,0 +1,6 @@
+type: model
+
+partitions:
+  connector: duckdb
+  sql: SELECT range AS num FROM range(0,10)
+sql: SELECT {{ .partition.num }} AS num, now() AS inserted_on

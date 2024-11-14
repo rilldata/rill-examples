@@ -12,7 +12,7 @@ timeseries: date
 
 dimensions:
   - label: Postcode1
-    column: postcode1
+    expression: postcode1
   - label: Postcode2
     column: postcode2
   - label: Type
@@ -35,8 +35,7 @@ dimensions:
     column: county
 
 measures:
-  - name: total_transactions
-    label: Total Transactions
+  - label: Total Transactions
     expression: COUNT(*)
     description: Total number of property transactions recorded.
   - name: average_price

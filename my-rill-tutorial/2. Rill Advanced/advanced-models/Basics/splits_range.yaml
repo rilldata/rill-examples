@@ -1,5 +1,0 @@
-type: model
-
-splits:
-  sql: SELECT range AS num FROM range(0,10)
-sql: SELECT {{ .split.num }} AS num, now() AS inserted_on

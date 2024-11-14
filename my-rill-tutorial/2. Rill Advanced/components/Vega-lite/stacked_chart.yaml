@@ -1,0 +1,33 @@
+# Component YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/components
+
+type: component
+data:
+  metrics_sql: |
+    select
+      date_trunc('day', author_date) as date,
+      author_name,
+      net_line_changes
+    from advanced_metrics_view
+     where author_date > '2024-07-21 00:00:00'
+    {{ if .args.author }} AND author_name = '{{ .args.author }}' {{ end }}
+vega_lite: |
+  
+  {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A bar chart showing net line changes over time.",
+    "data": { "name": "table" },
+    "mark": "bar",
+    "encoding": {
+      "x": {
+        "field": "date",
+        "type": "temporal",
+        "title": "Date"
+      },
+      "y": {
+        "field": "net_line_changes",
+        "type": "quantitative",
+        "title": "Net Line Changes"
+      }
+    }
+  }

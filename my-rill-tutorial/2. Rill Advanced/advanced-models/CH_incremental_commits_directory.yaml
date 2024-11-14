@@ -1,0 +1,16 @@
+type: model
+
+incremental: true
+refresh:
+    cron: "0 8 * * *"
+
+partitions:
+  glob:
+    path: gs://rilldata-public/github-analytics/Clickhouse/2024/*/*
+    partition: directory
+  
+sql: |
+  SELECT * 
+     FROM read_parquet('{{ .partition.uri }}/commits_*.parquet') 
+    WHERE '{{ .partition.uri }}' IS NOT NULL
+

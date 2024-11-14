@@ -2,17 +2,17 @@ type: model
 materialize: true
 splits_concurrency: 3
 
-splits:
+partitions:
     connector: duckdb
-    sql: SELECT range as day FROM range(TIMESTAMPTZ '1992-01-01', TIMESTAMPTZ '1992-01-02', INTERVAL 1 DAY)
+    sql: SELECT range as day FROM range(TIMESTAMPTZ '2022-12-15', TIMESTAMPTZ '2022-12-31', INTERVAL 1 DAY)
 
 
 connector: snowflake
-sql: SELECT * FROM SNOWFLAKE_SAMPLE_DATA.TPCH_SF1.ORDERS WHERE date_trunc('day', O_ORDERDATE) = '{{ .split.day }}'
+sql: SELECT * FROM RILLQA.PUBLIC.HORROR_MOVIES where date_trunc('day', release_date) = '{{.partition.day}}' limit 10
 
 stage:
   connector: s3
-  path: s3://rilldata-public-s3/temp-data
-
+  path: s3://rilldata-public/temp-data
+  
 output:
   connector: clickhouse

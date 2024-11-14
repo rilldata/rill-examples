@@ -1,3 +1,4 @@
+# sample example for incremental model for BQ and SF
 type: model
 materialize: true
 

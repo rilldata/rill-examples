@@ -1,8 +1,8 @@
 type: model
 
-splits:
+partitions:
   sql: SELECT range AS num FROM range(0,10)
-sql: SELECT {{ .split.num }} AS num, now() AS inserted_on
+sql: SELECT {{ .partition.num }} AS num, now() AS inserted_on
 incremental: true
 
 output:

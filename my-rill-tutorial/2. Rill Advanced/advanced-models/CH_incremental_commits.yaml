@@ -4,11 +4,11 @@ incremental: true
 refresh:
     cron: "0 8 * * *"
 
-splits:
+partitions:
   glob:
     connector: gcs
     path: gs://rilldata-public/github-analytics/Clickhouse/*/*/commits_*.parquet
 
-sql: SELECT * FROM read_parquet('{{ .split.uri }}')
+sql: SELECT * FROM read_parquet('{{ .partition.uri }}')
 
 
