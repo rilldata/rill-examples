@@ -1,0 +1,143 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+version: 1
+model: bids
+type: metrics_view
+
+timeseries: "__time"
+smallest_time_grain: "hour"
+
+measures:
+  - label: Advertising Spend Overall
+    name: overall_spend
+    expression: sum(media_spend_usd)/1000
+    description: Total Spend
+    format_preset: currency_usd
+  - label: "Bids"
+    name: total_bids
+    expression: "sum(bid_cnt)"
+    description: "Total Bids"
+    format_preset: humanize
+  - label: "Impressions"
+    name: impressions
+    expression: "sum(imp_cnt)"
+    description: "Total Impressions"
+    format_preset: humanize
+  - label: "Win Rate"
+    name: win_rate
+    expression: "sum(imp_cnt)*1.0/sum(bid_cnt)"
+    description: "Impressions / Bids"
+    format_preset: percentage
+  - label: "Clicks"
+    name: clicks
+    expression: "sum(click_reg_cnt)"
+    description: "Total Clicks"
+    format_preset: humanize
+  - label: "CTR"
+    name: ctr
+    expression: "sum(click_reg_cnt)*1.0/sum(imp_cnt)"
+    description: "Click Through Rate"
+    format_preset: percentage
+  - label: "Video Starts"
+    name: video_starts
+    expression: "sum(video_start_cnt)"
+    description: "Total Video Starts"
+    format_preset: humanize
+  - label: "Video Completes"
+    name: video_completes
+    expression: "sum(video_complete_cnt)"
+    description: "Total Video Completes"
+    format_preset: humanize
+  - label: "Video Completion Rate"
+    name: video_completion_rate
+    expression: "sum(video_complete_cnt)*1.0/sum(video_start_cnt)"
+    description: "Video Completion Rate"
+    format_preset: percentage
+  - label: "Avg Bid Price"
+    name: avg_bid_price
+    expression: "sum(bid_price_usd)*1.0/sum(bid_cnt)/1000"
+    description: "Average Bid Price"
+    format_preset: currency_usd
+  - label: "eCPM"
+    name: ecpm
+    expression: "sum(media_spend_usd)*1.0/1000/sum(imp_cnt)"
+    description: "eCPM"
+    format_preset: currency_usd
+  - label: "Avg Bid Floor"
+    name: avg_bid_floor
+    expression: "sum(bid_floor)*1.0/sum(has_bid_floor_cnt)"
+    description: "Average Bid Floor"
+    format_preset: currency_usd
+
+dimensions:
+  - label: Adomain
+    expression: adomain
+    description: ""
+  - label: Advertiser Name
+    expression: advertiser_name
+    description: ""
+  - label: App or Site
+    expression: app_or_site
+    description: ""
+  - label: Site Domain
+    expression: app_site_domain
+    description: ""
+    name: sites_domain
+  - label: App Name
+    expression: app_site_name
+    description: ""
+  - label: Auction Type
+    expression: auction_type
+    description: ""
+  - label: Bid Floor Bucket
+    expression: bid_floor_bucket
+    description: ""
+    name: bid_floor_bucket
+  - label: Campaign Name
+    expression: campaign_name
+    description: ""
+  - label: Creative type
+    expression: creative_type
+    description: ""
+  - label: Device OS
+    expression: device_os
+    description: 
+  - label: Device OSV
+    expression: device_osv
+    description: ""
+  - label: Device Region
+    expression: device_region
+    description: ""
+  - label: Device Type
+    expression: device_type
+    description: ""
+    name: device_type
+  - label: Interstitial
+    expression: interstitial
+    description: ""
+  - label: Line Item Name
+    expression: line_item_name
+    description: ""
+  - label: Placement Type
+    expression: placement_type
+    description: ""
+    name: placement_type 
+  - label: Platform Browser
+    expression: platform_browser
+    description: ""
+  - label: Player Size
+    expression: player_size
+    description: ""
+  - label: Privacy
+    expression: privacy
+    description: ""
+  - label: Pub Name
+    expression: pub_name
+    description: ""
+  - label: SDK
+    expression: sdk
+    description: ""
+  - label: Video Activity
+    expression: video_activity
+    description: ""
