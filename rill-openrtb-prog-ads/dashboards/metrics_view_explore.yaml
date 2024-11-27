@@ -3,8 +3,12 @@
 
 type: explore
 
-title: "metrics_view dashboard"
+title: "Embed Custom Attributes"
 metrics_view: metrics_view
 
 dimensions: '*'
 measures: '*'
+
+
+embeds:
+  hide_pivot: true
