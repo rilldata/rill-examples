@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Embed Custom Attributes"
+metrics_view: custom_attributes_metrics_view
+
+dimensions: '*'
+measures: '*'

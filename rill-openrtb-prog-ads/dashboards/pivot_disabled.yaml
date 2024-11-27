@@ -3,12 +3,11 @@
 
 type: explore
 
-title: "Embed Custom Attributes"
-metrics_view: metrics_view
+title: "Embed disablewd dashboard"
+metrics_view: custom_attributes_metrics_view
 
 dimensions: '*'
 measures: '*'
-
 
 embeds:
   hide_pivot: true
