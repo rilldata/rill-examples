@@ -4,7 +4,7 @@
 type: explore
 
 title: "Pivot disabled dashboard"
-metrics_view: custom_attributes_metrics_view
+metrics_view: bids_data_model_metrics
 
 dimensions: '*'
 measures: '*'
