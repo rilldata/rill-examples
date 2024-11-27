@@ -8,3 +8,7 @@ metrics_view: metrics_view
 
 dimensions: '*'
 measures: '*'
+
+
+embeds:
+  hide_pivot: true
