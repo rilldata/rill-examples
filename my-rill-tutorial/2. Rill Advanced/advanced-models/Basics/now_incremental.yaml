@@ -2,6 +2,5 @@
 type: model
 refresh:
   cron: 0 0 * * *
-#sql: SELECT now() AS inserted_on
-sql: select * from deepdive
+sql: SELECT now() AS inserted_on
 incremental: true

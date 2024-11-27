@@ -1,6 +1,6 @@
 type: alert
 
-display_name: Project resource Status Alert
+display_name: SQL query Status Alert
 #title
 
 # Check the alert every 1st of the month.
@@ -13,16 +13,16 @@ watermark: inherit
 
 intervals:
   duration: 'P3D'
-  limit: 5
-  check_unclosed: true
+#  limit: 5
+#  check_unclosed: true
 
-timeout: 360
+#timeout: 60
 
 # Query for all resources with a reconcile error.
 # The alert will trigger when the query result is not empty.
 data:
-  resource_status:
-    where_error: true
+  connector: duckdb
+  sql: select count(*) from commits__
 
 
 #for:
@@ -35,15 +35,15 @@ on_fail: true
 on_error: true
 
 renotify: true
-renotify_after: 1s
+renotify_after: 10s
 
 # Send notifications by email or slack 
 notify:
   email:
     recipients: [kidaye9996@cashbn.com, roy.endo@rilldata.com]
-#  slack:
-#    users: []
-#    channels: [scrape-slack-watcher]
-#    webhooks: [https://hooks.slack.com/services/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]
+  slack:
+    users: []
+    channels: [scrape-slack-watcher]
+    webhooks: [https://hooks.slack.com/services/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]
 
 annotations: { "test2":"value2" }
