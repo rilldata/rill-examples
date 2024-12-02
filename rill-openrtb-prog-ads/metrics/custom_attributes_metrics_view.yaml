@@ -11,8 +11,8 @@ smallest_time_grain: "hour"
 security:
   access: true
 #  row_filter: "Pub_Name IN (SELECT PubName FROM test WHERE custom_attribute = '{{ .user.custom_attribute_from_embed }}')"
-#  row_filter: "('{{ .user.domain }}' = 'rilldata.com' OR Pub_Name = '{{ .user.embed_pub_name }}')"
-  row_filter: "('{{ .user.domain }}' = 'rilldata.com')"
+  row_filter: "('{{ .user.domain }}' = 'rilldata.com' OR Pub_Name = '{{ .user.embed_pub_name }}')"
+#  row_filter: "('{{ .user.domain }}' = 'rilldata.com')"
 dimensions:
   - label: App Site Name
     expression: app_site_name
