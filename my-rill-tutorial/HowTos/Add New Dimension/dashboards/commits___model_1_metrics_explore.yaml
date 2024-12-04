@@ -8,3 +8,6 @@ metrics_view: commits___model_1_metrics
 
 dimensions: '*'
 measures: '*'
+
+security:
+  access: false

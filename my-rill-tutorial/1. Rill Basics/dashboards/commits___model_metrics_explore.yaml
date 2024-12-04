@@ -1,9 +1,9 @@
 # Explore YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
 
 type: explore
 
-title: "My Tutorial Project"
+title: "Rill Basics Dashboard"
 metrics_view: commits___model_metrics
 
 dimensions: '*'

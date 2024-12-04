@@ -80,3 +80,6 @@ measures:
     label: Minimum Sales
     expression: MIN(Sales)
     description: The lowest sales amount from a single order.
+
+security:
+  access: false

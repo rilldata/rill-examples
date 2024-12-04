@@ -28,6 +28,10 @@ measures:
     label: Total Added Lines
     expression: SUM(added_lines)
     description: The total number of lines added across all commits.
+    format_d3: "$,"
+    format_d3_locale: 
+      grouping: [3, 2]
+      currency: ["₹", ""]
   - name: total_deleted_lines
     label: Total Deleted Lines
     expression: SUM(deleted_lines)

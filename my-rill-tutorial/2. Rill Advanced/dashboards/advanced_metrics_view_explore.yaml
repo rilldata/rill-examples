@@ -3,6 +3,7 @@
 
 type: explore
 metrics_view: advanced_metrics_view
+title: "Rill Advanced Dashboard"
 
 dimensions:
   expr: "* exclude directory_path"
