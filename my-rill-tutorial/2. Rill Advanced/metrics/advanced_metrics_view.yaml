@@ -50,3 +50,5 @@ measures:
     label: "Code Deletion Percent %"
     description: "The percent of code deletion"
     format_preset: percentage
+
+smallest_time_grain: day
