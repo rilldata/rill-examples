@@ -9,17 +9,17 @@ timeseries: "__time"
 smallest_time_grain: "hour"
 
 measures:
-  - label: Requests
+  - display_name: Requests
     name: requests
     expression: sum(bid_request_cnt)
     description: Total Requests
     format_preset: humanize
-  - label: "Avg Bid Floor"
+  - display_name: "Avg Bid Floor"
     name: avg_bid_floor
     expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
     description: "Average Bid Floor"
     format_preset: currency_usd
-  - label: "1D QPS"
+  - display_name: "1D QPS"
     name: 1d_qps
     expression: "sum(bid_request_cnt) / 86400 "
     description: "1D QPS"
@@ -28,74 +28,74 @@ measures:
 
 dimensions:
   - name: app_site_name
-    label: App Site Name
+    display_name: App Site Name
     column: app_site_name
     description: ""
-  - label: App Site Domain
+  - display_name: App Site Domain
     column: app_site_domain
     description: ""
     name: app_site_domain
   - name: pub_name
-    label: Pub Name
+    display_name: Pub Name
     column: pub_name
     description: ""
   - name: app_site_cat
-    label: App Site Cat
+    display_name: App Site Cat
     column: app_site_cat
     description: ""
   - name: ad_size
-    label: Ad Size
+    display_name: Ad Size
     column: ad_size
     description: ""
   - name: device_state
-    label: Device State
+    display_name: Device State
     column: device_state
     description: ""
   - name: device_osv
-    label: Device OS Version
+    display_name: Device OS Version
     column: device_osv
     description: ""
   - name: bid_floor_bucket
-    label: Bid Floor Bucket
+    display_name: Bid Floor Bucket
     column: bid_floor_bucket
     description: ""
   - name: platform_browser
-    label: Platform Browser
+    display_name: Platform Browser
     column: platform_browser
     description: ""
   - name: device_os
-    label: Device OS
+    display_name: Device OS
     column: device_os
     description: ""
   - name: device_type
-    label: Device Type
+    display_name: Device Type
     column: device_type
     description: ""
   - name: ad_position
-    label: Ad Position
+    display_name: Ad Position
     column: ad_position
     description: ""
   - name: video_max_duration_bucket
-    label: Video Max Duration Bucket
+    display_name: Video Max Duration Bucket
     column: video_max_duration_bucket
     description: ""
   - name: video_min_duration_bucket
-    label: Video Min Duration Bucket
+    display_name: Video Min Duration Bucket
     column: video_min_duration_bucket
     description: ""
-  - label: Placement Type
+  - display_name: Placement Type
     column: placement_type
     description: ""
     name: placement_type
   - name: auction_type
-    label: Auction Type
+    display_name: Auction Type
     column: auction_type
     description: ""
   - name: app_or_site
-    label: App or Site
+    display_name: App or Site
     column: app_or_site
     description: ""
   - name: device_country
-    label: "Device Country"
+    display_name: "Device Country"
     column: "device_country"
     description: ""

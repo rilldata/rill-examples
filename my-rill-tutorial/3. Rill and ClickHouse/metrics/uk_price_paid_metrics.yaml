@@ -11,66 +11,66 @@ table: uk_price_paid
 timeseries: date
 
 dimensions:
-  - label: Postcode1
+  - display_name: Postcode1
     expression: postcode1
-  - label: Postcode2
+  - display_name: Postcode2
     column: postcode2
-  - label: Type
+  - display_name: Type
     column: type
-  - label: Duration
+  - display_name: Duration
     column: duration
-  - label: Addr1
+  - display_name: Addr1
     column: addr1
-  - label: Addr2
+  - display_name: Addr2
     column: addr2
-  - label: Street
+  - display_name: Street
     column: street
-  - label: Locality
+  - display_name: Locality
     column: locality
-  - label: Town
+  - display_name: Town
     column: town
-  - label: District
+  - display_name: District
     column: district
-  - label: County
+  - display_name: County
     column: county
 
 measures:
-  - label: Total Transactions
+  - display_name: Total Transactions
     expression: COUNT(*)
     description: Total number of property transactions recorded.
   - name: average_price
-    label: Average Price
+    display_name: Average Price
     expression: AVG(price)
     description: Average price of properties sold.
   - name: total_price
-    label: Total Price
+    display_name: Total Price
     expression: SUM(price)
     description: Total sum of all property prices.
   - name: max_price
-    label: Maximum Price
+    display_name: Maximum Price
     expression: MAX(price)
     description: Highest property price recorded.
   - name: min_price
-    label: Minimum Price
+    display_name: Minimum Price
     expression: MIN(price)
     description: Lowest property price recorded.
   - name: average_price_new_properties
-    label: Average Price of New Properties
+    display_name: Average Price of New Properties
     expression: AVG(price * is_new)
     description: Average price of properties marked as new.
   - name: count_new_properties
-    label: Count of New Properties
+    display_name: Count of New Properties
     expression: SUM(is_new)
     description: Total number of new properties sold.
   - name: average_price_by_type
-    label: Average Price by Type
+    display_name: Average Price by Type
     expression: AVG(price)
     description: Average price of properties grouped by type.
   - name: max_price_by_district
-    label: Maximum Price by District
+    display_name: Maximum Price by District
     expression: MAX(price)
     description: Highest property price recorded in each district.
   - name: min_price_by_county
-    label: Minimum Price by County
+    display_name: Minimum Price by County
     expression: MIN(price)
     description: Lowest property price recorded in each county.

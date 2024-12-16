@@ -12,70 +12,70 @@ timeseries: event_time
 smallest_time_grain: "hour"
 
 dimensions:
-  - label: New vs Existing
+  - display_name: New vs Existing
     expression: new_existing
     description: "New vs. Returning"
-  - label: "Referral Source"
+  - display_name: "Referral Source"
     expression: "referral_source"
     description: "User Referral Source"
-  - label: "Country"
+  - display_name: "Country"
     expression: "country"
     description: "Device Location"
-  - label: "Device Make"
+  - display_name: "Device Make"
     expression: "device_make"
     description: "Device Make"
-  - label: "Network"
+  - display_name: "Network"
     expression: "network"
     description: "Connection Type"
-  - label: "App Version"
+  - display_name: "App Version"
     expression: "app_version"
     description: "Internal App Version"
-  - label: "Advertiser Name"
+  - display_name: "Advertiser Name"
     expression: "advertiser_name"
     description: "Advertiser Name"
 
 measures:
-  - label: Page Views
+  - display_name: Page Views
     expression: sum(landing_page_view_cnt)
     name: total_records
     description: Total Page Visits
     format_preset: humanize
-  - label: "Page Click"
+  - display_name: "Page Click"
     expression: "sum(landing_page_click_cnt)"
     name: measure
     description: "Total Page Clicks"
     format_preset: humanize
-  - label: "Site Conversion Rate"
+  - display_name: "Site Conversion Rate"
     expression: "sum(landing_page_click_cnt)*1.0/sum(landing_page_view_cnt)*1.0"
     name: measure_1
     description: "Site Conversion"
     format_preset: percentage
-  - label: "Download Count"
+  - display_name: "Download Count"
     expression: "sum(download_cnt)"
     name: measure_2
     description: "Total Downloads"
     format_preset: humanize
-  - label: "Sign Up Count"
+  - display_name: "Sign Up Count"
     expression: "sum(sign_up_cnt)"
     name: measure_3
     description: "Total Sign-ups"
     format_preset: humanize
-  - label: "Opt-in Rate"
+  - display_name: "Opt-in Rate"
     expression: "sum(sign_up_cnt)*1.0/sum(download_cnt)*1.0"
     name: measure_4
     description: "Opt-in Rate"
     format_preset: percentage
-  - label: "Unique Visitors"
+  - display_name: "Unique Visitors"
     expression: "count (distinct landing_page_view_id)"
     name: measure_5
     description: "Unique Visitors"
     format_preset: humanize
-  - label: "Unique Downloads"
+  - display_name: "Unique Downloads"
     expression: "count (distinct download_id)"
     name: measure_6
     description: "Unique Downloads"
     format_preset: humanize
-  - label: "Completion Rate"
+  - display_name: "Completion Rate"
     expression: "count (distinct download_id)*1.0/count (distinct
       landing_page_view_id) *1.0"
     name: measure_7

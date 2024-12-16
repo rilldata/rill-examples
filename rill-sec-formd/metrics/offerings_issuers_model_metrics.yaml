@@ -14,105 +14,105 @@ dimensions:
     name: offering_InvestmentFundType
     display_name: Investment Fund Type
     description: The investment Fund associated with this group
-  - label: Issuer Name
+  - display_name: Issuer Name
     name: issuer_EntityName
     column: issuer_EntityName
     description: "The issuer entity name"
-  - label: "Issuer Phone Number"
+  - display_name: "Issuer Phone Number"
     name: ISSUERPHONENUMBER
     column: "ISSUERPHONENUMBER"
     description: "Contact information for the issuer"
-  - label: "Entity Type"
+  - display_name: "Entity Type"
     name: ENTITYTYPE
     column: "ENTITYTYPE"
     description: "The entity type"
-  - label: "Description"
+  - display_name: "Description"
     name: DESCRIPTIONOFOTHERTYPE
     column: "DESCRIPTIONOFOTHERTYPE"
     description: "Description of the offering type"
-  - label: Recipient Name
+  - display_name: Recipient Name
     column: recipient_name
     name: recipient_name
     description: "The recipient's name"
-  - label: "Type - Equity"
+  - display_name: "Type - Equity"
     name: ISEQUITYTYPE
     column: "ISEQUITYTYPE"
     description: "True if the offering represents equity"
-  - label: "Type - Debt"
+  - display_name: "Type - Debt"
     name: ISDEBTTYPE
     column: "ISDEBTTYPE"
     description: "True if the offering represents debt"
-  - label: "Type - Option to Acquire"
+  - display_name: "Type - Option to Acquire"
     name: ISOPTIONTOACQUIRETYPE
     column: "ISOPTIONTOACQUIRETYPE"
     description: "True if the offering represents an option to acquire"
-  - label: "Type - Security to Acquire"
+  - display_name: "Type - Security to Acquire"
     name: ISSECURITYTOBEACQUIREDTYPE
     column: "ISSECURITYTOBEACQUIREDTYPE"
     description: "True if the offering represents security to acquire"
-  - label: "Type - Mineral expression"
+  - display_name: "Type - Mineral expression"
     name: ISMINERALPROPERTYTYPE
     column: "ISMINERALPROPERTYTYPE"
     description: "True if the offering represents mineral rights"
-  - label: "Central Index Key"
+  - display_name: "Central Index Key"
     name: CIK
     column: "CIK"
     description: "The Central Index Key (CIK) is used on the SEC's computer systems
       to identify corporations and individual people who have filed disclosures"
 
 measures:
-  - label: Number of Offerings
+  - display_name: Number of Offerings
     name: total_offerings
     expression: count(*)
     description: Total number of records present
     format_preset: humanize
-  - label: Total Issuers
+  - display_name: Total Issuers
     name: total_offerings_another
     expression: count( DISTINCT issuer_EntityName)
     description: Total securities issuers
     format_preset: humanize
-  - label: "Toal Reciepients"
+  - display_name: "Toal Reciepients"
     name: "total_offering_amount"
     expression: "count( DISTINCT recipient_name)"
     description: "Total securities recipients"
     format_preset: humanize
-  - label: "Median Offering Amount"
+  - display_name: "Median Offering Amount"
     expression: "MEDIAN(TotalOfferingAmount)"
     name: measure
     description: "Median amount of offering in USD"
     format_preset: currency_usd
   - expression: AVG(TOTALAMOUNTSOLD)
     name: average_total_amount_sold
-    label: Average Total Amount Sold
+    display_name: Average Total Amount Sold
     format_preset: currency_usd
     description: The average amount sold across all offerings.
     valid_percent_of_total: true
   - name: max_total_offering_amount
-    label: Maximum Total Offering Amount
+    display_name: Maximum Total Offering Amount
     expression: MAX(TotalOfferingAmount)
     description: The maximum total offering amount recorded.
     format_preset: currency_usd
   - name: max_total_amount_sold
-    label: Maximum Total Amount Sold
+    display_name: Maximum Total Amount Sold
     expression: MAX(TOTALAMOUNTSOLD)
     description: The maximum amount sold in a single offering.
     format_preset: currency_usd
   - name: min_total_offering_amount
-    label: Minimum Total Offering Amount
+    display_name: Minimum Total Offering Amount
     expression: MIN(TotalOfferingAmount)
     description: The minimum total offering amount recorded.
     format_preset: currency_usd
   - name: min_total_amount_sold
-    label: Minimum Total Amount Sold
+    display_name: Minimum Total Amount Sold
     expression: MIN(TOTALAMOUNTSOLD)
     description: The minimum amount sold in a single offering.
     format_preset: currency_usd
   - name: count_of_offerings
-    label: Count of Offerings
+    display_name: Count of Offerings
     expression: COUNT(ACCESSIONNUMBER)
     description: The total number of offerings recorded.
   - name: total_sales_commission
-    label: Total Sales Commission
+    display_name: Total Sales Commission
     expression: SUM(SALESCOMM_DOLLARAMOUNT)
     description: The total dollar amount of sales commissions.
     format_preset: currency_usd

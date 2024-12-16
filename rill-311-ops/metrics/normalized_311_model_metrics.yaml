@@ -14,69 +14,69 @@ smallest_time_grain: "hour"
 
 
 dimensions:
-  - label: City
+  - display_name: City
     expression: city
     description: "City's 311 data"
-  - label: Status Type
+  - display_name: Status Type
     expression: status_type
     description: "Status of ticket"
-  - label: Category
+  - display_name: Category
     expression: category
     description: "Category of ticket"
-  - label: "Street"
+  - display_name: "Street"
     expression: "street"
     description: "Street of request"
-  - label: Activity
+  - display_name: Activity
     expression: activity
     description: ""
-  - label: Description
+  - display_name: Description
     expression: description
     description: ""
-  - label: Street Address
+  - display_name: Street Address
     expression: street_address
     description: ""
-  - label: "Lattitude"
+  - display_name: "Lattitude"
     expression: "latitude"
     description: ""
-  - label: "Longitude"
+  - display_name: "Longitude"
     expression: "longitude"
     description: ""
-  - label: Ticket ID
+  - display_name: Ticket ID
     expression: ticket_id
     description: ""
-  - label: "Outcome"
+  - display_name: "Outcome"
     expression: "outcome"
     description: ""
-  - label: "State"
+  - display_name: "State"
     expression: "state"
     description: ""
-  - label: "Neighborhood"
+  - display_name: "Neighborhood"
     expression: "neighborhood"
     description: ""
-  - label: "Zipcode"
+  - display_name: "Zipcode"
     expression: "zipcode"
     description: ""
-  - label: "Description Details"
+  - display_name: "Description Details"
     expression: "description_details"
     description: ""
 
 measures:
-  - label: "Median Time to Resolve Ticket (Hours)"
+  - display_name: "Median Time to Resolve Ticket (Hours)"
     expression: "MEDIAN(date_diff_in_hours)"
     name: measure
     description: ""
     format_preset: humanize
-  - label: Total Tickets
+  - display_name: Total Tickets
     expression: COUNT(DISTINCT ticket_id)
     name: total_records
     description: Total number of records present
     format_preset: humanize
-  - label: "Total Locations"
+  - display_name: "Total Locations"
     expression: "COUNT(DISTINCT CONCAT(latitude, longitude))"
     name: measure_1
     description: ""
     format_preset: humanize
-  - label: "Total Neighborhoods"
+  - display_name: "Total Neighborhoods"
     expression: "COUNT(DISTINCT(neighborhood))"
     name: measure_2
     description: ""

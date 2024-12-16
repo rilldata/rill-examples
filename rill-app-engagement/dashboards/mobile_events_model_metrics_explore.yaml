@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Mobile App Engagement Dashboardd"
+title: "Mobile App Engagement Dashboard"
 metrics_view: mobile_events_model_metrics
 
 dimensions: '*'
