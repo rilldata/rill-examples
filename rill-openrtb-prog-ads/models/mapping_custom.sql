@@ -3,7 +3,7 @@
 
     SELECT * FROM (VALUES 
       ('Disney', 'Value0'),
-      ('Disney', 'Value1'),
+      ('Disney', 'Value2'),
       ('LG USA', 'Value2'),
-      ('Pluto', 'Value3')
+      ('Pluto', 'Value2')
     ) AS t(PubName, custom_attribute)

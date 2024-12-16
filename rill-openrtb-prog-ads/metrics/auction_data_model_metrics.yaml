@@ -27,59 +27,75 @@ measures:
 
 
 dimensions:
-  - label: App Site Name
-    expression: app_site_name
+  - name: app_site_name
+    label: App Site Name
+    column: app_site_name
     description: ""
   - label: App Site Domain
-    expression: app_site_domain
+    column: app_site_domain
     description: ""
     name: app_site_domain
-  - label: Pub Name
-    expression: pub_name
+  - name: pub_name
+    label: Pub Name
+    column: pub_name
     description: ""
-  - label: App Site Cat
-    expression: app_site_cat
+  - name: app_site_cat
+    label: App Site Cat
+    column: app_site_cat
     description: ""
-  - label: Ad Size
-    expression: ad_size
+  - name: ad_size
+    label: Ad Size
+    column: ad_size
     description: ""
-  - label: Device State
-    expression: device_state
+  - name: device_state
+    label: Device State
+    column: device_state
     description: ""
-  - label: Device OS Version
-    expression: device_osv
+  - name: device_osv
+    label: Device OS Version
+    column: device_osv
     description: ""
-  - label: Bid Floor Bucket
-    expression: bid_floor_bucket
+  - name: bid_floor_bucket
+    label: Bid Floor Bucket
+    column: bid_floor_bucket
     description: ""
-  - label: Platform Browser
-    expression: platform_browser
+  - name: platform_browser
+    label: Platform Browser
+    column: platform_browser
     description: ""
-  - label: Device OS
-    expression: device_os
+  - name: device_os
+    label: Device OS
+    column: device_os
     description: ""
-  - label: Device Type
-    expression: device_type
+  - name: device_type
+    label: Device Type
+    column: device_type
     description: ""
-  - label: Ad Position
-    expression: ad_position
+  - name: ad_position
+    label: Ad Position
+    column: ad_position
     description: ""
-  - label: Video Max Duration Bucket
-    expression: video_max_duration_bucket
+  - name: video_max_duration_bucket
+    label: Video Max Duration Bucket
+    column: video_max_duration_bucket
     description: ""
-  - label: Video Min Duration Bucket
-    expression: video_min_duration_bucket
+  - name: video_min_duration_bucket
+    label: Video Min Duration Bucket
+    column: video_min_duration_bucket
     description: ""
   - label: Placement Type
-    expression: placement_type
+    column: placement_type
     description: ""
     name: placement_type
-  - label: Auction Type
-    expression: auction_type
+  - name: auction_type
+    label: Auction Type
+    column: auction_type
     description: ""
-  - label: App or Site
-    expression: app_or_site
+  - name: app_or_site
+    label: App or Site
+    column: app_or_site
     description: ""
-  - label: "Device Country"
-    expression: "device_country"
+  - name: device_country
+    label: "Device Country"
+    column: "device_country"
     description: ""
