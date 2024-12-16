@@ -1,3 +1,6 @@
+-- Model SQL
+-- Reference documentation: https://docs.rilldata.com/reference/project-files/models
+-- @materialize: true
 
 SELECT
   SALE_DATE AS offering_saledate, 
