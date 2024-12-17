@@ -13,14 +13,14 @@ dimensions:
     name: author_name
     display_name: The Author's Name
     description: The name of the author of the commit
-
   - column: author_timezone
-    display_name: "The Author's TZ"
-    description: "The Author's Timezone"
-
+    name: author_timezone
+    display_name: The Author's TZ
+    description: The Author's Timezone
   - column: filename
-    display_name: "The filename"
-    description: "The name of the modified filename"
+    name: filename
+    display_name: The filename
+    description: The name of the modified filename
 
 measures:
   - expression: SUM(added_lines)
@@ -29,7 +29,9 @@ measures:
     format_preset: humanize
     description: The aggregate sum of added_lines column.
     valid_percent_of_total: true
-
-  - expression: "SUM(deleted_lines)"
-    display_name: "Sum of deleted lines"
-    description: "The aggregate sum of deleted_lines column."
+  - expression: SUM(deleted_lines)
+    name: deleted_lines
+    display_name: Sum of deleted lines
+    format_preset: humanize
+    description: The aggregate sum of deleted_lines column.
+    valid_percent_of_total: false

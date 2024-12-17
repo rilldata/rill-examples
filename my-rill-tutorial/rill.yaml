@@ -8,21 +8,24 @@ mock_users:
   - email: royendo@rilldata.com
     name: John Doe
     admin: true
-
   - email: your_email@domain.com
     groups:
       - tutorial-admin
-
   - email: your_email2@domain.com
 
+
+# Custom Feature Flags to enable features in Developement, can change at anytime.
 features:
   - customDashboards
   - cloudDataViewer
+  - clickhouseModeling
 
+# Project level Variables
 vars:
-  time_range: P1W
-  comparison_range: "P1W"
-      
+  time: P1W
+  compare: "P1W"
+
+#Project wide defaults
 metrics_views:
   first_day_of_week: 1
   smallest_time_grain: month

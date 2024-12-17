@@ -10,74 +10,86 @@ model: normalized_311_model
 timeseries: start_event_date
 smallest_time_grain: "hour"
 
-
-
-
 dimensions:
-  - display_name: City
-    expression: city
+  - name: city
+    display_name: City
+    column: city
     description: "City's 311 data"
-  - display_name: Status Type
-    expression: status_type
+  - name: status_type
+    display_name: Status Type
+    column: status_type
     description: "Status of ticket"
-  - display_name: Category
-    expression: category
+  - name: category
+    display_name: Category
+    column: category
     description: "Category of ticket"
-  - display_name: "Street"
-    expression: "street"
+  - name: street
+    display_name: "Street"
+    column: "street"
     description: "Street of request"
-  - display_name: Activity
-    expression: activity
+  - name: activity
+    display_name: Activity
+    column: activity
     description: ""
-  - display_name: Description
-    expression: description
+  - name: description
+    display_name: Description
+    column: description
     description: ""
-  - display_name: Street Address
-    expression: street_address
+  - name: street_address
+    display_name: Street Address
+    column: street_address
     description: ""
-  - display_name: "Lattitude"
-    expression: "latitude"
+  - name: latitude
+    display_name: "Lattitude"
+    column: "latitude"
     description: ""
-  - display_name: "Longitude"
-    expression: "longitude"
+  - name: longitude
+    display_name: "Longitude"
+    column: "longitude"
     description: ""
-  - display_name: Ticket ID
-    expression: ticket_id
+  - name: ticket_id
+    display_name: Ticket ID
+    column: ticket_id
     description: ""
-  - display_name: "Outcome"
-    expression: "outcome"
+  - name: outcome
+    display_name: "Outcome"
+    column: "outcome"
     description: ""
-  - display_name: "State"
-    expression: "state"
+  - name: state
+    display_name: "State"
+    column: "state"
     description: ""
-  - display_name: "Neighborhood"
-    expression: "neighborhood"
+  - name: neighborhood
+    display_name: "Neighborhood"
+    column: "neighborhood"
     description: ""
-  - display_name: "Zipcode"
-    expression: "zipcode"
+  - name: zipcode
+    display_name: "Zipcode"
+    column: "zipcode"
     description: ""
-  - display_name: "Description Details"
-    expression: "description_details"
+  - name: description_details
+    display_name: "Description Details"
+    column: "description_details"
     description: ""
 
 measures:
   - display_name: "Median Time to Resolve Ticket (Hours)"
     expression: "MEDIAN(date_diff_in_hours)"
-    name: measure
+    name: medium_time_resolve_ticket
     description: ""
     format_preset: humanize
   - display_name: Total Tickets
     expression: COUNT(DISTINCT ticket_id)
-    name: total_records
+    name: total_tickets
     description: Total number of records present
     format_preset: humanize
   - display_name: "Total Locations"
     expression: "COUNT(DISTINCT CONCAT(latitude, longitude))"
-    name: measure_1
+    name: total_locations
     description: ""
     format_preset: humanize
   - display_name: "Total Neighborhoods"
     expression: "COUNT(DISTINCT(neighborhood))"
-    name: measure_2
+    name: total_neighborhoods
     description: ""
     format_preset: humanize

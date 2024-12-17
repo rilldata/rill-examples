@@ -11,53 +11,62 @@ timeseries: __time
 smallest_time_grain: "day"
 
 dimensions:
-  - display_name: Customer
-    expression: company
+  - name: customer
+    display_name: Customer
+    column: company
     description: "The name of the customer"
-  - display_name: Plan Name
-    expression: plan_name
+  - name: plan_name
+    display_name: Plan Name
+    column: plan_name
     description: "The name of the billing plan"
-  - display_name: "Cost by Region"
-    expression: "location"
+  - name: location
+    display_name: "Cost by Region"
+    column: "location"
     description: "The region incurring costs"
-  - display_name: Cost by Component
-    expression: component
+  - name: component
+    display_name: Cost by Component
+    column: component
     description: "The component generating costs"
-  - display_name: "Cost by App Name"
-    expression: "app_name"
+  - name: app_name
+    display_name: "Cost by App Name"
+    column: "app_name"
     description: "The app generating costs"
-  - display_name: "Cost by SKU"
-    expression: "sku_description"
+  - name: sku_description
+    display_name: "Cost by SKU"
+    column: "sku_description"
     description: "The sku description for costs"
-  - display_name: "Cost by Data Pipeline"
-    expression: "pipeline"
+  - name: pipeline
+    display_name: "Cost by Data Pipeline"
+    column: "pipeline"
     description: "The pipeline incurring costs"
-  - display_name: "Cost by Environment"
-    expression: "environment"
+  - name: environment
+    display_name: "Cost by Environment"
+    column: "environment"
     description: "The environment incurring costs"
+    
 measures:
   - display_name: "Total Cost"
     expression: "SUM(cost)"
-    name: measure
+    name: total_cost
     description: "The sum of cost"
     format_preset: currency_usd
   - display_name: "Total Revenue"
     expression: SUM(revenue)
-    name: total_records
+    name: total_revenue
     description: The sum of revenue
     format_preset: currency_usd
   - display_name: "Net Revenue"
     expression: "SUM(revenue) - SUM(cost)"
-    name: measure_2
+    name: net_revenue
     description: "The sum of revenue minus the sum of cost"
     format_preset: currency_usd
   - display_name: "Gross Margin %"
     expression: "(SUM(revenue) - SUM(cost))/SUM(revenue)"
-    name: measure_1
+    name: gross_margin_percent
     description: "Net revenue divided by sum of revenue"
     format_preset: percentage
   - display_name: "Unique Customers"
     expression: "COUNT(DISTINCT company)"
-    name: measure_3
+    name: unique_customers
     description: "The count of unique companies"
     format_preset: humanize

@@ -10,65 +10,93 @@ table: file_changes
 timeseries: time
 
 dimensions:
-  - display_name: Author
-    column: author
-  - display_name: First Directory
+  - column: author
+    name: author
+    display_name: Author
+  - name: first_directory
+    display_name: First Directory
     expression: arrayElement(splitByChar('/', path), 1)
-  - display_name: Second Directory
+    description:
+  - name: second_directory
+    display_name: Second Directory
     expression: arrayElement(splitByChar('/', path), 2)
-  - display_name: Third Directory
+    description:
+  - name: third_directory
+    display_name: Third Directory
     expression: arrayElement(splitByChar('/', path), 3)
-  - display_name: File Name
+    description:
+  - name: file_name
+    display_name: File Name
     expression: arrayElement(splitByChar('/', path), length(splitByChar('/', path)))
-  - display_name: Path
+    description:
+  - name: path
+    display_name: Path
     column: path
-  - display_name: Change Type
+    description:
+  - name: change_type
+    display_name: Change Type
     column: change_type
-  - display_name: File Extension
+    description:
+  - name: file_extension
+    display_name: File Extension
     column: file_extension
-  - display_name: Commit Hash
+    description:
+  - name: commit_hash
+    display_name: Commit Hash
     column: commit_hash
-  - display_name: Commit Message
+    description:
+  - name: commit_message
+    display_name: Commit Message
     column: commit_message
+    description:
+
 
 measures:
-  - name: num_commits
+  - expression: COUNT( DISTINCT commit_hash)
+    name: num_commits
     display_name: Number of commits
-    expression: COUNT( DISTINCT commit_hash)
     format_preset: humanize
+    description: test
     valid_percent_of_total: false
   - name: total_lines_added
     display_name: Total Lines Added
     expression: SUM(lines_added)
     format_preset: humanize
     valid_percent_of_total: true
+    description:
   - name: average_lines_added
     display_name: Average Lines Added
     expression: AVG(lines_added)
     format_preset: humanize
     valid_percent_of_total: false
+    description:
   - name: total_lines_deleted
     display_name: Total Lines Deleted
     expression: SUM(lines_deleted)
     format_preset: humanize
     valid_percent_of_total: true
+    description:
   - name: average_lines_deleted
     display_name: Average Lines Deleted
     expression: AVG(lines_deleted)
     format_preset: humanize
     valid_percent_of_total: false
+    description:
   - name: total_files_added
     display_name: Total Files Added
     expression: SUM(CASE WHEN change_type = 'Add' THEN 1 ELSE 0 END)
     format_preset: humanize
     valid_percent_of_total: true
+    description:
   - name: total_files_deleted
     display_name: Total Files Deleted
     expression: SUM(CASE WHEN change_type = 'Delete' THEN 1 ELSE 0 END)
     format_preset: humanize
     valid_percent_of_total: true
+    description:
   - name: average_files_modified
     display_name: Average Files Modified per Change
     expression: AVG(commit_files_modified)
     format_preset: humanize
     valid_percent_of_total: false
+    description:

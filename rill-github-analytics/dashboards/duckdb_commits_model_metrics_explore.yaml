@@ -30,6 +30,3 @@ defaults:
     - previous_file_path
     - is_merge_commit
   time_range: P12M
-
-#default:
-#  time_range: "P4W"

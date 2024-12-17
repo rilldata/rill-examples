@@ -10,14 +10,22 @@ model: commits___model_1
 timeseries: author_date
 
 dimensions:
-  - display_name: Commit Hash
+  - name: commit_hash
+    display_name: Commit Hash
     column: commit_hash
-  - display_name: Author Name
+    description: 
+  - name: author_name
+    display_name: Author Name
     column: author_name
-  - display_name: Author Email
+    description: 
+  - name: author_email
+    display_name: Author Email
     column: author_email
-  - display_name: Filename
+    description: 
+  - name: filename
+    display_name: Filename
     column: filename
+    description: 
 
 measures:
   - name: total_commits

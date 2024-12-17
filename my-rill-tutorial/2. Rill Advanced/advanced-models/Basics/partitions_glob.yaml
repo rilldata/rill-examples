@@ -1,3 +1,5 @@
+# Replace the path: parameter with your bucket that is partitioned by date
+
 type: model
 
 incremental: true
@@ -7,7 +9,7 @@ refresh:
 partitions:
   glob:
     connector: gcs
-    path: gs://path/to/file/**/*.parquet
+    path: gs[s3]://path/to/file/**/*.parquet
 
 sql: SELECT * FROM read_parquet('{{ .partition.uri }}')
 

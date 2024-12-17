@@ -2,10 +2,11 @@ compiler: rillv1
 
 title: "ClickHouse Demo"
 
-olap_connector: clickhouse
+olap_connector: "clickhouse"
 
-ignore_paths:
-  - "/clickhouse_data"
 
 features:
   clickhouseModeling: true
+
+#ignore_paths:
+#  - "/clickhouse_data"

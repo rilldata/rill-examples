@@ -49,6 +49,7 @@ measures:
   display_name: "Code Deletion Percent %"
   description: "The percent of code deletion"
   format_preset: percentage
+  name: code_percentage
 
 
 security:

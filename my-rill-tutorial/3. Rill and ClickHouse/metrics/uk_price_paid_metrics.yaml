@@ -11,31 +11,54 @@ table: uk_price_paid
 timeseries: date
 
 dimensions:
-  - display_name: Postcode1
-    expression: postcode1
-  - display_name: Postcode2
+  - name: postcode1
+    display_name: Postcode1
+    column: postcode1
+    description: 
+  - name: postcode2
+    display_name: Postcode2
     column: postcode2
-  - display_name: Type
+    description: 
+  - name: type
+    display_name: Type
     column: type
-  - display_name: Duration
+    description: 
+  - name: duration
+    display_name: Duration
     column: duration
-  - display_name: Addr1
+    description: 
+  - name: addr1
+    display_name: Addr1
     column: addr1
-  - display_name: Addr2
+    description: 
+  - name: addr2
+    display_name: Addr2
     column: addr2
-  - display_name: Street
+    description: 
+  - name: street
+    display_name: Street
     column: street
-  - display_name: Locality
+    description: 
+  - name: locality
+    display_name: Locality
     column: locality
-  - display_name: Town
+    description: 
+  - name: town
+    display_name: Town
     column: town
-  - display_name: District
+    description: 
+  - name: district
+    display_name: District
     column: district
-  - display_name: County
+    description: 
+  - name: county
+    display_name: County
     column: county
+    description: 
 
 measures:
-  - display_name: Total Transactions
+  - name: total_transactions
+    display_name: Total Transactions
     expression: COUNT(*)
     description: Total number of property transactions recorded.
   - name: average_price
