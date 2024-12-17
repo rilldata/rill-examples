@@ -4,7 +4,7 @@ This repository contains a collection of examples for the Rill application. Make
 
 # Install Rill 
 ```
-curl -s https://cdn.rilldata.com/install.sh | bash
+curl https://rill.sh | sh
 ```
 
 # Start Rill
