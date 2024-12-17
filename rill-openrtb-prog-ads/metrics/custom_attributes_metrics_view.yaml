@@ -10,13 +10,13 @@ smallest_time_grain: "hour"
 
 security:
   access: true
-  row_filter: "Pub_Name IN (SELECT PubName FROM mapping_custom WHERE
-    custom_attribute = '{{ .user.custom_attribute_from_embed }}')"
+  row_filter: "
+    Pub_Name IN (
+    SELECT PubName FROM mapping_custom 
+    WHERE custom_attribute = '{{ .user.custom_attribute_from_embed }}'
+    )
+    OR Pub_Name = '{{ .user.embed_pub_name }}')"
     
-#  Depending on the use-case, you can use a mapping file (/models/mapping_custom.sql),
-#  or directly pass an attribute to the metrics view.
-#  row_filter: "('{{ .user.domain }}' = 'rilldata.com' OR Pub_Name = '{{ .user.embed_pub_name }}')"
-
 dimensions:
   - name: app_site_name
     display_name: App Site Name
