@@ -15,7 +15,7 @@ security:
     SELECT PubName FROM mapping_custom 
     WHERE custom_attribute = '{{ .user.custom_attribute_from_embed }}'
     )
-    OR Pub_Name = '{{ .user.embed_pub_name }}')"
+    OR Pub_Name = '{{ .user.embed_pub_name }}'"
     
 dimensions:
   - name: app_site_name
