@@ -3,16 +3,29 @@
 
 type: explore
 
-title: "Programmatic Ads Auction"
-metrics_view: auctions
+title: "Mobile App Engagement Dashboard"
+metrics_view: mobile_events_metrics
 
 dimensions: '*'
 measures: '*'
 
-
-
-#default:
-#  time_range: "P1W"
+time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
 
 time_zones:
   - America/Los_Angeles

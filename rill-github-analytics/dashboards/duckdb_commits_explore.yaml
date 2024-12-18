@@ -4,7 +4,7 @@
 type: explore
 
 title: "DuckDB Commits"
-metrics_view: duckdb_commits_model_metrics
+metrics_view: duckdb_commits_metrics
 
 dimensions: '*'
 measures: '*'

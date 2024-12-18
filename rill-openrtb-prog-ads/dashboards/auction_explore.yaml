@@ -4,7 +4,7 @@
 type: explore
 
 title: "Programmatic Ads Auction"
-metrics_view: auction_data_model_metrics
+metrics_view: auction_metrics
 
 dimensions: '*'
 measures: '*'

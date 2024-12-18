@@ -2,7 +2,7 @@
 # Reference documentation: https://docs.rilldata.com/reference/project-files/explores
 
 type: explore
-metrics_view: advanced_metrics_view
+metrics_view: advanced_metrics
 
 display_name: Rill Advanced Dashboard
 

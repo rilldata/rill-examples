@@ -1,13 +1,9 @@
-# Explore YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+# Visit https://docs.rilldata.com/reference/project-files to learn more about Rill project files.
 
 type: explore
+metrics_view: auction_metrics_row_policies
+title: "Programmatic Ads Auction with Row Policies"
 
-title: "Embed Custom Attributes"
-metrics_view: custom_attributes_metrics_view
-
-dimensions: '*'
-measures: '*'
 defaults:
   measures:
     - requests
@@ -33,3 +29,19 @@ defaults:
     - app_or_site
     - device_country
   time_range: P7D
+
+dimensions: "*"
+measures: "*"
+
+time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney

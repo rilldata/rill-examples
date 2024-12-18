@@ -1,0 +1,13 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: SEC Form D Offerings
+metrics_view: offerings_issuers_metrics
+
+dimensions: "*"
+measures: "*"
+
+defaults:
+  time_range: P14D

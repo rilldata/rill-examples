@@ -4,7 +4,7 @@
 type: explore
 
 title: "Customer Unit Economics Dashboard"
-metrics_view: metrics_margin_model_metrics
+metrics_view: metrics_margin_metrics
 
 dimensions: '*'
 measures: '*'

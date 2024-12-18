@@ -4,7 +4,7 @@
 version: 1
 type: metrics_view
 
-table: commits___model
+table: commits_model
 
 timeseries: author_date # Select an actual timestamp column (if any) from your table
 
