@@ -5,7 +5,7 @@ type: explore
 
 title: "311 Operational Metrics"
 description: "311 Operational Metrics Explore Dashboard"
-metrics_view: normalized_311_model_metrics
+metrics_view: normalized_311_metrics
 
 dimensions: '*'
 measures: '*'

@@ -4,7 +4,7 @@
 type: explore
 
 title: "Programmatic Ads Bids"
-metrics_view: bids_data_model_metrics
+metrics_view: bids_metrics
 
 dimensions: '*'
 measures: '*'
