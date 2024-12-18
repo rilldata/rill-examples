@@ -3,16 +3,14 @@
 
 type: explore
 
-title: "Programmatic Ads Auction"
-metrics_view: auctions
+title: "Programmatic Ads Bids"
+metrics_view: bids_metrics
 
 dimensions: '*'
 measures: '*'
 
-
-
 #default:
-#  time_range: "P1W"
+#  time_range: "PT24H"
 
 time_zones:
   - America/Los_Angeles
