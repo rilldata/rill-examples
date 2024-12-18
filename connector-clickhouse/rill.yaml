@@ -8,5 +8,5 @@ olap_connector: "clickhouse"
 features:
   clickhouseModeling: true
 
-#ignore_paths:
-#  - "/clickhouse_data"
+ignore_paths:
+  - "/clickhouse_data"

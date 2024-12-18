@@ -78,7 +78,7 @@ measures:
     format_preset: humanize
   - display_name: "Median Offering Amount"
     expression: "MEDIAN(TotalOfferingAmount)"
-    name: measure
+    name: median_offering_amount
     description: "Median amount of offering in USD"
     format_preset: currency_usd
   - expression: AVG(TOTALAMOUNTSOLD)

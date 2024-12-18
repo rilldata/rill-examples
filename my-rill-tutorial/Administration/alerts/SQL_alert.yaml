@@ -1,7 +1,7 @@
 type: alert
 
 display_name: SQL query Status Alert
-#title
+#title:
 
 # Check the alert every 1st of the month.
 refresh:

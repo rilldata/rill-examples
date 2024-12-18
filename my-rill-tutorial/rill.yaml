@@ -14,7 +14,7 @@ mock_users:
   - email: your_email2@domain.com
 
 
-# Custom Feature Flags to enable features in Developement, can change at anytime.
+# Custom feature flags to enable features in development, can change at anytime.
 features:
   - customDashboards
   - cloudDataViewer
@@ -25,7 +25,7 @@ vars:
   time: P1W
   compare: "P1W"
 
-#Project wide defaults
+# Project wide defaults
 metrics_views:
   first_day_of_week: 1
   smallest_time_grain: month
