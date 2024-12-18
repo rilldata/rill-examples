@@ -10,23 +10,4 @@ dimensions: "*"
 measures: "*"
 
 defaults:
-  measures:
-    - average_total_amount_sold
-    - count_of_offerings
-    - max_total_amount_sold
-    - max_total_offering_amount
-    - measure
-    - total_offering_amount
-    - total_offerings
-    - total_offerings_another
-    - total_sales_commission
-  dimensions:
-    - offering_IndustryGroupType
-    - offering_InvestmentFundType
-    - issuer_EntityName
-    - ISSUERPHONENUMBER
-    - ENTITYTYPE
-    - DESCRIPTIONOFOTHERTYPE
-    - recipient_name
-    - CIK
   time_range: P14D
