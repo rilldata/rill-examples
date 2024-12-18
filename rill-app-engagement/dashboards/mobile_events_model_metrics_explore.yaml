@@ -3,14 +3,29 @@
 
 type: explore
 
-title: "Mobile App Engagement Dashboardd"
+title: "Mobile App Engagement Dashboard"
 metrics_view: mobile_events_model_metrics
 
 dimensions: '*'
 measures: '*'
 
 time_ranges:
-  - "P1W"
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
 
 time_zones:
   - America/Los_Angeles

@@ -9,46 +9,47 @@ timeseries: author_date # Choose a timestamp column (if any) from your table
 
 dimensions: 
 - column: directory_path
-  label: "The directory"
+  display_name: "The directory"
   description: "The directory path"
   name: directory_path
 
 - column: filename
-  label: "The filename"
+  display_name: "The filename"
   description: "The name of the modified filename"
   name: filename
 
 - column: author_name
-  label: "The Author's Name"
+  display_name: "The Author's Name"
   description: "The name of the author of the commit"
   name: author_name
 
 - column: commit_msg
-  label: "The commit message"
+  display_name: "The commit message"
   description: "The commit description attached."
   name: commit_msg
 
 measures:
 - expression: "SUM(total_line_changes)"
-  label: "Total number of Lines changed"
+  display_name: "Total number of Lines changed"
   description: "the total number of lines changes, addition and deletion"
   name: total_line_changes
 
 - expression: "SUM(net_line_changes)"
-  label: "Net number of Lines changed"
+  display_name: "Net number of Lines changed"
   description: "the total net number of lines changes"
   name: net_line_changes
 
 
 - expression: "SUM(num_commits)"
-  label: "Number of Commits"
+  display_name: "Number of Commits"
   description: "The total number of commits"
   name: num_commits
 
 - expression: "(SUM(deleted_lines)/(SUM(deleted_lines)+SUM(added_lines)))"
-  label: "Code Deletion Percent %"
+  display_name: "Code Deletion Percent %"
   description: "The percent of code deletion"
   format_preset: percentage
+  name: code_percentage
 
 
 security:

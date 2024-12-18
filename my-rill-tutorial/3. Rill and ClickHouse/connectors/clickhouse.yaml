@@ -1,11 +1,16 @@
-#dsn: "https://l3e2nu99sw.us-east-1.aws.clickhouse.cloud:8443?username=default&password=g3Dvo~aQjNwKf&secure=true&skip_verify=true"
-
-
+# You will need to replace the credentials with your own ClickHouse Cloud or use managed ClickHouse. 
 type: connector
 
+### Clickhouse Cloud
 driver: clickhouse
 host: "l3e2nu99sw.us-east-1.aws.clickhouse.cloud"
 port: 8443
 username: "default"
 password: "{{ .env.connector.clickhouse.password }}"
 ssl: true
+
+### Managed ClickHouse ( Coming soon! )
+# Don't forget to import your UK_price_paid dataset to get started.
+
+#driver: clickhouse
+#managed: true

@@ -13,4 +13,21 @@ time_zones:
   - America/Los_Angeles
   - America/Chicago
   - America/New_York
-
+defaults:
+  measures:
+    - margin
+    - net_revenue
+    - total_cost
+    - total_revenue
+    - unique_customers
+  dimensions:
+    - app_name
+    - company
+    - component
+    - environment
+    - location
+    - pipeline
+    - plan_name
+    - sku_description
+  comparison_mode: time
+  time_range: P7D

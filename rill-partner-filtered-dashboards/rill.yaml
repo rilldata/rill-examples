@@ -1,5 +1,6 @@
 compiler: rillv1
-name: Partner-Filtered Dashboards Demo
+
+display_name: Partner-Filtered Dashboards Demo
 
 mock_users:
   - email: admin@rilldata.com

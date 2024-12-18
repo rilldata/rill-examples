@@ -8,5 +8,5 @@ output:
   type: boolean
 
 switch:
-  label: 'switch'
+  display_name: 'switch'
   value:  'True'
