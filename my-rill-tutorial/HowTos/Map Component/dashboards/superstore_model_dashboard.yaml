@@ -9,75 +9,75 @@ model: superstore_model
 timeseries: Order Date
 
 dimensions:
-  - label: Order Id
+  - display_name: Order Id
     column: Order ID
-  - label: Ship Mode
+  - display_name: Ship Mode
     column: Ship Mode
-  - label: Customer Id
+  - display_name: Customer Id
     column: Customer ID
-  - label: Customer Name
+  - display_name: Customer Name
     column: Customer Name
-  - label: Segment
+  - display_name: Segment
     column: Segment
-  - label: Country
+  - display_name: Country
     column: Country
-  - label: City
+  - display_name: City
     column: City
-  - label: State
+  - display_name: State
     column: State
     name: state
-  - label: Postal Code
+  - display_name: Postal Code
     column: Postal Code
-  - label: Region
+  - display_name: Region
     column: Region
-  - label: Product Id
+  - display_name: Product Id
     column: Product ID
-  - label: Category
+  - display_name: Category
     column: Category
-  - label: Sub-Category
+  - display_name: Sub-Category
     column: Sub-Category
-  - label: Product Name
+  - display_name: Product Name
     column: Product Name
 
 measures:
   - name: total_sales
-    label: Total Sales
+    display_name: Total Sales
     expression: SUM(Sales)
     description: The total sales amount from all orders.
   - name: average_sales
-    label: Average Sales
+    display_name: Average Sales
     expression: AVG(Sales)
     description: The average sales amount per order.
   - name: total_quantity
-    label: Total Quantity
+    display_name: Total Quantity
     expression: SUM(Quantity)
     description: The total quantity of items sold.
   - name: average_quantity
-    label: Average Quantity
+    display_name: Average Quantity
     expression: AVG(Quantity)
     description: The average quantity of items sold per order.
   - name: total_profit
-    label: Total Profit
+    display_name: Total Profit
     expression: SUM(Profit)
     description: The total profit from all orders.
   - name: average_profit
-    label: Average Profit
+    display_name: Average Profit
     expression: AVG(Profit)
     description: The average profit per order.
   - name: total_discount
-    label: Total Discount
+    display_name: Total Discount
     expression: SUM(Discount)
     description: The total discount given across all orders.
   - name: average_discount
-    label: Average Discount
+    display_name: Average Discount
     expression: AVG(Discount)
     description: The average discount given per order.
   - name: max_sales
-    label: Maximum Sales
+    display_name: Maximum Sales
     expression: MAX(Sales)
     description: The highest sales amount from a single order.
   - name: min_sales
-    label: Minimum Sales
+    display_name: Minimum Sales
     expression: MIN(Sales)
     description: The lowest sales amount from a single order.
 

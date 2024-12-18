@@ -3,14 +3,14 @@
 
 type: explore
 metrics_view: advanced_metrics_view
-title: "Rill Advanced Dashboard"
+
+display_name: Rill Advanced Dashboard
 
 dimensions:
   expr: "* exclude directory_path"
   #exclude: [directory_path]
 measures:
   expr: "*"
-display_name: advanced_metrics_view dashboard
 time_zones:
   - America/Los_Angeles
   - America/Chicago
@@ -25,21 +25,10 @@ time_zones:
   - Australia/Sydney
 theme:
   colors:
-    primary: hsl(180, 100%, 50%)
-    secondary: lightgreen
+    primary: hsl(0, 100%, 50%)
+    secondary: hsl(229, 73%, 50%)
 defaults:
   time_range: P30D
-
-#theme: theme
-
-#time_ranges: 
-#  - PT15M // Simplified syntax to specify only the range
-#  - PT1H
-#  - PT6H
-#  - P7D
-
-#time_zones:
-#  - America/New_York
 
 #security:
 #  access: "{{ .user.admin }} AND '{{ .user.domain }}' == 'rilldata.com'"

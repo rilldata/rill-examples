@@ -10,7 +10,7 @@ WITH commit_file_stats AS (
         b.deleted_lines,
         REGEXP_EXTRACT(b.new_path, '(.*/)', 1) AS directory_path, 
     FROM
-        commits__ a
+        "CH_incremental_commits" a
     inner JOIN
         "CH_incremental_modified_files" b
     ON

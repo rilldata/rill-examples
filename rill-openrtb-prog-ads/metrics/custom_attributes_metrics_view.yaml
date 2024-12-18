@@ -10,79 +10,98 @@ smallest_time_grain: "hour"
 
 security:
   access: true
-  row_filter: "Pub_Name IN (SELECT PubName FROM test WHERE custom_attribute = '{{ .user.custom_attribute_from_embed }}')"
-#  row_filter: "('{{ .user.domain }}' = 'rilldata.com' OR Pub_Name = '{{ .user.embed_pub_name }}')"
-
+  row_filter: "
+    Pub_Name IN (
+    SELECT PubName FROM mapping_custom 
+    WHERE custom_attribute = '{{ .user.custom_attribute_from_embed }}'
+    )
+    OR Pub_Name = '{{ .user.embed_pub_name }}'"
+    
 dimensions:
-  - label: App Site Name
-    expression: app_site_name
+  - name: app_site_name
+    display_name: App Site Name
+    column: app_site_name
     description: ""
-  - label: App Site Domain
-    expression: app_site_domain
+  - name: app_site_domain
+    display_name: App Site Domain
+    column: app_site_domain
     description: ""
-    name: app_site_domain
-  - label: Pub Name
-    name: Pub_Name
-    expression: pub_name
+  - column: pub_name
+    name: pub_name
+    display_name: Pub Name
+  - name: app_site_cat
+    display_name: App Site Cat
+    column: app_site_cat
     description: ""
-  - label: App Site Cat
-    expression: app_site_cat
+  - name: ad_size
+    display_name: Ad Size
+    column: ad_size
     description: ""
-  - label: Ad Size
-    expression: ad_size
+  - name: device_state
+    display_name: Device State
+    column: device_state
     description: ""
-  - label: Device State
-    expression: device_state
+  - name: device_osv
+    display_name: Device OS Version
+    column: device_osv
     description: ""
-  - label: Device OS Version
-    expression: device_osv
+  - name: bid_floor_bucket
+    display_name: Bid Floor Bucket
+    column: bid_floor_bucket
     description: ""
-  - label: Bid Floor Bucket
-    expression: bid_floor_bucket
+  - name: platform_browser
+    display_name: Platform Browser
+    column: platform_browser
     description: ""
-  - label: Platform Browser
-    expression: platform_browser
+  - name: device_os
+    display_name: Device OS
+    column: device_os
     description: ""
-  - label: Device OS
-    expression: device_os
+  - name: device_type
+    display_name: Device Type
+    column: device_type
     description: ""
-  - label: Device Type
-    expression: device_type
+  - name: ad_position
+    display_name: Ad Position
+    column: ad_position
     description: ""
-  - label: Ad Position
-    expression: ad_position
+  - name: video_max_duration_bucket
+    display_name: Video Max Duration Bucket
+    column: video_max_duration_bucket
     description: ""
-  - label: Video Max Duration Bucket
-    expression: video_max_duration_bucket
+  - name: video_min_duration_bucket
+    display_name: Video Min Duration Bucket
+    column: video_min_duration_bucket
     description: ""
-  - label: Video Min Duration Bucket
-    expression: video_min_duration_bucket
+  - name: placement_type
+    display_name: Placement Type
+    column: placement_type
     description: ""
-  - label: Placement Type
-    expression: placement_type
+  - name: auction_type
+    display_name: Auction Type
+    column: auction_type
     description: ""
-    name: placement_type
-  - label: Auction Type
-    expression: auction_type
+  - name: app_or_site
+    display_name: App or Site
+    column: app_or_site
     description: ""
-  - label: App or Site
-    expression: app_or_site
+  - name: device_country
+    display_name: "Device Country"
+    column: "device_country"
     description: ""
-  - label: "Device Country"
-    expression: "device_country"
-    description: ""
+    
 measures:
-  - label: Requests
+  - display_name: Requests
     name: requests
     expression: sum(bid_request_cnt)
     description: Total Requests
     format_preset: humanize
-  - label: "Avg Bid Floor"
+  - display_name: "Avg Bid Floor"
     name: avg_bid_floor
     expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
     description: "Average Bid Floor"
     format_preset: currency_usd
-  - label: "1D QPS"
+  - display_name: "1D QPS"
     name: 1d_qps
     expression: "sum(bid_request_cnt) / 86400 "
     description: "1D QPS"

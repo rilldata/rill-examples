@@ -5,3 +5,4 @@
 # Rill
 .env
 tmp
+.rillcloud

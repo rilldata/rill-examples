@@ -11,25 +11,27 @@ timeseries: author_date # Select an actual timestamp column (if any) from your t
 dimensions:
   - column: author_name
     name: author_name
-    label: The Author's Name
+    display_name: The Author's Name
     description: The name of the author of the commit
-
   - column: author_timezone
-    label: "The Author's TZ"
-    description: "The Author's Timezone"
-
+    name: author_timezone
+    display_name: The Author's TZ
+    description: The Author's Timezone
   - column: filename
-    label: "The filename"
-    description: "The name of the modified filename"
+    name: filename
+    display_name: The filename
+    description: The name of the modified filename
 
 measures:
   - expression: SUM(added_lines)
     name: added_lines
-    label: Sum of Added lines
+    display_name: Sum of Added lines
     format_preset: humanize
     description: The aggregate sum of added_lines column.
     valid_percent_of_total: true
-
-  - expression: "SUM(deleted_lines)"
-    label: "Sum of deleted lines"
-    description: "The aggregate sum of deleted_lines column."
+  - expression: SUM(deleted_lines)
+    name: deleted_lines
+    display_name: Sum of deleted lines
+    format_preset: humanize
+    description: The aggregate sum of deleted_lines column.
+    valid_percent_of_total: false

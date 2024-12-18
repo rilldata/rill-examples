@@ -1,4 +1,6 @@
-#filename: incremental_state.yaml
+# Test the dataset by incrementally refreshing and see the rows increase. A full refresh will reset the data to 1 row.
+# filename: incremental_state.yaml
+
 type: model
 refresh:
   cron: 0 0 * * *

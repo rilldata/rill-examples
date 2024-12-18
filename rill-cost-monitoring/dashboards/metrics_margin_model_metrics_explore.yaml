@@ -9,5 +9,6 @@ metrics_view: metrics_margin_model_metrics
 dimensions: '*'
 measures: '*'
 
-#defaults:
-#  time_range: "P3W"
+defaults:
+  comparison_mode: time
+  time_range: P3W
