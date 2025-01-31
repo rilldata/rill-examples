@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Basic Access Policy Dashboard"
+metrics_view: auction_basic_access_policy_metrics
+
+dimensions: '*'
+measures: '*'
