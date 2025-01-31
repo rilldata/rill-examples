@@ -1,0 +1,110 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Enterprise Sales Data 50K Model Metrics
+model: enterprise_sales_data_50K_model
+timeseries: sale_date
+
+
+## Let's consider the example where one customer is in charge of several domains. In this case we can create a mapping 
+## data/mapping.csv and build a source off of this that maps IE: johnson.com to several domains
+## We use this in our row access policy so when johnson.com domain users view they can see all of their customers.
+
+security:
+  access: true
+  row_filter: > 
+        customer_domain in (
+        select customer_email from mapping_source
+            where owner_email = '{{.user.domain}}'
+        ) 
+        or {{ .user.admin }} 
+  exclude:
+    - if: "'{{.user.domain}}' != 'rilldata.com'"
+      names:
+        - transaction_id
+        - sales_rep_email
+        - sales_rep_domain
+        - sales_team
+        - internal_flag
+        - sensitive_flag
+
+dimensions:
+  - name: transaction_id
+    display_name: Transaction Id
+    column: transaction_id
+  - name: customer_name
+    display_name: Customer Name
+    column: customer_name
+  - name: customer_email
+    display_name: Customer Email
+    column: customer_email
+  - name: customer_domain
+    display_name: Customer Domain
+    column: customer_domain
+  - name: product_category
+    display_name: Product Category
+    column: product_category
+  - name: sales_rep_email
+    display_name: Sales Rep Email
+    column: sales_rep_email
+  - name: sales_rep_domain
+    display_name: Sales Rep Domain
+    column: sales_rep_domain
+  - name: sales_team
+    display_name: Sales Team
+    column: sales_team
+  - name: region
+    display_name: Region
+    column: region
+  - name: internal_flag
+    display_name: Internal Flag
+    column: internal_flag
+  - name: sensitive_flag
+    display_name: Sensitive Flag
+    column: sensitive_flag
+
+measures:
+  - name: total_sales_amount_measure
+    display_name: Total Sales Amount
+    expression: SUM(amount)
+    description: Total sum of sales amounts across all transactions.
+    format_preset: humanize
+  - name: average_sales_amount_measure
+    display_name: Average Sales Amount
+    expression: AVG(amount)
+    description: Average sales amount per transaction.
+    format_preset: humanize
+  - name: total_customers_measure
+    display_name: Total Customers
+    expression: COUNT(DISTINCT customer_email)
+    description: Total number of unique customers who made purchases.
+    format_preset: humanize
+  - name: total_sales_reps_measure
+    display_name: Total Sales Reps
+    expression: COUNT(DISTINCT sales_rep_email)
+    description: Total number of unique sales representatives involved in transactions.
+    format_preset: humanize
+  - name: total_product_categories_measure
+    display_name: Total Product Categories
+    expression: COUNT(DISTINCT product_category)
+    description: Total number of unique product categories sold.
+    format_preset: humanize
+  - name: total_sales_teams_measure
+    display_name: Total Sales Teams
+    expression: COUNT(DISTINCT sales_team)
+    description: Total number of unique sales teams involved in transactions.
+    format_preset: humanize
+  - name: total_regions_measure
+    display_name: Total Regions
+    expression: COUNT(DISTINCT region)
+    description: Total number of unique regions where sales occurred.
+    format_preset: humanize
+  - name: total_transactions_measure
+    display_name: Total Transactions
+    expression: COUNT(transaction_id)
+    description: Total number of transactions recorded in the dataset.
+    format_preset: humanize

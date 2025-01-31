@@ -1,0 +1,9 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+# mapping file allows you to map multiple values to a single value, check data/mapping.csv
+
+type: source
+
+connector: "duckdb"
+sql: "select * from read_csv('data/mapping.csv', auto_detect=true, ignore_errors=1, header=true)"
