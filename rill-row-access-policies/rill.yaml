@@ -12,8 +12,17 @@ mock_users:
   admin: false
   
 - email: jane@hotmail.com
+  groups:
+    - marketing
+  
 - email: john@johnson.com
+  groups:
+  - sales
+  
 - email: will@smith.com
+  groups:
+  - finance
+  
 - email: deborah@rodriguez.com
 - email: tim@brown.com
 - email: doesnt@exist.com

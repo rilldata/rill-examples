@@ -16,7 +16,17 @@ timeseries: sale_date
 security:
   access: true
   row_filter: > 
-        customer_domain = '{{ .user.domain }}' or {{ .user.admin }} 
+        customer_domain = '{{ .user.domain }}' or {{ .user.admin }}
+  # include: 
+  #   - if: "'{{.user.domain}}' = 'rilldata.com'"
+  #     names:
+  #       - customer_name
+  #       - customer_email
+  #       - customer_domain
+  #       - region
+  #       - product_category
+  #       - total_sales_amount_measure #dont forget to add measures too
+        
   exclude:
     - if: "'{{.user.domain}}' != 'rilldata.com'"
       names:
@@ -26,6 +36,7 @@ security:
         - sales_team
         - internal_flag
         - sensitive_flag
+
 
 dimensions:
   - name: transaction_id

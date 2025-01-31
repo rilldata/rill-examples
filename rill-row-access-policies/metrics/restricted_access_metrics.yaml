@@ -13,8 +13,9 @@ timeseries: sale_date
 ## The below security blocks access to the metrics layer which in turn will disable access on the explore dashboard and any other commponents
 ## such as APIs, and visual components.
 
-#security:
-#  access: "{{ .user.admin }} OR '{{ .user.domain }}' == 'example.com'"
+# security:
+#     access: '{{ has "marketing" .user.groups }}'
+#     access: "{{ .user.admin }} OR '{{ .user.domain }}' == 'example.com'"
 
 
 dimensions:

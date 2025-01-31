@@ -10,7 +10,7 @@ rill start
 ```
 
 ## Testing row access policies
-The row access policy can be tested in both Rill Developer and Rill Cloud via the [`view as` functionality](https://docs.rilldata.com/manage/security#testing-your-policies) .
+The row access policy can be tested in both Rill Developer and Rill Cloud via the [`view as` functionality](https://docs.rilldata.com/manage/security#testing-your-policies). If you are viewing this project in our demo page, you will not be able to use the "view as" feature as this is available for admins in Rill Cloud only. Please clone the project locally to try in Rill Developer.
 
 ### Metrics View Layer
 1. **Basic row access policies.**
