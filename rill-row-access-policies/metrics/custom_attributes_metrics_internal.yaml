@@ -17,21 +17,15 @@ timeseries: sale_date
 security:
   access: true
   row_filter: > 
-        "product_category = '{{ .user.product_category }}' AND
+        "(
+          product_category = '{{ .user.product_category }}' AND
           region = '{{ .user.region }}' AND
-          sales_rep_domain = ' {{.user.sales_rep_domain}}'
+          sales_rep_domain = ' {{.user.sales_rep_domain}}' 
+          )
 
-        OR {{.user.admin}}
+          OR {{ .user.admin }}
         "
-  exclude:
-    - if: "'{{.user.domain}}' != 'rilldata.com'"
-      names:
-        - transaction_id
-        - sales_rep_email
-        - sales_rep_domain
-        - sales_team
-        - internal_flag
-        - sensitive_flag
+
 
 dimensions:
   - name: transaction_id
