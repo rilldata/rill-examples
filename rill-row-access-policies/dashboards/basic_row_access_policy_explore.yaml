@@ -1,0 +1,65 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+metrics_view: basic_row_access_policy_metrics
+
+dimensions: '*'
+measures: '*'
+display_name: Dashboard with Basic Policy
+
+time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney
+
+time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
+  
+defaults:
+  measures:
+    - total_sales_amount_measure
+    - average_sales_amount_measure
+    - total_customers_measure
+    - total_sales_reps_measure
+    - total_product_categories_measure
+    - total_sales_teams_measure
+    - total_regions_measure
+    - total_transactions_measure
+  dimensions:
+    - transaction_id
+    - customer_name
+    - customer_email
+    - customer_domain
+    - product_category
+    - sales_rep_email
+    - sales_rep_domain
+    - sales_team
+    - region
+    - internal_flag
+    - sensitive_flag
+  time_range: P12M
