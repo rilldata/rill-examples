@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Enterprise Sales Data 50K Model Metrics dashboard"
+title: "Dashboard with custom attributes"
 metrics_view: custom_attributes_metrics_internal
 
 dimensions: '*'

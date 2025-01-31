@@ -17,7 +17,9 @@ timeseries: sale_date
 security:
   access: true
   row_filter: > 
-        product_category = '{{ .user.product_category }}'
+        product_category = '{{ .user.product_category }}' AND
+        region = '{{ .user.region }}' AND
+        sales_rep_domain= '{{ .user.sales_rep_domain}}'
         
 
 
