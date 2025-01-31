@@ -21,9 +21,10 @@ features:
   - clickhouseModeling
 
 # Project level Variables
-vars:
+env:
   time: P1W
   compare: "P1W"
+  test: "gs://playwright-gcs-qa/AdBids_csv.csv"
 
 # Project wide defaults
 metrics_views:
@@ -58,3 +59,7 @@ explores:
     - P3M
     - P6M
     - P12M
+
+# olap_connector: clickhouse
+
+
