@@ -12,12 +12,17 @@ timeseries: sale_date
 
 ## From our documentation (https://docs.rilldata.com/manage/security#user-attributes), you'll find a set of default
 ## attributes that can be utilized. However, we also support custom attributes passed during embed dashboard creation.
-## For more information see project, https://github.com/rilldata/rill-examples/tree/main/rill-embed.
+## For more information see project, https://github.com/rilldata/rill-embedding-example/tree/feat/newlookanddeps/src/app/rowaccesspolicy/basic/page.tsx.
 
 security:
   access: true
   row_filter: > 
-        customer_domain = '{{ .user.domain }}' or {{ .user.admin }} 
+        "product_category = '{{ .user.product_category }}' AND
+          region = '{{ .user.region }}' AND
+          sales_rep_domain = ' {{.user.sales_rep_domain}}'
+
+        OR {{.user.admin}}
+        "
   exclude:
     - if: "'{{.user.domain}}' != 'rilldata.com'"
       names:

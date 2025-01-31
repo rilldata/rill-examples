@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Enterprise Sales Data 50K Model Metrics dashboard"
+metrics_view: custom_attributes_metrics
+
+dimensions: '*'
+measures: '*'
