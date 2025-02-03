@@ -3,11 +3,8 @@
 
 type: explore
 
-title: "Rill Basics Dashboard"
-metrics_view: commits_metrics
+title: "Basic Access Policy Dashboard"
+metrics_view: auction_basic_access_policy_metrics
 
 dimensions: '*'
 measures: '*'
-
-security:
-  access: "'{{ .user.domain }}' == 'rilldata.com'"
