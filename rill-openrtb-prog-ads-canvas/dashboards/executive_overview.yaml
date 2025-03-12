@@ -1,0 +1,118 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: Executive overview
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          title: ""
+          description: ""
+          content: "# Executive ad spend report"
+          alignment:
+            horizontal: left
+            vertical: middle
+        width: 12
+    height: 80px
+  - items:
+      - kpi_grid:
+          metrics_view: bids_metrics
+          measures:
+            - overall_spend
+            - total_bids
+            - impressions
+          comparison:
+            - delta
+            - percent_change
+            - previous
+          sparkline: right
+          title: Bids
+        width: 6
+      - kpi_grid:
+          metrics_view: auction_metrics
+          measures:
+            - requests
+            - avg_bid_floor
+            - 1d_qps
+          comparison:
+            - delta
+            - percent_change
+          sparkline: right
+          title: Auctions
+        width: 6
+    height: 300px
+  - items:
+      - stacked_bar:
+          metrics_view: bids_metrics
+          description: ""
+          color:
+            field: device_type
+            type: nominal
+          vl_config: |-
+            {
+              "range": {
+                "category": [
+                  "#1f77b4",
+                  "#ff7f0e",
+                  "#2ca02c",
+                  "#d62728",
+                  "#9467bd",
+                  "#8c564b",
+                  "#e377c2",
+                  "#7f7f7f",
+                  "#bcbd22",
+                  "#17becf"
+                ]
+              }
+            }
+          x:
+            field: __time
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: overall_spend
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 12
+    height: 320px
+  - items:
+      - stacked_bar:
+          metrics_view: bids_metrics
+          title: ""
+          description: ""
+          color:
+            field: auction_type
+            type: nominal
+          x:
+            field: bid_floor_bucket
+            limit: 30
+            showAxisTitle: true
+            showNull: false
+            sort: -x
+            type: nominal
+          y:
+            field: win_rate
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 12
+    height: 320px
+  - items:
+      - table:
+          metrics_view: bids_metrics
+          measures:
+            - overall_spend
+            - total_bids
+            - impressions
+            - win_rate
+            - clicks
+          row_dimensions:
+            - advertiser_name
+          col_dimensions: []
+          time_filters: tr=P7D&compare_tr=rill-PW&grain=day
+          title: Per advertiser metrics – last 7 days
+        width: 12
+    height: 300px
