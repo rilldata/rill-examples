@@ -2,7 +2,7 @@
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
 type: canvas
-display_name: Executive overview
+display_name: Executive summary report
 defaults:
   time_range: PT24H
   comparison_mode: time
@@ -11,7 +11,7 @@ rows:
       - markdown:
           title: ""
           description: ""
-          content: "# Executive ad spend report"
+          content: "# Executive summary report"
           alignment:
             horizontal: left
             vertical: middle
