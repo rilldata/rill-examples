@@ -11,6 +11,10 @@ dimensions:
   - name: column
     display_name: Column
     column: column
+  - name: domain
+    display_name: Domain Name
+    expression: string_split(email, '@')[2]
+    description: "Extract the domain from an email"
 
 measures:
   - name: total_records

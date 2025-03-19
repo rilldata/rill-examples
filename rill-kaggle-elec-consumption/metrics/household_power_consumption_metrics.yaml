@@ -42,25 +42,25 @@ measures:
     expression: SUM(Global_reactive_power)
     description: Total sum of global reactive power consumed.
     format_preset: humanize
-# Advanced Expressions: Referencing / Formatting
+  # Advanced Expressions: Referencing / Formatting
   - name: percentage_reactive_to_active_measure
     display_name: Percent Reactive to Active Power
-    requires: [total_global_active_power_measure, total_global_reactive_power_measure]
-    expression:  total_global_reactive_power_measure / total_global_active_power_measure
+    requires: [ total_global_active_power_measure, total_global_reactive_power_measure ]
+    expression: total_global_reactive_power_measure / total_global_active_power_measure
     format_d3: ".4%"
-# Advanced Expressions: Case and Filters
+  # Advanced Expressions: Case and Filters
   - name: total_low_active_power_measure
     display_name: Total Low Global Active Power
     description: Total sum of Global Active Power where considered Low
-    expression: sum(case when GAP_category = 'Low' then Global_active_power else 0 end)    
+    expression: sum(case when GAP_category = 'Low' then Global_active_power else 0 end)
     # expression: sum(Global_active_power) FILTER (WHERE GAP_category = 'Low')
     format_preset: humanize
     valid_percent_of_total: true
-# Advanced Expressions: Windows
+  # Advanced Expressions: Windows
   - name: rolling_sum_avg_voltage_all_time
     display_name: Rolling Sum Windowed Voltage Average
     expression: SUM(average_voltage_measure)
-    requires: [average_voltage_measure]
+    requires: [ average_voltage_measure ]
     window:
       order: Date
       frame: RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
@@ -76,7 +76,7 @@ measures:
     expression: AVG(Global_intensity)
     description: Average global intensity of power consumption.
     format_preset: humanize
-# Advanced Expressions: Quantiles
+  # Advanced Expressions: Quantiles
   - name: p95_quantile_global_intensity
     expression: QUANTILE_CONT(Global_intensity, 0.95)
     format_d3: ".3f"
@@ -86,8 +86,6 @@ measures:
     format_d3: ".4f"
     description: P95 of Global Intensity
 
-
-  
   - name: total_sub_metering_1_measure
     display_name: Total Sub Metering 1
     expression: SUM(CAST(Sub_metering_1 AS DOUBLE))
@@ -118,3 +116,4 @@ measures:
     expression: COUNT(*)
     description: Total number of records in the dataset.
     format_preset: humanize
+smallest_time_grain: day
