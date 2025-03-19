@@ -1,0 +1,31 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+metrics_view: household_power_consumption_metrics
+
+dimensions: '*'
+measures: '*'
+display_name: Household Power Consumption Metrics dashboard
+
+banner: "public dataset available at:
+  https://www.kaggle.com/datasets/uciml/electric-power-consumption-data-set"
+time_ranges:
+  - inf
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P3M
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC

@@ -69,6 +69,15 @@ measures:
     expression: "sum(bid_floor)*1.0/sum(has_bid_floor_cnt)"
     description: "Average Bid Floor"
     format_preset: currency_usd
+    
+  - name: bids_7day_rolling_avg
+    display_name: 7 Day Bid rolling avg
+    expression: AVG(total_bids)
+    requires: [total_bids]
+    window:
+      order: "__time"
+      frame: RANGE BETWEEN INTERVAL 6 DAY PRECEDING AND CURRENT ROW
+
 
 dimensions:
   - column: adomain

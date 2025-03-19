@@ -1,0 +1,30 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+version: 1
+type: metrics_view
+
+display_name: 'Untitled Spreadsheet   Sheet1  5 '
+model: Untitled_spreadsheet___Sheet1__5_
+
+dimensions:
+  - name: column
+    display_name: Column
+    column: column
+
+measures:
+  - name: total_records
+    display_name: Total records
+    expression: COUNT(*)
+    description: ""
+    format_preset: humanize
+    # treat_nulls_as: 0
+  - name: window_
+    display_name: Window
+    expression: SUM(total_records)
+    requires: [ total_records ]
+    window:
+      # order: Date
+      frame: RANGE BETWEEN INTERVAL 1 DAY PRECEDING AND CURRENT ROW
+    # treat_nulls_as: -1
+timeseries: date
