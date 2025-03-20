@@ -6,9 +6,7 @@ metrics_view: advanced_metrics
 
 display_name: Rill Advanced Dashboard
 
-dimensions:
-  expr: "* exclude directory_path"
-  #exclude: [directory_path]
+dimensions: "*"
 measures:
   expr: "*"
 time_zones:

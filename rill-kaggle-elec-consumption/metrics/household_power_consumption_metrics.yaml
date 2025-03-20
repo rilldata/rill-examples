@@ -37,6 +37,14 @@ measures:
     expression: SUM(Global_active_power)
     description: Total sum of global active power consumed.
     format_preset: humanize
+  # Advanced Expressions: Case and Filters
+  - name: total_low_active_power_measure
+    display_name: Total Low Global Active Power
+    description: Total sum of Global Active Power where considered Low
+    expression: sum(case when GAP_category = 'Low' then Global_active_power else 0 end)
+    # expression: sum(Global_active_power) FILTER (WHERE GAP_category = 'Low')
+    format_preset: humanize
+    valid_percent_of_total: true
   - name: total_global_reactive_power_measure
     display_name: Total Global Reactive Power
     expression: SUM(Global_reactive_power)
@@ -48,14 +56,12 @@ measures:
     requires: [ total_global_active_power_measure, total_global_reactive_power_measure ]
     expression: total_global_reactive_power_measure / total_global_active_power_measure
     format_d3: ".4%"
-  # Advanced Expressions: Case and Filters
-  - name: total_low_active_power_measure
-    display_name: Total Low Global Active Power
-    description: Total sum of Global Active Power where considered Low
-    expression: sum(case when GAP_category = 'Low' then Global_active_power else 0 end)
-    # expression: sum(Global_active_power) FILTER (WHERE GAP_category = 'Low')
-    format_preset: humanize
-    valid_percent_of_total: true
+  - name: average_voltage_measure
+    display_name: Average Voltage
+    expression: AVG(Voltage)
+    description: Average voltage across all records.
+    format_d3: ".4f"
+    valid_percent_of_total: false
   # Advanced Expressions: Windows
   - name: rolling_sum_avg_voltage_all_time
     display_name: Rolling Sum Windowed Voltage Average
@@ -65,12 +71,6 @@ measures:
       order: Date
       frame: RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     # treat_nulls_as: -1
-  - name: average_voltage_measure
-    display_name: Average Voltage
-    expression: AVG(Voltage)
-    description: Average voltage across all records.
-    format_d3: .4f
-    valid_percent_of_total: false
   - name: average_global_intensity_measure
     display_name: Average Global Intensity
     expression: AVG(Global_intensity)
@@ -85,35 +85,4 @@ measures:
     expression: QUANTILE_CONT(Global_intensity, 0.99)
     format_d3: ".4f"
     description: P95 of Global Intensity
-
-  - name: total_sub_metering_1_measure
-    display_name: Total Sub Metering 1
-    expression: SUM(CAST(Sub_metering_1 AS DOUBLE))
-    description: Total energy consumption recorded by sub-metering 1.
-    format_preset: humanize
-  - name: total_sub_metering_2_measure
-    display_name: Total Sub Metering 2
-    expression: SUM(CAST(Sub_metering_2 AS DOUBLE))
-    description: Total energy consumption recorded by sub-metering 2.
-    format_preset: humanize
-  - name: total_sub_metering_3_measure
-    display_name: Total Sub Metering 3
-    expression: SUM(Sub_metering_3)
-    description: Total energy consumption recorded by sub-metering 3.
-    format_preset: humanize
-  - name: max_global_active_power_measure
-    display_name: Max Global Active Power
-    expression: MAX(CAST(Global_active_power AS DOUBLE))
-    description: Maximum global active power recorded.
-    format_preset: humanize
-  - name: min_voltage_measure
-    display_name: Min Voltage
-    expression: MIN(CAST(Voltage AS DOUBLE))
-    description: Minimum voltage recorded.
-    format_preset: humanize
-  - name: count_records_measure
-    display_name: Count of Records
-    expression: COUNT(*)
-    description: Total number of records in the dataset.
-    format_preset: humanize
 smallest_time_grain: day

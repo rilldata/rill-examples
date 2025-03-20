@@ -9,7 +9,7 @@ timeseries: author_date # Choose a timestamp column (if any) from your table
   
 
 dimensions:
-  - column: directory_path
+  - expression: UNNEST(string_split(directory_path, '/'))
     display_name: "The directory"
     description: "The directory path"
     name: directory_path

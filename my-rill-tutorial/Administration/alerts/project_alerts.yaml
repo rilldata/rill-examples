@@ -39,11 +39,11 @@ renotify_after: 1s
 
 # Send notifications by email or slack 
 notify:
-  email:
-    recipients: [kidaye9996@cashbn.com, roy.endo@rilldata.com]
-#  slack:
-#    users: []
-#    channels: [scrape-slack-watcher]
-#    webhooks: [https://hooks.slack.com/services/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]
+  # email:
+  #   recipients: [kidaye9996@cashbn.com, roy.endo@rilldata.com]
+ slack:
+   users: []
+   channels: ['#test-rendo-pylon']
+   webhooks: [https://hooks.slack.com/services/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]
 
 annotations: { "test2":"value2" }
