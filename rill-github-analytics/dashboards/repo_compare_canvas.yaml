@@ -1,0 +1,100 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+display_name: Rill vs DuckDb activity
+rows:
+  - items:
+      - markdown:
+          title: ""
+          description: ""
+          content: "# DuckDB"
+          alignment:
+            horizontal: center
+            vertical: middle
+        width: 6
+      - markdown:
+          title: ""
+          description: ""
+          content: "# Rill"
+          alignment:
+            horizontal: center
+            vertical: middle
+        width: 6
+    height: 40px
+  - items:
+      - kpi_grid:
+          metrics_view: duckdb_commits_metrics
+          measures:
+            - count_distinct_commit_hash
+            - sum_of_additions
+            - sum_of_deletions
+            - percent_code_change
+          comparison:
+            - delta
+            - percent_change
+        width: 6
+      - kpi_grid:
+          metrics_view: rill_commits_metrics
+          measures:
+            - number_of_commits
+            - sum_of_additions
+            - sum_of_deletions
+            - percent_code_change
+          comparison:
+            - delta
+            - percent_change
+        width: 6
+    height: 128px
+  - items:
+      - line_chart:
+          metrics_view: duckdb_commits_metrics
+          description: ""
+          color: hsl(240,100%,67%)
+          x:
+            field: date
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: count_distinct_commit_hash
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+      - line_chart:
+          metrics_view: rill_commits_metrics
+          title: ""
+          description: ""
+          color: hsl(240,100%,67%)
+          x:
+            field: date
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: number_of_commits
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 320px
+  - items:
+      - table:
+          metrics_view: duckdb_commits_metrics
+          columns:
+            - username
+            - count_distinct_commit_hash
+            - sum_of_additions
+            - sum_of_deletions
+        width: 6
+      - table:
+          metrics_view: rill_commits_metrics
+          columns:
+            - username
+            - number_of_commits
+            - sum_of_additions
+            - sum_of_deletions
+        width: 6
+    height: 300px
