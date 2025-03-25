@@ -1,0 +1,131 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Data Metrics
+model: data
+timeseries: Order Date
+smallest_time_grain: day
+
+dimensions:
+  - name: Order ID
+    display_name: Order Id
+    column: Order ID
+  - name: Ship Mode
+    display_name: Ship Mode
+    column: Ship Mode
+  - name: Customer ID
+    display_name: Customer Id
+    column: Customer ID
+  - name: Customer Name
+    display_name: Customer Name
+    column: Customer Name
+  - name: Segment
+    display_name: Segment
+    column: Segment
+  - name: Country
+    display_name: Country
+    column: Country
+  - name: City
+    display_name: City
+    column: City
+  - name: State
+    display_name: State
+    column: State
+  - name: Postal Code
+    display_name: Postal Code
+    column: Postal Code
+  - name: Region
+    display_name: Region
+    column: Region
+  - name: Product ID
+    display_name: Product Id
+    column: Product ID
+  - name: Category
+    display_name: Category
+    column: Category
+  - name: Sub-Category
+    display_name: Sub-Category
+    column: Sub-Category
+  - name: Product Name
+    display_name: Product Name
+    column: Product Name
+
+measures:
+  - name: total_sales_measure
+    display_name: Total Sales
+    expression: SUM(Sales)
+    description: The total amount of sales.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: average_sales_measure
+    display_name: Average Sales
+    expression: AVG(Sales)
+    description: The average sales amount per order.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_quantity_measure
+    display_name: Total Quantity
+    expression: SUM(Quantity)
+    description: The total quantity of items sold.
+    format_preset: humanize
+  - name: average_quantity_measure
+    display_name: Average Quantity
+    expression: AVG(Quantity)
+    description: The average quantity of items sold per order.
+    format_preset: humanize
+  - name: total_profit_measure
+    display_name: Total Profit
+    expression: SUM(Profit)
+    description: The total profit from all sales.
+    format_preset: humanize
+  - name: average_profit_measure
+    display_name: Average Profit
+    expression: AVG(Profit)
+    description: The average profit per order.
+    format_preset: humanize
+  - name: total_discount_measure
+    display_name: Total Discount
+    expression: SUM(Discount)
+    description: The total discount given across all sales.
+    format_preset: humanize
+  - name: average_discount_measure
+    display_name: Average Discount
+    expression: AVG(Discount)
+    description: The average discount given per order.
+    format_preset: humanize
+  - name: max_sales_measure
+    display_name: Maximum Sales
+    expression: MAX(Sales)
+    description: The maximum sales amount for a single order.
+    format_preset: humanize
+  - name: min_sales_measure
+    display_name: Minimum Sales
+    expression: MIN(Sales)
+    description: The minimum sales amount for a single order.
+    format_preset: humanize
+  - expression: count(*)
+    name: order_volume
+    display_name: Order Volumne
+    format_preset: humanize
+    description: Total orders
+    valid_percent_of_total: true
+  - expression: sum(sales) / count(distinct "Order ID")
+    name: average_revenue_per
+    display_name: Average Revenue Per Order
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - expression: count(distinct "Customer ID")
+    name: customer_count
+    display_name: Customer Count
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: sum(Sales) / count(distinct "Customer ID")
+    name: cltv
+    display_name: CLTV
+    format_preset: currency_usd
+    description: Customer lifetime value
+    valid_percent_of_total: false
