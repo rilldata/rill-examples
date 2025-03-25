@@ -16,7 +16,7 @@ mock_users:
 
 # Custom feature flags to enable features in development, can change at anytime.
 features:
-  - customDashboards
+  - canvasDashboards
   - cloudDataViewer
   - clickhouseModeling
 

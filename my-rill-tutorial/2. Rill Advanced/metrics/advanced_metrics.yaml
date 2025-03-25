@@ -4,7 +4,7 @@
 version: 1
 type: metrics_view
 
-table: advanced_commits___model # Choose a table to underpin your metrics
+table: advanced_commits_model # Choose a table to underpin your metrics
 timeseries: author_date # Choose a timestamp column (if any) from your table
   
 

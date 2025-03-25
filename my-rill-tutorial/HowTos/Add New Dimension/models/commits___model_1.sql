@@ -9,9 +9,9 @@ SELECT
     b.added_lines,
     b.deleted_lines
 FROM
-    commits__ a
+    commits a
 INNER JOIN
-    modified_files__ b
+    modified_files b
 ON
     a.commit_hash = b.commit_hash
 

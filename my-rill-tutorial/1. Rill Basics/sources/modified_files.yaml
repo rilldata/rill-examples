@@ -1,0 +1,13 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+  
+type: source
+
+connector: "duckdb"
+dev:
+  sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/2025/03/modified*.parquet')"
+  
+sql:  "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/*/*/modified*.parquet')"
+
+refresh:
+  every: 24h

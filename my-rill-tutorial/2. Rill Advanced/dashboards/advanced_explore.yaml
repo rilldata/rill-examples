@@ -23,8 +23,8 @@ time_zones:
   - Australia/Sydney
 theme:
   colors:
-    primary: hsl(0, 100%, 50%)
-    secondary: hsl(229, 73%, 50%)
+    primary: "#fcff74"
+    secondary: hsl(229, 0%, 50%)
 defaults:
   time_range: P30D
 

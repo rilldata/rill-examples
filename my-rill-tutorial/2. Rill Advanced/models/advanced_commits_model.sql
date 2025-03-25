@@ -10,9 +10,9 @@ WITH commit_file_stats AS (
         b.deleted_lines,
         REGEXP_EXTRACT(b.new_path, '(.*/)', 1) AS directory_path, 
     FROM
-        commits__ a
+        commits a
     inner JOIN
-        modified_files__ b
+        modified_files b
     ON
         a.commit_hash = b.commit_hash
 )

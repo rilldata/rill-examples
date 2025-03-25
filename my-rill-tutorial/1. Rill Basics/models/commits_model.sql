@@ -8,8 +8,8 @@ SELECT
     b.added_lines,
     b.deleted_lines
 FROM
-    commits__ a
-INNER JOIN
-    modified_files__ b
+     commits  a
+LEFT JOIN
+    modified_files b
 ON
     a.commit_hash = b.commit_hash
