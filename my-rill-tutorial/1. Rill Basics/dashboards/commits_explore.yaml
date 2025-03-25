@@ -8,3 +8,6 @@ metrics_view: commits_metrics
 
 dimensions: '*'
 measures: '*'
+
+security:
+  access: "'{{ .user.domain }}' == 'rilldata.com'"
