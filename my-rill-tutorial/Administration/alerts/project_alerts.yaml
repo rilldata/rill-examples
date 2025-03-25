@@ -5,10 +5,10 @@ display_name: Project resource Status Alert
 
 # Check the alert every 1st of the month.
 refresh:
-  cron: "* * * * *"
+  cron: "15 * * * *"
   disable: true # completely disable the resource (without deleting it)
-  ref_update: false # don't refresh when a dependency is refreshed
-
+  ref_update: true
+  
 watermark: inherit
 
 intervals:
