@@ -1,0 +1,39 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Bluesky Metrics Dashboard"
+metrics_view: bluesky_metrics
+
+dimensions: '*'
+measures: '*'
+
+time_zones:
+  - UTC
+  - America/Denver
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Asia/Tokyo
+  - Europe/Lisbon
+  - Europe/Madrid
+  - Asia/Seoul
+  - Europe/Paris
+  - Asia/Shanghai
+  - Europe/Berlin
+  - Asia/Bangkok
+  - Europe/Moscow
+  - Europe/Warsaw
+  - Europe/Rome
+  - Europe/Stockholm
+  - Europe/Oslo
+  - Asia/Jakarta
+  - Asia/Riyadh
+  - Europe/Athens
+  - Europe/Istanbul
+  - Asia/Tehran
+  - Europe/Amsterdam
+  - Australia/Sydney  
+  

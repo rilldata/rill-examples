@@ -1,0 +1,64 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+title: Bluesky Latest Metrics
+model: jetstream_clean
+timeseries: time
+
+dimensions:
+  - label: Record Type
+    column: record_type
+  - column: record_language
+    name: record_lang
+    label: Language
+    description: The language of the post.
+  - column: record_uri
+    name: URL
+    label: URL
+    description: Link to the relevant URL for the post, repost, or like.  
+  - column: did_uri
+    name: did_uri
+    label: Profile URL
+
+measures:
+  - expression: COUNT(DISTINCT did)
+    name: unique_dids
+    label: Active Users
+    format_preset: humanize
+    description: The number of unique decentralized identifiers (DIDs).
+    valid_percent_of_total: true
+  - expression: COUNT(*) FILTER (WHERE record_type = 'profile')
+    name: total_new_users
+    label: New Users
+    format_preset: humanize
+    description: The total number of new users.
+    valid_percent_of_total: true
+  - expression: COUNT(*) FILTER (WHERE record_type = 'post')
+    name: total_posts
+    label: Posts
+    format_preset: humanize
+    description: The total number of posts.
+    valid_percent_of_total: true
+  - expression: COUNT(*) FILTER (WHERE record_type = 'like')
+    name: total_likes
+    label: Likes
+    format_preset: humanize
+    description: The total number of likes.
+    valid_percent_of_total: true
+  - expression: COUNT(*) FILTER (WHERE record_type = 'repost')
+    name: total_reposts
+    label: Repost Volume
+    format_preset: humanize
+    description: The total number of reposts
+    valid_percent_of_total: true
+  - expression: COUNT(*)
+    name: event_count
+    label: All Events
+    format_preset: humanize
+    description: A simple count of all events emitted from the BlueSky Jetstream.
+    valid_percent_of_total: true
+smallest_time_grain: minute

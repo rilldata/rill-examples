@@ -1,0 +1,25 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+title: "Canvas Dashboard"
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - image:
+          url: https://upload.wikimedia.org/wikipedia/commons/7/7a/Bluesky_Logo.svg
+        width: 3
+      - kpi_grid:
+          metrics_view: bluesky_metrics
+          measures:
+            - unique_dids
+            - total_posts
+            - total_likes
+          comparison:
+            - delta
+            - percent_change
+        width: 9
+    height: 330px
+max_width: 2400
