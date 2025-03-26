@@ -1,0 +1,103 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+title: App Usage iOS Notifications Model Metrics
+model: app_usage_ios_notifications_model
+timeseries: usage_date
+smallest_time_grain: week
+default_time_range: P2W
+dimensions:
+  - label: User Id
+    column: user_id
+    description: ""
+  - label: App Id
+    column: app_id
+    description: ""
+  - label: Name
+    column: name
+    description: ""
+  - label: Platform
+    column: platform
+    description: ""
+  - label: Platform 1
+    column: platform_1
+    description: ""
+measures:
+  - name: total_notifications
+    label: Total Notifications
+    expression: SUM(notifications)
+    description: Total number of notifications received by users.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: average_notifications_per_user
+    label: Average Notifications per User
+    expression: AVG(notifications)
+    description: Average number of notifications received per user.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: total_duration_minutes
+    label: Total Duration in Minutes
+    expression: SUM(duration_minutes)
+    description: Total duration of app usage in minutes.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: average_duration_per_user
+    label: Average Duration per User
+    expression: AVG(duration_minutes)
+    description: Average duration of app usage per user in minutes.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: total_pickups
+    label: Total Pickups
+    expression: SUM(pickups)
+    description: Total number of times users picked up their devices.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: average_pickups_per_user
+    label: Average Pickups per User
+    expression: AVG(pickups)
+    description: Average number of pickups per user.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: max_notifications
+    label: Maximum Notifications
+    expression: MAX(notifications)
+    description: Maximum number of notifications received by a single user.
+    format_preset: humanize
+    valid_percent_of_total: false
+
+default_comparison:
+  mode: time
+
+available_time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney
+available_time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P3M
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC

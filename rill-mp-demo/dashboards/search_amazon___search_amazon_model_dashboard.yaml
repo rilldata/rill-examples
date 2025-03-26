@@ -1,0 +1,142 @@
+# Dashboard YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+type: metrics_view
+title: Amazon Search Metrics
+model: search_amazon___search_amazon_model
+timeseries: event_datetime
+dimensions:
+  - label: User Id
+    column: user_id
+    description: ""
+  - label: Event Type
+    column: event_type
+    description: ""
+  - label: Search Term
+    column: search_term
+    description: ""
+  - label: Search Engine
+    column: search_engine
+    description: ""
+  - label: App Type
+    column: app_type
+    description: ""
+  - label: Device Type
+    column: device_type
+    description: ""
+  - label: Prime Customer
+    column: prime_customer
+    description: ""
+  - label: From External Link
+    column: from_external_link
+    description: ""
+  - label: From External Site
+    column: from_external_site
+    description: ""
+  - label: Amazon Domain
+    column: amazon_domain
+    description: ""
+  - label: Purchased Any Item
+    column: purchased_any_item
+    description: ""
+  - label: Paid Purchase
+    column: paid_purchase
+    description: ""
+  - label: First Purchased Item Asin
+    column: first_purchased_item_asin
+    description: ""
+  - label: Department
+    column: department
+    description: ""
+measures:
+  - name: total_searches
+    label: Total Searches
+    expression: COUNT(*)
+    description: Total number of searches performed.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: unique_users
+    label: Unique Users
+    expression: COUNT(DISTINCT user_id)
+    description: Total number of unique users who performed searches.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: total_clicked_items
+    label: Total Clicked Items
+    expression: SUM(num_clicked_items)
+    description: Total number of items clicked by users.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: total_items_added_to_cart
+    label: Total Items Added to Cart
+    expression: SUM(num_items_added_to_cart)
+    description: Total number of items added to cart by users.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: total_items_ordered
+    label: Total Items Ordered
+    expression: SUM(num_items_ordered)
+    description: Total number of items ordered by users.
+    format_preset: humanize
+    valid_percent_of_total: true
+  - name: average_items_clicked_per_search
+    label: Average Items Clicked per Search
+    expression: AVG(num_clicked_items)
+    description: Average number of items clicked per search.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: average_items_added_to_cart_per_search
+    label: Average Items Added to Cart per Search
+    expression: AVG(num_items_added_to_cart)
+    description: Average number of items added to cart per search.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: average_items_ordered_per_search
+    label: Average Items Ordered per Search
+    expression: AVG(num_items_ordered)
+    description: Average number of items ordered per search.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: total_paid_purchases
+    label: Total Paid Purchases
+    expression: COUNT(paid_purchase)
+    description: Total number of paid purchases.
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: prime_customer_searches
+    label: Prime Customer Searches
+    expression: COUNT(CASE WHEN prime_customer = 'yes' THEN 1 END)
+    description: Total number of searches performed by Prime customers.
+    format_preset: humanize
+    valid_percent_of_total: false
+available_time_zones:
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney
+available_time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P3M
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
