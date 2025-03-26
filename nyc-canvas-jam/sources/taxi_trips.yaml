@@ -1,0 +1,50 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+type: source
+
+connector: "bigquery"
+project_id: "rilldata"
+sql: |
+  SELECT 
+    timestamp_add(pickup_datetime, interval 1825 day) as pickup_datetime,
+    timestamp_add(dropoff_datetime, interval 1825 day) as dropoff_datetime,
+    dropoff_location_id,
+    pickup_location_id,
+    case rate_code
+      when '1.0' then 'Standard'
+      when '2.0' then 'JFK'
+      when '3.0' then 'Newark'
+      when '4.0' then 'Nassau'
+      when '5.0' then 'Negotiated'
+      when '6.0' then 'Group Ride'
+    end as rate_code,
+    case payment_type
+      when '1' then 'Credit Card' 
+      when '2' then 'Cash'
+      when '3' then 'No Charge'
+      when '4' then 'Dispute'
+      when '5' then 'Unknown'
+      when '6' then 'Voided'
+      else 'Unknown'
+    end as payment_type,
+    case vendor_id
+      when '1' then 'Creative Mobile'
+      when '2' then 'VeriFone'
+    end as payment_vendor,
+    passenger_count,
+    -- cast(airport_fee as float64) as airport_fee,
+    cast(trip_distance as float64) as trip_distance,
+    cast(total_amount as float64) as total_amount,
+    cast(fare_amount as float64) as fare_amount,
+    cast(extra as float64) as extra,
+    cast(tolls_amount as float64) as tolls_amount,
+    cast(imp_surcharge as float64) as imp_surcharge,
+    cast(mta_tax as float64) as mta_tax
+  FROM 
+    `bigquery-public-data.new_york_taxi_trips.tlc_yellow_trips_2020` 
+  WHERE 
+    timestamp_add(pickup_datetime, interval 1825 day) >= timestamp '2025-01-01 00:00:00'
+    and timestamp_add(pickup_datetime, interval 1825 day) <= current_timestamp()
+  {{ if dev }}LIMIT 60000{{ end }}
+

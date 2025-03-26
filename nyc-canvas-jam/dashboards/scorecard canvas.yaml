@@ -1,0 +1,136 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          title: ""
+          description: ""
+          content: |
+            # NYC City Information
+          alignment:
+            horizontal: center
+            vertical: middle
+        width: 12
+    height: 80px
+  - items:
+      - markdown:
+          title: ""
+          description: ""
+          content: "## Call Data"
+          alignment:
+            horizontal: center
+            vertical: bottom
+        width: 6
+      - markdown:
+          title: ""
+          description: ""
+          content: "## Taxi Data"
+          alignment:
+            horizontal: center
+            vertical: bottom
+        width: 6
+    height: 80px
+  - items:
+      - kpi_grid:
+          metrics_view: 311_calls_metrics
+          measures:
+            - total_calls
+            - avg_duration_hours
+          comparison:
+            - delta
+            - percent_change
+          description: Municipal complaints hotline
+          title: 311 Call Data
+        width: 6
+      - kpi_grid:
+          metrics_view: nyc_taxi_trips_metrics
+          measures:
+            - total_trips_measure
+            - average_trip_distance_measure
+          comparison:
+            - delta
+            - percent_change
+          title: Taxi Trips
+          description: All Yellow Taxicab rides in NYC
+        width: 6
+    height: 128px
+  - items:
+      - line_chart:
+          metrics_view: 311_calls_metrics
+          title: Average Time To Resolve
+          description: Duration between complaint being raised and then resolved
+          color:
+            field: address_type
+            type: nominal
+          x:
+            field: borough
+            limit: 20
+            showNull: false
+            sort: -y
+            type: nominal
+          y:
+            field: avg_duration_hours
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+      - line_chart:
+          metrics_view: nyc_taxi_trips_metrics
+          title: ""
+          description: Total number of taxi journeys originating in borough
+          color: rgb(117, 126, 255)
+          x:
+            field: borough
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_trips_measure
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 457px
+  - items:
+      - stacked_bar:
+          metrics_view: 311_calls_metrics
+          title: ""
+          description: ""
+          color:
+            field: complaint_type
+            type: nominal
+          dimension_filters: complaint_type IN ('DEP Street Condition','Homeless Street
+            Condition','Noise - Street/Sidewalk','Street Condition','Street
+            Light Condition','Street Sign - Damaged','Street Sign -
+            Dangling','Street Sign - Missing')
+          x:
+            field: borough
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_calls
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+      - bar_chart:
+          metrics_view: nyc_taxi_trips_metrics
+          title: ""
+          description: ""
+          color: hsl(304, 61%, 50%)
+          x:
+            field: borough
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_passenger_count_measure
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 320px
+max_width: 1540
+display_name: NYC City Information

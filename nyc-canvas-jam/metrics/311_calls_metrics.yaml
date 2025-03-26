@@ -1,0 +1,54 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: 311 Calls Metrics
+model: 311_calls
+timeseries: created_date
+
+dimensions:
+  - name: address_type
+    display_name: Address Type
+    column: address_type
+  - name: borough
+    display_name: Borough
+    column: borough
+  - name: community_board
+    display_name: Community Board
+    column: community_board
+  - name: complaint_type
+    display_name: Complaint Type
+    column: complaint_type
+  - name: descriptor
+    display_name: Descriptor
+    column: descriptor
+  - name: incident_address
+    display_name: Incident Address
+    column: incident_address
+  - name: status
+    display_name: Status
+    column: status
+
+measures:
+  - expression: COUNT(unique_key)
+    name: total_calls
+    display_name: Total Calls
+    format_preset: humanize
+    valid_percent_of_total: false
+  - expression: sum(date_diff('hour', created_date, closed_date))/count(unique_key)
+    name: avg_duration_hours
+    display_name: Average Duration
+    format_preset: humanize
+    valid_percent_of_total: true
+    description: Duration in hours
+  - expression: sum(case when address_type = 'ADDRESS' then 1 else 0 end)
+    name: total_residential
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: sum(case when address_type = 'INTERSECTION' then 1 else 0 end)
+    name: total_streets
+    format_preset: none
+    valid_percent_of_total: false

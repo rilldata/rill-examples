@@ -1,0 +1,30 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+type: source
+
+connector: "bigquery"
+sql: |
+  SELECT 
+    timestamp_add(created_date, interval 1825 day) as created_date,
+    timestamp_add(closed_date, interval 1825 day) as closed_date,
+    unique_key,
+    borough,
+    complaint_type,
+    status,
+    address_type,
+    x_coordinate,
+    y_coordinate,
+    longitude,
+    latitude,
+    incident_address,
+    community_board,
+    descriptor
+  FROM 
+    `bigquery-public-data.new_york_311.311_service_requests` 
+  WHERE
+    timestamp_add(created_date, interval 1825 day) >= timestamp '2025-01-01 00:00:00'
+    and timestamp_add(created_date, interval 1825 day) <= timestamp_add(current_timestamp(), interval 1 day)
+    and borough is not null
+  {{ if dev }}LIMIT 100000{{ end }}
+project_id: "rilldata"

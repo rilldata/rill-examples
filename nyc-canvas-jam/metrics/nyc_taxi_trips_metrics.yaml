@@ -1,0 +1,93 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: NYC Taxi Trips Metrics
+model: nyc_taxi_trips
+timeseries: dropoff_datetime
+
+dimensions:
+  - name: payment_type
+    display_name: Payment Type
+    column: payment_type
+  - name: payment_vendor
+    display_name: Payment Vendor
+    column: payment_vendor
+  - name: rate_code
+    display_name: Rate Code
+    column: rate_code
+  - name: pickup_borough
+    display_name: Pickup Borough
+    column: pickup_borough
+  - name: pickup_zone_name
+    display_name: Pickup Zone Name
+    column: pickup_zone_name
+  - name: dropoff_borough
+    display_name: Dropoff Borough
+    column: dropoff_borough
+  - name: dropoff_zone
+    display_name: Dropoff Zone
+    column: dropoff_zone
+  - column: borough
+    name: borough
+    display_name: Borough
+  - expression: case when pickup_zone_name like '%Airport%' then true when
+      dropoff_zone like '%Airport%' then true else false end
+    name: is_airport_trip
+    display_name: Is Airport Trip
+
+measures:
+  - name: total_trips_measure
+    display_name: Total Trips
+    expression: COUNT(*)
+    description: Total number of taxi trips recorded.
+    format_preset: humanize
+  - name: average_fare_amount_measure
+    display_name: Average Fare Amount
+    expression: AVG(fare_amount)
+    description: Average fare amount per trip.
+    format_preset: humanize
+  - name: total_fare_amount_measure
+    display_name: Total Fare Amount
+    expression: SUM(fare_amount)
+    description: Total fare amount collected from all trips.
+    format_preset: humanize
+  - name: average_trip_distance_measure
+    display_name: Average Trip Distance
+    expression: AVG(trip_distance)
+    description: Average distance covered per trip.
+    format_preset: humanize
+  - name: total_trip_distance_measure
+    display_name: Total Trip Distance
+    expression: SUM(trip_distance)
+    description: Total distance covered by all trips.
+    format_preset: humanize
+  - name: max_trip_distance_measure
+    display_name: Maximum Trip Distance
+    expression: MAX(trip_distance)
+    description: Maximum distance covered in a single trip.
+    format_preset: humanize
+  - name: average_passenger_count_measure
+    display_name: Average Passenger Count
+    expression: AVG(passenger_count)
+    description: Average number of passengers per trip.
+    format_preset: humanize
+  - name: total_passenger_count_measure
+    display_name: Total Passenger Count
+    expression: SUM(passenger_count)
+    description: Total number of passengers across all trips.
+    format_preset: humanize
+  - name: total_tolls_amount_measure
+    display_name: Total Tolls Amount
+    expression: SUM(tolls_amount)
+    description: Total tolls amount collected from all trips.
+    format_preset: humanize
+  - expression: sum(case when pickup_zone_name like '%Airport%' then 1 when
+      dropoff_zone like '%Airport%' then 1 else 0 end)
+    name: total_airport_trips
+    format_preset: none
+    valid_percent_of_total: false
+    display_name: Total Airport Trips

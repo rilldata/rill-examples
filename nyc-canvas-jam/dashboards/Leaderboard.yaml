@@ -1,0 +1,113 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+title: "Canvas Dashboard"
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          title: ""
+          description: ""
+          content: |-
+            # Manhattan Vs. The Bronx Vs. Brooklyn
+
+            *Best party boroughs according to volume of loud music complaints*
+          alignment:
+            horizontal: center
+            vertical: middle
+        width: 12
+    height: 80px
+  - items:
+      - image:
+          url: https://image-tc.galaxy.tf/wijpeg-16xv2qpbhrnzsmnlj5u5kq9ag/times-square-new-york-city-area-hotels.jpg
+        width: 3
+      - kpi_grid:
+          metrics_view: 311_calls_metrics
+          measures:
+            - total_calls
+          comparison:
+            - delta
+            - percent_change
+          sparkline: none
+          dimension_filters: borough IN ('MANHATTAN')
+        width: 3
+      - bar_chart:
+          metrics_view: 311_calls_metrics
+          title: Parties in Manhattan
+          color: rgb(117, 126, 255)
+          dimension_filters: borough IN ('MANHATTAN')
+          x:
+            field: community_board
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_calls
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 406px
+  - items:
+      - image:
+          url: https://media.istockphoto.com/id/1044334170/photo/colorful-brownstones.jpg?s=612x612&w=0&k=20&c=UG8j8InHlY1sc0a6j9ToOiS3q2ptwYKp37vQha0t17A=
+        width: 3
+      - kpi_grid:
+          metrics_view: 311_calls_metrics
+          measures:
+            - total_calls
+          comparison:
+            - delta
+            - percent_change
+          sparkline: none
+          dimension_filters: borough IN ('BRONX')
+        width: 3
+      - bar_chart:
+          metrics_view: 311_calls_metrics
+          title: Parties in the Bronx
+          description: ""
+          color: rgb(117, 126, 255)
+          dimension_filters: borough IN ('BRONX')
+          x:
+            field: community_board
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_calls
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 320px
+  - items:
+      - image:
+          url: https://torlytravels.com/wp-content/uploads/2016/09/IMG_2162.jpeg
+        width: 3
+      - kpi_grid:
+          metrics_view: 311_calls_metrics
+          measures:
+            - total_calls
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: borough IN ('BROOKLYN')
+          sparkline: none
+        width: 3
+      - stacked_bar:
+          metrics_view: 311_calls_metrics
+          title: Parties in Brooklyn
+          color: rgb(117, 126, 255)
+          dimension_filters: borough IN ('BROOKLYN')
+          x:
+            field: community_board
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_calls
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 320px

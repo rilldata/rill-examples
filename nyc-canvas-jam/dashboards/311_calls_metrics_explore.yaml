@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "311 Calls Metrics dashboard"
+metrics_view: 311_calls_metrics
+
+dimensions: '*'
+measures: '*'
