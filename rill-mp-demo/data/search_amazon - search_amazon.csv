@@ -1,0 +1,55 @@
+user_id,event_datetime,event_type,search_term,search_engine,app_type,device_type,prime_customer,from_external_link,from_external_site,amazon_domain,num_clicked_items,num_items_added_to_cart,num_items_ordered,purchased_any_item,paid_purchase,first_purchased_item_asin,department
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-10-09 19:42:16,search,8mm insulated spanner,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2023-05-22 20:24:14,search,vde set,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2023-05-22 20:21:22,search,euro door tool,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,1,1,Yes,Yes,B0756D227,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2023-05-22 20:20:49,search,euro door key,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2023-05-22 20:18:00,search,straight through patch panel,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,3,1,1,Yes,Yes,B07YSY747Y,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-09-29 19:54:28,search,lockable medicine box,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,8,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-09-29 20:08:30,search,safe box,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,4,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-09-29 20:22:01,search,medicine storage box,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,6,1,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:15:44,search,nic salts eliquid 20mg,amazon,Mobile Browser,Smartphone,Yes,Yes,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:18:21,search,nic salts eliquid 20mg nicotine,amazon,Mobile Browser,Smartphone,Yes,Yes,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:18:52,search,nic salts,amazon,Mobile Browser,Smartphone,Yes,Yes,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:29:01,search,palm router,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:34:22,search,laptop,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:34:39,search,alienware laptop,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-24 22:38:49,search,canon 5d remote shutter release,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-10-09 20:08:55,search,work vest with pockets,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-01-15 20:34:39,search,2.2l water bottle,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,3,1,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 10:58:54,search,cable installation tools,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 10:58:59,search,milwakee,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 18:26:26,search,hdmi splitter,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 18:29:27,search,packout modification,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 18:36:45,search,packout akids,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 18:36:53,search,packout skids,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 18:39:58,search,packout wheels,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 19:01:31,search,small deep fat fryer,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,5,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 19:13:46,search,small deep fat fryer for 1,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 20:57:23,search,milwaukee packout,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 21:37:52,search,multi hdmi splitter,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 21:38:51,search,2 in 2 out multi hdmi splitter,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 21:39:44,search,rack mount hdmi switch,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 21:41:59,search,hdmi network switch,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-04-29 21:44:52,search,hdmi distribution,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,4,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-12-14 15:07:12,search,neon strip,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-12-14 15:08:01,search,neon effect led strip,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,3,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2023-02-11 23:07:28,search,slimfast,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-08-21 22:17:19,search,magenta flower hair clip,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-08-21 22:18:25,search,magenta purple facinator,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,2,1,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-12-07 21:56:00,search,liverpool gifts for men,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-12-07 21:49:22,search,star wars gifts for men adults,amazon,Mobile Application,Desktop,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-10-09 20:05:31,search,hard hat clips,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-10-09 20:01:03,search,black hard hats construction,amazon,Mobile Browser,Smartphone,Yes,Yes,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-10-09 19:59:31,search,black hard hat,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-05-21 13:20:15,search,under armour t shirt the rock,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,2,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-05-21 13:19:34,search,under armor t shirt,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-05-21 13:19:06,search,red buffalo t shirt,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2022-05-21 13:18:36,search,the rock t shirt,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-20 23:02:41,search,hammock,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 10:27:11,search,milwaukee,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 13:25:01,search,,amazon,Mobile Browser Paladin,Smartphone,Yes,Yes,No,smile.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 13:25:29,search,milwaukee radio dab,amazon,Mobile Browser,Smartphone,Yes,Yes,No,www.amazon.co.uk,3,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 13:26:02,search,milwaukee radio,amazon,Mobile Browser,Smartphone,Yes,Yes,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 13:50:53,search,milwaukee torch,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,1,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 13:51:23,search,milwaukee packout backpack,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps
+0e7ef47fbeaf3405a9c236b43c3f5bec,2021-06-21 13:51:41,search,milwaukee packout,amazon,Mobile Browser,Smartphone,Yes,No,No,www.amazon.co.uk,0,0,0,No,No,,aps

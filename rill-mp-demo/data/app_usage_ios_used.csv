@@ -1,0 +1,25 @@
+user_id,app_id,name,usage_date,platform,duration_minutes,platform
+0f324fe8d47a3145a07287d251e67bd2,com.atebits.tweetie2,Twitter,2022-01-16,ios,14,ios
+0f324fe8d47a3145a07287d251e67bd2,com.burbn.instagram,Instagram,2022-01-02,ios,505,ios
+0f324fe8d47a3145a07287d251e67bd2,com.burbn.instagram,Instagram,2022-01-09,ios,150,ios
+0f324fe8d47a3145a07287d251e67bd2,com.burbn.instagram,Instagram,2022-01-16,ios,262,ios
+0f324fe8d47a3145a07287d251e67bd2,com.burbn.instagram,Instagram,2022-01-23,ios,201,ios
+0f324fe8d47a3145a07287d251e67bd2,com.comcast.cim.x2,Xfinity Stream,2022-01-09,ios,2,ios
+0f324fe8d47a3145a07287d251e67bd2,com.comcast.cim.x2,Xfinity Stream,2022-01-16,ios,1,ios
+0f324fe8d47a3145a07287d251e67bd2,com.cybersecurityconnectuk.eventcatalyst,Cyber Security Connect UK,2022-01-02,ios,2,ios
+0f324fe8d47a3145a07287d251e67bd2,com.dominionenergy.oneapp,Dominion Energy,2022-01-02,ios,1,ios
+0f324fe8d47a3145a07287d251e67bd2,com.dominionenergy.oneapp,Dominion Energy,2022-01-09,ios,1,ios
+0f324fe8d47a3145a07287d251e67bd2,com.dominionenergy.oneapp,Dominion Energy,2022-01-16,ios,2,ios
+0f324fe8d47a3145a07287d251e67bd2,com.dominionenergy.oneapp,Dominion Energy,2022-01-23,ios,1,ios
+0f324fe8d47a3145a07287d251e67bd2,com.draftkings.dknativermg,DraftKings Fantasy Sports,2022-01-02,ios,36,ios
+0f324fe8d47a3145a07287d251e67bd2,com.draftkings.dknativermg,DraftKings Fantasy Sports,2022-01-09,ios,1,ios
+0f324fe8d47a3145a07287d251e67bd2,com.dreamgames.royalmatch,Royal Match,2022-01-02,ios,20,ios
+0f324fe8d47a3145a07287d251e67bd2,com.dreamgames.royalmatch,Royal Match,2022-01-23,ios,1,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.facebook,Facebook,2022-01-02,ios,358,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.facebook,Facebook,2022-01-09,ios,183,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.facebook,Facebook,2022-01-16,ios,324,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.facebook,Facebook,2022-01-23,ios,164,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.messenger,Messenger,2022-01-02,ios,23,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.messenger,Messenger,2022-01-09,ios,11,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.messenger,Messenger,2022-01-16,ios,28,ios
+0f324fe8d47a3145a07287d251e67bd2,com.facebook.messenger,Messenger,2022-01-23,ios,101,ios
