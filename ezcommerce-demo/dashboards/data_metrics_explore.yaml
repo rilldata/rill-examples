@@ -1,0 +1,42 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Data Metrics dashboard"
+metrics_view: data_metrics
+
+dimensions: '*'
+measures: '*'
+defaults:
+  measures:
+    - total_sales_measure
+    - average_sales_measure
+    - total_quantity_measure
+    - average_quantity_measure
+    - total_profit_measure
+    - average_profit_measure
+    - total_discount_measure
+    - average_discount_measure
+    - max_sales_measure
+    - min_sales_measure
+    - order_volume
+    - average_revenue_per
+    - customer_count
+    - cltv
+  dimensions:
+    - Order ID
+    - Ship Mode
+    - Customer ID
+    - Customer Name
+    - Segment
+    - Country
+    - City
+    - State
+    - Postal Code
+    - Region
+    - Product ID
+    - Category
+    - Sub-Category
+    - Product Name
+  time_range: P7D
