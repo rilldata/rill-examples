@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+title: "Gcp Consumption Metrics dashboard"
+metrics_view: gcp_consumption_metrics_metrics
+
+dimensions: '*'
+measures: '*'

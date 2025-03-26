@@ -1,0 +1,42 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+version: 1
+type: metrics_view
+
+display_name: Gcp Consumption Metrics
+model: gcp_consumption_metrics
+timeseries: usage_start_time
+
+dimensions:
+  - name: service_description
+    display_name: Service Description
+    column: service_description
+  - name: sku_description
+    display_name: Sku Description
+    column: sku_description
+  - name: usage_unit
+    display_name: Usage Unit
+    column: usage_unit
+  - name: pricing_unit
+    display_name: Pricing Unit
+    column: pricing_unit
+
+measures:
+  - name: total_records
+    display_name: Total records
+    expression: COUNT(*)
+    description: ""
+    format_preset: humanize
+  - name: cost_sum
+    display_name: Cost
+    expression: SUM(cost)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: false
+  - name: usage_amount_sum
+    display_name: Usage Amount
+    expression: SUM(usage_amount)
+    description: ""
+    format_preset: humanize
+    valid_percent_of_total: false
