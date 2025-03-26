@@ -1,6 +1,0 @@
-compiler: rillv1
-
-title: Open RTB Ads
-description: Open RTB Ads - ClickHouse
-
-olap_connector: clickhouse
