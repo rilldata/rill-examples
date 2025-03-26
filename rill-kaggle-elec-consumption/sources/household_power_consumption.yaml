@@ -4,4 +4,4 @@
 type: source
 
 connector: "duckdb"
-sql: "select * from read_csv('data/household_power_consumption.txt', auto_detect=true, ignore_errors=1, header=true)"
+sql: "select * from read_csv('gs://rilldata-public/household_power_consumption.txt', auto_detect=true, ignore_errors=1, header=true)"
