@@ -1,0 +1,119 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+title: "Canvas Dashboard"
+defaults:
+  time_range: rill-PMC
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          title: ""
+          description: ""
+          content: |+
+            ## Amplify Podcasts
+
+          alignment:
+            horizontal: left
+            vertical: middle
+        width: 12
+    height: 80px
+  - items:
+      - kpi_grid:
+          metrics_view: Publisher_Minimum_Guarantee_Dataset_model_metrics
+          measures:
+            - total_revenue_measure
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: publisher IN ('Amplify Podcasts')
+        width: 4
+      - kpi_grid:
+          metrics_view: Publisher_Minimum_Guarantee_Dataset_model_metrics
+          measures:
+            - guarantee_usd_measure_monthly
+          comparison:
+            - delta
+            - percent_change
+          description: Per Month, careful with date selector
+          dimension_filters: publisher IN ('Amplify Podcasts')
+          sparkline: none
+        width: 4
+      - kpi_grid:
+          metrics_view: Publisher_Minimum_Guarantee_Dataset_model_metrics
+          measures:
+            - monthly_percent_revenue_to_guarantee
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: publisher IN ('Amplify Podcasts')
+        width: 4
+    height: 303px
+  - items:
+      - line_chart:
+          metrics_view: Publisher_Minimum_Guarantee_Dataset_model_metrics
+          title: ""
+          description: ""
+          color:
+            field: show
+            type: nominal
+          x:
+            field: date
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: total_likes_measure
+            type: quantitative
+            zeroBasedOrigin: true
+          dimension_filters: publisher IN ('Amplify Podcasts')
+        width: 6
+      - area_chart:
+          metrics_view: Publisher_Minimum_Guarantee_Dataset_model_metrics
+          title: ""
+          description: ""
+          color: rgb(117, 126, 255)
+          x:
+            field: platform
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: average_listen_duration_measure
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 382px
+time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P1M
+  - P3M
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
+time_zones:
+  - UTC
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney

@@ -1,0 +1,90 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Publisher Minimum Guarantee Dataset Metrics
+model: Publisher_Minimum_Guarantee_Dataset_model
+timeseries: date
+
+dimensions:
+  - name: platform
+    display_name: Platform
+    column: platform
+  - name: publisher_id
+    display_name: Publisher Id
+    column: publisher_id
+  - name: publisher
+    display_name: Publisher
+    column: publisher
+  - name: show
+    display_name: Show
+    column: show
+
+measures:
+  - name: total_revenue_measure
+    display_name: Total Revenue
+    expression: SUM(revenue) 
+    description: Total revenue generated as recorded in the dataset.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_impressions_measure
+    display_name: Total Impressions
+    expression: SUM(impressions)
+    description: Total number of impressions recorded in the dataset.
+    format_preset: humanize
+  - name: average_listen_duration_measure
+    display_name: Average Listen Duration
+    expression: AVG(avg_listen_duration)
+    description: Average listen duration across all records in the dataset.
+    format_preset: humanize
+  - name: total_likes_measure
+    display_name: Total Likes
+    expression: SUM(likes)
+    description: Total number of likes recorded in the dataset.
+    format_preset: humanize
+  - name: total_comments_measure
+    display_name: Total Comments
+    expression: SUM(comments)
+    description: Total number of comments recorded in the dataset.
+    format_preset: humanize
+    
+  - name: incorrect_sum_of_guarantee
+    expression: sum(min_guarantee_usd)
+    format_preset: currency_usd
+    valid_percent_of_total: false
+    
+  - name: guarantee_usd_measure_monthly
+    display_name: Monthly Minimum Guarantee USD
+    description: Total minimum guarantee in USD recorded in the dataset.
+    expression: > 
+              SELECT SUM(a.val) AS value 
+                FROM (
+                    SELECT unnest(
+                        list(distinct {key: publisher_id, month: date_trunc('month', date), val: min_guarantee_usd })
+                    ) AS a
+                )
+    format_preset: currency_usd
+    valid_percent_of_total: false
+              
+  - name: monthly_percent_revenue_to_guarantee
+    requires: [ total_revenue_measure, guarantee_usd_measure_monthly ]
+    expression: total_revenue_measure/ guarantee_usd_measure_monthly
+    format_preset: percentage
+
+  - name: test
+    display_name:  Minimum Guarantee USD
+    description: Total minimum guarantee in USD recorded in the dataset.
+    expression: > 
+            -- sum(revenue) /
+              (SELECT SUM(a.val) AS value 
+                FROM (
+                    SELECT unnest(
+                        list(distinct {key: publisher_id, val: min_guarantee_usd })
+                    ) AS a
+                ))
+  #  format_preset: percentage
+    valid_percent_of_total: false
+smallest_time_grain: day

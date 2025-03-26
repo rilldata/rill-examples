@@ -1,0 +1,8 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+# Generated data via OpenAI
+
+type: source
+
+connector: "duckdb"
+sql: "select * from read_csv('data/Publisher_Minimum_Guarantee_Dataset.csv', auto_detect=true, ignore_errors=1, header=true)"

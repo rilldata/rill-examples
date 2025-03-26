@@ -1,0 +1,33 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+metrics_view: Publisher_Minimum_Guarantee_Dataset_model_metrics
+
+dimensions: '*'
+measures: '*'
+theme:
+  colors:
+    primary: 6de0c1
+    secondary: hsl(81, 72%, 50%)
+display_name: Podcasting Dashboard
+defaults:
+  measures:
+    - total_revenue_measure
+    - total_impressions_measure
+    - average_listen_duration_measure
+    - total_likes_measure
+    - total_comments_measure
+    - incorrect_sum_of_guarantee
+    - guarantee_usd_measure_monthly
+    - monthly_percent_revenue_to_guarantee
+  dimensions:
+    - platform
+    - publisher_id
+    - publisher
+    - show
+  comparison_mode: dimension
+  comparison_dimension: platform
+  time_range: rill-PMC
+
+banner: This data is was generated via OpenAI and does not correspond to any real data.
