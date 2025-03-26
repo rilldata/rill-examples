@@ -1,7 +1,0 @@
-# Source YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
-
-type: source
-
-connector: "snowflake"
-sql: "SELECT * FROM RILLQA.PUBLIC.HORROR_MOVIES limit 10000"

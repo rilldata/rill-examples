@@ -1,7 +1,0 @@
-# This model outputs the current time every time it is incrementally refreshed.
-  
-type: model
-refresh:
-  cron: 0 0 * * *
-sql: SELECT now() AS inserted_on
-incremental: true
