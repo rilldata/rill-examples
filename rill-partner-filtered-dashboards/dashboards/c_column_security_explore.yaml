@@ -3,7 +3,7 @@
 
 type: explore
 
-title: Column-level security
+display_name: Column-level security
 metrics_view: c_column_security_metrics
 
 dimensions: '*'

@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Dashboard with Access restricted"
+display_name: "Dashboard with Access restricted"
 metrics_view: restricted_access_metrics
 
 dimensions: '*'

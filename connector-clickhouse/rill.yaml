@@ -1,6 +1,6 @@
 compiler: rillv1
 
-title: "ClickHouse Demo"
+display_name: "ClickHouse Demo"
 
 olap_connector: "clickhouse"
 

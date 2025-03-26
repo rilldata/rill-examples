@@ -5,7 +5,7 @@
 version: 1
 type: metrics_view
 
-title: Rill Commits Model Metrics
+display_name: Rill Commits Model Metrics
 model: rill_commits_model
 timeseries: date
 smallest_time_grain: "day"

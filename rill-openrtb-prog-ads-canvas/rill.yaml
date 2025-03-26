@@ -1,7 +1,7 @@
 
 compiler: rillv1
 
-title: Open RTB Ads
+display_name: Open RTB Ads
 description: Open RTB Ads
 
 mock_users:

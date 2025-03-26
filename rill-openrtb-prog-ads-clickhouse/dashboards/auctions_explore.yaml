@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Programmatic Ads Auction"
+display_name: "Programmatic Ads Auction"
 metrics_view: auctions_metrics
 
 dimensions: '*'

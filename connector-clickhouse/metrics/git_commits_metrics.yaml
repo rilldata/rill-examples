@@ -5,7 +5,7 @@
 version: 1
 type: metrics_view
 
-title: Git commits Metrics
+display_name: Git commits Metrics
 table: file_changes
 timeseries: time
 

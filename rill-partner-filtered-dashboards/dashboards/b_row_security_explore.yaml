@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Row-level security"
+display_name: "Row-level security"
 metrics_view: b_row_security_metrics
 
 dimensions: '*'

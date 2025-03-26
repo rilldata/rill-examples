@@ -5,7 +5,7 @@
 version: 1
 type: metrics_view
 
-title: Mobile Events Model Metrics
+display_name: Mobile Events Model Metrics
 model: mobile_events_model
 timeseries: event_time
 

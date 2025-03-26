@@ -3,7 +3,7 @@
 
 type: explore
 
-title: SEC Form D Offerings
+display_name: SEC Form D Offerings
 metrics_view: offerings_issuers_metrics
 
 dimensions: "*"

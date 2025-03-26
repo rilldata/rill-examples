@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Rill Basics Dashboard"
+display_name: "Rill Basics Dashboard"
 metrics_view: commits_metrics
 
 dimensions: '*'

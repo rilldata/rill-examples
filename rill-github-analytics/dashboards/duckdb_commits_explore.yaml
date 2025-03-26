@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "DuckDB Commits"
+display_name: "DuckDB Commits"
 metrics_view: duckdb_commits_metrics
 
 dimensions: '*'

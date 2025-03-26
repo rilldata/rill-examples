@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Rill Commits"
+display_name: "Rill Commits"
 metrics_view: rill_commits_metrics
 
 dimensions: '*'

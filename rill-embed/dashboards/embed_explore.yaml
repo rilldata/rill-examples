@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Embed Dashboard"
+display_name: "Embed Dashboard"
 metrics_view: auction_metrics
 
 dimensions: '*'

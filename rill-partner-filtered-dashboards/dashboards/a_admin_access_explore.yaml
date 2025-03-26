@@ -3,7 +3,7 @@
 
 type: explore
 
-title: Admin-level access
+display_name: Admin-level access
 metrics_view: a_admin_access_metrics
 
 dimensions: "*"

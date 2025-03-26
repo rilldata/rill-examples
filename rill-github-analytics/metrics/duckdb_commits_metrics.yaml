@@ -5,7 +5,7 @@
 version: 1
 type: metrics_view
 
-title: DuckDB Commits Model Metrics
+display_name: DuckDB Commits Model Metrics
 model: duckdb_commits_model
 timeseries: date
 smallest_time_grain: "day"

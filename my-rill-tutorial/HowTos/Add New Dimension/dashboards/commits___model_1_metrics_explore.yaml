@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Commits Model 1 Metrics dashboard"
+display_name: "Commits Model 1 Metrics dashboard"
 metrics_view: commits___model_1_metrics
 
 dimensions: '*'

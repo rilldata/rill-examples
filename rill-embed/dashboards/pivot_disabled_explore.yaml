@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Embed Dashboard w/ Pivot Disabled"
+display_name: "Embed Dashboard w/ Pivot Disabled"
 metrics_view: auction_metrics
 
 dimensions: '*'

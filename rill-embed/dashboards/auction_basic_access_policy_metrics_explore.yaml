@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Basic Access Policy Dashboard"
+display_name: "Basic Access Policy Dashboard"
 metrics_view: auction_basic_access_policy_metrics
 
 dimensions: '*'

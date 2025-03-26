@@ -5,7 +5,7 @@
 version: 1
 type: metrics_view
 
-title: UK Price Paid Metrics
+display_name: UK Price Paid Metrics
 connector: clickhouse
 table: uk_price_paid
 timeseries: date

@@ -5,7 +5,7 @@
 version: 1
 type: metrics_view
 
-title: Metrics Margin Model KPIs
+display_name: Metrics Margin Model KPIs
 model: metrics_margin_model
 timeseries: __time
 smallest_time_grain: "day"

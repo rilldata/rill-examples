@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "git_commits_metrics dashboard"
+display_name: "git_commits_metrics dashboard"
 metrics_view: git_commits_metrics
 
 dimensions: '*'

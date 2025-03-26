@@ -3,7 +3,7 @@
 
 type: explore
 
-title: "Dashboard with custom attributes"
+display_name: "Dashboard with custom attributes"
 metrics_view: custom_attributes_metrics_internal
 
 dimensions: '*'

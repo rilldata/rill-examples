@@ -1,6 +1,6 @@
 compiler: rillv1
 
-title: "My Rill Tutorial"
+display_name: "My Rill Tutorial"
 
 # These are example mock users to test your security policies.
 # Learn more: https://docs.rilldata.com/manage/security
