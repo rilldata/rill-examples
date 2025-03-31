@@ -1,0 +1,122 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Podcasts Metrics
+model: podcasts
+timeseries: lastUpdate
+
+dimensions:
+  - display_name: "Deal Name"
+    column: CAT_LIST
+    description: "Unnested Column"
+    unnest: true
+  - name: host
+    display_name: Host
+    column: host
+  # - name: url
+  #   display_name: Url
+  #   column: url
+  - name: generator
+    display_name: Generator
+    column: generator
+
+  - name: title
+    display_name: Title
+    column: title
+  - name: description
+    display_name: Description
+    column: description
+  - name: link
+    display_name: Link
+    column: link
+  - name: language
+    display_name: Language
+    column: language
+  # - name: contentType
+  #   display_name: Contenttype
+  #   column: contentType
+  - name: originalUrl
+    display_name: Originalurl
+    column: originalUrl
+    uri: true
+  # - name: itunesAuthor
+  #   display_name: Itunesauthor
+  #   column: itunesAuthor
+  # - name: itunesOwnerName
+  #   display_name: Itunesownername
+  #   column: itunesOwnerName
+  # - name: imageUrl
+  #   display_name: Imageurl
+  #   column: imageUrl
+  # - name: itunesType
+  #   display_name: Itunestype
+  #   column: itunesType
+
+  # - name: chash
+  #   display_name: Chash
+  #   column: chash
+
+  - name: newestEnclosureUrl
+    display_name: Newestenclosureurl
+    column: newestEnclosureUrl
+    uri: true
+  # - name: podcastGuid
+  #   display_name: Podcastguid
+  #   column: podcastGuid
+
+
+measures:
+  - name: total_podcasts_measure
+    display_name: Total Podcasts
+    expression: COUNT(id)
+    description: Total number of podcasts in the database.
+    format_preset: humanize
+  - name: average_episode_count_measure
+    display_name: Average Episode Count
+    expression: AVG(episodeCount)
+    description: Average number of episodes per podcast.
+    format_preset: humanize
+  - name: max_popularity_score_measure
+    display_name: Maximum Popularity Score
+    expression: MAX(popularityScore)
+    description: The highest popularity score among all podcasts.
+    format_preset: humanize
+  - name: min_popularity_score_measure
+    display_name: Minimum Popularity Score
+    expression: MIN(popularityScore)
+    description: The lowest popularity score among all podcasts.
+    format_preset: humanize
+  - name: total_explicit_podcasts_measure
+    display_name: Total Explicit Podcasts
+    expression: SUM(explicit)
+    description: Total number of podcasts marked as explicit.
+    format_preset: humanize
+  - name: average_update_frequency_measure
+    display_name: Average Update Frequency
+    expression: AVG(updateFrequency)
+    description: Average update frequency of podcasts.
+    format_preset: humanize
+  - name: total_dead_podcasts_measure
+    display_name: Total Dead Podcasts
+    expression: SUM(dead)
+    description: Total number of podcasts marked as dead.
+    format_preset: humanize
+  - name: average_priority_measure
+    display_name: Average Priority
+    expression: AVG(priority)
+    description: Average priority score of podcasts.
+    format_preset: humanize
+  - name: max_episode_count_measure
+    display_name: Maximum Episode Count
+    expression: MAX(episodeCount)
+    description: The maximum number of episodes in a single podcast.
+    format_preset: humanize
+  - name: min_episode_count_measure
+    display_name: Minimum Episode Count
+    expression: MIN(episodeCount)
+    description: The minimum number of episodes in a single podcast.
+    format_preset: humanize

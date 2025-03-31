@@ -1,0 +1,12 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+metrics_view: podcasts_metrics
+
+dimensions: '*'
+measures: '*'
+
+banner: "Based on Full Podcast Index (as of Mar. 31, 2025) from
+  https://podcastindex.org."
+display_name: Podcast Index (Mar. 2025)

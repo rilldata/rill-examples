@@ -1,0 +1,55 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+type: source
+
+connector: "duckdb"
+
+sql: >
+    SELECT
+        id,
+        url,
+        title,
+        TO_TIMESTAMP(lastUpdate) AS lastUpdate,
+        DATE_DIFF('day', TO_TIMESTAMP(createdOn), TO_TIMESTAMP(newestItemPubdate)) AS START_TO_RECENT,
+
+        link,
+        lastHttpStatus,
+        dead,
+        contentType,
+        -- TRY_CAST(itunesId AS INTEGER) AS itunesId,
+        originalUrl,
+        itunesAuthor,
+        itunesOwnerName,
+        explicit,
+        imageUrl,
+        itunesType,
+        generator,
+        TO_TIMESTAMP(newestItemPubdate) AS newestItemPubdate,
+        language,
+        TO_TIMESTAMP(oldestItemPubdate) AS oldestItemPubdate,
+        episodeCount,
+        popularityScore,
+        priority,
+        TO_TIMESTAMP(createdOn) AS createdOn,
+        updateFrequency,
+        chash,
+        host,
+        newestEnclosureUrl,
+        podcastGuid,
+        description,
+        ARRAY[category1, category2, category3, category4, category5, 
+          category6, category7, category8, category9, category10] AS CAT_LIST
+        -- category1,
+        -- category2,
+        -- category3,
+        -- category4,
+        -- category5,
+        -- category6,
+        -- category7,
+        -- category8,
+        -- category9,
+        -- category10
+        -- TRY_CAST(newestEnclosureDuration AS INTEGER) AS newestEnclosureDuration
+    FROM sqlite_scan('~/Downloads/podcastindex_feeds.db', 'podcasts', sqlite_all_varchar=true);
+    
