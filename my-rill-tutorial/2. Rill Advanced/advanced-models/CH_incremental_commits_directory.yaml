@@ -11,6 +11,10 @@ partitions:
   
 sql: |
   SELECT * 
-     FROM read_parquet('{{ .partition.uri }}/commits_*.parquet') 
-    WHERE '{{ .partition.uri }}' IS NOT NULL
+     FROM read_parquet('gs://rilldata-public/{{ .partition.path }}/commits_*.parquet') 
+    WHERE '{{ .partition.path }}' IS NOT NULL
 
+
+output:
+  connector: duckdb
+  incremental_strategy: append

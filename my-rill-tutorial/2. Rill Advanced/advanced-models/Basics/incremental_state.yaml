@@ -4,7 +4,18 @@
 type: model
 refresh:
   cron: 0 0 * * *
-sql: SELECT {{ if incremental }} {{ .state.max_val }} + 1 {{ else }} 0 {{ end}} AS val, now() AS inserted_on
+sql: >
+  SELECT 
+    {{ if incremental }} 
+        '{{ .state.max_date }}' as date,
+        DATE '{{ .state.max_date }}' + (CAST((random() * 20) - 10 AS INT)) * INTERVAL 1 DAY AS new_date
+    {{ else }}
+        DATE '2025-01-01' AS date,
+        DATE '2025-01-01' AS new_date
+    {{ end }},
+    now() AS inserted_on
+
 state:
-  sql: SELECT MAX(val) as max_val FROM incremental_state
+  sql: SELECT MAX(new_date) as max_date FROM incremental_state
+
 incremental: true

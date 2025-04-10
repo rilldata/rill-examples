@@ -5,7 +5,7 @@ display_name: SQL query Status Alert
 
 # Check the alert every 1st of the month.
 refresh:
-  cron: "* * * * *"
+  cron: "0 1 0 * *"
   disable: true # completely disable the resource (without deleting it)
   ref_update: false # don't refresh when a dependency is refreshed
 
@@ -20,15 +20,18 @@ intervals:
 
 # Query for all resources with a reconcile error.
 # The alert will trigger when the query result is not empty.
+# Using a point in time in the past, will allow you to ensure that you data is accurate even with more modeling.
 data:
   connector: duckdb
-  sql: select count(*) from commits__
+  sql: >
+      SELECT 
+        'Expected 196 added lines, got ' || SUM(added_lines) AS error_message
+      FROM CH_incremental_joined_model
+      WHERE CAST(author_date as DATE) = '2024-10-18'
+        AND author_name = 'Alexey Milovidov'
+      GROUP BY author_name
+      HAVING SUM(added_lines) != 196
 
-
-#for:
-#  user_id: roy.endo@rilldata.com
-#  user_email: roy.endo@rilldata.com
-#  attributes: { "test":"value" }
 
 on_recover: true
 on_fail: true
@@ -40,10 +43,9 @@ renotify_after: 10s
 # Send notifications by email or slack 
 notify:
   email:
-    recipients: [kidaye9996@cashbn.com, roy.endo@rilldata.com]
+    recipients: [test_user@domain.com]
   slack:
     users: []
-    channels: [scrape-slack-watcher]
-    webhooks: [https://hooks.slack.com/services/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]
+    channels: ['#your-slack-channel']
 
-annotations: { "test2":"value2" }
+annotations: { "key":"pair" }

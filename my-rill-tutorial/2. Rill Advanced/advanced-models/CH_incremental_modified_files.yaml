@@ -11,4 +11,6 @@ partitions:
 
 sql: SELECT * FROM read_parquet('{{ .partition.uri }}')
 
-
+output:
+  connector: duckdb
+  incremental_strategy: append

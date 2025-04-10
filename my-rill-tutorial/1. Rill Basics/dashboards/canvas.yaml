@@ -1,0 +1,37 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: "Canvas Dashboard"
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - kpi_grid:
+          metrics_view: commits_metrics
+          measures:
+            - added_lines
+            - deleted_lines
+          comparison:
+            - delta
+            - percent_change
+        width: 12
+    height: 128px
+  - items:
+      - bar_chart:
+          metrics_view: commits_metrics
+          title: ""
+          description: ""
+          color: hsl(240,100%,67%)
+          x:
+            field: author_name
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: added_lines
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 12
+    height: 320px

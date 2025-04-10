@@ -4,7 +4,7 @@
 type: model
 
 partitions:
-  sql: SELECT range AS num FROM range(0,3)
+  sql: SELECT range AS num FROM range(0,10)
 sql: SELECT {{ if incremental }} 10 {{ else }} {{ .partition.num }} {{end}} AS num, now() AS inserted_on
 
 incremental: true

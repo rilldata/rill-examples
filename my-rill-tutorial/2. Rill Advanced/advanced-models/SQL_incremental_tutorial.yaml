@@ -2,6 +2,7 @@ type: model
 materialize: true
 
 connector: "bigquery"
+project_id: rilldata
 
 incremental: true
 state:

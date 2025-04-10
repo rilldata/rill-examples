@@ -4,11 +4,20 @@
 version: 1
 type: metrics_view
 
-table: advanced_commits___model # Choose a table to underpin your metrics
+table: CH_incremental_joined_model # Choose a table to underpin your metrics
 timeseries: author_date # Choose a timestamp column (if any) from your table
-  
 
 dimensions:
+  - column: author_email
+    name: author_email
+    description: User Email
+    display_name: User Email
+    
+  - expression: string_split(author_email, '@')[2]
+    name: author_domain
+    description: User Domain
+    display_name: User Domain
+    
   - column: directory_path
     display_name: "The directory"
     description: "The directory path"
@@ -36,27 +45,89 @@ dimensions:
     name: commit_msg
 
 measures:
-  - expression: SUM(total_line_changes)
-    name: total_line_changes
-    display_name: Total number of Lines Changed
+  - expression: sum(deleted_lines)
+    name: deleted_lines
+    display_name: Total number of Deleted Lines Changed
     description: the total number of lines changes, addition and deletion
     valid_percent_of_total: true
 
+  - expression: sum(added_lines)
+    name: added_lines
+    display_name: Total number of Added Lines 
+    description: the total number of lines changes, addition and deletion
+    valid_percent_of_total: true
+
+  - name: p99_quantile_added_lines
+    expression: QUANTILE_CONT(added_lines, 0.99)
+    format_d3: ".4f"
+    description: P95 of Added Lines
+
+  - expression: SUM(total_line_changes) FILTER (WHERE directory_path like '%docs%')
+    #expression: SUM(CASE WHEN directory_path like '%docs%' THEN total_line_changes END)
+    name: total_doc_line_changes
+    display_name: Total number of Lines Changed [Docs]
+    description: the total number of lines changes, addition and deletion
+    valid_percent_of_total: true
+
+  - expression: SUM(total_line_changes)
+    name: total_line_changes
+    display_name: Total number of Lines Changed 
+    description: the total number of lines changes, addition and deletion containing the word "fix"
+    valid_percent_of_total: true
 
   - expression: "SUM(net_line_changes)"
     display_name: "Net number of Lines changed"
     description: "the total net number of lines changes"
     name: net_line_changes
 
+  - expression: "AVG(net_line_changes)"
+    display_name: "AVG number of Lines changed"
+    description: "the AVG net number of lines changes"
+    name: avg_net_line_changes
+    treat_nulls_as: 1
+
+  - name: net_change_rolling
+    display_name: 3 Day Rolling Avg Net Line Change
+    expression: "AVG(net_line_changes)"
+    requires: [net_line_changes]
+    window:
+      order: "author_date"
+      frame: RANGE BETWEEN INTERVAL 3 DAY PRECEDING AND CURRENT ROW
+    treat_nulls_as: 1
+
+
   - expression: "SUM(num_commits)"
     display_name: "Number of Commits"
     description: "The total number of commits"
     name: num_commits
 
-  - expression: "(SUM(deleted_lines)/(SUM(deleted_lines)+SUM(added_lines)))"
+  - expression: (deleted_lines / total_line_changes)
+    requires: [deleted_lines, total_line_changes]
     display_name: "Code Deletion Percent %"
     description: "The percent of code deletion"
     format_d3: ".2%"
     name: code_deletion_percent
+
+  - name: guarantee_line_change
+    display_name: Guaranatee number of Line Changes
+    description: Totally Random Metric.
+    expression: > 
+              SELECT SUM(a.val) AS value 
+                FROM (
+                    SELECT unnest(
+                        list(distinct {
+                            key: author_name,
+                            val: 100
+                             })
+                    ) a
+                )
+    format_preset: humanize
+    valid_percent_of_total: false
+
+  - name: percent_to_guarantee
+    requires: [guarantee_line_change,total_line_changes]
+    expression: total_line_changes/guarantee_line_change
+    format_preset: percentage
+    display_name: Percent Lines removed vs. Guarantee
 
 smallest_time_grain: day

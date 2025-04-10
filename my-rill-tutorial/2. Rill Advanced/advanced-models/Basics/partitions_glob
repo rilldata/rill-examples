@@ -8,7 +8,11 @@ partitions:
   glob:
     connector: gcs
     path: gs[s3]://path/to/file/**/*.parquet # Replace with your bucket path that is partitioned
+    #partition: directory
 
-sql: SELECT * FROM read_parquet('{{ .partition.uri }}')
+sql: >
+    SELECT * FROM 
+      read_parquet('{{ .partition.uri }}')
+      #read_parquet('gs://bucket/{{ .partition.path }}/*.parquet')
 
 

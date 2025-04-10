@@ -19,8 +19,8 @@ WITH commit_file_stats AS (
 SELECT
     author_date,
     author_name,
+    author_email,
     directory_path,
-    -- UNNEST(regexp_split_to_array(directory_path, '/')),
     filename,
     STRING_AGG(DISTINCT commit_msg, ', ') AS commit_msg,
 

@@ -4,4 +4,6 @@
 type: source
 
 connector: "duckdb"
-sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/*/*/commits_*.parquet')"
+
+sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/*/*/commits_*.parquet')
+         {{if dev}} where author_date > '2025-01-01'  {{end}}"

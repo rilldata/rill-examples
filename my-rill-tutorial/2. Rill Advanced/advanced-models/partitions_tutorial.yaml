@@ -6,3 +6,7 @@ partitions:
     path: gs://rilldata-public/github-analytics/Clickhouse/2024/*/commits_*.parquet
 
 sql: SELECT * FROM read_parquet('{{ .partition.uri }}')
+
+output:
+  connector: duckdb
+  incremental_strategy: append
