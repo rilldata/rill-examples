@@ -1,1 +1,1 @@
-select * from {{ ref "bids_raw" }}
+SELECT * FROM url('https://storage.googleapis.com/rilldata-public/bids_data.parquet', parquet)
