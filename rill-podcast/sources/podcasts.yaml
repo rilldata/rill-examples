@@ -51,5 +51,5 @@ sql: >
         -- category9,
         -- category10
         -- TRY_CAST(newestEnclosureDuration AS INTEGER) AS newestEnclosureDuration
-    FROM sqlite_scan('~/Downloads/podcastindex_feeds.db', 'podcasts', sqlite_all_varchar=true);
+    FROM sqlite_scan('data/podcastindex_feeds.db', 'podcasts', sqlite_all_varchar=true);
     

@@ -1,10 +1,21 @@
 # API YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/apis
-# Test your API endpoint at http://localhost:9009/v1/instances/default/api/conditional?date=2024-10-01
+# Test your API endpoint at http://localhost:9009/v1/instances/default/api/conditional_api?date=2024-10-01
 # passing arguments!
 
 type: api
-name: conditional
+name: conditional_api
 
 metrics_sql: |
-  select author_name, net_line_changes {{ if (.user.admin) }}, filename {{ end }} from advanced_metrics_view where author_date > '{{ .args.date }}' order by net_line_changes DESC limit 15
+  select 
+    author_name, 
+    net_line_changes 
+    {{ if (.user.admin) }}
+      , filename
+    {{ end }}
+  from advanced_metrics
+    where author_date > '{{ .args.date }}' 
+    order by net_line_changes DESC
+  LIMIT {{ default 15 (get .args "limit") }}
+
+

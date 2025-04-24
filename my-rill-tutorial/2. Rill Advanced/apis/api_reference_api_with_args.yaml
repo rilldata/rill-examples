@@ -1,0 +1,10 @@
+# API YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/apis
+# Test your API endpoint at http://localhost:9009/v1/instances/default/api/<filename>
+
+type: api
+name: api_reference_api_with_args
+
+api: conditional_api
+args: 
+  date: '2025-01-01'

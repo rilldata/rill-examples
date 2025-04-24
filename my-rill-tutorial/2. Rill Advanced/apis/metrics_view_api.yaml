@@ -10,7 +10,7 @@ metrics_sql: |
   SELECT 
       author_name, 
       net_line_changes 
-  FROM advanced_metrics_view
+  FROM advanced_metrics
     where author_date > '2024-07-01 00:00:00' 
     order by net_line_changes DESC 
     limit 10
