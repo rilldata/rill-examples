@@ -2,21 +2,23 @@ type: model
 materialize: true
 incremental: true
 
+# Do an incremental refresh every hour.
 refresh:
-  cron: "0 1 * * *"
+  cron: "0 * * * *"
 
-# Emit one partition for each directory that matches the glob
+# Emit one partition for each directory that matches the glob.
 partitions:
   glob: 
-    path: "s3://bucket/path/y=*/m=*/d=*/*.parquet"
+    path: "s3://bucket/path/y=*/m=*/d=*/h=*/*.parquet"
     partition: directory
-
-# In development, only emit partitions for 2025-04
-dev:
-  partitions:
-    glob: 
-      path: "s3://bucket/path/y=2025/m=04/d=*/*.parquet"
-      partition: directory
+    # Advanced feature: post-process the partitions using a custom SQL query.
+    # This is useful for filtering which partitions to load.
+    transform_sql: > 
+      SELECT * FROM {{ .table }} 
+      -- Filter out partitions that are older than 2025-01-01
+      WHERE path >= 's3://bucket/y=2025/m=01/d=01'
+      -- In development, only load 10 days of data.
+      {{ if dev }} AND path < 's3://bucket/y=2025/m=01/d=11' {{ end }}
 
 # Load the data using ClickHouse's `s3` table function.
 # The query will be executed once for each partition.
