@@ -5,11 +5,21 @@ incremental: true
 refresh:
   cron: "0 1 * * *"
 
+# Emit one partition for each directory that matches the glob
 partitions:
   glob: 
     path: "s3://bucket/path/y=*/m=*/d=*/*.parquet"
     partition: directory
 
+# In development, only emit partitions for 2025-04
+dev:
+  partitions:
+    glob: 
+      path: "s3://bucket/path/y=2025/m=04/d=*/*.parquet"
+      partition: directory
+
+# Load the data using ClickHouse's `s3` table function.
+# The query will be executed once for each partition.
 sql: >
   SELECT
       '{{ .partition.path }}' as __partition,
@@ -21,6 +31,8 @@ sql: >
       '{{ .env.aws_secret_access_key }}'
   )
 
+# Insert the results into a partitioned table that uses the MergeTree engine.
+# If a partition is retried or manually refreshed, use the partition_overwrite insert strategy to atomically replace the entire partition.
 output:
   incremental_strategy: partition_overwrite
   partition_by: __partition

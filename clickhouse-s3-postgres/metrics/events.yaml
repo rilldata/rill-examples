@@ -11,6 +11,7 @@ dimensions:
     column: event_name
   - name: user_email
     display_name: User email
+    # Query-time lookup in the 'users' dictionary
     expression: dictGet('users', 'email', user_id)
 
 measures:

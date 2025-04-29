@@ -1,6 +1,10 @@
 type: connector
 driver: clickhouse
-prod:
-  dsn: {{ .env.clickhouse_dsn_prod }}
+
+# In development, start ClickHouse as a subprocess
 dev:
   managed: true
+
+# In production, connect to an external ClickHouse cluster
+prod:
+  dsn: {{ .env.clickhouse_dsn_prod }}
