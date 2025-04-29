@@ -1,0 +1,42 @@
+type: model
+materialize: true
+incremental: true
+
+# Do an incremental refresh every hour.
+refresh:
+  cron: "0 * * * *"
+
+# Emit one partition for each directory that matches the glob.
+partitions:
+  glob: 
+    path: "s3://bucket/path/y=*/m=*/d=*/h=*/*.parquet"
+    partition: directory
+    # Advanced feature: post-process the partitions using a custom SQL query.
+    # This is useful for filtering which partitions to load.
+    transform_sql: > 
+      SELECT * FROM {{ .table }} 
+      -- Filter out partitions that are older than 2025-01-01
+      WHERE path >= 's3://bucket/y=2025/m=01/d=01'
+      -- In development, only load 10 days of data.
+      {{ if dev }} AND path < 's3://bucket/y=2025/m=01/d=11' {{ end }}
+
+# Load the data using ClickHouse's `s3` table function.
+# The query will be executed once for each partition.
+sql: >
+  SELECT
+      '{{ .partition.path }}' as __partition,
+      now() AS __load_time,
+      *
+  FROM s3(
+      '{{ .partition.uri }}/*.parquet',
+      '{{ .env.aws_access_key_id }}',
+      '{{ .env.aws_secret_access_key }}'
+  )
+
+# Insert the results into a partitioned table that uses the MergeTree engine.
+# If a partition is retried or manually refreshed, use the partition_overwrite insert strategy to atomically replace the entire partition.
+output:
+  incremental_strategy: partition_overwrite
+  partition_by: __partition
+  engine: MergeTree
+  order_by: (event_time)

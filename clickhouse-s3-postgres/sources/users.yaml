@@ -1,0 +1,21 @@
+type: model
+
+refresh:
+  cron: "0 1 * * *"
+
+# Load the data using ClickHouse's `postgresql` table function.
+# The output will be fully replaced on each refresh.
+sql: >
+  SELECT * FROM postgresql(
+    '{{ .env.postgres_host }}',
+    '{{ .env.postgres_database }}',
+    'users',
+    '{{ .env.postgres_user }}',
+    '{{ .env.postgres_password }}'
+  )
+
+# Create the result as a ClickHouse dictionary.
+# For more details about dictionaries, see https://clickhouse.com/docs/sql-reference/dictionaries
+output:
+  type: dictionary
+  primary_key: id

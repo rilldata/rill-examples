@@ -1,0 +1,20 @@
+type: metrics_view
+version: 1
+
+model: events
+timeseries: event_time
+smallest_time_grain: hour
+
+dimensions:
+  - name: event_name
+    display_name: Event name
+    column: event_name
+  - name: user_email
+    display_name: User email
+    # Query-time lookup in the 'users' dictionary
+    expression: dictGet('users', 'email', user_id)
+
+measures:
+  - name: count
+    display_name: Count
+    expression: count(*)
