@@ -1,5 +1,4 @@
 type: model
-materialize: true
 
 refresh:
   cron: "0 1 * * *"
@@ -9,7 +8,7 @@ sql: >
     '{{ .env.postgres_host }}',
     '{{ .env.postgres_database }}',
     'users',
-    '{{ .env.postgres_user }}'
+    '{{ .env.postgres_user }}',
     '{{ .env.postgres_password }}'
   )
 
