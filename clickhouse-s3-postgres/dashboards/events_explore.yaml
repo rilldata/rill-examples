@@ -1,0 +1,7 @@
+type: explore
+
+display_name: "Events dashboard"
+metrics_view: events
+
+dimensions: '*'
+measures: '*'
