@@ -1,0 +1,8 @@
+compiler: rillv1
+
+display_name: Clickhouse project with S3 and Postgres
+
+olap_connector: clickhouse
+
+features:
+  clickhouseModeling: true

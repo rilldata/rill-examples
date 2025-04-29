@@ -1,0 +1,19 @@
+type: metrics_view
+version: 1
+
+model: events
+timeseries: event_time
+smallest_time_grain: hour
+
+dimensions:
+  - name: event_type
+    display_name: Event type
+    column: event_type
+  - name: user_email
+    display_name: User email
+    expression: dictGet('default.users', 'email', user_id)
+  
+measures:
+  - name: count
+    display_name: Count
+    expression: count(*)

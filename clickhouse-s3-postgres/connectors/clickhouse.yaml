@@ -1,0 +1,6 @@
+type: connector
+driver: clickhouse
+prod:
+  dsn: {{ .env.clickhouse_dsn_prod }}
+dev:
+  managed: true
