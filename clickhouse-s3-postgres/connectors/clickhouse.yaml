@@ -7,4 +7,9 @@ dev:
 
 # In production, connect to an external ClickHouse cluster
 prod:
-  dsn: {{ .env.clickhouse_dsn_prod }}
+  host: example.com
+  port: 8123
+  database: default
+  username: {{ .env.clickhouse_username_prod }}
+  password: {{ .env.clickhouse_password_prod }}
+  ssl: false
