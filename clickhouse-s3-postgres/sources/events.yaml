@@ -16,15 +16,15 @@ partitions:
     transform_sql: > 
       SELECT * FROM {{ .table }} 
       -- Filter out partitions that are older than 2025-01-01
-      WHERE path >= 's3://bucket/y=2025/m=01/d=01'
+      WHERE uri >= 's3://bucket/y=2025/m=01/d=01'
       -- In development, only load 10 days of data.
-      {{ if dev }} AND path < 's3://bucket/y=2025/m=01/d=11' {{ end }}
+      {{ if dev }} AND uri < 's3://bucket/y=2025/m=01/d=11' {{ end }}
 
 # Load the data using ClickHouse's `s3` table function.
 # The query will be executed once for each partition.
 sql: >
   SELECT
-      '{{ .partition.path }}' as __partition,
+      '{{ .partition.uri }}' as __partition,
       now() AS __load_time,
       *
   FROM s3(
