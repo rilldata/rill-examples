@@ -1,0 +1,5 @@
+type: connector
+driver: s3
+
+aws_access_key_id: {{ .env.aws_access_key_id }}
+aws_secret_access_key: {{ .env.aws_secret_access_key }}
