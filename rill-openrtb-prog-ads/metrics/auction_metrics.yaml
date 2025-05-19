@@ -9,7 +9,7 @@ timeseries: "__time"
 smallest_time_grain: "hour"
 
 measures:
-  - display_name: Requests
+  - display_name: Total Requests
     name: requests
     expression: sum(bid_request_cnt)
     description: Total Requests
