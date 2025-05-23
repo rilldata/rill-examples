@@ -1,0 +1,9 @@
+# Visit https://docs.rilldata.com/ to learn more about Rill code files.
+
+type: "gcs"
+uri: "gs://rilldata-public/github-analytics/clickhouse/clickhouse/commits/modified_files*.parquet"
+# Get the most recent file
+extract:
+  files:
+    strategy: tail
+    size: 1
