@@ -1,0 +1,32 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explores
+
+type: explore
+
+display_name: "ClickHouse Commits"
+metrics_view: clickhouse_commits_metrics
+
+dimensions: "*"
+measures: "*"
+defaults:
+  measures:
+    - count_distinct_commit_hash
+    - count_distinct_filename
+    - count_distinct_username
+    - sum_of_additions
+    - sum_of_deletions
+    - sum_of_changes
+    - percent_code_change
+    - count_files_touched_per_commit
+  dimensions:
+    - commit_hash
+    - commit_message
+    - username
+    - file_path
+    - filename
+    - file_extension
+    - first_directory
+    - second_directory
+    - previous_file_path
+    - is_merge_commit
+  time_range: P12M
