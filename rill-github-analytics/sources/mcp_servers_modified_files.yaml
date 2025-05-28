@@ -1,0 +1,9 @@
+# Visit https://docs.rilldata.com/ to learn more about Rill code files.
+type: source
+connector: "gcs"
+uri: "gs://rilldata-public/github-analytics/modelcontextprotocol/servers/commits/modified_files*.parquet"
+# Workaround for caching problem
+extract:
+  files:
+    strategy: tail
+    size: 1
