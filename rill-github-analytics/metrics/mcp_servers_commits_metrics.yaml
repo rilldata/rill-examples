@@ -1,0 +1,95 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: MCP Servers Commits Model Metrics
+model: mcp_servers_commits_model
+timeseries: date
+smallest_time_grain: "day"
+
+dimensions:
+  - name: commit_hash
+    display_name: Commit hash
+    expression: commit_hash
+    description: ""
+  - name: commit_message
+    display_name: Commit message
+    expression: commit_message
+    description: ""
+  - name: username
+    display_name: Username
+    expression: username
+    description: ""
+  - name: file_path
+    display_name: File path
+    expression: file_path
+    description: ""
+  - name: filename
+    display_name: Filename
+    expression: filename
+    description: ""
+  - name: file_extension
+    display_name: File extension
+    expression: file_extension
+    description: ""
+  - name: first_directory
+    display_name: First directory
+    expression: first_directory
+    description: ""
+  - name: second_directory
+    display_name: Second directory
+    expression: second_directory_concat
+    description: ""
+  - name: previous_file_path
+    display_name: Previous file path
+    expression: previous_file_path
+    description: ""
+  - name: is_merge_commit
+    display_name: Merge commit
+    expression: is_merge_commit
+    description: "True if the commit is a merge commit"
+
+measures:
+  - display_name: "Number of commits"
+    expression: "count(distinct commit_hash)"
+    name: number_of_commits
+    description: ""
+    format_preset: humanize
+  - display_name: Number of files touched
+    expression: count(distinct filename)
+    name: count_of_distinct_filename
+    description: ""
+    format_preset: humanize
+  - display_name: "Number of contributors"
+    expression: "count(distinct username)"
+    name: count_of_distinct_username
+    description: ""
+    format_preset: humanize
+  - display_name: "Code additions"
+    expression: "sum(additions)"
+    name: sum_of_additions
+    description: ""
+    format_preset: humanize
+  - display_name: "Code deletions"
+    expression: "sum(deletions)"
+    name: sum_of_deletions
+    description: ""
+    format_preset: humanize
+  - display_name: "Code changes"
+    expression: "sum(changes)"
+    name: sum_of_changes
+    description: ""
+    format_preset: humanize
+  - display_name: "Code deletion %"
+    expression: "sum(deletions) / sum(changes)"
+    name: percent_code_change
+    description: "The percentage of code changes that were deletions."
+    format_preset: percentage
+  - display_name: "Files touched per commit"
+    expression: "count(*) / count(distinct commit_hash)"
+    name: count_files_touched_per_commit
+    description: ""
+    format_preset: humanize
