@@ -12,3 +12,7 @@ mock_users:
   groups:
     - partners
 - email: test@domain.com
+
+models:
+  refresh:
+    every: 24h
