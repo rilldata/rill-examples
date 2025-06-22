@@ -16,7 +16,6 @@ models:
   refresh:
     every: 24h
 
-
 features:
   - darkMode
   - cloudDataViewer
