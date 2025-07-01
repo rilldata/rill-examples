@@ -4,6 +4,8 @@ compiler: rillv1
 display_name: Open RTB Ads
 description: Open RTB Ads
 
+olap_connector: duckdb
+
 mock_users:
 - email: someone@rilldata.com
   name: John Doe
