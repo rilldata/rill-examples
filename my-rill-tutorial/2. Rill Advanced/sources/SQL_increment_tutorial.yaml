@@ -1,0 +1,32 @@
+type: model
+materialize: true
+
+connector: "bigquery" #or "snowflake"
+
+incremental: true
+partitions:
+  connector: duckdb
+  sql: >
+     {{ if dev }} 
+        SELECT date_trunc('day', day) AS date_partition FROM generate_series(DATE '1992-01-01', DATE '1992-01-03', INTERVAL 1 DAY) AS ts(day)
+     {{else}}
+        SELECT date_trunc('day', day) AS start, date_trunc('day', start + INTERVAL 1 MONTH) AS end FROM generate_series(DATE '2024-01-01', DATE '2025-06-01', INTERVAL 1 MONTH) AS ts(day)
+      UNION ALL 
+        SELECT date_trunc('day', day) AS start, date_trunc('day', start + INTERVAL 1 DAY) AS end FROM generate_series(DATE '2025-06-01', CURRENT_DATE, INTERVAL 1 DAY) AS ts(day)
+     {{end}}
+sql: |
+  SELECT *,
+         PARSE_DATE('%Y%m%d', CAST(D_DATEKEY AS STRING)) AS DATE
+  FROM rilldata.ssb_100.date
+  {{if dev}}
+  WHERE PARSE_DATE('%Y%m%d', CAST(D_DATEKEY AS STRING)) = PARSE_DATE('%Y-%m-%dT00:00:00Z','{{.partition.date_partition}}')
+  {{else}}
+  WHERE PARSE_DATE('%Y%m%d', CAST(D_DATEKEY AS STRING)) >= PARSE_DATE('%Y-%m-%dT00:00:00Z','{{.partition.start}}')
+    AND  PARSE_DATE('%Y%m%d', CAST(D_DATEKEY AS STRING)) < PARSE_DATE('%Y-%m-%dT00:00:00Z','{{.partition.end}}')
+
+  {{end}}
+
+output:
+  connector: duckdb
+  # incremental_strategy: append 
+  # By default we'll overwrite the partition defined above if changes are detected.

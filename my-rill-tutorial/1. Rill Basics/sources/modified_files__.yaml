@@ -4,7 +4,7 @@
 type: source
 
 connector: "duckdb"
-sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/*/*/modified_files_*.parquet')"
+sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/*/*/modified_files*.parquet')"
 
 refresh:
   every: 24h

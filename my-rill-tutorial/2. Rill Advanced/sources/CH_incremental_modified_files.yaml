@@ -1,0 +1,9 @@
+type: model
+incremental: true
+partitions:
+  glob: #defines the partition as glob
+    connector: gcs 
+    path: gs://rilldata-public/github-analytics/Clickhouse/2025/*/modified_files*.parquet
+    # path: gs://rilldata-public/github-analytics/Clickhouse/**/modified_files*.parquet # can use wildcard here if unsure of the full path
+
+sql: SELECT * FROM read_parquet('{{ .partition.uri }}')

@@ -9,11 +9,11 @@ type: connector
 # password: "{{ .env.connector.clickhouse.password }}"
 # ssl: true
 
-dev:
-  dsn: "{{ .env.clickhouse_dsn_dev }}"
+# dev:
+#   dsn: "{{ .env.clickhouse_dsn_dev }}"
 
 ### Managed ClickHouse ( Coming soon! )
 # Don't forget to import your UK_price_paid dataset to get started.
 
-# driver: clickhouse
-# managed: true
+driver: clickhouse
+managed: true
