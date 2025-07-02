@@ -7,54 +7,37 @@ type: metrics_view
 
 display_name: UK Price Paid Metrics
 connector: clickhouse
-table: uk_price_paid
 timeseries: date
 
 dimensions:
-  - name: postcode1
-    display_name: Postcode1
-    column: postcode1
-    description: 
-  - name: postcode2
-    display_name: Postcode2
-    column: postcode2
-    description: 
-  - name: type
-    display_name: Type
-    column: type
-    description: 
-  - name: duration
-    display_name: Duration
-    column: duration
-    description: 
-  - name: addr1
-    display_name: Addr1
-    column: addr1
-    description: 
-  - name: addr2
-    display_name: Addr2
-    column: addr2
-    description: 
-  - name: street
-    display_name: Street
-    column: street
-    description: 
-  - name: locality
-    display_name: Locality
-    column: locality
-    description: 
-  - name: town
-    display_name: Town
-    column: town
-    description: 
-  - name: district
-    display_name: District
-    column: district
-    description: 
-  - name: county
-    display_name: County
-    column: county
-    description: 
+  - column: transaction_id
+    name: transaction_id
+  - column: postcode
+    name: postcode
+  - column: property_type
+    name: property_type
+  - column: old_new
+    name: old_new
+  - column: duration
+    name: duration
+  - column: PAON
+    name: PAON
+  - column: SAON
+    name: SAON
+  - column: street
+    name: street
+  - column: locality
+    name: locality
+  - column: town_city
+    name: town_city
+  - column: district
+    name: district
+  - column: county
+    name: county
+  - column: ppd_category_type
+    name: ppd_category_type
+  - column: record_status
+    name: record_status
 
 measures:
   - name: total_transactions
@@ -77,14 +60,14 @@ measures:
     display_name: Minimum Price
     expression: MIN(price)
     description: Lowest property price recorded.
-  - name: average_price_new_properties
-    display_name: Average Price of New Properties
-    expression: AVG(price * is_new)
-    description: Average price of properties marked as new.
-  - name: count_new_properties
-    display_name: Count of New Properties
-    expression: SUM(is_new)
-    description: Total number of new properties sold.
+  # - name: average_price_new_properties
+  #   display_name: Average Price of New Properties
+  #   expression: AVG(price * is_new)
+  #   description: Average price of properties marked as new.
+  # - name: count_new_properties
+  #   display_name: Count of New Properties
+  #   expression: SUM(is_new)
+  #   description: Total number of new properties sold.
   - name: average_price_by_type
     display_name: Average Price by Type
     expression: AVG(price)
@@ -97,3 +80,5 @@ measures:
     display_name: Minimum Price by County
     expression: MIN(price)
     description: Lowest property price recorded in each county.
+model: uk_price_paid
+database_schema: default
