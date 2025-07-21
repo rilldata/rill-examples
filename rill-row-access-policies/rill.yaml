@@ -5,6 +5,8 @@ display_name: "Row Access Policies"
 # These are example mock users to test your security policies.
 # Learn more: https://docs.rilldata.com/manage/security
 
+olap_connector: duckdb
+
 mock_users:
 - email: user@rilldata.com
   admin: true
