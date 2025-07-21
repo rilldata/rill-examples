@@ -80,5 +80,6 @@ measures:
     display_name: Minimum Price by County
     expression: MIN(price)
     description: Lowest property price recorded in each county.
+    
 model: uk_price_paid
-database_schema: default
+# database_schema: default
