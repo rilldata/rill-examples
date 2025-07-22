@@ -1,0 +1,10 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+type: model
+connector: "bigquery"
+sql: |
+  select * from `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
+    WHERE _TABLE_SUFFIX BETWEEN '20210101' AND '20210131' 
+# FORMAT_DATE('%Y%m%d', CURRENT_DATE())
+project_id: "rilldata"

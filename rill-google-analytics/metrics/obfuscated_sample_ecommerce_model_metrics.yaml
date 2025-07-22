@@ -1,0 +1,170 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Obfuscated Sample Ecommerce Model Metrics
+model: obfuscated_sample_ecommerce_model
+timeseries: event_timestamp
+
+dimensions:
+  - name: event_date
+    display_name: Event Date
+    column: event_date
+  - name: user_pseudo_id
+    display_name: User Pseudo Id
+    column: user_pseudo_id
+  - name: event_timestamp
+    display_name: Event Timestamp
+    column: event_timestamp
+  - name: user_first_touch_timestamp
+    display_name: User First Touch Timestamp
+    column: user_first_touch_timestamp
+  - name: platform
+    display_name: Platform
+    column: platform
+  - name: event_name
+    display_name: Event Name
+    column: event_name
+  - name: ltv_currency
+    display_name: Ltv Currency
+    column: ltv_currency
+  - name: device_category
+    display_name: Device Category
+    column: device_category
+  - name: device_language
+    display_name: Device Language
+    column: device_language
+  - name: device_mobile_brand_name
+    display_name: Device Mobile Brand Name
+    column: device_mobile_brand_name
+  - name: device_mobile_model_name
+    display_name: Device Mobile Model Name
+    column: device_mobile_model_name
+  - name: device_operating_system
+    display_name: Device Operating System
+    column: device_operating_system
+  - name: device_operating_system_version
+    display_name: Device Operating System Version
+    column: device_operating_system_version
+  - name: device_browser
+    display_name: Device Browser
+    column: device_browser
+  - name: device_browser_version
+    display_name: Device Browser Version
+    column: device_browser_version
+  - name: geo_city
+    display_name: Geo City
+    column: geo_city
+  - name: geo_continent
+    display_name: Geo Continent
+    column: geo_continent
+  - name: geo_country
+    display_name: Geo Country
+    column: geo_country
+  - name: geo_region
+    display_name: Geo Region
+    column: geo_region
+  - name: geo_sub_continent
+    display_name: Geo Sub Continent
+    column: geo_sub_continent
+  - name: traffic_medium
+    display_name: Traffic Medium
+    column: traffic_medium
+  - name: traffic_name
+    display_name: Traffic Name
+    column: traffic_name
+  - name: traffic_source
+    display_name: Traffic Source
+    column: traffic_source
+  - name: ecommerce_transaction_id
+    display_name: Ecommerce Transaction Id
+    column: ecommerce_transaction_id
+  - name: value_creative_name
+    display_name: Value Creative Name
+    column: value_creative_name
+  - name: value_item_brand
+    display_name: Value Item Brand
+    column: value_item_brand
+  - name: value_item_category
+    display_name: Value Item Category
+    column: value_item_category
+  - name: value_item_id
+    display_name: Value Item Id
+    column: value_item_id
+  - name: value_item_list_index
+    display_name: Value Item List Index
+    column: value_item_list_index
+  - name: value_item_list_name
+    display_name: Value Item List Name
+    column: value_item_list_name
+  - name: value_item_name
+    display_name: Value Item Name
+    column: value_item_name
+  - name: value_item_variant
+    display_name: Value Item Variant
+    column: value_item_variant
+  - name: value_promotion_name
+    display_name: Value Promotion Name
+    column: value_promotion_name
+
+measures:
+  - name: total_events_measure
+    display_name: Total Events
+    expression: COUNT(*)
+    description: Total number of events recorded in the ecommerce model.
+    format_preset: humanize
+  - name: total_revenue_usd_measure
+    display_name: Total Revenue in USD
+    expression: SUM(ecommerce_purchase_revenue_in_usd)
+    description: Total revenue from ecommerce purchases in USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: average_event_value_usd_measure
+    display_name: Average Event Value in USD
+    expression: AVG(event_value_in_usd)
+    description: Average value of events in USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_ltv_revenue_measure
+    display_name: Total LTV Revenue
+    expression: SUM(ltv_revenue)
+    description: Total lifetime value revenue.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: average_item_price_usd_measure
+    display_name: Average Item Price in USD
+    expression: AVG(value_item_price_in_usd)
+    description: Average price of items in USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_refund_value_usd_measure
+    display_name: Total Refund Value in USD
+    expression: SUM(ecommerce_refund_value_in_usd)
+    description: Total value of refunds in USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_shipping_value_usd_measure
+    display_name: Total Shipping Value in USD
+    expression: SUM(ecommerce_shipping_value_in_usd)
+    description: Total value of shipping in USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_tax_value_usd_measure
+    display_name: Total Tax Value in USD
+    expression: SUM(ecommerce_tax_value_in_usd)
+    description: Total value of taxes in USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  # - name: total_unique_items_sold_measure
+  #   display_name: Total Unique Items Sold
+  #   expression: SUM(ecommerce_unique_items)
+  #   description: Total number of unique items sold.
+  #   format_preset: humanize
+  # - name: average_items_per_transaction_measure
+  #   display_name: Average Items per Transaction
+  #   expression: AVG(ecommerce_total_item_quantity)
+  #   description: Average number of items per transaction.
+  #   format_preset: humanize

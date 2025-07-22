@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Obfuscated Sample Ecommerce Model Metrics dashboard"
+metrics_view: obfuscated_sample_ecommerce_model_metrics
+
+dimensions: '*'
+measures: '*'
