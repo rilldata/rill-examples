@@ -4,3 +4,6 @@ display_name: Open RTB Ads
 description: Open RTB Ads - ClickHouse
 
 olap_connector: clickhouse
+
+features:
+  clickhouseModeling: true
