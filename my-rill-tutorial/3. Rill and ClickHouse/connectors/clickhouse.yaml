@@ -2,16 +2,16 @@
 type: connector
 
 # ### Clickhouse Cloud
-driver: clickhouse
-host: "l3e2nu99sw.us-east-1.aws.clickhouse.cloud"
-port: 8443
-username: "default"
-password: "{{ .env.connector.clickhouse.password }}"
-ssl: true
-mode: readwrite
+# driver: clickhouse
+# host: "l3e2nu99sw.us-east-1.aws.clickhouse.cloud"
+# port: 8443
+# username: "default"
+# password: "{{ .env.connector.clickhouse.password }}"
+# ssl: true
+# mode: readwrite
 
-### Managed ClickHouse ( Coming soon! )
+### Managed ClickHouse 
 # Don't forget to import your UK_price_paid dataset to get started.
 
-#driver: clickhouse
-#managed: true
+driver: clickhouse
+managed: true
