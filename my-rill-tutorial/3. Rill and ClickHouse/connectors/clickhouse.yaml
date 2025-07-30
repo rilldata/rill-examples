@@ -8,6 +8,7 @@ port: 8443
 username: "default"
 password: "{{ .env.connector.clickhouse.password }}"
 ssl: true
+mode: readwrite
 
 ### Managed ClickHouse ( Coming soon! )
 # Don't forget to import your UK_price_paid dataset to get started.
