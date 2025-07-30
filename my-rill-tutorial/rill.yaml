@@ -16,9 +16,9 @@ mock_users:
 
 # Custom feature flags to enable features in development, can change at anytime.
 features:
-  - customDashboards
   - cloudDataViewer
   - clickhouseModeling
+  - rillTime
 
 # Project level Variables
 env:

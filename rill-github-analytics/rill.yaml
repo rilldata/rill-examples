@@ -4,3 +4,7 @@ display_name: GitHub Analytics
 description: GitHub Analytics
 
 olap_connector: duckdb
+
+features:
+  - cloudDataViewer
+  - rillTime
