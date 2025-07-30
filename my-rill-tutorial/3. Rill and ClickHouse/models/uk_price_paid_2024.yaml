@@ -1,0 +1,49 @@
+type: model
+
+connector: clickhouse
+materialize: true
+sql: >
+    SELECT
+      transaction_id,
+      price,
+      parseDateTimeBestEffort(date_of_transfer) AS date,
+      postcode,
+      property_type,
+      old_new,
+      duration,
+      PAON,
+      SAON,
+      street,
+      locality,
+      town_city,
+      district,
+      county,
+      ppd_category_type,
+      record_status,
+      now() AS audit_load_datetime
+     FROM url(
+        'http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-2024.csv',
+      'CSV',
+      'transaction_id String,
+       price Int64,
+       date_of_transfer String,
+       postcode String,
+       property_type String,
+       old_new String,
+       duration String,
+       PAON String,
+       SAON String,
+       street String,
+       locality String,
+       town_city String,
+       district String,
+       county String,
+       ppd_category_type String,
+       record_status String'
+       )
+        SETTINGS max_http_get_redirects = 10
+
+
+output:
+  connector: clickhouse
+  table: uk_price_paid_2024
