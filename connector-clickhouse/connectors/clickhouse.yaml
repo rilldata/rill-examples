@@ -6,3 +6,5 @@ type: connector
 driver: clickhouse
 host: "localhost"
 port: 9000
+
+mode: readwrite
