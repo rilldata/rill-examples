@@ -4,3 +4,7 @@ display_name: Moble App Engagement
 description: Mobile App Engagement
 
 olap_connector: duckdb
+
+features:
+  - cloudDataViewer
+  - rillTime

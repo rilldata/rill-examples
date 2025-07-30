@@ -6,4 +6,6 @@ description: Open RTB Ads - ClickHouse
 olap_connector: clickhouse
 
 features:
-  clickhouseModeling: true
+  - clickhouseModeling
+  - cloudDataViewer
+  - rillTime

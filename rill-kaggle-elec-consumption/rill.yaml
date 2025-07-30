@@ -9,3 +9,7 @@ olap_connector: duckdb
 mock_users:
 - email: john@yourcompany.com
 - email: jane@partnercompany.com
+
+features:
+  - cloudDataViewer
+  - rillTime

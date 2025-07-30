@@ -22,6 +22,7 @@ features:
   - darkMode
   - cloudDataViewer
   - chat
+  - rillTime
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
