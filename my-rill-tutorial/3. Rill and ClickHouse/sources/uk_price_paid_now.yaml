@@ -1,15 +1,7 @@
 type: model
 
 connector: clickhouse
-
-partitions:
-  glob: 
-    path: "gs://rilldata-public/github-analytics/ClickHouseData/*.csv"
-
 materialize: true
-
-refresh:
-  cron: 0 0 * * *
 sql: >
     SELECT
       transaction_id,
@@ -29,10 +21,8 @@ sql: >
       ppd_category_type,
       record_status,
       now() AS audit_load_datetime
-    FROM s3(
-      'https://storage.googleapis.com/rilldata-public/{{.partition.path}}',
-      '',
-      '',
+     FROM url(
+        'http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-2025.csv',
       'CSV',
       'transaction_id String,
        price Int64,
@@ -50,10 +40,9 @@ sql: >
        county String,
        ppd_category_type String,
        record_status String'
-
-    )
-
+       )
+        SETTINGS max_http_get_redirects = 10
 
 output:
   connector: clickhouse
-  table: uk_price_paid
+  table: uk_price_paid_2025

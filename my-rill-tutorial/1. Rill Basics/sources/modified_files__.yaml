@@ -4,6 +4,12 @@
 type: source
 
 connector: "duckdb"
+
+dev:
+  sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/2025/06/modified_files_2025_06.parquet')"
+
+
+
 sql: "select * from read_parquet('gs://rilldata-public/github-analytics/Clickhouse/*/*/modified_files*.parquet')"
 
 refresh:
