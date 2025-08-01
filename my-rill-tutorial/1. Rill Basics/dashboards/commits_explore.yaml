@@ -8,3 +8,4 @@ metrics_view: commits_metrics
 
 dimensions: '*'
 measures: '*'
+theme: theme
