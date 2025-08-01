@@ -3,4 +3,4 @@ type: connector
 
 driver: clickhouse
 managed: true
-# mode: readwrite 
+mode: readwrite 
