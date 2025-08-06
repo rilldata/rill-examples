@@ -1,0 +1,20 @@
+compiler: rillv1
+
+display_name: Demo Currency Exchange
+
+# The project's default OLAP connector.
+# Learn more: https://docs.rilldata.com/reference/olap-engines
+olap_connector: duckdb 
+
+# These are example mock users to test your security policies.
+# Learn more: https://docs.rilldata.com/manage/security
+mock_users:
+- email: john@yourcompany.com
+- email: jane@partnercompany.com
+
+features:
+  - cloudDataViewer
+  - clickhouseModeling
+  - rillTime
+  - darkMode
+  - chat
