@@ -35,3 +35,10 @@ measures:
     format_preset: humanize
     description: The aggregate sum of deleted_lines column.
     valid_percent_of_total: false
+
+security:
+  access: true
+  exclude:
+    - if: true
+      names:
+        - author_name
