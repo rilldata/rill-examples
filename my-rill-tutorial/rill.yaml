@@ -20,7 +20,7 @@ features:
   - clickhouseModeling
   - rillTime
   - darkMode
-
+  - chat
 # Project level Variables
 env:
   time: P1W

@@ -1,0 +1,5 @@
+type: connector
+driver: gcs
+
+
+google_application_credentials: '{{.env.connector.gcs.google_application_credentials}}' 
