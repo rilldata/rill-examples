@@ -9,6 +9,8 @@ display_name: Automotive Logistics 2000-2025 Model Metrics
 model: automotive_logistics_2000_2025_model
 timeseries: ship_date
 
+first_month_of_year: 9
+
 dimensions:
   - name: shipment_id
     display_name: Shipment Id
@@ -31,6 +33,27 @@ dimensions:
   - name: country
     display_name: Country
     column: country
+
+
+  - expression: CAST(EXTRACT(YEAR FROM ship_date) AS VARCHAR) || '-Q' ||  CAST(((EXTRACT(MONTH FROM ship_date) - 1) / 3 + 1) AS INTEGER)
+    name: quarter
+    description: dynamic date filternig
+  - expression: CAST(EXTRACT(YEAR FROM ship_date - interval 8 months) AS VARCHAR) || '-Q' ||  CAST(((EXTRACT(MONTH FROM ship_date - interval 8 months) - 1) / 3 + 1) AS INTEGER)
+    name: shifted_quarter
+    description: dynamic date filternig
+  - expression: ship_date + interval 10 year
+    name: date_modified 
+    description: dynamic date filternig
+  - expression: ship_date - interval 8 months
+    name: actual_date
+    description: dynamic date filternig
+
+  - expression: strftime(ship_date, '%B %Y')
+    name: date_modified_string
+    description: dynamic date filternig
+  - expression: strftime(ship_date, '%m-%B %Y')
+    name: date_modified_num_string
+    description: dynamic date filternig
 
 measures:
   - name: total_quantity_shipped_measure

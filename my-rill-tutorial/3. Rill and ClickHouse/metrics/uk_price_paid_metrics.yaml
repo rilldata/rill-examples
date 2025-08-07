@@ -38,7 +38,7 @@ dimensions:
     name: ppd_category_type
   - column: record_status
     name: record_status
-
+    
 measures:
   - name: total_transactions
     display_name: Total Transactions
