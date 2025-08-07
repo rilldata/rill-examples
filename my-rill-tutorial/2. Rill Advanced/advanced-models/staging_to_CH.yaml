@@ -1,4 +1,6 @@
 type: model 
+connector: snowflake
+
 materialize: true
 splits_concurrency: 3
 
@@ -7,7 +9,6 @@ partitions:
     sql: SELECT range as day FROM range(TIMESTAMPTZ '2022-12-15', TIMESTAMPTZ '2022-12-31', INTERVAL 1 DAY)
 
 
-connector: snowflake
 sql: SELECT * FROM RILLQA.PUBLIC.HORROR_MOVIES where date_trunc('day', release_date) = '{{.partition.day}}' limit 10
 
 stage:

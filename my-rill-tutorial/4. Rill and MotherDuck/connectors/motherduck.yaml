@@ -1,0 +1,9 @@
+type: connector
+driver: duckdb
+
+path: "md:my_db"
+
+init_sql: |
+  INSTALL 'motherduck';
+  LOAD 'motherduck';
+  SET motherduck_token= '{{.env.connector.motherduck.token}}'

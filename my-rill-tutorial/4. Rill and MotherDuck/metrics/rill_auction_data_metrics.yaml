@@ -1,0 +1,118 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view 
+
+display_name: Rill Auction Data Metrics
+model: rill_auction_data
+timeseries: __time
+
+dimensions:
+  - name: app_site_name
+    display_name: App Site Name
+    column: app_site_name
+  - name: app_site_domain
+    display_name: App Site Domain
+    column: app_site_domain
+  - name: pub_name
+    display_name: Pub Name
+    column: pub_name
+  - name: app_site_cat
+    display_name: App Site Cat
+    column: app_site_cat
+  - name: ad_size
+    display_name: Ad Size
+    column: ad_size
+  - name: device_region
+    display_name: Device Region
+    column: device_region
+  - name: device_osv
+    display_name: Device Osv
+    column: device_osv
+  - name: bid_floor_bucket
+    display_name: Bid Floor Bucket
+    column: bid_floor_bucket
+  - name: platform_browser
+    display_name: Platform Browser
+    column: platform_browser
+  - name: device_os
+    display_name: Device Os
+    column: device_os
+  - name: device_type
+    display_name: Device Type
+    column: device_type
+  - name: ad_position
+    display_name: Ad Position
+    column: ad_position
+  - name: video_max_duration_bucket
+    display_name: Video Max Duration Bucket
+    column: video_max_duration_bucket
+  - name: video_min_duration_bucket
+    display_name: Video Min Duration Bucket
+    column: video_min_duration_bucket
+  - name: placement_type
+    display_name: Placement Type
+    column: placement_type
+  - name: auction_type
+    display_name: Auction Type
+    column: auction_type
+  - name: app_or_site
+    display_name: App Or Site
+    column: app_or_site
+  - name: __time
+    display_name: Time
+    column: __time
+
+measures:
+  - name: total_bid_requests_measure
+    display_name: Total Bid Requests
+    expression: COUNT(bid_request_cnt)
+    description: Total number of bid requests recorded in the auction data.
+    format_preset: humanize
+  - name: total_has_bid_floor_measure
+    display_name: Total Has Bid Floor
+    expression: COUNT(has_bid_floor_cnt)
+    description: Total number of entries with a bid floor in the auction data.
+    format_preset: humanize
+  - name: average_bid_floor_measure
+    display_name: Average Bid Floor
+    expression: AVG(bid_floor)
+    description: Average bid floor value across all auction entries.
+    format_preset: humanize
+  - name: sum_bid_floor_measure
+    display_name: Sum of Bid Floor
+    expression: SUM(bid_floor)
+    description: Total sum of bid floor values in the auction data.
+    format_preset: humanize
+  - name: min_bid_floor_measure
+    display_name: Minimum Bid Floor
+    expression: MIN(bid_floor)
+    description: Minimum bid floor value recorded in the auction data.
+    format_preset: humanize
+  - name: max_bid_floor_measure
+    display_name: Maximum Bid Floor
+    expression: MAX(bid_floor)
+    description: Maximum bid floor value recorded in the auction data.
+    format_preset: humanize
+  - name: distinct_app_site_names_measure
+    display_name: Distinct App/Site Names
+    expression: COUNT(DISTINCT app_site_name)
+    description: Number of distinct app or site names in the auction data.
+    format_preset: humanize
+  - name: distinct_pub_names_measure
+    display_name: Distinct Publisher Names
+    expression: COUNT(DISTINCT pub_name)
+    description: Number of distinct publisher names in the auction data.
+    format_preset: humanize
+  - name: distinct_device_types_measure
+    display_name: Distinct Device Types
+    expression: COUNT(DISTINCT device_type)
+    description: Number of distinct device types in the auction data.
+    format_preset: humanize
+  - name: distinct_auction_types_measure
+    display_name: Distinct Auction Types
+    expression: COUNT(DISTINCT auction_type)
+    description: Number of distinct auction types in the auction data.
+    format_preset: humanize

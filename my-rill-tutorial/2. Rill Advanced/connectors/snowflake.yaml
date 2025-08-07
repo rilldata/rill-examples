@@ -1,0 +1,6 @@
+type: connector
+
+driver: snowflake
+
+
+dsn: '{{.env.connector.snowflake.dsn}}'
