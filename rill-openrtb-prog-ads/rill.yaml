@@ -17,9 +17,6 @@ mock_users:
 models:
   refresh:
     every: 24h
-
-features:
-  - rillTime
     
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
