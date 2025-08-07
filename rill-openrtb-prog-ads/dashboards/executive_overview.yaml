@@ -3,6 +3,7 @@
 
 type: canvas
 display_name: Executive summary report
+max_width: 2400
 defaults:
   time_range: PT24H
   comparison_mode: time
