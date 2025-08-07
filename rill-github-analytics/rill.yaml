@@ -2,3 +2,8 @@ compiler: rillv1
 
 display_name: GitHub Analytics
 description: GitHub Analytics
+
+features:
+  - cloudDataViewer
+  - rillTime
+  - chat

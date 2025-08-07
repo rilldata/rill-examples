@@ -6,7 +6,11 @@ olap_connector: "clickhouse"
 
 
 features:
-  clickhouseModeling: true
+
+  - cloudDataViewer
+  - rillTime
+  - chat
+  - clickhouseModeling
 
 ignore_paths:
   - "/clickhouse_data"

@@ -7,3 +7,8 @@ title: "Measure Protocol Rill Demo"
 mock_users:
 - email: john@yourcompany.com
 - email: jane@partnercompany.com
+
+features:
+  - cloudDataViewer
+  - rillTime
+  - chat

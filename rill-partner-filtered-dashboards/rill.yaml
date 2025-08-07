@@ -7,3 +7,8 @@ mock_users:
     admin: true
   - email: john.smith@gmail.com
   - email: anon@unknown.com
+
+features:
+  - cloudDataViewer
+  - rillTime
+  - chat
