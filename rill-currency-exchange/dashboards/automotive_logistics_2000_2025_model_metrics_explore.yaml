@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Automotive Logistics 2000-2025 Model Metrics dashboard"
+metrics_view: automotive_logistics_2000_2025_model_metrics
+
+dimensions: '*'
+measures: '*'
