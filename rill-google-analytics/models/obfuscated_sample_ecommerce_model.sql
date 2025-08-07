@@ -1,3 +1,5 @@
+-- @materialize: true
+
 SELECT
   event_date,
   user_pseudo_id,

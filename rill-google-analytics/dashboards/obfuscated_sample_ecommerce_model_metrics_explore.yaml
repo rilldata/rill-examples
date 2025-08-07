@@ -3,7 +3,7 @@
 
 type: explore
 
-display_name: "Obfuscated Sample Ecommerce Model Metrics dashboard"
+display_name: "Obfuscated Sample Ecommerce dashboard"
 metrics_view: obfuscated_sample_ecommerce_model_metrics
 
 dimensions: '*'
