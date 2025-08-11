@@ -38,7 +38,7 @@ dimensions:
     name: ppd_category_type
   - column: record_status
     name: record_status
-    
+
 measures:
   - name: total_transactions
     display_name: Total Transactions
@@ -80,6 +80,6 @@ measures:
     display_name: Minimum Price by County
     expression: MIN(price)
     description: Lowest property price recorded in each county.
-    
+
 model: uk_price_paid
 # database_schema: default

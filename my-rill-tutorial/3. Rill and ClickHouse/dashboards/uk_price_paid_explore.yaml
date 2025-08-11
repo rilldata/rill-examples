@@ -6,5 +6,5 @@ type: explore
 display_name: "Rill & ClickHouse UK Dashboard"
 metrics_view: uk_price_paid_metrics
 
-dimensions: '*'
-measures: '*'
+dimensions: "*"
+measures: "*"

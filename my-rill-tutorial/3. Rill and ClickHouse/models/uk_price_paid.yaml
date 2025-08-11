@@ -3,11 +3,9 @@ connector: clickhouse
 
 sql: >
   select * from uk_price_paid_2024
-  
   union all
-  
   select * from uk_price_paid_2025
+
 output:
   connector: clickhouse
   output: uk_price_paid
-
