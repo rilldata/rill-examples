@@ -1,0 +1,6 @@
+type: connector
+
+driver: bigquery
+
+project_id: rilldata
+google_application_credentials: '{{.env.connector.bigquery.google_application_credentials}}'
