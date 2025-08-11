@@ -8,6 +8,11 @@ type: metrics_view
 timeseries: "__time"
 smallest_time_grain: "hour"
 
+annotations:
+  - model: annotations_auction
+    name: auction_annotations
+    measures: ['requests']
+
 measures:
   - display_name: Total Requests
     name: requests
