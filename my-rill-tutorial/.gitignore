@@ -4,3 +4,5 @@
 .env
 tmp
 .rillcloud
+
+**/3. Rill and ClickHouse/

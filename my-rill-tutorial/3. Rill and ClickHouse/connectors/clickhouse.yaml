@@ -1,8 +1,0 @@
-type: connector
-driver: clickhouse
-
-dev:
-  managed: true
-
-prod:
-  managed: true
