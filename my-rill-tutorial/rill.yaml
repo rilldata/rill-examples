@@ -13,7 +13,6 @@ mock_users:
       - tutorial-admin
   - email: your_email2@domain.com
 
-
 # Custom feature flags to enable features in development, can change at anytime.
 features:
   - cloudDataViewer
@@ -35,7 +34,7 @@ metrics_views:
 explores:
   defaults:
     time_range: P24M
-  
+
   time_zones:
     - America/Denver
     - UTC
@@ -52,7 +51,7 @@ explores:
     - Australia/Sydney
 
   time_ranges:
-  # last x days/hours/months.
+    # last x days/hours/months.
     - PT24H
     - P7D
     - P14D
@@ -60,7 +59,3 @@ explores:
     - P3M
     - P6M
     - P12M
-
-# olap_connector: clickhouse
-
-
