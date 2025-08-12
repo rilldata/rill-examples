@@ -2,4 +2,4 @@
 type: connector
 
 driver: clickhouse
-managed: true
+managed: false
