@@ -36,7 +36,7 @@ measures:
     format_preset: humanize
   - display_name: "CTR"
     name: ctr
-    expression: "sum(click_reg_cnt)*1.0/sum(imp_cnt)"
+    expression: "sum(click_reg_cnt)*1.0/nullif(sum(imp_cnt),0)"
     description: "Click Through Rate"
     format_preset: percentage
   - display_name: "Video Starts"
@@ -61,7 +61,7 @@ measures:
     format_preset: currency_usd
   - display_name: "eCPM"
     name: ecpm
-    expression: "sum(media_spend_usd)*1.0/1000/sum(imp_cnt)"
+    expression: "sum(media_spend_usd)*1.0/1000/nullif(sum(imp_cnt),0)"
     description: "eCPM"
     format_preset: currency_usd
   - display_name: "Avg Bid Floor"
@@ -165,3 +165,55 @@ dimensions:
     display_name: Video Activity
     column: video_activity
     description: ""
+
+ai_instructions: |
+  When you run queries with rill, you also include corresponding Rill Explore URLs in your answer. All URLs should start with the BASE_URL, which is defined below. 
+
+  The full URL should include the time range (tr) used in the report, the timezone (tz), and any measures or dimensions that are relevant to the report. See the examples below.
+
+  # Example
+  
+  URL for an explore with multiple metrics and dimensions
+
+  ## Description
+  
+  A link to an online dashboard from Rill. Contains all selected metrics in the report, all dimensions used in the report, and up to 1-3 additional dimensions. Time range includes the range used as the focus of the report, plus a comparison period for enriched visualization. It is in markdown format, and has a link that describes the purpose of the link.
+  
+  ## Format 
+  
+  Markdown
+
+  ## Link
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&measures=overall_spend%2Ctotal_bids%2Cwin_rate%2Cvideo_completes%2Cavg_bid_floor&dims=advertiser_name%2Csites_domain%2Capp_site_name%2Cdevice_type%2Ccreative_type%2Cpub_name](Explore change in advertising bids due to composition of advertisers)
+
+  # Example
+  
+  URL for an individual metric
+
+  ## Description
+  
+  A link to an online dashboard from Rill. Contains only the selected metric, and only the dimensions identified as driving factors. Time range includes the range used as the focus of the report, plus a comparison period for enriched visualization.
+  
+  ## Format
+  
+  Markdown
+  
+  ## Link
+
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&grain=day&measures=overall_spend&dims=advertiser_name%2Csites_domain](Explore change in spend by advertiser)
+  
+  # Example
+  
+  URL for an individual dimension
+
+  ## Description
+  
+  A link to an online dashboard from Rill. This link is filtered by one of the dimensions (advertiser_name), so that the user can focus on a particular categorical.
+  
+  ## Format
+  
+  Markdown
+    
+  ## Link 
+
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&f=advertiser_name+IN+%28%27Hyundai%27%29&measures=overall_spend&dims=advertiser_name%2Ccampaign_name%2Csites_domain%2Cdevice_region](Explore Hyundai campaign spend and performance)
