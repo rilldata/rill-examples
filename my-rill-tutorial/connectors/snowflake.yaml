@@ -1,0 +1,4 @@
+type: connector                                  # Must be `connector` (required)
+driver: snowflake                                # Must be `snowflake` _(required)_
+
+dsn: '{{ .env.connector.snowflake.dsn}}' # Snowflake connection DSN _(required if not using individual parameters)_  

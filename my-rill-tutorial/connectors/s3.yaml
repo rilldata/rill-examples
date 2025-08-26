@@ -1,0 +1,5 @@
+type: connector                                  # Must be `connector` (required)
+driver: s3                                       # Must be `s3` _(required)_
+
+aws_access_key_id: '{{.env.connector.s3.aws_access_key_id }}'     # AWS Access Key ID  
+aws_secret_access_key: '{{.env.connector.s3.aws_secret_access_key }}'         # AWS Secret Access Key  

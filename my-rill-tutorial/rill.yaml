@@ -20,6 +20,7 @@ features:
   - rillTime
   - darkMode
   - chat
+  - dashboardChat
 # Project level Variables
 env:
   time: P1W

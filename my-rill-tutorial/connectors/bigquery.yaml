@@ -1,0 +1,5 @@
+type: connector                                  # Must be `connector` (required)
+driver: bigquery                                 # Must be `bigquery` _(required)_
+
+google_application_credentials: '{{ .env.connector.bigquery.google_application_credentials }}'    # Google Cloud service account JSON  
+project_id: "rilldata"                      # Google Cloud project ID  
