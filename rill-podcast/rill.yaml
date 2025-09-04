@@ -7,8 +7,7 @@ display_name: "Podcasting Example Project"
 mock_users:
 - email: john@yourcompany.com
 - email: jane@partnercompany.com
-
 features:
   - cloudDataViewer
   - rillTime
-  - chat
+  - dashboardChat

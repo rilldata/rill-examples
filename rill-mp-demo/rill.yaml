@@ -11,4 +11,4 @@ mock_users:
 features:
   - cloudDataViewer
   - rillTime
-  - chat
+  - dashboardChat

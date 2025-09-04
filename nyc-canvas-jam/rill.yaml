@@ -9,4 +9,6 @@ mock_users:
   - email: jane@partnercompany.com
 
 features:
-  - canvasDashboards
+  - cloudDataViewer
+  - rillTime
+  - dashboardChat

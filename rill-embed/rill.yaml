@@ -11,3 +11,8 @@ mock_users:
   groups:
     - partners
 - email: test@domain.com
+
+features:
+  - cloudDataViewer
+  - rillTime
+  - dashboardChat

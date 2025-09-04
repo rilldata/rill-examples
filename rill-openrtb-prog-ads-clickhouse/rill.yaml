@@ -8,4 +8,4 @@ olap_connector: clickhouse
 features:
   - cloudDataViewer
   - rillTime
-  - chat
+  - dashboardChat

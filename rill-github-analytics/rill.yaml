@@ -6,4 +6,4 @@ description: GitHub Analytics
 features:
   - cloudDataViewer
   - rillTime
-  - chat
+  - dashboardChat

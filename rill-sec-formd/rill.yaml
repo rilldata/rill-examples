@@ -5,4 +5,4 @@ display_name: Rill SEC Offerings
 features:
   - cloudDataViewer
   - rillTime
-  - chat
+  - dashboardChat

@@ -26,3 +26,8 @@ mock_users:
 - email: deborah@rodriguez.com
 - email: tim@brown.com
 - email: doesnt@exist.com
+
+features:
+  - cloudDataViewer
+  - rillTime
+  - dashboardChat
