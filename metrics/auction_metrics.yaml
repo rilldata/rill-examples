@@ -1,0 +1,138 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+version: 1
+model: "auction_data_model"
+type: metrics_view
+
+timeseries: "__time"
+smallest_time_grain: "hour"
+
+annotations:
+  - model: annotations_auction
+    name: auction_annotations
+    measures: ['requests']
+
+measures:
+  - display_name: Total Requests
+    name: requests
+    expression: sum(bid_request_cnt)
+    description: Total Requests
+    format_preset: humanize
+  - display_name: "Avg Bid Floor"
+    name: avg_bid_floor
+    expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
+    description: "Average Bid Floor"
+    format_preset: currency_usd
+  - display_name: "1D QPS"
+    name: 1d_qps
+    expression: "sum(bid_request_cnt) / 86400 "
+    description: "1D QPS"
+    format_preset: humanize
+
+
+dimensions:
+  - name: app_site_name
+    display_name: App Site Name
+    column: app_site_name
+    description: ""
+  - display_name: App Site Domain
+    column: app_site_domain
+    description: ""
+    name: app_site_domain
+  - name: pub_name
+    display_name: Pub Name
+    column: pub_name
+    description: ""
+  - name: app_site_cat
+    display_name: App Site Cat
+    column: app_site_cat
+    description: ""
+  - name: ad_size
+    display_name: Ad Size
+    column: ad_size
+    description: ""
+  - name: device_state
+    display_name: Device State
+    column: device_state
+    description: ""
+  - name: device_osv
+    display_name: Device OS Version
+    column: device_osv
+    description: ""
+  - name: bid_floor_bucket
+    display_name: Bid Floor Bucket
+    column: bid_floor_bucket
+    description: ""
+  - name: platform_browser
+    display_name: Platform Browser
+    column: platform_browser
+    description: ""
+  - name: device_os
+    display_name: Device OS
+    column: device_os
+    description: ""
+  - name: device_type
+    display_name: Device Type
+    column: device_type
+    description: ""
+  - name: ad_position
+    display_name: Ad Position
+    column: ad_position
+    description: ""
+  - name: video_max_duration_bucket
+    display_name: Video Max Duration Bucket
+    column: video_max_duration_bucket
+    description: ""
+  - name: video_min_duration_bucket
+    display_name: Video Min Duration Bucket
+    column: video_min_duration_bucket
+    description: ""
+  - display_name: Placement Type
+    column: placement_type
+    description: ""
+    name: placement_type
+  - name: auction_type
+    display_name: Auction Type
+    column: auction_type
+    description: ""
+  - name: app_or_site
+    display_name: App or Site
+    column: app_or_site
+    description: ""
+  - name: device_country
+    display_name: "Device Country"
+    column: "device_country"
+    description: ""
+
+ai_instructions: |
+  When you run queries with rill, you also include corresponding Rill Explore URLs in your answer.
+
+  # Example: Link for an explore with multiple metrics and dimensions
+
+  ## Description
+  
+  A link to an online dashboard from Rill. Contains all selected metrics in the report, all dimensions used in the report, and up to 1-3 additional dimensions. Time range includes the range used as the focus of the report, plus a comparison period for enriched visualization. It is in markdown format, and has a link that describes the purpose of the link.
+  
+  ## Format 
+  
+  Markdown
+
+  ## Link
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/auction_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&measures=overall_spend%2Ctotal_bids%2Cwin_rate%2Cvideo_completes%2Cavg_bid_floor&dims=advertiser_name%2Csites_domain%2Capp_site_name%2Cdevice_type%2Ccreative_type%2Cpub_name](Explore change in advertising bids due to composition of advertisers)
+
+  # Example
+  
+  URL for an individual metric
+
+  ## Description
+  
+  A link to an online dashboard from Rill. Contains only the selected metric, and only the dimensions identified as driving factors. Time range includes the range used as the focus of the report, plus a comparison period for enriched visualization.
+  Format: Markdown
+  Link : [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/auction_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&grain=day&measures=overall_spend&dims=advertiser_name%2Csites_domain](Explore change in spend by advertiser)
+  
+  Example: URL for an individual dimension
+
+  Description: A link to an online dashboard from Rill. This link is filtered by one of the dimensions (advertiser_name), so that the user can focus on a particular categorical.
+  Format: Markdown
+  Link : [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/auction_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&f=advertiser_name+IN+%28%27Hyundai%27%29&measures=overall_spend&dims=advertiser_name%2Ccampaign_name%2Csites_domain%2Cdevice_region](Explore Hyundai campaign spend and performance)

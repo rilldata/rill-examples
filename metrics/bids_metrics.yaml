@@ -1,0 +1,219 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+
+version: 1
+model: "bids_data_model"
+type: metrics_view
+
+timeseries: "__time"
+smallest_time_grain: "hour"
+
+measures:
+  - display_name: Advertising Spend Overall
+    name: overall_spend
+    expression: sum(media_spend_usd)/1000
+    description: Total Spend
+    format_preset: currency_usd
+  - display_name: "Bids"
+    name: total_bids
+    expression: "sum(bid_cnt)"
+    description: "Total Bids"
+    format_preset: humanize
+  - display_name: "Impressions"
+    name: impressions
+    expression: "sum(imp_cnt)"
+    description: "Total Impressions"
+    format_preset: humanize
+  - display_name: "Win Rate"
+    name: win_rate
+    expression: "sum(imp_cnt)*1.0/sum(bid_cnt)"
+    description: "Impressions / Bids"
+    format_preset: percentage
+  - display_name: "Clicks"
+    name: clicks
+    expression: "sum(click_reg_cnt)"
+    description: "Total Clicks"
+    format_preset: humanize
+  - display_name: "CTR"
+    name: ctr
+    expression: "sum(click_reg_cnt)*1.0/nullif(sum(imp_cnt),0)"
+    description: "Click Through Rate"
+    format_preset: percentage
+  - display_name: "Video Starts"
+    name: video_starts
+    expression: "sum(video_start_cnt)"
+    description: "Total Video Starts"
+    format_preset: humanize
+  - display_name: "Video Completes"
+    name: video_completes
+    expression: "sum(video_complete_cnt)"
+    description: "Total Video Completes"
+    format_preset: humanize
+  - display_name: "Video Completion Rate"
+    name: video_completion_rate
+    expression: "sum(video_complete_cnt)*1.0/sum(video_start_cnt)"
+    description: "Video Completion Rate"
+    format_preset: percentage
+  - display_name: "Avg Bid Price"
+    name: avg_bid_price
+    expression: "sum(bid_price_usd)*1.0/sum(bid_cnt)/1000"
+    description: "Average Bid Price"
+    format_preset: currency_usd
+  - display_name: "eCPM"
+    name: ecpm
+    expression: "sum(media_spend_usd)*1.0/1000/nullif(sum(imp_cnt),0)"
+    description: "eCPM"
+    format_preset: currency_usd
+  - display_name: "Avg Bid Floor"
+    name: avg_bid_floor
+    expression: "sum(bid_floor)*1.0/sum(has_bid_floor_cnt)"
+    description: "Average Bid Floor"
+    format_preset: currency_usd
+    
+  - name: bids_7day_rolling_avg
+    display_name: 7 Day Bid rolling avg
+    expression: AVG(total_bids)
+    requires: [total_bids]
+    window:
+      order: "__time"
+      frame: RANGE BETWEEN INTERVAL 6 DAY PRECEDING AND CURRENT ROW
+
+
+dimensions:
+  - column: adomain
+    name: adomain
+    display_name: Adomain
+  - column: advertiser_name
+    name: advertiser_name
+    display_name: Advertiser Name
+  - display_name: App or Site
+    name: app_or_site
+    column: app_or_site
+    description: ""
+  - display_name: Site Domain
+    name: sites_domain
+    column: app_site_domain
+    description: ""
+  - column: app_site_name
+    name: app_site_name
+    display_name: App Name
+  - name: auction_type
+    display_name: Auction Type
+    column: auction_type
+    description: ""
+  - display_name: Bid Floor Bucket
+    column: bid_floor_bucket
+    description: ""
+    name: bid_floor_bucket
+  - name: campaign_name
+    display_name: Campaign Name
+    column: campaign_name
+    description: ""
+  - name: creative_type
+    display_name: Creative type
+    column: creative_type
+    description: ""
+  - name: device_os
+    display_name: Device OS
+    column: device_os
+    description:
+  - name: device_osv
+    display_name: Device OSV
+    column: device_osv
+    description: ""
+  - name: device_region
+    display_name: Device Region
+    column: device_region
+    description: ""
+  - display_name: Device Type
+    column: device_type
+    description: ""
+    name: device_type
+  - name: interstitial
+    display_name: Interstitial
+    column: interstitial
+    description: ""
+  - name: line_item_name
+    display_name: Line Item Name
+    column: line_item_name
+    description: ""
+  - display_name: Placement Type
+    column: placement_type
+    description: ""
+    name: placement_type
+  - name: platform_browser
+    display_name: Platform Browser
+    column: platform_browser
+    description: ""
+  - name: player_size
+    display_name: Player Size
+    column: player_size
+    description: ""
+  - name: privacy
+    display_name: Privacy
+    column: privacy
+    description: ""
+  - name: pub_name
+    display_name: Pub Name
+    column: pub_name
+    description: ""
+  - name: sdk
+    display_name: SDK
+    column: sdk
+    description: ""
+  - name: video_activity
+    display_name: Video Activity
+    column: video_activity
+    description: ""
+
+ai_instructions: |
+  When you run queries with rill, you also include corresponding Rill Explore URLs in your answer. All URLs should start with the BASE_URL, which is defined below. 
+
+  The full URL should include the time range (tr) used in the report, the timezone (tz), and any measures or dimensions that are relevant to the report. See the examples below.
+
+  # Example
+  
+  URL for an explore with multiple metrics and dimensions
+
+  ## Description
+  
+  A link to an online dashboard from Rill. Contains all selected metrics in the report, all dimensions used in the report, and up to 1-3 additional dimensions. Time range includes the range used as the focus of the report, plus a comparison period for enriched visualization. It is in markdown format, and has a link that describes the purpose of the link.
+  
+  ## Format 
+  
+  Markdown
+
+  ## Link
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&measures=overall_spend%2Ctotal_bids%2Cwin_rate%2Cvideo_completes%2Cavg_bid_floor&dims=advertiser_name%2Csites_domain%2Capp_site_name%2Cdevice_type%2Ccreative_type%2Cpub_name](Explore change in advertising bids due to composition of advertisers)
+
+  # Example
+  
+  URL for an individual metric
+
+  ## Description
+  
+  A link to an online dashboard from Rill. Contains only the selected metric, and only the dimensions identified as driving factors. Time range includes the range used as the focus of the report, plus a comparison period for enriched visualization.
+  
+  ## Format
+  
+  Markdown
+  
+  ## Link
+
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&grain=day&measures=overall_spend&dims=advertiser_name%2Csites_domain](Explore change in spend by advertiser)
+  
+  # Example
+  
+  URL for an individual dimension
+
+  ## Description
+  
+  A link to an online dashboard from Rill. This link is filtered by one of the dimensions (advertiser_name), so that the user can focus on a particular categorical.
+  
+  ## Format
+  
+  Markdown
+    
+  ## Link 
+
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&f=advertiser_name+IN+%28%27Hyundai%27%29&measures=overall_spend&dims=advertiser_name%2Ccampaign_name%2Csites_domain%2Cdevice_region](Explore Hyundai campaign spend and performance)

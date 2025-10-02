@@ -1,0 +1,166 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: Executive summary report
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          alignment:
+            horizontal: center
+            vertical: middle
+          content: "# Executive summary report"
+          description: ""
+          title: ""
+        width: 12
+    height: 80px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+            - previous
+          measures:
+            - overall_spend
+            - total_bids
+            - impressions
+          metrics_view: bids_metrics
+          sparkline: bottom
+          title: Bids
+        width: 6
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          measures:
+            - requests
+            - avg_bid_floor
+            - 1d_qps
+          metrics_view: auction_metrics
+          sparkline: bottom
+          title: Auctions
+        width: 6
+    height: 300px
+  - items:
+      - stacked_bar:
+          metrics_view: bids_metrics
+          description: ""
+          color:
+            field: device_type
+            type: nominal
+          vl_config: |-
+            {
+              "range": {
+                "category": [
+                  "#1f77b4",
+                  "#ff7f0e",
+                  "#2ca02c",
+                  "#d62728",
+                  "#9467bd",
+                  "#8c564b",
+                  "#e377c2",
+                  "#7f7f7f",
+                  "#bcbd22",
+                  "#17becf"
+                ]
+              }
+            }
+          x:
+            field: __time
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: overall_spend
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 8
+      - donut_chart:
+          color:
+            field: device_os
+            limit: 20
+            type: nominal
+          innerRadius: 50
+          measure:
+            field: overall_spend
+            type: quantitative
+          metrics_view: bids_metrics
+        width: 4
+    height: 320px
+  - items:
+      - combo_chart:
+          color:
+            field: measures
+            legendOrientation: top
+            type: value
+          description: ""
+          metrics_view: bids_metrics
+          title: ""
+          x:
+            field: advertiser_name
+            limit: 15
+            showAxisTitle: true
+            showNull: false
+            type: nominal
+            sort: -y
+            labelAngle: -90
+          y1:
+            field: total_bids
+            mark: bar
+            type: quantitative
+            zeroBasedOrigin: true
+            showAxisTitle: true
+          y2:
+            field: win_rate
+            mark: line
+            type: quantitative
+            zeroBasedOrigin: true
+            showAxisTitle: true
+        width: 6
+      - heatmap:
+          color:
+            field: total_bids
+            type: quantitative
+            legendOrientation: none
+          dimension_filters: device_type NIN ('Not Available','Connected Device')
+          metrics_view: bids_metrics
+          time_filters: tr=rill-PDC&tz=UTC&grain=hour
+          title: Bidding Pattern by Device
+          x:
+            field: __time
+            limit: 40
+            type: temporal
+          y:
+            field: device_type
+            limit: 40
+            type: nominal
+        width: 6
+    height: 500px
+  - items:
+      - table:
+          col_dimensions: []
+          columns:
+            - advertiser_name
+            - overall_spend
+            - total_bids
+            - impressions
+            - clicks
+            - ctr
+            - ecpm
+          measures:
+            - overall_spend
+            - total_bids
+            - impressions
+            - win_rate
+            - clicks
+          metrics_view: bids_metrics
+          row_dimensions:
+            - advertiser_name
+          time_filters: tr=P7D&compare_tr=rill-PW&grain=day
+          title: Per advertiser metrics – last 7 days
+        width: 12
+    height: 300px
+max_width: 1440
