@@ -23,6 +23,7 @@ features:
   - rillTime
   - chat
   - dashboardChat
+  - chat_charts
     
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
