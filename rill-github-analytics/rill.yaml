@@ -6,3 +6,4 @@ description: GitHub Analytics
 olap_connector: duckdb
 features:
   chat_charts: true
+  dashboardChat: true
