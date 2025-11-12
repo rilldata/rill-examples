@@ -6,7 +6,7 @@ refresh:
 
 partitions:
   glob:
-    path: gs://rilldata-public/github-analytics/Clickhouse/2024/*/*
+    path: gs://rilldata-public/github-analytics/Clickhouse/2025/06/*
     partition: directory
   
 sql: |
