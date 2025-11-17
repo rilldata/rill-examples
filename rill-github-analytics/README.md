@@ -1,71 +1,78 @@
-# GitHub analytics with Rill
+# GitHub Analytics with Rill
 
-This project analyzes a Git project's commit activity. We use the [PyDriller Python library](https://pydriller.readthedocs.io/en/latest/) to traverse git commits, we store the data in Google Cloud Storage, and we analyze the data with an interactive Rill dashboard.
+Analyze commit activity for any GitHub repository with interactive dashboards. This project provides automation scripts to extract Git history and generate Rill analytics in just a few commands.
 
-Here's the dashboard deployed for the DuckDB repository: https://ui.rilldata.com/demo/rill-github-analytics/duckdb_commits
+**[See live demo →](https://ui.rilldata.com/demo/rill-github-analytics)** | **[Read the full guide →](https://docs.rilldata.com/guides/github-analytics)**
 
-Answer questions like:
+## Overview
 
-- What parts of your codebase are the most active? What parts have the most churn?
-- How large are commits? What do commits that touch many files have in common?
-- How productive are your contributors? How does productivity change week over week?
-- What parts of your codebase are different contributors working on? With what programming languages?
+This project uses:
 
-Follow the instructions below to analyze your own Git project.
+- **[PyDriller](https://pydriller.readthedocs.io/)** to extract commit data from Git repositories
+- **Automation scripts** (`download_commits.py`, `generate_project.py`) to scrape Git history and generate Rill project files
+- **Cloud storage** (GCS) or local files for data
+- **Rill** for fast, interactive analytics dashboards
 
-## Clone this repository
-
-To start, you'll want to clone this repository so you can edit the files and run the scripts.
+## Quick Start
 
 ```bash
+# 1. Clone and install
 git clone https://github.com/rilldata/rill-examples.git
 cd rill-examples/rill-github-analytics
-```
-
-## Create a bucket in Google Cloud Storage and set up a service account
-
-1. Create a bucket in Google Cloud Storage
-2. See these instructions for setting up a GCS service account: https://docs.rilldata.com/deploy/credentials/gcs#how-to-create-a-service-account-using-the-google-cloud-console
-3. Save the service account key as a JSON file
-
-## Run the download script
-
-1. Edit the following variables in `download_commits.py`:
-
-- `REPO_SLUG`
-- `REPO_URL` (if your repo isn't on GitHub)
-- `BUCKET_PATH`
-- `GCP_SERVICE_ACCOUNT_KEY_FILE`
-
-2. Run the script locally or setup a cronjob to run it periodically.
-
-The project uses Poetry to manage its Python virtual environment. [Install Poetry](https://python-poetry.org/docs/) and run the following commands:
-
-```bash
 poetry install
-poetry run python3 download_commits.py
+
+# 2. Generate Rill files
+python generate_project.py your-org/your-repo --gcs --bucket gs://your-bucket/github-analytics
+
+# 3. Download and upload data
+python download_commits.py your-org/your-repo --gcs --bucket gs://your-bucket/github-analytics
+
+# 4. Deploy
+rill deploy
 ```
 
-3. Upon completion, find the following files at your provided `BUCKET_PATH`:
+## Automation Scripts
 
-- `commits/commits_{TIMESTAMP}.parquet`
-- `commits/modified_files_{TIMESTAMP}.parquet`
+This project includes two scripts to streamline setup:
 
-## Edit the Rill artifacts and start Rill
+### `generate_project.py`
 
-1. Copy the `sources/duckdb_commits_source.yaml` and `sources/duckdb_modified_files_source.yaml` files and edit them to point to your bucket.
-2. Copy the `models/duckdb_commits_model.sql` file and edit it to point to your new sources.
-3. Copy the `dashboards/duckdb_commits.yaml` file and edit it to point to your new model.
-4. Configure your storage credentials: https://docs.rilldata.com/deploy/credentials/
-5. Install and start Rill
+Generates all Rill files (sources, models, metrics, dashboards) for a repository:
 
 ```bash
-curl -s https://cdn.rilldata.com/install.sh | bash
-rill start
+python generate_project.py owner/repo --gcs --bucket gs://bucket/path
+python generate_project.py owner/repo --local  # For local testing
 ```
 
-6. Explore your dashboard!
+### `download_commits.py`
 
-## Publish your dashboard to Rill Cloud
+Extracts commit history and saves to cloud storage:
 
-Run `rill deploy` in your project directory and follow the instructions. [See docs](https://docs.rilldata.com/deploy/existing-project).
+```bash
+python download_commits.py owner/repo --gcs --bucket gs://bucket/path
+python download_commits.py owner/repo --local  # For local testing
+```
+
+Both scripts require explicit storage flags (`--gcs` or `--local`).
+
+## Project Structure
+
+Generated files for each repository:
+
+- `sources/{repo}_commits_source.yaml` – Data source for commits
+- `sources/{repo}_modified_files.yaml` – Data source for file changes
+- `models/{repo}_commits_model.sql` – SQL transformations
+- `metrics/{repo}_commits_metrics.yaml` – Metrics definitions
+- `dashboards/{repo}_commits_explore.yaml` – Explore dashboard
+
+## Authentication
+
+**For private repositories:** Set `GITHUB_TOKEN` environment variable with a [fine-grained personal access token](https://github.com/settings/tokens?type=beta).
+
+**For GCS:** Set `GOOGLE_APPLICATION_CREDENTIALS` to your service account key path. See [GCS credentials guide](https://docs.rilldata.com/deploy/credentials/gcs).
+
+## Learn More
+
+- **[Full Tutorial](https://docs.rilldata.com/guides/github-analytics)** – Step-by-step guide with prerequisites and examples
+- **[Rill Documentation](https://docs.rilldata.com)** – Learn more about Rill
+- **[Discord Community](https://discord.gg/DJ5qcsxE2m)** – Get help and share your dashboards
