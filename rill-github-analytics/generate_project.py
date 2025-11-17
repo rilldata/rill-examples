@@ -3,13 +3,13 @@
 Setup script to generate Rill project files for analyzing any GitHub repository.
 
 Usage:
-    python setup_repo.py owner/repo --gcs --bucket gs://bucket/path [--display-name "My Repo"]
-    python setup_repo.py owner/repo --local [--display-name "My Repo"]
+    python generate_project.py owner/repo --gcs --bucket gs://bucket/path [--display-name "My Repo"]
+    python generate_project.py owner/repo --local [--display-name "My Repo"]
 
 Examples:
-    python setup_repo.py duckdb/duckdb --gcs --bucket gs://my-bucket/github-analytics
-    python setup_repo.py duckdb/duckdb --local
-    python setup_repo.py clickhouse/clickhouse --gcs --bucket gs://my-bucket --display-name "ClickHouse"
+    python generate_project.py duckdb/duckdb --gcs --bucket gs://my-bucket/github-analytics
+    python generate_project.py duckdb/duckdb --local
+    python generate_project.py clickhouse/clickhouse --gcs --bucket gs://my-bucket --display-name "ClickHouse"
 """
 
 import argparse
@@ -288,13 +288,13 @@ def main():
         epilog="""
 Examples:
   # For GCS deployment
-  python setup_repo.py duckdb/duckdb --gcs --bucket gs://my-bucket/github-analytics
+  python generate_project.py duckdb/duckdb --gcs --bucket gs://my-bucket/github-analytics
   
   # For local testing
-  python setup_repo.py duckdb/duckdb --local
+  python generate_project.py duckdb/duckdb --local
   
   # With custom display name
-  python setup_repo.py clickhouse/clickhouse --gcs --bucket gs://my-bucket --display-name "ClickHouse"
+  python generate_project.py clickhouse/clickhouse --gcs --bucket gs://my-bucket --display-name "ClickHouse"
         """
     )
     parser.add_argument(

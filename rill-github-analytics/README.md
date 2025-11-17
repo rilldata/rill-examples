@@ -9,7 +9,7 @@ Analyze commit activity for any GitHub repository with interactive dashboards. T
 This project uses:
 
 - **[PyDriller](https://pydriller.readthedocs.io/)** to extract commit data from Git repositories
-- **Automation scripts** (`setup_repo.py`, `download_commits.py`) to generate Rill projects
+- **Automation scripts** (`download_commits.py`, `generate_project.py`) to scrape Git history and generate Rill project files
 - **Cloud storage** (GCS) or local files for data
 - **Rill** for fast, interactive analytics dashboards
 
@@ -22,7 +22,7 @@ cd rill-examples/rill-github-analytics
 poetry install
 
 # 2. Generate Rill files
-python setup_repo.py your-org/your-repo --gcs --bucket gs://your-bucket/github-analytics
+python generate_project.py your-org/your-repo --gcs --bucket gs://your-bucket/github-analytics
 
 # 3. Download and upload data
 python download_commits.py your-org/your-repo --gcs --bucket gs://your-bucket/github-analytics
@@ -35,13 +35,13 @@ rill deploy
 
 This project includes two scripts to streamline setup:
 
-### `setup_repo.py`
+### `generate_project.py`
 
 Generates all Rill files (sources, models, metrics, dashboards) for a repository:
 
 ```bash
-python setup_repo.py owner/repo --gcs --bucket gs://bucket/path
-python setup_repo.py owner/repo --local  # For local testing
+python generate_project.py owner/repo --gcs --bucket gs://bucket/path
+python generate_project.py owner/repo --local  # For local testing
 ```
 
 ### `download_commits.py`
