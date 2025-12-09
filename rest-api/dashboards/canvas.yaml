@@ -1,0 +1,156 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: "Canvas Dashboard"
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: |
+            # Weather Forecast
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: "### Temperature"
+        width: 12
+    height: 40px
+  - items:
+      - area_chart:
+          metrics_view: top50_climate_model_metrics
+          color:
+            field: rill_measures
+            legendOrientation: top
+            type: value
+            colorMapping:
+              - value: Minimum Temperature (C)
+                color: hsl(194, 100%, 65%)
+              - value: Maximum Temperature (C)
+                color: hsl(32, 100%, 57%)
+          x:
+            field: time
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: max_temperature_2m_measure
+            type: quantitative
+            zeroBasedOrigin: true
+            fields:
+              - max_temperature_2m_measure
+              - min_temperature_2m_measure
+        width: 12
+    height: 40px
+  - items:
+      - leaderboard:
+          dimensions:
+            - state
+          measures:
+            - max_temperature_2m_measure
+            - min_temperature_2m_measure
+          metrics_view: top50_climate_model_metrics
+          num_rows: 7
+        width: 6
+      - leaderboard:
+          dimensions:
+            - city
+          measures:
+            - max_temperature_2m_measure
+            - min_temperature_2m_measure
+          metrics_view: top50_climate_model_metrics
+          num_rows: 7
+        width: 6
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: "### Air Quality"
+        width: 12
+    height: 47px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          measures:
+            - max_european_aqi_measure
+            - average_pm2_5_measure
+            - average_pm10_measure
+          metrics_view: top50_climate_model_metrics
+        width: 12
+    height: 40px
+  - items:
+      - table:
+          columns:
+            - state
+            - city
+            - max_european_aqi_measure
+            - average_pm10_measure
+            - average_pm2_5_measure
+          metrics_view: top50_climate_model_metrics
+        width: 12
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: "### Waves (Surf)"
+        width: 12
+    height: 40px
+  - items:
+      - line_chart:
+          color:
+            type: value
+            field: rill_measures
+            legendOrientation: top
+          metrics_view: top50_climate_model_metrics
+          x:
+            field: time
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: average_wind_wave_height_measure
+            type: quantitative
+            zeroBasedOrigin: true
+            fields:
+              - average_wind_wave_height_measure
+              - average_wave_height_measure
+        width: 6
+      - bar_chart:
+          color: primary
+          metrics_view: top50_climate_model_metrics
+          x:
+            field: wave_direction_compass
+            limit: 20
+            type: nominal
+          y:
+            field: sum_of_wave_period
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+    height: 320px
+  - items:
+      - leaderboard:
+          dimensions:
+            - state
+            - city
+            - wave_direction_compass
+            - sea_state
+          measures:
+            - average_wave_height_measure
+          metrics_view: top50_climate_model_metrics
+          num_rows: 7
+        width: 12
+max_width: 1200

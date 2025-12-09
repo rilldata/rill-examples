@@ -1,0 +1,52 @@
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+incremental: true
+
+create_secrets_from_connectors: https
+connector: duckdb
+
+refresh:
+  cron: "5 0 * * *"
+  time_zone: "UTC"
+
+retry:
+    attempts: 3
+    delay: 15s
+    exponential_backoff: true
+    if_error_matches:
+        - ".*(HTTP 400).*"
+  
+partitions:
+  connector: duckdb
+  sql: select * from top_50_cities_mapping {{if dev}} limit 10 {{end}}
+
+
+pre_exec: |
+  SET force_download=true;
+  
+sql: >
+  WITH base AS (
+    SELECT
+      *,
+      '{{.partition.city}}' as city,
+      '{{.partition.state}}' as state,
+      json_extract(hourly, '$.time')::TIMESTAMP[] AS times,
+      json_extract(hourly, '$.temperature_2m')::DOUBLE[] AS temps,
+      json_extract(hourly, '$.relativehumidity_2m')::INT[] AS rhs
+    FROM  read_json('https://api.open-meteo.com/v1/forecast?latitude={{.partition.latitude}}&longitude={{.partition.longitude}}&hourly=temperature_2m') 
+  )
+  SELECT
+    * exclude (times,temps, rhs,hourly_units, hourly, i),
+    times[i] AS time,
+    temps[i] AS temperature_2m,
+    rhs[i]   AS relativehumidity_2m
+  FROM base
+  CROSS JOIN LATERAL generate_series(1, array_length(times)) AS g(i)
+     
+
+output:
+  incrmental_strategy: merge
+  unique_key: [state, city, time]

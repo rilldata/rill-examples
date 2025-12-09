@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Top 50 Climate Model Metrics dashboard"
+metrics_view: top50_climate_model_metrics
+
+dimensions: '*'
+measures: '*'

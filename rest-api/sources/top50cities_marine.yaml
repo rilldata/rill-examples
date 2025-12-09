@@ -1,0 +1,90 @@
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+
+create_secrets_from_connectors: https
+connector: duckdb
+
+refresh:
+  cron: "5 0 * * *"
+  time_zone: "UTC"
+
+retry:
+    attempts: 3
+    delay: 15s
+    exponential_backoff: true
+    if_error_matches:
+        - ".*(HTTP 400).*"
+  
+partitions:
+  connector: duckdb
+  sql: select * from top_50_cities_mapping {{if dev}} limit 10 {{end}}
+
+
+pre_exec: |
+  SET force_download=true;
+  
+sql: >
+  WITH base AS (
+    SELECT
+      '{{.partition.city}}' as city,
+      '{{.partition.state}}' as state,
+      *,
+      json_extract(hourly, '$.time')::TIMESTAMP[]             AS times,
+  
+      json_extract(hourly, '$.wave_height')::DOUBLE[]         AS wave_heights,
+      json_extract(hourly, '$.wave_direction')::INT[]         AS wave_directions,
+      json_extract(hourly, '$.wave_period')::DOUBLE[]         AS wave_periods,
+  
+      json_extract(hourly, '$.wind_wave_height')::DOUBLE[]    AS wind_wave_heights,
+      json_extract(hourly, '$.wind_wave_direction')::INT[]    AS wind_wave_directions,
+      json_extract(hourly, '$.wind_wave_period')::DOUBLE[]    AS wind_wave_periods
+  
+    FROM read_json('https://marine-api.open-meteo.com/v1/marine?latitude={{.partition.latitude}}&longitude={{.partition.longitude}}&hourly=wave_height,wave_direction,wave_period,wind_wave_height,wind_wave_direction,wind_wave_period&timezone=America%2FLos_Angeles') 
+  )
+  
+  SELECT
+    * EXCLUDE (
+      times,
+      wave_heights, wave_directions, wave_periods,
+      wind_wave_heights, wind_wave_directions, wind_wave_periods,
+      hourly_units, hourly, i
+    ),
+  
+    -- index-aligned expansion
+    times[i]              AS time,
+  
+    wave_heights[i]       AS wave_height,
+    wave_directions[i]    AS wave_direction,
+    CASE
+      WHEN wave_direction IS NULL THEN NULL
+      WHEN wave_direction >= 337.5 OR wave_direction < 22.5  THEN 'N'
+      WHEN wave_direction < 67.5   THEN 'NE'
+      WHEN wave_direction < 112.5  THEN 'E'
+      WHEN wave_direction < 157.5  THEN 'SE'
+      WHEN wave_direction < 202.5  THEN 'S'
+      WHEN wave_direction < 247.5  THEN 'SW'
+      WHEN wave_direction < 292.5  THEN 'W'
+      WHEN wave_direction < 337.5  THEN 'NW'
+    END AS wave_direction_compass,
+    wave_periods[i]       AS wave_period,
+    CASE
+      WHEN wave_period IS NULL THEN NULL
+      WHEN wave_period < 4  THEN 'chop'
+      WHEN wave_period < 8  THEN 'short_swell'
+      WHEN wave_period < 12 THEN 'swell'
+      ELSE 'groundswell'
+    END AS sea_state,
+  
+    wind_wave_heights[i]  AS wind_wave_height,
+    wind_wave_directions[i] AS wind_wave_direction,
+    wind_wave_periods[i]  AS wind_wave_period
+  
+  FROM base
+  CROSS JOIN LATERAL generate_series(1, array_length(times)) AS g(i)
+
+output:
+  incrmental_strategy: merge
+  unique_key: [state, city, time]

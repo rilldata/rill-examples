@@ -1,0 +1,103 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/metrics-views
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Top 50 Climate Model Metrics
+model: top50_climate_model
+timeseries: time
+
+dimensions:
+  - name: city
+    display_name: City
+    column: city
+  - name: state
+    display_name: State
+    column: state
+  - name: timezone
+    display_name: Timezone
+    column: timezone
+  - name: timezone_abbreviation
+    display_name: Timezone Abbreviation
+    column: timezone_abbreviation
+  - name: time
+    display_name: Time
+    column: time
+  - name: __rill_partition
+    display_name: Rill Partition
+    column: __rill_partition
+  - column: wave_direction_compass
+    name: wave_direction_compass
+  - column: sea_state
+    name: sea_state
+
+measures:
+  - name: max_european_aqi_measure
+    display_name: Maximum European AQI
+    expression: MAX(european_aqi)
+    description: Highest recorded European Air Quality Index value.
+    format_preset: humanize
+
+  - name: average_pm10_measure
+    display_name: Average PM10
+    expression: AVG(pm10)
+    description: Average PM10 particulate matter value across all records.
+    format_preset: humanize
+  - name: average_pm2_5_measure
+    display_name: Average PM2.5
+    expression: AVG(pm2_5)
+    description: Average PM2.5 particulate matter value across all records.
+    format_preset: humanize
+
+  - name: max_temperature_2m_measure
+    display_name: Maximum Temperature (C)
+    expression: MAX(temperature_2m)
+    description: Highest recorded temperature at 2 meters.
+    format_d3: ".0f"
+    valid_percent_of_total: false
+  - name: min_temperature_2m_measure
+    display_name: Minimum Temperature (C)
+    expression: MIN(temperature_2m)
+    format_d3: ".0f"
+    valid_percent_of_total: false
+
+  - expression: AVG(temperature_2m)
+    display_name: Average Temperature (C)
+    name: avg_of_temperature_2m
+    format_d3: ".0f"
+    valid_percent_of_total: false
+
+  - name: average_wind_wave_height_measure
+    display_name: Average Wind Wave Height
+    expression: AVG(wind_wave_height)
+    description: Average wind wave height across all records.
+    format_preset: humanize
+  - name: average_wave_height_measure
+    display_name: Average Wave Height
+    expression: AVG(wave_height)
+    description: Average wave height across all records.
+    format_preset: humanize
+  - expression: AVG(wave_direction)
+    name: avg_of_wave_direction
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: SUM(wave_period)
+    name: sum_of_wave_period
+    format_preset: none
+    valid_percent_of_total: false
+
+  - expression: AVG(wind_wave_direction)
+    name: avg_of_wind_wave_direction
+    format_preset: none
+    valid_percent_of_total: false
+  - name: total_records_measure
+    display_name: Total Records
+    expression: COUNT(*)
+    description: Total number of records in the top50_climate_model table.
+    format_preset: humanize
+  - expression: SUM(wind_wave_period)
+    name: sum_of_wind_wave_period
+    format_preset: none
+    valid_percent_of_total: false

@@ -1,0 +1,56 @@
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+
+create_secrets_from_connectors: https
+connector: duckdb
+
+refresh:
+  cron: "5 0 * * *"
+  time_zone: "UTC"
+
+retry:
+    attempts: 3
+    delay: 15s
+    exponential_backoff: true
+    if_error_matches:
+        - ".*(HTTP 400).*"
+  
+partitions:
+  connector: duckdb
+  sql: select * from top_50_cities_mapping {{if dev}} limit 10 {{end}}
+
+
+pre_exec: |
+  SET force_download=true;
+  
+sql: >
+  WITH base AS (
+    SELECT
+      '{{.partition.city}}' as city,
+      '{{.partition.state}}' as state,
+      *,
+      json_extract(hourly, '$.time')::TIMESTAMP[]        AS times,
+      json_extract(hourly, '$.european_aqi')::INT[]      AS european_aqis,
+      json_extract(hourly, '$.pm10')::DOUBLE[]           AS pm10s,
+      json_extract(hourly, '$.pm2_5')::DOUBLE[]          AS pm2_5s
+    FROM  read_json('https://air-quality-api.open-meteo.com/v1/air-quality?latitude={{.partition.latitude}}&longitude={{.partition.longitude}}&hourly=pm2_5,pm10,european_aqi') 
+  
+  )
+  
+  SELECT
+    * EXCLUDE (
+      times,
+      european_aqis, pm10s, pm2_5s,
+      hourly_units, hourly, i
+    ),
+  
+    times[i]         AS time,
+    european_aqis[i] AS european_aqi,
+    pm10s[i]         AS pm10,
+    pm2_5s[i]        AS pm2_5
+  
+  FROM base
+  CROSS JOIN LATERAL generate_series(1, array_length(times)) AS g(i)

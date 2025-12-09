@@ -1,0 +1,10 @@
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+
+connector: https
+format: json
+
+path: https://jsonplaceholder.typicode.com/posts
