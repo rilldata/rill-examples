@@ -1,0 +1,23 @@
+compiler: rillv1
+
+display_name: YouTube Analytics Export
+
+# The project's default OLAP connector.
+# Learn more: https://docs.rilldata.com/reference/olap-engines
+olap_connector: duckdb
+
+# These are example mock users to test your security policies.
+# Learn more: https://docs.rilldata.com/manage/security
+mock_users:
+  - email: john@yourcompany.com
+  - email: jane@partnercompany.com
+
+ignore_paths:
+  - /scripts/venv
+  - /scripts/analytics
+  - /scripts/backfill_progress.json
+  - /scripts/client_secret.json
+  - /scripts/roy-endo-google-svc-acc.json
+  - /scripts/token.json
+  - /scripts/youtube_analytics.log
+  - /scripts/yt_analytics_wrapper.log

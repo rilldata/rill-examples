@@ -10,3 +10,8 @@
 # Rill
 .env
 tmp
+yt_analytics/scripts/client_secret.json
+yt_analytics/scripts/roy-endo-google-svc-acc.json
+yt_analytics/scripts/token.json
+yt_analytics/scripts/youtube_analytics.log
+yt_analytics/scripts/youtube_analytics.log

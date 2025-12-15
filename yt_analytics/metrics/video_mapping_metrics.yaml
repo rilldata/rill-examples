@@ -1,0 +1,69 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view 
+
+display_name: Video Mapping Metrics
+model: video_mapping
+
+dimensions:
+  - name: Video ID
+    display_name: Video Id
+    column: Video ID
+  - name: Title
+    display_name: Title
+    column: Title
+
+measures:
+  - name: total_videos_measure
+    display_name: Total Videos
+    expression: COUNT("Video ID")
+    description: The total number of videos in the video mapping table.
+    format_preset: humanize
+  - name: total_views_measure
+    display_name: Total Views
+    expression: SUM("Total Views")
+    description: The total number of views across all videos.
+    format_preset: humanize
+  - name: average_views_per_video_measure
+    display_name: Average Views per Video
+    expression: AVG("Total Views")
+    description: The average number of views each video has received.
+    format_preset: humanize
+  - name: total_watch_time_measure
+    display_name: Total Watch Time
+    expression: SUM("Total Watch Time (minutes)")
+    description: The total watch time in minutes across all videos.
+    format_preset: humanize
+  - name: average_watch_time_per_video_measure
+    display_name: Average Watch Time per Video
+    expression: AVG("Total Watch Time (minutes)")
+    description: The average watch time in minutes for each video.
+    format_preset: humanize
+  - name: total_data_points_measure
+    display_name: Total Data Points
+    expression: SUM("Data Points")
+    description: The total number of data points across all videos.
+    format_preset: humanize
+  - name: average_data_points_per_video_measure
+    display_name: Average Data Points per Video
+    expression: AVG("Data Points")
+    description: The average number of data points for each video.
+    format_preset: humanize
+  - name: max_views_measure
+    display_name: Maximum Views
+    expression: MAX("Total Views")
+    description: The highest number of views received by a single video.
+    format_preset: humanize
+  - name: min_views_measure
+    display_name: Minimum Views
+    expression: MIN("Total Views")
+    description: The lowest number of views received by a single video.
+    format_preset: humanize
+  - name: max_watch_time_measure
+    display_name: Maximum Watch Time
+    expression: MAX("Total Watch Time (minutes)")
+    description: The highest watch time in minutes for a single video.
+    format_preset: humanize

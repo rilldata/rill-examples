@@ -1,0 +1,369 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: "YouTube Analytics"
+defaults:
+  time_range: inf
+  comparison_mode: time
+rows:
+  - items:
+      - markdown:
+          alignment:
+            horizontal: center
+            vertical: middle
+          content: |
+            # Youtube Analytics Export
+        width: 12
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: |
+            ### All Time
+        width: 12
+    height: 56px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          measures:
+            - total_videos_measure
+            - total_views_measure
+          metrics_view: video_mapping_metrics
+          sparkline: none
+        width: 12
+    height: 163px
+  - items:
+      - bar_chart:
+          color: primary
+          metrics_view: video_mapping_metrics
+          title: Best Videos
+          x:
+            field: Video ID
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: total_views_measure
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+      - leaderboard:
+          measures:
+            - total_views_measure
+            - total_watch_time_measure
+          metrics_view: video_mapping_metrics
+          num_rows: 7
+          dimensions:
+            - Title
+        width: 6
+    height: 481px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: "### Detailed"
+        width: 12
+    height: 57px
+  - items:
+      - bar_chart:
+          color: primary
+          metrics_view: __metrics_model_metrics
+          x:
+            field: video
+            limit: 5
+            type: nominal
+            sort: -y
+          y:
+            field: total_views_measure
+            type: quantitative
+            zeroBasedOrigin: true
+          title: Top 5 Videos
+        width: 6
+      - donut_chart:
+          color:
+            field: Title
+            limit: 20
+            type: nominal
+          innerRadius: 50
+          measure:
+            field: total_views_measure
+            type: quantitative
+          metrics_view: __metrics_model_metrics
+          title: Total Views Split
+        width: 6
+    height: 472px
+  - items:
+      - bar_chart:
+          color: primary
+          dimension_filters: type IN ('traffic')
+          metrics_view: __demographics_union_metrics
+          title: Foot Traffic
+          x:
+            field: sub_type
+            limit: 5
+            type: nominal
+            sort: -y
+          y:
+            field: sum_of_views
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
+      - bar_chart:
+          color: primary
+          dimension_filters: type IN ('geo')
+          metrics_view: __demographics_union_metrics
+          x:
+            field: sub_type
+            limit: 5
+            type: nominal
+            sort: -y
+          y:
+            field: sum_of_views
+            type: quantitative
+            zeroBasedOrigin: true
+          title: Top 5 Countries
+        width: 6
+    height: 446px
+  - items:
+      - stacked_bar:
+          color: primary
+          dimension_filters: type IN ('device')
+          metrics_view: __demographics_union_metrics
+          x:
+            field: sub_type
+            limit: 20
+            sort: -y
+            type: nominal
+          y:
+            field: sum_of_views
+            type: quantitative
+            zeroBasedOrigin: true
+          title: Device Views
+        width: 12
+    height: 40px
+  - items:
+      - pie_chart:
+          color:
+            field: sub_type
+            limit: 20
+            type: nominal
+          dimension_filters: type IN ('gender')
+          innerRadius: 50
+          measure:
+            field: avg_of_viewerPercentage
+            type: quantitative
+          metrics_view: __demographics_union_metrics
+          title: Gender
+        width: 6
+      - pie_chart:
+          color:
+            field: sub_type
+            limit: 20
+            type: nominal
+          dimension_filters: type IN ('age')
+          innerRadius: 50
+          measure:
+            field: avg_of_viewerPercentage
+            type: quantitative
+          metrics_view: __demographics_union_metrics
+          title: Age Groups
+        width: 6
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: center
+            vertical: middle
+          content: |+
+            ### Available Measures
+
+        width: 12
+    height: 40px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: type IN ('traffic')
+          measures:
+            - sum_of_views
+            - sum_of_estimatedMinutesWatched
+          metrics_view: __demographics_union_metrics
+        width: 12
+    height: 40px
+  - items:
+      - leaderboard:
+          dimension_filters: type IN ('traffic')
+          dimensions:
+            - sub_type
+          measures:
+            - sum_of_views
+            - sum_of_estimatedMinutesWatched
+          metrics_view: __demographics_union_metrics
+          num_rows: 7
+        width: 12
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: |
+            ### Geo
+        width: 12
+    height: 40px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: type IN ('geo')
+          measures:
+            - sum_of_views
+            - sum_of_estimatedMinutesWatched
+            - avg_of_averageViewDuration
+            - sum_of_subscribersGained
+          metrics_view: __demographics_union_metrics
+        width: 12
+    height: 40px
+  - items:
+      - leaderboard:
+          dimension_filters: type IN ('geo')
+          dimensions:
+            - sub_type
+          measures:
+            - sum_of_views
+            - sum_of_estimatedMinutesWatched
+            - avg_of_averageViewDuration
+            - sum_of_subscribersGained
+          metrics_view: __demographics_union_metrics
+          num_rows: 7
+        width: 12
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: |+
+            ### Device
+
+        width: 12
+    height: 40px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: type IN ('device')
+          measures:
+            - sum_of_views
+          metrics_view: __demographics_union_metrics
+        width: 4
+      - leaderboard:
+          dimensions:
+            - sub_type
+          measures:
+            - sum_of_views
+          metrics_view: __demographics_union_metrics
+          num_rows: 7
+          dimension_filters: type IN ('device')
+        width: 4
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: |
+            ### Gender
+        width: 12
+    height: 40px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: type IN ('gender')
+          metrics_view: __demographics_union_metrics
+          measures:
+            - avg_of_viewerPercentage
+        width: 4
+      - leaderboard:
+          dimension_filters: type IN ('gender')
+          dimensions:
+            - sub_type
+          metrics_view: __demographics_union_metrics
+          num_rows: 7
+          measures:
+            - avg_of_viewerPercentage
+        width: 4
+    height: 40px
+  - items:
+      - markdown:
+          alignment:
+            horizontal: left
+            vertical: middle
+          content: |
+            ### Age
+        width: 12
+    height: 40px
+  - items:
+      - kpi_grid:
+          comparison:
+            - delta
+            - percent_change
+          dimension_filters: type IN ('age')
+          metrics_view: __demographics_union_metrics
+          measures:
+            - avg_of_viewerPercentage
+        width: 6
+      - leaderboard:
+          dimension_filters: type IN ('age')
+          dimensions:
+            - sub_type
+          metrics_view: __demographics_union_metrics
+          num_rows: 7
+          measures:
+            - avg_of_viewerPercentage
+        width: 6
+    height: 40px
+time_zones:
+  - UTC
+  - America/Los_Angeles
+  - America/Chicago
+  - America/New_York
+  - Europe/London
+  - Europe/Paris
+  - Asia/Jerusalem
+  - Europe/Moscow
+  - Asia/Kolkata
+  - Asia/Shanghai
+  - Asia/Tokyo
+  - Australia/Sydney
+time_ranges:
+  - PT6H
+  - PT24H
+  - P7D
+  - P14D
+  - P4W
+  - P3M
+  - P12M
+  - rill-TD
+  - rill-WTD
+  - rill-MTD
+  - rill-QTD
+  - rill-YTD
+  - rill-PDC
+  - rill-PWC
+  - rill-PMC
+  - rill-PQC
+  - rill-PYC
+  - inf
+max_width: 2400

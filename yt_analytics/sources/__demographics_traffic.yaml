@@ -1,0 +1,30 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+type: model
+materialize: true
+
+# partitions:
+#   glob:
+#     path: gs://ws1-listeningparty.rilldata.com/rill_yt_test/**
+#     partition: directory
+# dev:
+#   partitions:
+#     glob:
+#       path: gs://ws1-listeningparty.rilldata.com/rill_yt_test/2021/**
+#       partition: directory
+
+
+# connector: "duckdb"
+# sql: |
+#   select 
+#        CAST(right('{{ .partition.uri }}', 10) as date) as date,
+#       *
+#   from read_csv('{{ .partition.uri }}/traffic*.csv',
+#       auto_detect=true, ignore_errors=1, header=true)
+
+sql: |
+  select 
+      *, CAST(regexp_extract(filename, '([0-9]{4}/[0-9]{2}/[0-9]{2})') AS DATE) AS date_path
+  from read_csv('gs://ws1-listeningparty.rilldata.com/rill_yt_test/**/traffic*.csv',
+      auto_detect=true, ignore_errors=1, header=true, filename=true)

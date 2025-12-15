@@ -1,0 +1,6 @@
+# YouTube Analytics Dependencies
+google-api-python-client>=2.0.0
+google-auth-httplib2>=0.1.0
+google-auth-oauthlib>=0.4.0
+google-cloud-storage>=2.0.0
+pathlib2>=2.3.0

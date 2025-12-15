@@ -1,0 +1,47 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/metrics-views
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Demographics Union Metrics
+model: __demographics_union
+timeseries: date_path
+
+dimensions:
+  - name: type
+    display_name: Type
+    column: type
+  - name: date_path
+    display_name: Date Path
+    column: date_path
+  - name: sub_type
+    display_name: Sub Type
+    column: sub_type
+
+measures:
+  - expression: SUM(views)
+    name: sum_of_views
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: SUM(estimatedMinutesWatched)
+    name: sum_of_estimatedMinutesWatched
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: SUM(averageViewDuration)
+    name: sum_of_averageViewDuration
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: AVG(averageViewDuration)
+    name: avg_of_averageViewDuration
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: SUM(subscribersGained)
+    name: sum_of_subscribersGained
+    format_preset: none
+    valid_percent_of_total: false
+  - expression: AVG(viewerPercentage)
+    name: avg_of_viewerPercentage
+    format_preset: none
+    valid_percent_of_total: false

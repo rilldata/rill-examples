@@ -1,0 +1,27 @@
+# Source YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+
+type: model
+materialize: true
+
+# partitions:
+#   glob:
+#     path: gs://ws1-listeningparty.rilldata.com/rill_yt_test/*/device_*.csv
+# dev:
+#   partitions:
+#     glob:
+#       path:  gs://ws1-listeningparty.rilldata.com/rill_yt_test/*/device_*.csv
+
+# connector: "duckdb"
+# sql: |
+#   select 
+#       *
+#   from read_csv('{{ .partition.uri }}',
+#       auto_detect=true, ignore_errors=1, header=true)
+
+
+sql: |
+  select 
+   *,
+   from read_csv('gs://ws1-listeningparty.rilldata.com/rill_yt_test/*/device_*.csv',
+      auto_detect=true, ignore_errors=1, header=true)

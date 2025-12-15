@@ -1,0 +1,76 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/dashboards
+# This file was generated using AI.
+
+version: 1
+type: metrics_view
+
+display_name: Metrics Model KPIs
+model: __metrics_model
+timeseries: day
+
+dimensions:
+  - name: video
+    display_name: Video
+    column: Title
+  - name: day
+    display_name: Day
+    column: day
+  - name: Title
+    display_name: Title
+    column: Title
+  - name: youtube_link
+    expression: video
+    uri: CONCAT('https://www.youtube.com/watch?v=', video)
+
+measures:
+  - name: total_views_measure
+    display_name: Total Views
+    expression: COUNT(views)
+    description: Total number of views recorded in the dataset.
+    format_preset: humanize
+  - name: total_estimated_minutes_watched_measure
+    display_name: Total Estimated Minutes Watched
+    expression: SUM(estimatedMinutesWatched)
+    description: Sum of all estimated minutes watched across all videos.
+    format_preset: humanize
+  - name: average_view_duration_measure
+    display_name: Average View Duration
+    expression: AVG(averageViewDuration)
+    description: Average duration of views across all videos.
+    format_preset: humanize
+  - name: total_likes_measure
+    display_name: Total Likes
+    expression: SUM(likes)
+    description: Total number of likes across all videos.
+    format_preset: humanize
+  - name: total_dislikes_measure
+    display_name: Total Dislikes
+    expression: SUM(dislikes)
+    description: Total number of dislikes across all videos.
+    format_preset: humanize
+  - name: average_likes_per_video_measure
+    display_name: Average Likes per Video
+    expression: AVG(likes)
+    description: Average number of likes per video.
+    format_preset: humanize
+  - name: average_dislikes_per_video_measure
+    display_name: Average Dislikes per Video
+    expression: AVG(dislikes)
+    description: Average number of dislikes per video.
+    format_preset: humanize
+  - name: max_views_measure
+    display_name: Maximum Views
+    expression: MAX(views)
+    description: Maximum number of views recorded for a single video.
+    format_preset: humanize
+  - name: min_views_measure
+    display_name: Minimum Views
+    expression: MIN(views)
+    description: Minimum number of views recorded for a single video.
+    format_preset: humanize
+  - name: average_estimated_minutes_watched_measure
+    display_name: Average Estimated Minutes Watched
+    expression: AVG(estimatedMinutesWatched)
+    description: Average estimated minutes watched across all videos.
+    format_preset: humanize
