@@ -3,8 +3,8 @@
 
 type: explore
 
-display_name: "Top 50 Climate Model Metrics dashboard"
-metrics_view: top50_climate_model_metrics
+display_name: "Climate Model Metrics dashboard"
+metrics_view: climate_model_metrics
 
 dimensions: '*'
 measures: '*'

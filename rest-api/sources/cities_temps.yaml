@@ -21,7 +21,7 @@ retry:
   
 partitions:
   connector: duckdb
-  sql: select * from top_50_cities_mapping {{if dev}} limit 10 {{end}}
+  sql: select * from {{ref "worldcities"}} {{if dev}} limit 100 {{else}} limit 10000 {{end}}
 
 
 pre_exec: |
@@ -32,11 +32,11 @@ sql: >
     SELECT
       *,
       '{{.partition.city}}' as city,
-      '{{.partition.state}}' as state,
+      '{{.partition.country}}' as country,
       json_extract(hourly, '$.time')::TIMESTAMP[] AS times,
       json_extract(hourly, '$.temperature_2m')::DOUBLE[] AS temps,
       json_extract(hourly, '$.relativehumidity_2m')::INT[] AS rhs
-    FROM  read_json('https://api.open-meteo.com/v1/forecast?latitude={{.partition.latitude}}&longitude={{.partition.longitude}}&hourly=temperature_2m') 
+    FROM  read_json('https://api.open-meteo.com/v1/forecast?latitude={{.partition.lat}}&longitude={{.partition.lng}}&hourly=temperature_2m') 
   )
   SELECT
     * exclude (times,temps, rhs,hourly_units, hourly, i),
@@ -49,4 +49,4 @@ sql: >
 
 output:
   incrmental_strategy: merge
-  unique_key: [state, city, time]
+  unique_key: [country, city, time]

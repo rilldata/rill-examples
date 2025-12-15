@@ -20,8 +20,7 @@ retry:
   
 partitions:
   connector: duckdb
-  sql: select * from top_50_cities_mapping {{if dev}} limit 10 {{end}}
-
+  sql: select * from {{ref "worldcities"}} {{if dev}} limit 100 {{else}} limit 10000 {{end}}
 
 pre_exec: |
   SET force_download=true;
@@ -30,7 +29,7 @@ sql: >
   WITH base AS (
     SELECT
       '{{.partition.city}}' as city,
-      '{{.partition.state}}' as state,
+      '{{.partition.country}}' as country,
       *,
       json_extract(hourly, '$.time')::TIMESTAMP[]             AS times,
   
@@ -42,7 +41,7 @@ sql: >
       json_extract(hourly, '$.wind_wave_direction')::INT[]    AS wind_wave_directions,
       json_extract(hourly, '$.wind_wave_period')::DOUBLE[]    AS wind_wave_periods
   
-    FROM read_json('https://marine-api.open-meteo.com/v1/marine?latitude={{.partition.latitude}}&longitude={{.partition.longitude}}&hourly=wave_height,wave_direction,wave_period,wind_wave_height,wind_wave_direction,wind_wave_period&timezone=America%2FLos_Angeles') 
+    FROM read_json('https://marine-api.open-meteo.com/v1/marine?latitude={{.partition.lat}}&longitude={{.partition.lng}}&hourly=wave_height,wave_direction,wave_period,wind_wave_height,wind_wave_direction,wind_wave_period&timezone=America%2FLos_Angeles') 
   )
   
   SELECT
@@ -87,4 +86,4 @@ sql: >
 
 output:
   incrmental_strategy: merge
-  unique_key: [state, city, time]
+  unique_key: [country, city, time]

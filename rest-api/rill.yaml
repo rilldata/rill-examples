@@ -1,6 +1,6 @@
 compiler: rillv1
 
-display_name: Untitled Rill Project
+display_name: Weather Report
 
 # The project's default OLAP connector.
 # Learn more: https://docs.rilldata.com/reference/olap-engines

@@ -1,7 +1,0 @@
-# Connector YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/connectors
-  
-type: connector
-
-driver: snowflake
-dsn: "{{ .env.connector.snowflake.dsn }}"

@@ -6,16 +6,16 @@ version: 1
 type: metrics_view
 
 display_name: Top 50 Climate Model Metrics
-model: top50_climate_model
+model: climate_model
 timeseries: time
 
 dimensions:
   - name: city
     display_name: City
     column: city
-  - name: state
-    display_name: State
-    column: state
+  - name: conutry
+    display_name: Country
+    column: country
   - name: timezone
     display_name: Timezone
     column: timezone
@@ -25,9 +25,6 @@ dimensions:
   - name: time
     display_name: Time
     column: time
-  - name: __rill_partition
-    display_name: Rill Partition
-    column: __rill_partition
   - column: wave_direction_compass
     name: wave_direction_compass
   - column: sea_state

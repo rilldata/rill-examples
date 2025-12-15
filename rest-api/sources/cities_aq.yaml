@@ -20,8 +20,7 @@ retry:
   
 partitions:
   connector: duckdb
-  sql: select * from top_50_cities_mapping {{if dev}} limit 10 {{end}}
-
+  sql: select * from {{ref "worldcities"}} {{if dev}} limit 100 {{else}} limit 10000 {{end}}
 
 pre_exec: |
   SET force_download=true;
@@ -30,13 +29,13 @@ sql: >
   WITH base AS (
     SELECT
       '{{.partition.city}}' as city,
-      '{{.partition.state}}' as state,
+      '{{.partition.country}}' as country,
       *,
       json_extract(hourly, '$.time')::TIMESTAMP[]        AS times,
       json_extract(hourly, '$.european_aqi')::INT[]      AS european_aqis,
       json_extract(hourly, '$.pm10')::DOUBLE[]           AS pm10s,
       json_extract(hourly, '$.pm2_5')::DOUBLE[]          AS pm2_5s
-    FROM  read_json('https://air-quality-api.open-meteo.com/v1/air-quality?latitude={{.partition.latitude}}&longitude={{.partition.longitude}}&hourly=pm2_5,pm10,european_aqi') 
+    FROM  read_json('https://air-quality-api.open-meteo.com/v1/air-quality?latitude={{.partition.lat}}&longitude={{.partition.lng}}&hourly=pm2_5,pm10,european_aqi') 
   
   )
   
@@ -54,3 +53,7 @@ sql: >
   
   FROM base
   CROSS JOIN LATERAL generate_series(1, array_length(times)) AS g(i)
+
+output:
+  incrmental_strategy: merge
+  unique_key: [country, city, time]
