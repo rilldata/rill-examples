@@ -43,9 +43,8 @@ rows:
           metrics_view: video_mapping_metrics
           title: Best Videos
           x:
-            field: Video ID
+            field: Title
             limit: 20
-            sort: -y
             type: nominal
           y:
             field: total_views_measure

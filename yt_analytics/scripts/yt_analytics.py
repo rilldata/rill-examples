@@ -86,28 +86,26 @@ def clear_authentication():
         return True
     return False
 
-def query_youtube_analytics(
+def query_youtube_analytics_single_day(
     dimensions=None,
     measures=None,
     filters=None,
     sort=None,
     max_results=100,
-    start_date=None,
-    end_date=None,
+    query_date=None,
     ids=None,
     service_account_path="roy-endo-google-svc-acc.json"
 ):
     """
-    Query YouTube Analytics API with flexible parameters
+    Query YouTube Analytics API for a single day
     
     Args:
-        dimensions (list): List of dimension names (e.g., ['video', 'country', 'deviceType'])
-        measures (list): List of measure names (e.g., ['views', 'estimatedMinutesWatched', 'averageViewDuration'])
-        filters (str): Filter string (e.g., 'video==VIDEO_ID')
-        sort (str): Sort order (e.g., '-views' for descending, 'views' for ascending)
-        max_results (int): Maximum number of results to return (default: 100)
-        start_date (str): Start date in YYYY-MM-DD format
-        end_date (str): End date in YYYY-MM-DD format
+        dimensions (list): List of dimension names
+        measures (list): List of measure names
+        filters (str): Filter string
+        sort (str): Sort order
+        max_results (int): Maximum number of results to return
+        query_date (str): Single date in YYYY-MM-DD format
         ids (str): Channel or content owner ID (default: 'channel==MINE')
         service_account_path (str): Path to service account JSON file
     
@@ -125,17 +123,14 @@ def query_youtube_analytics(
         if ids is None:
             ids = 'channel==MINE'
         
-        if start_date is None:
-            start_date = (datetime.now()).strftime('%Y-%m-%d')
+        if query_date is None:
+            query_date = datetime.now().strftime('%Y-%m-%d')
         
-        if end_date is None:
-            end_date = datetime.now().strftime('%Y-%m-%d')
-        
-        # Prepare the query parameters
+        # Prepare the query parameters for single day
         query_params = {
             'ids': ids,
-            'startDate': start_date,
-            'endDate': end_date,
+            'startDate': query_date,
+            'endDate': query_date,
             'maxResults': max_results
         }
         
@@ -153,15 +148,118 @@ def query_youtube_analytics(
             query_params['sort'] = sort
         
         # Execute the query
-        logger.info(f"Executing YouTube Analytics query with params: {query_params}")
-        
         response = analytics_service.reports().query(**query_params).execute()
         
-        logger.info(f"Query successful. Retrieved {len(response.get('rows', []))} rows")
         return response
         
     except Exception as e:
-        logger.error(f"Error querying YouTube Analytics: {str(e)}")
+        logger.error(f"Error querying YouTube Analytics for {query_date}: {str(e)}")
+        raise
+
+def query_youtube_analytics(
+    dimensions=None,
+    measures=None,
+    filters=None,
+    sort=None,
+    max_results=100,
+    start_date=None,
+    end_date=None,
+    ids=None,
+    service_account_path="roy-endo-google-svc-acc.json"
+):
+    """
+    Query YouTube Analytics API with flexible parameters, making requests per day
+    
+    Args:
+        dimensions (list): List of dimension names (e.g., ['video', 'country', 'deviceType'])
+        measures (list): List of measure names (e.g., ['views', 'estimatedMinutesWatched', 'averageViewDuration'])
+        filters (str): Filter string (e.g., 'video==VIDEO_ID')
+        sort (str): Sort order (e.g., '-views' for descending, 'views' for ascending)
+        max_results (int): Maximum number of results to return (default: 100)
+        start_date (str): Start date in YYYY-MM-DD format
+        end_date (str): End date in YYYY-MM-DD format
+        ids (str): Channel or content owner ID (default: 'channel==MINE')
+        service_account_path (str): Path to service account JSON file
+    
+    Returns:
+        dict: Aggregated API response data from all days
+    """
+    try:
+        # Set default values
+        if start_date is None:
+            start_date = datetime.now().strftime('%Y-%m-%d')
+        
+        if end_date is None:
+            end_date = datetime.now().strftime('%Y-%m-%d')
+        
+        # Parse dates
+        start_obj = datetime.strptime(start_date, '%Y-%m-%d')
+        end_obj = datetime.strptime(end_date, '%Y-%m-%d')
+        
+        # Generate list of dates to query
+        current_date = start_obj
+        all_rows = []
+        column_headers = None
+        
+        logger.info(f"Executing YouTube Analytics queries from {start_date} to {end_date}, one day at a time")
+        
+        # Make requests for each day
+        while current_date <= end_obj:
+            query_date_str = current_date.strftime('%Y-%m-%d')
+            
+            try:
+                response = query_youtube_analytics_single_day(
+                    dimensions=dimensions,
+                    measures=measures,
+                    filters=filters,
+                    sort=sort,
+                    max_results=max_results,
+                    query_date=query_date_str,
+                    ids=ids,
+                    service_account_path=service_account_path
+                )
+                
+                # Collect column headers from first response
+                if column_headers is None and response.get('columnHeaders'):
+                    column_headers = response['columnHeaders']
+                
+                # Add date column to rows if not already present
+                rows = response.get('rows', [])
+                if rows:
+                    # Add the query date as the first column if 'day' dimension is not already present
+                    has_day_dimension = any(h.get('name') == 'day' for h in (column_headers or []))
+                    
+                    if not has_day_dimension:
+                        # Insert date at beginning of each row
+                        for row in rows:
+                            row.insert(0, query_date_str)
+                        
+                        # Add date column header if not present
+                        if column_headers and not any(h.get('name') == 'date' for h in column_headers):
+                            column_headers.insert(0, {'name': 'date', 'columnType': 'DIMENSION', 'dataType': 'STRING'})
+                    
+                    all_rows.extend(rows)
+                
+                logger.info(f"Query for {query_date_str} successful. Retrieved {len(rows)} rows")
+            
+            except Exception as e:
+                logger.warning(f"Error querying {query_date_str}: {str(e)}")
+                # Continue to next day even if this one fails
+            
+            # Move to next day
+            current_date += timedelta(days=1)
+        
+        # Aggregate response
+        aggregated_response = {
+            'columnHeaders': column_headers or [],
+            'rows': all_rows
+        }
+        
+        logger.info(f"All queries complete. Total {len(all_rows)} rows retrieved")
+        return aggregated_response
+        
+    except Exception as e:
+        logger.error(f"Error in query_youtube_analytics: {str(e)}")
         raise
 
 def get_video_analytics(video_id, start_date=None, end_date=None):
@@ -800,7 +898,7 @@ CSV Output:
 
 GCS Upload:
   Use --upload-gcs to automatically upload all CSV files to Google Cloud Storage
-  Default bucket: ws1-listeningparty.rilldata.com/rill_yt_test
+  Default bucket: rilldata-public/yt_analytics
   Use --gcs-bucket and --gcs-prefix to customize the destination
         """
     )
@@ -838,8 +936,8 @@ GCS Upload:
     
     # GCS upload options
     parser.add_argument('--upload-gcs', action='store_true', help='Upload CSV files to Google Cloud Storage')
-    parser.add_argument('--gcs-bucket', type=str, default='ws1-listeningparty.rilldata.com', help='GCS bucket name (default: ws1-listeningparty.rilldata.com)')
-    parser.add_argument('--gcs-prefix', type=str, default='rill_yt_test', help='GCS prefix/path within bucket (default: rill_yt_test)')
+    parser.add_argument('--gcs-bucket', type=str, default='rilldata-public', help='GCS bucket name (default: rilldata-public)')
+    parser.add_argument('--gcs-prefix', type=str, default='yt_analytics', help='GCS prefix/path within bucket (default: yt_analytics)')
     
     # Authentication options
     parser.add_argument('--service-account', type=str, default='roy-endo-google-svc-acc.json', help='Path to service account JSON file (default: roy-endo-google-svc-acc.json)')
