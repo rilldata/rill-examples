@@ -1,0 +1,11 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Auction Metrics dashboard"
+metrics_view: auction_metrics
+
+dimensions: '*'
+measures: '*'
+theme: slate_modern
