@@ -1,9 +1,8 @@
 type: theme
 
 light:
-  primary: "#7e22ce"
-  secondary: "#a855f7"
-
+  primary: "#be185d"     # Deep rose (premium + strong)
+  secondary: "#ec4899"   # Pink (supporting actions)
   background: "#fce7f3"
   surface: "#fdf2f8"
   card: "#f3e8ff"
