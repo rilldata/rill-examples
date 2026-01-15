@@ -1,4 +1,10 @@
-# Visit https://docs.rilldata.com/ to learn more about Rill code artifacts.
-type: source
-connector: "https"
-uri: "https://storage.googleapis.com/rilldata-public/auction_data.parquet"
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+
+connector: duckdb
+
+sql: |
+  select * from read_parquet('https://storage.googleapis.com/rilldata-public/auction_data.parquet')
