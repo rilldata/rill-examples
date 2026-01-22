@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Margins Model Metrics dashboard"
+metrics_view: exclude_columns_metrics
+
+dimensions: '*'
+measures: '*'

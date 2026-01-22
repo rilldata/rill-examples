@@ -1,0 +1,10 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Margins Model Metrics dashboard"
+metrics_view: mapped_row_access_policy_metrics
+
+dimensions: '*'
+measures: '*'
