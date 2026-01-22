@@ -1,4 +1,11 @@
-# Visit https://docs.rilldata.com/ to learn more about Rill code artifacts.
-type: source
-connector: "https"
-uri: "https://storage.googleapis.com/rilldata-public/mobile-demo-funnel.parquet"
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+
+connector: duckdb
+# create_secrets_from_connectors: gcs
+
+sql: |
+  select * from read_parquet('gs://rilldata-public/mobile-demo-funnel.parquet')

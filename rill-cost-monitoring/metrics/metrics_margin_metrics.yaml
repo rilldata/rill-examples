@@ -10,6 +10,10 @@ model: metrics_margin_model
 timeseries: __time
 smallest_time_grain: "day"
 
+security:
+  access: true
+  #row_filter: company in (select company from company_user_mapping where user_email = '{{.user.email}}' )
+
 dimensions:
   - name: customer
     display_name: Customer
@@ -70,3 +74,5 @@ measures:
     name: unique_customers
     description: "The count of unique companies"
     format_preset: humanize
+
+#ai_instructions: Add instructions here for AI agent to understand the context of this metrics view.
