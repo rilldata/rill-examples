@@ -4,8 +4,13 @@
 type: canvas
 display_name: Executive summary report
 defaults:
-  time_range: PT24H
+  time_range: 14D as of latest/D+1D
   comparison_mode: time
+  filters: {}
+filters:
+  pinned:
+    - app_site_name
+    - pub_name
 rows:
   - items:
       - markdown:
@@ -100,25 +105,21 @@ rows:
           metrics_view: bids_metrics
           title: ""
           x:
-            field: advertiser_name
-            limit: 15
+            field: __time
+            limit: 30
             showAxisTitle: true
             showNull: false
-            type: nominal
-            sort: -y
-            labelAngle: -90
+            type: temporal
           y1:
             field: total_bids
             mark: bar
             type: quantitative
             zeroBasedOrigin: true
-            showAxisTitle: true
           y2:
-            field: win_rate
+            field: clicks
             mark: line
             type: quantitative
             zeroBasedOrigin: true
-            showAxisTitle: true
         width: 6
       - heatmap:
           color:
@@ -138,7 +139,7 @@ rows:
             limit: 40
             type: nominal
         width: 6
-    height: 500px
+    height: 386px
   - items:
       - table:
           col_dimensions: []
