@@ -1,4 +1,11 @@
-# Visit https://docs.rilldata.com/ to learn more about Rill code artifacts.
-type: source
-connector: "gcs"
-uri: "gs://medriscoll-rill/sec-form-d/20[12][0-9]*/RECIPIENTS.tsv"
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
+
+type: model
+materialize: true
+
+connector: duckdb
+# create_secrets_from_connectors: gcs
+
+sql: |
+  select * from read_csv('gs://medriscoll-rill/sec-form-d/20[12][0-9]*/RECIPIENTS.tsv', delim='\t')

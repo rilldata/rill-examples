@@ -5,6 +5,10 @@ version: 1
 type: metrics_view
 timeseries: SALE_DATE
 
+security:
+  access: true
+  #row_filter: issuer_EntityName in (select issuer_name from issuer_user_mapping where user_email = '{{.user.email}}' )
+
 dimensions:
   - column: offering_IndustryGroupType
     name: offering_IndustryGroupType
@@ -119,3 +123,5 @@ measures:
 
 model: offerings_issuers_model
 smallest_time_grain: day
+
+#ai_instructions: Add instructions here for AI agent to understand the context of this metrics view.
