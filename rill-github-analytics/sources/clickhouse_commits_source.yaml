@@ -1,9 +1,11 @@
-# Visit https://docs.rilldata.com/ to learn more about Rill code files.
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/models
 
-type: "gcs"
-uri: "gs://rilldata-public/github-analytics/clickhouse/clickhouse/commits/commits*.parquet"
-# Get the most recent file
-extract:
-  files:
-    strategy: tail
-    size: 1
+type: model
+materialize: true
+
+connector: duckdb
+# create_secrets_from_connectors: gcs
+
+sql: |
+  select * from read_parquet('gs://rilldata-public/github-analytics/clickhouse/clickhouse/commits/commits*.parquet')

@@ -2,10 +2,15 @@
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
 type: canvas
-defaults:
-  time_range: PT24H
-  comparison_mode: time
 display_name: Rill vs DuckDb activity
+defaults:
+  time_range: 12M as of latest/W+1W
+  comparison_mode: time
+  filters: {}
+filters:
+  pinned:
+    - username
+    - first_directory
 rows:
   - items:
       - markdown:

@@ -5,6 +5,7 @@ type: model
 materialize: true
 
 connector: duckdb
+# create_secrets_from_connectors: gcs
 
 sql: |
   select * from read_parquet('https://storage.googleapis.com/rilldata-public/auction_data.parquet')

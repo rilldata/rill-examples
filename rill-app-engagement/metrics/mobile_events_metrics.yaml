@@ -11,6 +11,10 @@ timeseries: event_time
 
 smallest_time_grain: "hour"
 
+security:
+  access: true
+  #row_filter: advertiser_name in (select advertiser_name from advertiser_user_mapping where user_email = '{{.user.email}}' )
+
 dimensions:
   - name: new_existing
     display_name: New vs Existing
@@ -88,3 +92,5 @@ measures:
     name: completion_rate
     description: "Completion Rate"
     format_preset: percentage
+
+#ai_instructions: Add instructions here for AI agent to understand the context of this metrics view.

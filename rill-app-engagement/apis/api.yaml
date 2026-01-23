@@ -1,0 +1,8 @@
+# API YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/apis
+# Test your API endpoint at http://localhost:9009/v1/instances/default/api/api
+
+type: api
+
+metrics_sql: |
+  select total_page_views, site_conversion_rate, referral_source from mobile_events_metrics limit 10

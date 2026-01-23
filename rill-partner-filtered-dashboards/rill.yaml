@@ -9,3 +9,6 @@ mock_users:
     admin: true
   - email: john.smith@gmail.com
   - email: anon@unknown.com
+  - email: jane@marketing.com
+    groups:
+      - marketing

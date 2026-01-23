@@ -10,6 +10,10 @@ model: rill_commits_model
 timeseries: date
 smallest_time_grain: "day"
 
+security:
+  access: true
+  #row_filter: username in (select username from user_mapping where user_email = '{{.user.email}}' )
+
 dimensions:
   - name: commit_hash
     display_name: Commit hash
@@ -93,3 +97,5 @@ measures:
     name: count_files_touched_per_commit
     description: ""
     format_preset: humanize
+
+#ai_instructions: Add instructions here for AI agent to understand the context of this metrics view.
