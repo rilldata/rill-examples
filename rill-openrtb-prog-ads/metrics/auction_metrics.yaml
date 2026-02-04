@@ -32,6 +32,10 @@ measures:
 
 
 dimensions:
+  - name: another_time_column
+    display_name: Shifted Time Column
+    expression: __time - INTERVAL '14 days'
+    type: time
   - name: app_site_name
     display_name: App Site Name
     column: app_site_name
