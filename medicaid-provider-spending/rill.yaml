@@ -1,0 +1,12 @@
+compiler: rillv1
+
+display_name: Medicaid Provider Spending
+description: >
+  Analyze Medicaid provider spending patterns using CMS claims data enriched with
+  NPI provider details, HCPCS procedure descriptions, RBCS service classifications,
+  and OIG exclusion flags.
+
+olap_connector: duckdb
+
+features:
+  cloudDataViewer: true

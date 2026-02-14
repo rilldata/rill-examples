@@ -1,0 +1,11 @@
+.DS_Store
+
+# Rill
+.env
+tmp
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Large data files
+data/

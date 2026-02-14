@@ -1,0 +1,49 @@
+type: model
+description: >
+  OIG LEIE (List of Excluded Individuals/Entities) exclusion records.
+  Identifies providers excluded from federal healthcare programs, with the most recent
+  exclusion per NPI.
+materialize: true
+
+sql: |
+  WITH ranked AS (
+    SELECT
+      CAST(NPI AS VARCHAR) AS npi,
+      COALESCE(NULLIF(TRIM(BUSNAME), ''), TRIM(COALESCE(FIRSTNAME, '') || ' ' || COALESCE(LASTNAME, ''))) AS excluded_name,
+      EXCLTYPE AS exclusion_type,
+      CASE
+        WHEN CAST(EXCLDATE AS VARCHAR) NOT LIKE '0000%'
+        THEN STRPTIME(CAST(EXCLDATE AS VARCHAR), '%Y%m%d')::DATE
+        ELSE NULL
+      END AS exclusion_date,
+      CASE
+        WHEN CAST(REINDATE AS VARCHAR) NOT LIKE '0000%'
+        THEN STRPTIME(CAST(REINDATE AS VARCHAR), '%Y%m%d')::DATE
+        ELSE NULL
+      END AS reinstatement_date,
+      STATE AS excluded_state,
+      CITY AS excluded_city,
+      SPECIALTY AS excluded_specialty,
+      ROW_NUMBER() OVER (
+        PARTITION BY NPI
+        ORDER BY EXCLDATE DESC
+      ) AS rn
+    FROM read_csv(
+      'https://oig.hhs.gov/exclusions/downloadables/UPDATED.csv',
+      auto_detect=true
+    )
+    WHERE NPI IS NOT NULL
+      AND CAST(NPI AS VARCHAR) <> ''
+      AND CAST(NPI AS VARCHAR) <> '0000000000'
+  )
+  SELECT
+    npi,
+    excluded_name,
+    exclusion_type,
+    exclusion_date,
+    reinstatement_date,
+    excluded_state,
+    excluded_city,
+    excluded_specialty
+  FROM ranked
+  WHERE rn = 1

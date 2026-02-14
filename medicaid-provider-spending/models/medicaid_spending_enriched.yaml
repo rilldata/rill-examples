@@ -1,0 +1,43 @@
+type: model
+description: >
+  Enriched spending data joining raw claims with NPI provider details, HCPCS procedure descriptions,
+  RBCS service classifications, and OIG LEIE exclusion flags.
+materialize: true
+
+sql: |
+  SELECT
+    s.*,
+    bp.provider_name AS billing_provider_name,
+    bp.provider_type AS billing_provider_type,
+    bp.provider_address AS billing_provider_address,
+    bp.provider_city AS billing_provider_city,
+    bp.provider_state AS billing_provider_state,
+    bp.provider_zip AS billing_provider_zip,
+    bp.authorized_official AS billing_authorized_official,
+    bp.taxonomy_code AS billing_taxonomy_code,
+    sp.provider_name AS servicing_provider_name,
+    sp.provider_type AS servicing_provider_type,
+    sp.provider_address AS servicing_provider_address,
+    sp.provider_city AS servicing_provider_city,
+    sp.provider_state AS servicing_provider_state,
+    sp.provider_zip AS servicing_provider_zip,
+    sp.authorized_official AS servicing_authorized_official,
+    sp.taxonomy_code AS servicing_taxonomy_code,
+    COALESCE(h.hcpcs_description, r.rbcs_family_desc) AS hcpcs_description,
+    h.hcpcs_short_description,
+    r.rbcs_cat_desc AS rbcs_category,
+    r.rbcs_subcat_desc AS rbcs_subcategory,
+    CASE WHEN bl.npi IS NOT NULL THEN true ELSE false END AS billing_provider_excluded,
+    bl.exclusion_type AS billing_exclusion_type,
+    bl.exclusion_date AS billing_exclusion_date,
+    CASE WHEN sl.npi IS NOT NULL THEN true ELSE false END AS servicing_provider_excluded,
+    sl.exclusion_type AS servicing_exclusion_type,
+    sl.exclusion_date AS servicing_exclusion_date,
+    CASE WHEN bl.npi IS NOT NULL OR sl.npi IS NOT NULL THEN true ELSE false END AS is_excluded
+  FROM {{ ref "medicaid_provider_spending" }} s
+  LEFT JOIN {{ ref "npi_providers" }} bp ON s.billing_provider_npi = bp.npi
+  LEFT JOIN {{ ref "npi_providers" }} sp ON s.servicing_provider_npi = sp.npi
+  LEFT JOIN {{ ref "hcpcs_codes" }} h ON s.hcpcs_code = h.hcpcs_code
+  LEFT JOIN {{ ref "rbcs_codes" }} r ON s.hcpcs_code = r.hcpcs_code
+  LEFT JOIN {{ ref "leie_exclusions" }} bl ON s.billing_provider_npi = bl.npi
+  LEFT JOIN {{ ref "leie_exclusions" }} sl ON s.servicing_provider_npi = sl.npi

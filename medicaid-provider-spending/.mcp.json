@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "rill-cloud": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://api.rilldata.com/v1/orgs/demo/projects/medicaid-provider-spending/runtime/mcp"
+      ],
+      "env": {}
+    },
+    "rill-dev": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:9009/v1/mcp"
+      ],
+      "env": {}
+    }
+  }
+}

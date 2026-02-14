@@ -1,0 +1,158 @@
+type: metrics_view
+
+display_name: Medicaid Provider Spending
+description: Analysis of Medicaid provider spending by billing/servicing provider, procedure code, and time period
+
+model: medicaid_spending_enriched
+timeseries: claim_month
+smallest_time_grain: month
+
+dimensions:
+  # Time
+  - name: claim_month
+    column: claim_month
+    description: Month the claim was filed
+
+  # Procedure codes
+  - name: hcpcs_code
+    display_name: HCPCS Code
+    column: hcpcs_code
+    description: Healthcare Common Procedure Coding System code for the service billed
+
+  - name: hcpcs_description
+    display_name: HCPCS Description
+    column: hcpcs_description
+    description: Long description of the HCPCS procedure code
+
+  # Provider type and geography
+  - name: billing_provider_type
+    display_name: Billing Provider Type
+    column: billing_provider_type
+    description: Whether the billing provider is an Individual or Organization
+
+  - name: billing_provider_state
+    display_name: Billing Provider State
+    column: billing_provider_state
+    description: State of the billing provider's practice location
+
+  - name: billing_provider_city
+    display_name: Billing Provider City
+    column: billing_provider_city
+    description: City of the billing provider's practice location
+
+  - name: billing_provider_name
+    display_name: Billing Provider
+    column: billing_provider_name
+    description: Name of the billing provider (organization name or individual first + last name)
+
+  - name: servicing_provider_type
+    display_name: Servicing Provider Type
+    column: servicing_provider_type
+    description: Whether the servicing provider is an Individual or Organization
+
+  - name: servicing_provider_name
+    display_name: Servicing Provider
+    column: servicing_provider_name
+    description: Name of the provider who performed the service
+
+  # Analytical flags
+  - name: same_provider
+    display_name: Same Billing & Servicing Provider
+    expression: CASE WHEN billing_provider_npi = servicing_provider_npi THEN 'Yes' ELSE 'No' END
+    description: Whether the billing and servicing provider are the same entity
+
+  - name: is_excluded
+    display_name: Excluded Provider
+    expression: CASE WHEN is_excluded THEN 'Yes' ELSE 'No' END
+    description: Whether the billing or servicing provider appears on the OIG LEIE exclusion list
+
+  - name: exclusion_type
+    display_name: Exclusion Type
+    column: billing_exclusion_type
+    description: OIG exclusion statute (e.g. 1128a1 for conviction of program-related crimes)
+
+  # Service classification (partial coverage — many Medicaid-specific codes not in RBCS)
+  - name: rbcs_category
+    display_name: Service Category
+    column: rbcs_category
+    description: RBCS service category (e.g. E&M, Procedure, Test, Treatment, DME, Imaging, Anesthesia, Other)
+
+  - name: rbcs_subcategory
+    display_name: Service Subcategory
+    column: rbcs_subcategory
+    description: RBCS service subcategory providing finer-grained classification of the service type
+
+  # Provider detail (drill-down)
+  - name: billing_provider_npi
+    display_name: Billing Provider NPI
+    column: billing_provider_npi
+    description: National Provider Identifier of the billing provider
+
+  - name: servicing_provider_npi
+    display_name: Servicing Provider NPI
+    column: servicing_provider_npi
+    description: National Provider Identifier of the servicing provider
+
+  - name: billing_provider_address
+    display_name: Billing Provider Address
+    column: billing_provider_address
+    description: Street address of the billing provider's practice location
+
+  - name: billing_provider_zip
+    display_name: Billing Provider ZIP
+    column: billing_provider_zip
+    description: 5-digit ZIP code of the billing provider's practice location
+
+  - name: billing_authorized_official
+    display_name: Billing Authorized Official
+    column: billing_authorized_official
+    description: Person authorized to act on behalf of the billing provider organization
+
+  - name: billing_taxonomy_code
+    display_name: Billing Taxonomy Code
+    column: billing_taxonomy_code
+    description: Primary Healthcare Provider Taxonomy Code classifying the billing provider's specialty
+
+measures:
+  - name: total_paid
+    display_name: Total Paid
+    expression: SUM(total_paid)
+    format_preset: currency_usd
+    description: Total Medicaid payments
+
+  - name: total_claims
+    display_name: Total Claims
+    expression: SUM(total_claims)
+    format_preset: humanize
+    description: Total number of Medicaid claims submitted
+
+  - name: total_beneficiaries
+    display_name: Total Beneficiaries
+    expression: SUM(total_unique_beneficiaries)
+    format_preset: humanize
+    description: Sum of unique beneficiaries (may double-count across providers/codes)
+
+  - name: avg_paid_per_claim
+    display_name: Avg Paid per Claim
+    expression: SUM(total_paid) / NULLIF(SUM(total_claims), 0)
+    format_preset: currency_usd
+    valid_percent_of_total: false
+    description: Average Medicaid payment per claim
+
+  - name: unique_providers
+    display_name: Unique Providers
+    expression: COUNT(DISTINCT billing_provider_npi)
+    format_preset: humanize
+    description: Count of distinct billing provider NPIs
+
+  - name: unique_hcpcs_codes
+    display_name: Unique HCPCS Codes
+    expression: COUNT(DISTINCT hcpcs_code)
+    format_preset: humanize
+    description: Count of distinct procedure codes billed
+
+  - name: record_count
+    display_name: Records
+    expression: COUNT(*)
+    format_preset: humanize
+    description: Number of provider-procedure-month records

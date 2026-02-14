@@ -1,0 +1,6 @@
+type: connector
+description: Managed DuckDB OLAP database with zipfs extension for reading ZIP-compressed remote files
+
+driver: duckdb
+managed: true
+init_sql: "INSTALL zipfs FROM community; LOAD zipfs;"
