@@ -82,6 +82,16 @@ dimensions:
     column: hcpcs_description
     description: Long description of the HCPCS procedure code
 
+  - name: rbcs_category
+    display_name: Service Category
+    column: rbcs_category
+    description: RBCS service category (e.g. E&M, Procedure, Test, Treatment, DME, Imaging, Anesthesia, Other)
+
+  - name: rbcs_subcategory
+    display_name: Service Subcategory
+    column: rbcs_subcategory
+    description: RBCS service subcategory providing finer-grained classification of the service type
+
   - name: same_provider
     display_name: Same Billing & Servicing Provider
     expression: CASE WHEN billing_provider_npi = servicing_provider_npi THEN 'Yes' ELSE 'No' END

@@ -20,8 +20,10 @@ sql: |
     sp.provider_zip AS servicing_provider_zip,
     sp.authorized_official AS servicing_authorized_official,
     sp.taxonomy_code AS servicing_taxonomy_code,
-    h.hcpcs_description,
+    COALESCE(h.hcpcs_description, r.rbcs_family_desc) AS hcpcs_description,
     h.hcpcs_short_description,
+    r.rbcs_cat_desc AS rbcs_category,
+    r.rbcs_subcat_desc AS rbcs_subcategory,
     CASE WHEN bl.npi IS NOT NULL THEN true ELSE false END AS billing_provider_excluded,
     bl.exclusion_type AS billing_exclusion_type,
     bl.exclusion_date AS billing_exclusion_date,
@@ -33,5 +35,6 @@ sql: |
   LEFT JOIN {{ ref "npi_providers" }} bp ON s.billing_provider_npi = bp.npi
   LEFT JOIN {{ ref "npi_providers" }} sp ON s.servicing_provider_npi = sp.npi
   LEFT JOIN {{ ref "hcpcs_codes" }} h ON s.hcpcs_code = h.hcpcs_code
+  LEFT JOIN {{ ref "rbcs_codes" }} r ON s.hcpcs_code = r.hcpcs_code
   LEFT JOIN {{ ref "leie_exclusions" }} bl ON s.billing_provider_npi = bl.npi
   LEFT JOIN {{ ref "leie_exclusions" }} sl ON s.servicing_provider_npi = sl.npi
