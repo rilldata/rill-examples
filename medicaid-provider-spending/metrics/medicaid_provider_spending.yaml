@@ -13,17 +13,7 @@ dimensions:
     column: claim_month
     description: Month the claim was filed
 
-  # Service classification
-  - name: rbcs_category
-    display_name: Service Category
-    column: rbcs_category
-    description: RBCS service category (e.g. E&M, Procedure, Test, Treatment, DME, Imaging, Anesthesia, Other)
-
-  - name: rbcs_subcategory
-    display_name: Service Subcategory
-    column: rbcs_subcategory
-    description: RBCS service subcategory providing finer-grained classification of the service type
-
+  # Procedure codes
   - name: hcpcs_code
     display_name: HCPCS Code
     column: hcpcs_code
@@ -80,6 +70,17 @@ dimensions:
     display_name: Exclusion Type
     column: billing_exclusion_type
     description: OIG exclusion statute (e.g. 1128a1 for conviction of program-related crimes)
+
+  # Service classification (partial coverage — many Medicaid-specific codes not in RBCS)
+  - name: rbcs_category
+    display_name: Service Category
+    column: rbcs_category
+    description: RBCS service category (e.g. E&M, Procedure, Test, Treatment, DME, Imaging, Anesthesia, Other)
+
+  - name: rbcs_subcategory
+    display_name: Service Subcategory
+    column: rbcs_subcategory
+    description: RBCS service subcategory providing finer-grained classification of the service type
 
   # Provider detail (drill-down)
   - name: billing_provider_npi

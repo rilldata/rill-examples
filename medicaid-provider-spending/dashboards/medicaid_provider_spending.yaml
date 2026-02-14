@@ -15,3 +15,23 @@ time_ranges:
 
 defaults:
   time_range: P12M
+  measures:
+    - total_paid
+    - total_claims
+    - avg_paid_per_claim
+    - unique_providers
+  dimensions:
+    - hcpcs_code
+    - hcpcs_description
+    - billing_provider_type
+    - billing_provider_state
+    - billing_provider_city
+    - billing_provider_name
+    - servicing_provider_type
+    - servicing_provider_name
+    - same_provider
+    - is_excluded
+    - exclusion_type
+    - rbcs_category
+    - rbcs_subcategory
+  comparison_mode: none
