@@ -1,0 +1,29 @@
+type: model
+materialize: true
+
+sql: |
+  SELECT
+    hcpcs_cd AS hcpcs_code,
+    rbcs_cat_desc,
+    rbcs_subcat_desc,
+    rbcs_family_desc
+  FROM read_csv(
+    'https://tuva-public-resources.s3.amazonaws.com/versioned_terminology/latest/hcpcs_to_rbcs.csv_0_0_0.csv.gz',
+    header=false,
+    columns={
+      'hcpcs_cd': 'VARCHAR',
+      'rbcs_id': 'VARCHAR',
+      'rbcs_family': 'VARCHAR',
+      'rbcs_family_desc': 'VARCHAR',
+      'rbcs_cat': 'VARCHAR',
+      'rbcs_cat_desc': 'VARCHAR',
+      'rbcs_subcat': 'VARCHAR',
+      'rbcs_subcat_desc': 'VARCHAR',
+      'rbcs_assignment_type': 'VARCHAR',
+      'hcpcs_effective_date': 'DATE',
+      'hcpcs_end_date': 'DATE',
+      'rbcs_effective_date': 'DATE',
+      'current_flag': 'INTEGER'
+    }
+  )
+  WHERE current_flag = 1
