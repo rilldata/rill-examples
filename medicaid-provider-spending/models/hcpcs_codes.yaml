@@ -1,0 +1,19 @@
+type: model
+materialize: true
+
+sql: |
+  SELECT
+    hcpcs as hcpcs_code,
+    long_description as hcpcs_description,
+    short_description as hcpcs_short_description
+  FROM read_csv(
+    'https://tuva-public-resources.s3.amazonaws.com/versioned_terminology/latest/hcpcs_level_2.csv_0_0_0.csv.gz',
+    header=false,
+    columns={
+      'hcpcs': 'VARCHAR',
+      'seqnum': 'VARCHAR',
+      'recid': 'VARCHAR',
+      'long_description': 'VARCHAR',
+      'short_description': 'VARCHAR'
+    }
+  )

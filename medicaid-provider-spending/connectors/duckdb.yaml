@@ -1,0 +1,5 @@
+type: connector
+
+driver: duckdb
+managed: true
+init_sql: "INSTALL zipfs FROM community; LOAD zipfs;"

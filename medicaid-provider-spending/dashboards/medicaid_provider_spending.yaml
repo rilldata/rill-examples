@@ -1,0 +1,9 @@
+type: explore
+
+display_name: Medicaid Provider Spending
+metrics_view: medicaid_provider_spending
+dimensions: '*'
+measures: '*'
+
+defaults:
+  time_range: P12M

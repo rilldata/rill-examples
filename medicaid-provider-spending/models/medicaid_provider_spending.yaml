@@ -1,0 +1,16 @@
+type: model
+materialize: true
+
+timeout: 10m
+
+sql: |
+  SELECT
+    BILLING_PROVIDER_NPI_NUM as billing_provider_npi,
+    SERVICING_PROVIDER_NPI_NUM as servicing_provider_npi,
+    HCPCS_CODE as hcpcs_code,
+    STRPTIME(CLAIM_FROM_MONTH, '%Y-%m')::DATE as claim_month,
+    TOTAL_UNIQUE_BENEFICIARIES as total_unique_beneficiaries,
+    TOTAL_CLAIMS as total_claims,
+    TOTAL_PAID as total_paid
+  FROM read_parquet('https://stopendataprod.blob.core.windows.net/datasets/medicaid-provider-spending/2026-02-09/medicaid-provider-spending.parquet')
+  {{ if dev }} LIMIT 500000 {{ end }}

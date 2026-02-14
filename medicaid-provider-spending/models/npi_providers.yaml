@@ -1,0 +1,41 @@
+type: model
+materialize: true
+timeout: 30m
+
+# NOTE: The CMS NPPES ZIP filename contains a date (e.g. npidata_pfile_20050523-20260208.csv).
+# When CMS publishes a new monthly release, the filename changes and this model will break.
+# Update the URL below to match the latest file at https://download.cms.gov/nppes/NPI_Files.html
+
+sql: |
+  SELECT
+    CAST(NPI AS VARCHAR) AS npi,
+    CASE "Entity Type Code"
+      WHEN '2' THEN regexp_replace(COALESCE("Provider Organization Name (Legal Business Name)", ''), '[^\x20-\x7E]', '', 'g')
+      WHEN '1' THEN TRIM(
+        regexp_replace(COALESCE("Provider First Name", ''), '[^\x20-\x7E]', '', 'g')
+        || ' ' ||
+        regexp_replace(COALESCE("Provider Last Name (Legal Name)", ''), '[^\x20-\x7E]', '', 'g')
+      )
+      ELSE NULL
+    END AS provider_name,
+    CASE "Entity Type Code"
+      WHEN '1' THEN 'Individual'
+      WHEN '2' THEN 'Organization'
+      ELSE 'Unknown'
+    END AS provider_type,
+    "Provider First Line Business Practice Location Address" AS provider_address,
+    "Provider Business Practice Location Address City Name" AS provider_city,
+    "Provider Business Practice Location Address State Name" AS provider_state,
+    LEFT("Provider Business Practice Location Address Postal Code", 5) AS provider_zip,
+    CASE
+      WHEN "Authorized Official First Name" IS NOT NULL AND "Authorized Official Last Name" IS NOT NULL
+      THEN TRIM("Authorized Official First Name" || ' ' || "Authorized Official Last Name")
+      ELSE NULL
+    END AS authorized_official,
+    "Healthcare Provider Taxonomy Code_1" AS taxonomy_code
+  FROM read_csv(
+    'zip://https://download.cms.gov/nppes/NPPES_Data_Dissemination_February_2026.zip/npidata_pfile_20050523-20260208.csv',
+    auto_detect=true,
+    sample_size=1000
+  )
+  {{ if dev }} LIMIT 10000 {{ end }}
