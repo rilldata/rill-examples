@@ -28,8 +28,10 @@ defaults:
     - billing_provider_city
     - billing_provider_name
     - servicing_provider_type
+    - servicing_provider_state
     - servicing_provider_name
     - same_provider
+    - state_mismatch
     - is_excluded
     - exclusion_type
     - rbcs_category

@@ -50,6 +50,16 @@ dimensions:
     column: servicing_provider_type
     description: Whether the servicing provider is an Individual or Organization
 
+  - name: servicing_provider_state
+    display_name: Servicing Provider State
+    column: servicing_provider_state
+    description: State of the servicing provider's practice location
+
+  - name: servicing_provider_city
+    display_name: Servicing Provider City
+    column: servicing_provider_city
+    description: City of the servicing provider's practice location
+
   - name: servicing_provider_name
     display_name: Servicing Provider
     column: servicing_provider_name
@@ -61,10 +71,31 @@ dimensions:
     expression: CASE WHEN billing_provider_npi = servicing_provider_npi THEN 'Yes' ELSE 'No' END
     description: Whether the billing and servicing provider are the same entity
 
+  - name: state_mismatch
+    display_name: Billing/Servicing State Mismatch
+    expression: |
+      CASE
+        WHEN billing_provider_npi = servicing_provider_npi THEN 'Same Provider'
+        WHEN billing_provider_state IS NULL OR servicing_provider_state IS NULL THEN 'Unknown'
+        WHEN billing_provider_state != servicing_provider_state THEN 'Different State'
+        ELSE 'Same State'
+      END
+    description: Whether the billing and servicing providers are in different states
+
   - name: is_excluded
     display_name: Excluded Provider
     expression: CASE WHEN is_excluded THEN 'Yes' ELSE 'No' END
     description: Whether the billing or servicing provider appears on the OIG LEIE exclusion list
+
+  - name: billing_provider_excluded
+    display_name: Billing Provider Excluded
+    expression: CASE WHEN billing_provider_excluded THEN 'Yes' ELSE 'No' END
+    description: Whether the billing provider specifically is on the OIG LEIE exclusion list
+
+  - name: servicing_provider_excluded
+    display_name: Servicing Provider Excluded
+    expression: CASE WHEN servicing_provider_excluded THEN 'Yes' ELSE 'No' END
+    description: Whether the servicing provider specifically is on the OIG LEIE exclusion list
 
   - name: exclusion_type
     display_name: Exclusion Type
@@ -88,11 +119,6 @@ dimensions:
     column: billing_provider_npi
     description: National Provider Identifier of the billing provider
 
-  - name: servicing_provider_npi
-    display_name: Servicing Provider NPI
-    column: servicing_provider_npi
-    description: National Provider Identifier of the servicing provider
-
   - name: billing_provider_address
     display_name: Billing Provider Address
     column: billing_provider_address
@@ -112,6 +138,21 @@ dimensions:
     display_name: Billing Taxonomy Code
     column: billing_taxonomy_code
     description: Primary Healthcare Provider Taxonomy Code classifying the billing provider's specialty
+
+  - name: servicing_provider_npi
+    display_name: Servicing Provider NPI
+    column: servicing_provider_npi
+    description: National Provider Identifier of the servicing provider
+
+  - name: servicing_provider_address
+    display_name: Servicing Provider Address
+    column: servicing_provider_address
+    description: Street address of the servicing provider's practice location
+
+  - name: servicing_provider_zip
+    display_name: Servicing Provider ZIP
+    column: servicing_provider_zip
+    description: 5-digit ZIP code of the servicing provider's practice location
 
 measures:
   - name: total_paid
