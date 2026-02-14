@@ -1,0 +1,123 @@
+type: model
+description: >
+  ZIP Code-level demographics from Census ACS 2024 5-year estimates and USDA RUCA 2020 codes.
+  Joins total population (B01003), median household income (B19013), poverty status (B17001),
+  and Medicaid coverage (C27007) by ZCTA, with RUCA-based urbanicity classification.
+  Outputs one row per ZCTA (~33K rows) with derived tiers and flags for dashboard filtering.
+materialize: true
+
+sql: |
+  WITH pop AS (
+    SELECT
+      RIGHT(GEO_ID, 5) AS zcta,
+      TRY_CAST(B01003_E001 AS INTEGER) AS total_population
+    FROM read_csv(
+      'https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat',
+      delim='|', header=true, all_varchar=true
+    )
+    WHERE GEO_ID LIKE '860Z200US%'
+  ),
+
+  income AS (
+    SELECT
+      RIGHT(GEO_ID, 5) AS zcta,
+      TRY_CAST(B19013_E001 AS INTEGER) AS median_household_income
+    FROM read_csv(
+      'https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b19013.dat',
+      delim='|', header=true, all_varchar=true
+    )
+    WHERE GEO_ID LIKE '860Z200US%'
+  ),
+
+  poverty AS (
+    SELECT
+      RIGHT(GEO_ID, 5) AS zcta,
+      TRY_CAST(B17001_E001 AS INTEGER) AS poverty_universe,
+      TRY_CAST(B17001_E002 AS INTEGER) AS below_poverty
+    FROM read_csv(
+      'https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b17001.dat',
+      delim='|', header=true, all_varchar=true, max_line_size=1000000
+    )
+    WHERE GEO_ID LIKE '860Z200US%'
+  ),
+
+  medicaid AS (
+    SELECT
+      RIGHT(GEO_ID, 5) AS zcta,
+      TRY_CAST(C27007_E001 AS INTEGER) AS medicaid_universe,
+      -- With Medicaid: male under 19 (E004) + male 19-64 (E007) + male 65+ (E010)
+      --             + female under 19 (E014) + female 19-64 (E017) + female 65+ (E020)
+      TRY_CAST(C27007_E004 AS INTEGER)
+        + TRY_CAST(C27007_E007 AS INTEGER)
+        + TRY_CAST(C27007_E010 AS INTEGER)
+        + TRY_CAST(C27007_E014 AS INTEGER)
+        + TRY_CAST(C27007_E017 AS INTEGER)
+        + TRY_CAST(C27007_E020 AS INTEGER) AS with_medicaid
+    FROM read_csv(
+      'https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c27007.dat',
+      delim='|', header=true, all_varchar=true, max_line_size=1000000
+    )
+    WHERE GEO_ID LIKE '860Z200US%'
+  ),
+
+  ruca AS (
+    SELECT
+      LPAD(CAST(ZIPCode AS VARCHAR), 5, '0') AS zcta,
+      PrimaryRUCA AS ruca_code
+    FROM read_csv(
+      'https://www.ers.usda.gov/media/5444/2020-rural-urban-commuting-area-codes-zip-codes.csv?v=71642',
+      auto_detect=true
+    )
+  )
+
+  SELECT
+    p.zcta,
+    p.total_population,
+    i.median_household_income,
+    ROUND(pv.below_poverty * 100.0 / NULLIF(pv.poverty_universe, 0), 1) AS poverty_rate,
+    ROUND(m.with_medicaid * 100.0 / NULLIF(m.medicaid_universe, 0), 1) AS medicaid_rate,
+
+    CASE
+      WHEN r.ruca_code BETWEEN 1 AND 3 THEN 'Urban'
+      WHEN r.ruca_code BETWEEN 4 AND 6 THEN 'Suburban'
+      WHEN r.ruca_code BETWEEN 7 AND 10 THEN 'Rural'
+      ELSE 'Unknown'
+    END AS urbanicity,
+
+    CASE
+      WHEN p.total_population < 5000 THEN 'Under 5K'
+      WHEN p.total_population < 15000 THEN '5K-15K'
+      WHEN p.total_population < 30000 THEN '15K-30K'
+      WHEN p.total_population < 60000 THEN '30K-60K'
+      ELSE '60K+'
+    END AS pop_tier,
+
+    CASE
+      WHEN i.median_household_income < 30000 THEN 'Under $30K'
+      WHEN i.median_household_income < 50000 THEN '$30K-$50K'
+      WHEN i.median_household_income < 75000 THEN '$50K-$75K'
+      WHEN i.median_household_income < 100000 THEN '$75K-$100K'
+      ELSE '$100K+'
+    END AS income_bracket,
+
+    CASE
+      WHEN ROUND(pv.below_poverty * 100.0 / NULLIF(pv.poverty_universe, 0), 1) < 10 THEN 'Low (<10%)'
+      WHEN ROUND(pv.below_poverty * 100.0 / NULLIF(pv.poverty_universe, 0), 1) < 20 THEN 'Moderate (10-20%)'
+      WHEN ROUND(pv.below_poverty * 100.0 / NULLIF(pv.poverty_universe, 0), 1) < 30 THEN 'High (20-30%)'
+      ELSE 'Very High (30%+)'
+    END AS poverty_tier,
+
+    CASE
+      WHEN ROUND(m.with_medicaid * 100.0 / NULLIF(m.medicaid_universe, 0), 1) < 10 THEN 'Low (<10%)'
+      WHEN ROUND(m.with_medicaid * 100.0 / NULLIF(m.medicaid_universe, 0), 1) < 20 THEN 'Moderate (10-20%)'
+      WHEN ROUND(m.with_medicaid * 100.0 / NULLIF(m.medicaid_universe, 0), 1) < 30 THEN 'High (20-30%)'
+      ELSE 'Very High (30%+)'
+    END AS medicaid_tier,
+
+    ROUND(pv.below_poverty * 100.0 / NULLIF(pv.poverty_universe, 0), 1) > 20 AS high_poverty_flag
+
+  FROM pop p
+  LEFT JOIN income i ON p.zcta = i.zcta
+  LEFT JOIN poverty pv ON p.zcta = pv.zcta
+  LEFT JOIN medicaid m ON p.zcta = m.zcta
+  LEFT JOIN ruca r ON p.zcta = r.zcta

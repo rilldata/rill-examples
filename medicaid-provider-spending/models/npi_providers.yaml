@@ -41,4 +41,3 @@ sql: |
     auto_detect=true,
     sample_size=1000
   )
-  {{ if dev }} LIMIT 10000 {{ end }}

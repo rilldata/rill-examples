@@ -36,4 +36,8 @@ defaults:
     - exclusion_type
     - rbcs_category
     - rbcs_subcategory
+    - billing_zip_urbanicity
+    - billing_zip_pop_tier
+    - billing_zip_income_bracket
+    - billing_zip_medicaid_tier
   comparison_mode: none

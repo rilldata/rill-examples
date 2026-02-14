@@ -113,6 +113,68 @@ dimensions:
     column: rbcs_subcategory
     description: RBCS service subcategory providing finer-grained classification of the service type
 
+  # Billing ZIP demographics (Census ACS + RUCA)
+  - name: billing_zip_urbanicity
+    display_name: Billing ZIP Urbanicity
+    column: billing_zip_urbanicity
+    description: Urban/Suburban/Rural classification of the billing provider's ZIP code (USDA RUCA 2020)
+
+  - name: billing_zip_pop_tier
+    display_name: Billing ZIP Population Tier
+    column: billing_zip_pop_tier
+    description: Population bucket of the billing provider's ZIP (Under 5K / 5K-15K / 15K-30K / 30K-60K / 60K+)
+
+  - name: billing_zip_income_bracket
+    display_name: Billing ZIP Income Bracket
+    column: billing_zip_income_bracket
+    description: Median household income bracket of the billing provider's ZIP (Census ACS 2024)
+
+  - name: billing_zip_poverty_tier
+    display_name: Billing ZIP Poverty Tier
+    column: billing_zip_poverty_tier
+    description: Poverty rate tier of the billing provider's ZIP (Low / Moderate / High / Very High)
+
+  - name: billing_zip_medicaid_tier
+    display_name: Billing ZIP Medicaid Tier
+    column: billing_zip_medicaid_tier
+    description: Medicaid coverage rate tier of the billing provider's ZIP (Low / Moderate / High / Very High)
+
+  - name: billing_zip_high_poverty
+    display_name: Billing ZIP High Poverty
+    expression: CASE WHEN billing_zip_high_poverty THEN 'Yes' ELSE 'No' END
+    description: Whether the billing provider's ZIP has a poverty rate above 20%
+
+  # Servicing ZIP demographics (Census ACS + RUCA)
+  - name: servicing_zip_urbanicity
+    display_name: Servicing ZIP Urbanicity
+    column: servicing_zip_urbanicity
+    description: Urban/Suburban/Rural classification of the servicing provider's ZIP code (USDA RUCA 2020)
+
+  - name: servicing_zip_pop_tier
+    display_name: Servicing ZIP Population Tier
+    column: servicing_zip_pop_tier
+    description: Population bucket of the servicing provider's ZIP (Under 5K / 5K-15K / 15K-30K / 30K-60K / 60K+)
+
+  - name: servicing_zip_income_bracket
+    display_name: Servicing ZIP Income Bracket
+    column: servicing_zip_income_bracket
+    description: Median household income bracket of the servicing provider's ZIP (Census ACS 2024)
+
+  - name: servicing_zip_poverty_tier
+    display_name: Servicing ZIP Poverty Tier
+    column: servicing_zip_poverty_tier
+    description: Poverty rate tier of the servicing provider's ZIP (Low / Moderate / High / Very High)
+
+  - name: servicing_zip_medicaid_tier
+    display_name: Servicing ZIP Medicaid Tier
+    column: servicing_zip_medicaid_tier
+    description: Medicaid coverage rate tier of the servicing provider's ZIP (Low / Moderate / High / Very High)
+
+  - name: servicing_zip_high_poverty
+    display_name: Servicing ZIP High Poverty
+    expression: CASE WHEN servicing_zip_high_poverty THEN 'Yes' ELSE 'No' END
+    description: Whether the servicing provider's ZIP has a poverty rate above 20%
+
   # Provider detail (drill-down)
   - name: billing_provider_npi
     display_name: Billing Provider NPI
@@ -197,3 +259,21 @@ measures:
     expression: COUNT(*)
     format_preset: humanize
     description: Number of provider-procedure-month records
+
+  - name: billing_zip_paid_per_capita
+    display_name: Billing ZIP Paid per Capita
+    expression: SUM(total_paid) / NULLIF(MAX(billing_zip_population), 0)
+    format_preset: currency_usd
+    valid_percent_of_total: false
+    description: >
+      Total payments / billing ZIP population.
+      Only meaningful when filtered to or grouped by a single billing ZIP.
+
+  - name: servicing_zip_paid_per_capita
+    display_name: Servicing ZIP Paid per Capita
+    expression: SUM(total_paid) / NULLIF(MAX(servicing_zip_population), 0)
+    format_preset: currency_usd
+    valid_percent_of_total: false
+    description: >
+      Total payments / servicing ZIP population.
+      Only meaningful when filtered to or grouped by a single servicing ZIP.
