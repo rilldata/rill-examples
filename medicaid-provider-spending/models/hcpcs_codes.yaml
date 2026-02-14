@@ -1,4 +1,7 @@
 type: model
+description: >
+  HCPCS Level II code descriptions from the Tuva Project's public terminology.
+  Maps each HCPCS code to its long and short description.
 materialize: true
 
 sql: |

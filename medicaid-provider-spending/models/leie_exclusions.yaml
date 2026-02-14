@@ -1,4 +1,8 @@
 type: model
+description: >
+  OIG LEIE (List of Excluded Individuals/Entities) exclusion records.
+  Identifies providers excluded from federal healthcare programs, with the most recent
+  exclusion per NPI.
 materialize: true
 
 sql: |

@@ -1,4 +1,7 @@
 type: model
+description: >
+  Raw Medicaid provider spending data from CMS. Each row is a billing provider + servicing provider +
+  HCPCS code + month combination with claim counts, beneficiary counts, and payment totals.
 materialize: true
 
 timeout: 10m

@@ -1,4 +1,8 @@
 type: model
+description: >
+  HCPCS-to-RBCS (Restructured BETOS Classification System) crosswalk from the Tuva Project.
+  Classifies HCPCS codes into service categories and subcategories (e.g. E&M, Imaging, DME).
+  Filtered to current records only.
 materialize: true
 
 sql: |

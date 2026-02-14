@@ -1,4 +1,7 @@
 type: model
+description: >
+  Provider directory from the CMS NPPES (National Plan and Provider Enumeration System).
+  Maps each NPI to provider name, type, practice location, authorized official, and taxonomy code.
 materialize: true
 timeout: 30m
 

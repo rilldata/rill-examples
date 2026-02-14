@@ -1,4 +1,7 @@
 type: model
+description: >
+  Enriched spending data joining raw claims with NPI provider details, HCPCS procedure descriptions,
+  RBCS service classifications, and OIG LEIE exclusion flags.
 materialize: true
 
 sql: |
