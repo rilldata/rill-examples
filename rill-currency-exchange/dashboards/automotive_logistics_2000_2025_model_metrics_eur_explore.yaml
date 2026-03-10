@@ -11,6 +11,20 @@ measures: '*'
 
 defaults:
   measures:
-    - total_value_eur
-    - total_shipments_eur
     - avg_unit_price_eur
+    - total_quantity_shipped_measure
+    - total_shipments_eur
+    - total_value_eur
+  dimensions:
+    - shipment_id
+    - origin_country
+    - currency
+    - vehicle_type
+    - status
+    - port_of_entry
+    - country
+    - quarter
+    - shifted_quarter
+    - date_modified_string
+    - date_modified_num_string
+  time_range: P7D

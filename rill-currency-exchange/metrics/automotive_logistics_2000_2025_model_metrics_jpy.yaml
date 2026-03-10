@@ -12,6 +12,7 @@ parent_dimensions: "*"
 # Explicitly include only JPY measures to avoid exposing USD/GBP measures.
 # (v1 syntax: list of measure names)
 parent_measures:
+  - total_quantity_shipped_measure
   - total_shipments_jpy
   - total_value_jpy
   - avg_unit_price_jpy

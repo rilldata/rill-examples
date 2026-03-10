@@ -9,6 +9,7 @@ parent_dimensions: "*"
 
 # Inherit only the EUR-specific measures from the parent
 parent_measures:
+  - total_quantity_shipped_measure
   - total_shipments_eur
   - total_value_eur
   - avg_unit_price_eur
