@@ -3,7 +3,7 @@
 
 type: explore
 
-display_name: "Automotive Logistics (EUR)"
+display_name: "Automotive Logistics EUR Child Metrics View"
 metrics_view: automotive_logistics_2000_2025_model_metrics_eur
 
 dimensions: '*'
