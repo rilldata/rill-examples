@@ -1,0 +1,14 @@
+type: metrics_view
+version: 1
+
+# EUR child metrics view analogous to the existing JPY child metrics view
+parent: automotive_logistics_2000_2025_model_metrics
+
+# Inherit all dimensions from the parent
+parent_dimensions: "*"
+
+# Inherit only the EUR-specific measures from the parent
+parent_measures:
+  - total_shipments_eur
+  - total_value_eur
+  - avg_unit_price_eur

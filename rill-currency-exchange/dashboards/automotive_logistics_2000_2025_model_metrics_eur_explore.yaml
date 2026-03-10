@@ -1,0 +1,16 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/explore-dashboards
+
+type: explore
+
+display_name: "Automotive Logistics (EUR)"
+metrics_view: automotive_logistics_2000_2025_model_metrics_eur
+
+dimensions: '*'
+measures: '*'
+
+defaults:
+  measures:
+    - total_value_eur
+    - total_shipments_eur
+    - avg_unit_price_eur

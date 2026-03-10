@@ -34,26 +34,25 @@ dimensions:
     display_name: Country
     column: country
 
+  - name: quarter
+    expression: CAST(EXTRACT(YEAR FROM ship_date) AS VARCHAR) || '-Q' || CAST(((EXTRACT(MONTH FROM ship_date) - 1) / 3 + 1) AS INTEGER)
+    description: Dynamic date filtering
+  - name: shifted_quarter
+    expression: CAST(EXTRACT(YEAR FROM ship_date - interval 8 months) AS VARCHAR) || '-Q' || CAST(((EXTRACT(MONTH FROM ship_date - interval 8 months) - 1) / 3 + 1) AS INTEGER)
+    description: Dynamic date filtering
+  - name: date_modified
+    expression: ship_date + interval 10 year
+    description: Dynamic date filtering
+  - name: actual_date
+    expression: ship_date - interval 8 months
+    description: Dynamic date filtering
 
-  - expression: CAST(EXTRACT(YEAR FROM ship_date) AS VARCHAR) || '-Q' ||  CAST(((EXTRACT(MONTH FROM ship_date) - 1) / 3 + 1) AS INTEGER)
-    name: quarter
-    description: dynamic date filternig
-  - expression: CAST(EXTRACT(YEAR FROM ship_date - interval 8 months) AS VARCHAR) || '-Q' ||  CAST(((EXTRACT(MONTH FROM ship_date - interval 8 months) - 1) / 3 + 1) AS INTEGER)
-    name: shifted_quarter
-    description: dynamic date filternig
-  - expression: ship_date + interval 10 year
-    name: date_modified 
-    description: dynamic date filternig
-  - expression: ship_date - interval 8 months
-    name: actual_date
-    description: dynamic date filternig
-
-  - expression: strftime(ship_date, '%B %Y')
-    name: date_modified_string
-    description: dynamic date filternig
-  - expression: strftime(ship_date, '%m-%B %Y')
-    name: date_modified_num_string
-    description: dynamic date filternig
+  - name: date_modified_string
+    expression: strftime(ship_date, '%B %Y')
+    description: Dynamic date filtering
+  - name: date_modified_num_string
+    expression: strftime(ship_date, '%m-%B %Y')
+    description: Dynamic date filtering
 
 measures:
   - name: total_quantity_shipped_measure
@@ -61,23 +60,107 @@ measures:
     expression: SUM(quantity)
     description: Total quantity of vehicles shipped.
     format_preset: humanize
+
+  # Average unit price varies by currency; keep the generic measure humanized.
   - name: average_unit_price_measure
     display_name: Average Unit Price
     expression: AVG(unit_price)
-    description: Average price per unit of the vehicles shipped.
+    description: Average price per unit of the vehicles shipped (mixed currencies).
     format_preset: humanize
-  - name: sum_usd_price_measure
-    display_name: Total USD Shipments
+
+  # Existing USD measures renamed to make USD specificity explicit.
+  - name: sum_usd_price_usd_measure
+    display_name: Total USD Shipments (USD)
     expression: SUM(usd_price)
-    description: Average price in USD for the vehicles shipped.
+    description: Total shipment unit prices in USD (from usd_price).
     format_preset: currency_usd
     valid_percent_of_total: false
-  - name: total_usd_value_measure
-    display_name: Total USD Value
+  - name: total_usd_value_usd_measure
+    display_name: Total USD Value (USD)
     expression: SUM(usd_price * quantity)
-    description: Total value of shipments in USD.
+    description: Total shipment value in USD (from usd_price * quantity).
     format_preset: currency_usd
     valid_percent_of_total: false
+
+  # Native-currency totals using conditional aggregation on currency and unit_price/quantity.
+  - name: total_shipments_usd
+    display_name: Total Shipments (USD)
+    expression: SUM(CASE WHEN currency = 'USD' THEN unit_price ELSE 0 END)
+    description: Total shipment unit prices where currency is USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+  - name: total_value_usd
+    display_name: Total Value (USD)
+    expression: SUM(CASE WHEN currency = 'USD' THEN unit_price * quantity ELSE 0 END)
+    description: Total shipment value where currency is USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+
+  - name: avg_unit_price_usd
+    display_name: Avg Unit Price (USD)
+    expression: AVG(CASE WHEN currency = 'USD' THEN unit_price ELSE NULL END)
+    description: Average unit price where currency is USD.
+    format_preset: currency_usd
+    valid_percent_of_total: false
+
+  - name: total_shipments_eur
+    display_name: Total Shipments (EUR)
+    expression: SUM(CASE WHEN currency = 'EUR' THEN unit_price ELSE 0 END)
+    description: Total shipment unit prices where currency is EUR.
+    format_preset: currency_eur
+    valid_percent_of_total: false
+  - name: total_value_eur
+    display_name: Total Value (EUR)
+    expression: SUM(CASE WHEN currency = 'EUR' THEN unit_price * quantity ELSE 0 END)
+    description: Total shipment value where currency is EUR.
+    format_preset: currency_eur
+    valid_percent_of_total: false
+  - name: avg_unit_price_eur
+    display_name: Avg Unit Price (EUR)
+    expression: AVG(CASE WHEN currency = 'EUR' THEN unit_price ELSE NULL END)
+    description: Average unit price where currency is EUR.
+    format_preset: currency_eur
+    valid_percent_of_total: false
+
+  - name: total_shipments_jpy
+    display_name: Total Shipments (JPY)
+    expression: SUM(CASE WHEN currency = 'JPY' THEN unit_price ELSE 0 END)
+    description: Total shipment unit prices where currency is JPY.
+    format_d3: "¥,.0f"
+    valid_percent_of_total: false
+  - name: total_value_jpy
+    display_name: Total Value (JPY)
+    expression: SUM(CASE WHEN currency = 'JPY' THEN unit_price * quantity ELSE 0 END)
+    description: Total shipment value where currency is JPY.
+    format_d3: "¥,.0f"
+    valid_percent_of_total: false
+  - name: avg_unit_price_jpy
+    display_name: Avg Unit Price (JPY)
+    expression: AVG(CASE WHEN currency = 'JPY' THEN unit_price ELSE NULL END)
+    description: Average unit price where currency is JPY.
+    format_d3: "¥,.0f"
+    valid_percent_of_total: false
+
+  # Optional GBP measures (will return 0/NULL if GBP is not present in the data).
+  - name: total_shipments_gbp
+    display_name: Total Shipments (GBP)
+    expression: SUM(CASE WHEN currency = 'GBP' THEN unit_price ELSE 0 END)
+    description: Total shipment unit prices where currency is GBP.
+    format_preset: currency_gbp
+    valid_percent_of_total: false
+  - name: total_value_gbp
+    display_name: Total Value (GBP)
+    expression: SUM(CASE WHEN currency = 'GBP' THEN unit_price * quantity ELSE 0 END)
+    description: Total shipment value where currency is GBP.
+    format_preset: currency_gbp
+    valid_percent_of_total: false
+  - name: avg_unit_price_gbp
+    display_name: Avg Unit Price (GBP)
+    expression: AVG(CASE WHEN currency = 'GBP' THEN unit_price ELSE NULL END)
+    description: Average unit price where currency is GBP.
+    format_preset: currency_gbp
+    valid_percent_of_total: false
+
   - name: average_exchange_rate_measure
     display_name: Average Exchange Rate
     expression: AVG(exchange_rate)

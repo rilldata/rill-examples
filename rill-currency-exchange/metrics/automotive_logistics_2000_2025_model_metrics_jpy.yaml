@@ -1,0 +1,17 @@
+type: metrics_view
+version: 1
+
+display_name: Automotive Logistics 2000-2025 Model Metrics (JPY)
+description: JPY-focused child metrics view derived from automotive_logistics_2000_2025_model_metrics.
+
+parent: automotive_logistics_2000_2025_model_metrics
+
+# Inherit all dimensions from the parent.
+parent_dimensions: "*"
+
+# Explicitly include only JPY measures to avoid exposing USD/GBP measures.
+# (v1 syntax: list of measure names)
+parent_measures:
+  - total_shipments_jpy
+  - total_value_jpy
+  - avg_unit_price_jpy
