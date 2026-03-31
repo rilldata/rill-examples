@@ -3,7 +3,7 @@
 
 type: explore
 
-display_name: "Auction Metrics dashboard"
+display_name: "Embed Dashboard - Slate Theme"
 metrics_view: auction_metrics
 
 dimensions: '*'
