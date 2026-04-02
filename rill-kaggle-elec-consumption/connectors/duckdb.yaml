@@ -1,6 +1,0 @@
-# Connector YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/connectors
-  
-type: connector
-driver: duckdb
-managed: true
