@@ -1,3 +1,8 @@
+# Connector YAML
+# Reference documentation: https://docs.rilldata.com/developers/build/connectors/data-source/bigquery
+
 type: connector
 
-driver: gcs
+driver: bigquery
+google_application_credentials: "{{ .env.GOOGLE_APPLICATION_CREDENTIALS }}"
+project_id: "rilldata"
