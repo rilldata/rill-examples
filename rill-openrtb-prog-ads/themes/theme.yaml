@@ -1,0 +1,136 @@
+# Theme YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/themes
+
+type: theme
+
+# Light mode colors
+light:
+  # Core brand colors (gradient start/end)
+  primary: "#D8B4FE"
+  secondary: "#FFBC7A"
+
+  # Note: The theme system also auto-generates fg-secondary, fg-tertiary, fg-muted, and fg-disabled from fg-primary using opacity percentages if not explicitly set
+  fg-primary: "#000000" # Keep as-is
+
+  # KPI delta colors (optional - controls comparison/change value colors)
+  # kpi-positive defaults to gray (same as fg-secondary) — uncomment and set to customize
+  # kpi-negative defaults to red — uncomment and set to customize
+  kpi-positive: "#16a34a"      # Green for positive deltas
+  kpi-negative: "#dc2626"      # Red for negative deltas
+
+  # Qualitative palette (for categorical data - all 24 colors)
+  # Cycles through a linear gradient from #D8B4FE to #FFBC7A
+  color-qualitative-1: "#D8B4FE"
+  color-qualitative-2: "#DEB4F4"
+  color-qualitative-3: "#E4B4EA"
+  color-qualitative-4: "#EAB4E0"
+  color-qualitative-5: "#F0B4D6"
+  color-qualitative-6: "#F6B4CC"
+  color-qualitative-7: "#FCB4C2"
+  color-qualitative-8: "#FFB4B8"
+  color-qualitative-9: "#FFB4AE"
+  color-qualitative-10: "#FFB4A4"
+  color-qualitative-11: "#FFB49A"
+  color-qualitative-12: "#FFB490"
+  color-qualitative-13: "#FFB486"
+  color-qualitative-14: "#FFB47C"
+  color-qualitative-15: "#FFB472"
+  color-qualitative-16: "#D8B4FE"
+  color-qualitative-17: "#DEB4F4"
+  color-qualitative-18: "#E4B4EA"
+  color-qualitative-19: "#EAB4E0"
+  color-qualitative-20: "#F0B4D6"
+  color-qualitative-21: "#F6B4CC"
+  color-qualitative-22: "#FCB4C2"
+  color-qualitative-23: "#FFB4B8"
+  color-qualitative-24: "#FFB4AE"
+
+  # Sequential palette (for ordered data - 9 colors)
+  # 9 evenly spaced colors interpolated linearly between #D8B4FE and #FFBC7A (inclusive)
+  color-sequential-1: "#D8B4FE"
+  color-sequential-2: "#DFB5E7"
+  color-sequential-3: "#E6B6D0"
+  color-sequential-4: "#EDB7B9"
+  color-sequential-5: "#F4B8A2"
+  color-sequential-6: "#FBB98B"
+  color-sequential-7: "#FFBA74"
+  color-sequential-8: "#FFBB7D"
+  color-sequential-9: "#FFBC7A"
+
+  # Diverging palette (for data with a meaningful midpoint - 11 colors)
+  color-diverging-1: "#dc2626"    # Red (negative extreme)
+  color-diverging-2: "#f87171"
+  color-diverging-3: "#fca5a5"
+  color-diverging-4: "#fecaca"
+  color-diverging-5: "#fee2e2"
+  color-diverging-6: "#f3f4f6"    # Neutral gray (midpoint)
+  color-diverging-7: "#dbeafe"
+  color-diverging-8: "#93c5fd"
+  color-diverging-9: "#60a5fa"
+  color-diverging-10: "#3b82f6"
+  color-diverging-11: "#2563eb"   # Blue (positive extreme)
+
+# Dark mode colors
+dark:
+  # Core brand colors (gradient start/end)
+  primary: "#D8B4FE"
+  secondary: "#FFBC7A"
+
+  # Note: The theme system also auto-generates fg-secondary, fg-tertiary, fg-muted, and fg-disabled from fg-primary using opacity percentages if not explicitly set
+  fg-primary: "#ffffff" # Keep as-is
+
+  # KPI delta colors (optional - controls comparison/change value colors)
+  # kpi-positive: "#4ade80"      # Green for positive deltas (brighter for dark mode)
+  # kpi-negative: "#f87171"      # Red for negative deltas (brighter for dark mode)
+
+  # Qualitative palette (for categorical data - all 24 colors)
+  # Cycles through a linear gradient from #D8B4FE to #FFBC7A
+  color-qualitative-1: "#D8B4FE"
+  color-qualitative-2: "#DEB4F4"
+  color-qualitative-3: "#E4B4EA"
+  color-qualitative-4: "#EAB4E0"
+  color-qualitative-5: "#F0B4D6"
+  color-qualitative-6: "#F6B4CC"
+  color-qualitative-7: "#FCB4C2"
+  color-qualitative-8: "#FFB4B8"
+  color-qualitative-9: "#FFB4AE"
+  color-qualitative-10: "#FFB4A4"
+  color-qualitative-11: "#FFB49A"
+  color-qualitative-12: "#FFB490"
+  color-qualitative-13: "#FFB486"
+  color-qualitative-14: "#FFB47C"
+  color-qualitative-15: "#FFB472"
+  color-qualitative-16: "#D8B4FE"
+  color-qualitative-17: "#DEB4F4"
+  color-qualitative-18: "#E4B4EA"
+  color-qualitative-19: "#EAB4E0"
+  color-qualitative-20: "#F0B4D6"
+  color-qualitative-21: "#F6B4CC"
+  color-qualitative-22: "#FCB4C2"
+  color-qualitative-23: "#FFB4B8"
+  color-qualitative-24: "#FFB4AE"
+
+  # Sequential palette (for ordered data - 9 colors)
+  # 9 evenly spaced colors interpolated linearly between #D8B4FE and #FFBC7A (inclusive)
+  color-sequential-1: "#D8B4FE"
+  color-sequential-2: "#DFB5E7"
+  color-sequential-3: "#E6B6D0"
+  color-sequential-4: "#EDB7B9"
+  color-sequential-5: "#F4B8A2"
+  color-sequential-6: "#FBB98B"
+  color-sequential-7: "#FFBA74"
+  color-sequential-8: "#FFBB7D"
+  color-sequential-9: "#FFBC7A"
+
+  # Diverging palette (adjusted for dark backgrounds - 11 colors)
+  color-diverging-1: "#ef4444"    # Red (negative extreme)
+  color-diverging-2: "#f87171"
+  color-diverging-3: "#fca5a5"
+  color-diverging-4: "#fecaca"
+  color-diverging-5: "#fee2e2"
+  color-diverging-6: "#475569"    # Neutral slate (midpoint)
+  color-diverging-7: "#bfdbfe"
+  color-diverging-8: "#93c5fd"
+  color-diverging-9: "#60a5fa"
+  color-diverging-10: "#3b82f6"
+  color-diverging-11: "#2563eb"   # Blue (positive extreme)
