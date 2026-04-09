@@ -80,8 +80,8 @@ dark:
   fg-primary: "#ffffff" # Keep as-is
 
   # KPI delta colors (optional - controls comparison/change value colors)
-  # kpi-positive: "#4ade80"      # Green for positive deltas (brighter for dark mode)
-  # kpi-negative: "#f87171"      # Red for negative deltas (brighter for dark mode)
+  kpi-positive: "#4ade80"      # Green for positive deltas (brighter for dark mode)
+  kpi-negative: "#f87171"      # Red for negative deltas (brighter for dark mode)
 
   # Qualitative palette (for categorical data - all 24 colors)
   # Cycles through a linear gradient from #D8B4FE to #FFBC7A
