@@ -1,0 +1,101 @@
+type: canvas
+display_name: Auctions Canvas
+
+defaults:
+  time_range: P7D
+  comparison_mode: time
+
+rows:
+  - height: 80px
+    items:
+      - width: 12
+        markdown:
+          content: |
+            # Auctions
+            Overview of auction traffic and bid floor dynamics.
+
+  - height: 200px
+    items:
+      - width: 12
+        kpi_grid:
+          metrics_view: auctions
+          measures:
+            - requests
+            - avg_bid_floor
+            - 1d_qps
+          comparison:
+            - delta
+            - percent_change
+            - previous
+          sparkline: right
+
+  - height: 380px
+    items:
+      - width: 12
+        line_chart:
+          metrics_view: auctions
+          title: "Requests over time"
+          color: primary
+          x:
+            field: __time
+            type: temporal
+          y:
+            field: requests
+            type: quantitative
+            zeroBasedOrigin: true
+
+  - height: 380px
+    items:
+      - width: 6
+        bar_chart:
+          metrics_view: auctions
+          title: "Requests by Device Type"
+          color: primary
+          x:
+            field: device_type
+            type: nominal
+            limit: 12
+            sort: -y
+            labelAngle: 0
+          y:
+            field: requests
+            type: quantitative
+            zeroBasedOrigin: true
+
+      - width: 6
+        bar_chart:
+          metrics_view: auctions
+          title: "Requests by Auction Type"
+          color: secondary
+          x:
+            field: auction_type
+            type: nominal
+            limit: 12
+            sort: -y
+            labelAngle: 0
+          y:
+            field: requests
+            type: quantitative
+            zeroBasedOrigin: true
+
+  - height: 420px
+    items:
+      - width: 6
+        leaderboard:
+          metrics_view: auctions
+          title: "Top App/Site Domains"
+          dimensions:
+            - app_site_domain
+          measures:
+            - requests
+          num_rows: 15
+
+      - width: 6
+        leaderboard:
+          metrics_view: auctions
+          title: "Top Publishers"
+          dimensions:
+            - pub_name
+          measures:
+            - requests
+          num_rows: 15
