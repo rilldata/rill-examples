@@ -1,12 +1,5 @@
-# Rill Embeds
+# Rill embedding example project
 
-This is a demo project clones from our rill-openrtb project to present our dashboard embedding capabilities. 
+This is an example project used by [github.com/rilldata/rill-embedding-example](https://github.com/rilldata/rill-embedding-example) to demonstrate Rill's dashboard embedding capabilities.
 
-```
-git clone https://github.com/rilldata/rill-examples.git
-cd rill-examples/rill-embeds
-rill start
-```
-
-Rill will build your project from data sources to dashboard and then launch in a new browser window.
-
+The project is derived from the `rill-openrtb-prog-ads` example project and has been tailored to demonstrate features relevant to embedded dashboards, notably security policies and feature flags for embedded projects.
