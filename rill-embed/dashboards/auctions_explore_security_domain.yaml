@@ -2,6 +2,5 @@ type: explore
 display_name: Auctions Explore (filtered by user's email domain)
 
 metrics_view: auctions_security_domain
-
 dimensions: "*"
 measures: "*"

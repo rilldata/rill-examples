@@ -7,7 +7,7 @@ smallest_time_grain: hour
 
 security:
   # Show the dashboard only to users with a valid email domain.
-  access: "{{ if .user.domain }} true {{ end }}"
+  access: "{{ if .user.domain }} true {{ else }} false {{ end }}"
   # Filter data by the requesting user's email domain.
   row_filter: app_site_domain = '{{ .user.domain }}'
 
