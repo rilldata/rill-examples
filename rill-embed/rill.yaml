@@ -1,15 +1,18 @@
-
-compiler: rillv1
-
-display_name: Rill Embed Project
-description: Open RTB Ads
+display_name: Rill Embedding Example Project
 
 olap_connector: duckdb
 
+# Mock users for testing the project's security policies.
 mock_users:
-- email: someone@rilldata.com
-  admin: true
-- email: jane@fubo.tv
-  groups:
-    - partners
-- email: test@domain.com
+  # User with email domain that matches data in auctions_security_domain
+  - email: jane@fubo.tv
+
+  # User with custom attributes that matches data in auctions_security_custom_attributes
+  - email: custom-fubo-taboola@example.com
+    app_site_name: FuboTV
+    pub_name: Taboola
+
+  # User with custom attributes that matches data in auctions_security_custom_attributes
+  - email: custom-sling-taboola@example.com
+    app_site_name: Sling
+    pub_name: Taboola

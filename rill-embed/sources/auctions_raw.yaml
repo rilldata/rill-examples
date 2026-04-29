@@ -1,0 +1,4 @@
+type: model
+materialize: true
+connector: https
+uri: https://storage.googleapis.com/rilldata-public/auction_data.parquet

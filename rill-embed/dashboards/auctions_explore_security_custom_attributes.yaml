@@ -1,0 +1,6 @@
+type: explore
+display_name: Auctions (filtered by custom attributes)
+
+metrics_view: auctions_security_custom_attributes
+dimensions: '*'
+measures: '*'
