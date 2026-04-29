@@ -9,9 +9,7 @@ security:
   # Show the dashboard only to users with the "app_site_name" and "pub_name" custom attributes.
   access: '{{ hasKey .user "app_site_name" }} AND {{ hasKey .user "pub_name" }}'
   # Filter data by the user's custom attributes.
-  row_filter: >
-    app_site_name = '{{ .user.app_site_name }}'
-    AND pub_name = '{{ .user.pub_name }}'
+  row_filter: app_site_name = '{{ .user.app_site_name }}' AND pub_name = '{{ .user.pub_name }}'
 
 dimensions:
   - name: app_site_name

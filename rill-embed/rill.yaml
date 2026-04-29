@@ -16,3 +16,8 @@ mock_users:
   - email: custom-sling-taboola@example.com
     app_site_name: Sling
     pub_name: Taboola
+
+# Uncomment to disable AI chat in embeds.
+# The syntax works the same for any feature flag.
+# features:
+#   dashboardChat: '{{ not .user.embed }}'

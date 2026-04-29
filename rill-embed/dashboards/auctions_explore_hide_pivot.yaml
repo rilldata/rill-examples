@@ -1,9 +1,9 @@
 type: explore
-display_name: Auctions (pivot disabled in embed)
+display_name: Auctions Explore (pivot disabled)
 
 metrics_view: auctions
-dimensions: '*'
-measures: '*'
+dimensions: "*"
+measures: "*"
 
 time_zones:
   - America/Los_Angeles
@@ -14,7 +14,7 @@ time_zones:
 
 defaults:
   time_range: P7D
-  dimensions: '*'  
+  dimensions: "*"
   measures:
     - requests
     - avg_bid_floor
