@@ -36,7 +36,7 @@ const NAV_ITEMS: { header: string; items: NavItem[] }[] = [
     header: "Reference",
     items: [
       {
-        href: "https://docs.rilldata.com/developers/embed/dashboards",
+        href: "https://docs.rilldata.com/developers/embed/iframe",
         label: "Embedding docs",
         external: true,
       },

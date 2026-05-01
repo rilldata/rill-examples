@@ -75,7 +75,7 @@ const UiStatePage = () => {
         <code>setState</code> and <code>getState</code>, which you call using
         the <code>postMessage</code> JavaScript function. See the{" "}
         <a
-          href="https://docs.rilldata.com/developers/embed/iframe-api"
+          href="https://docs.rilldata.com/developers/embed/postmessage"
           target="_blank"
           rel="noopener noreferrer"
           className="text-indigo-600 underline hover:text-indigo-800"

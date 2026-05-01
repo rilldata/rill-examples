@@ -24,5 +24,7 @@ export async function POST(req: Request) {
     );
   }
 
+  console.log("Received iframe URL:", JSON.stringify(data));
+
   return new Response(JSON.stringify({ iframeUrl: data.iframeSrc }));
 }

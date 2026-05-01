@@ -9,7 +9,7 @@ This directory contains a complete example of embedding Rill dashboards in a web
 
 - Web app on Netlify: [rill-embedding-example.netlify.app](https://rill-embedding-example.netlify.app/)
 - Rill project on Rill Cloud: [ui.rilldata.com/demo/rill-embed](https://ui.rilldata.com/demo/rill-embed)
-- Embedding documentation: [Embed Dashboards](https://docs.rilldata.com/developers/embed/dashboards)
+- Embedding documentation: [Embed Dashboards](https://docs.rilldata.com/developers/embed/iframe)
 
 ## Development (internal)
 

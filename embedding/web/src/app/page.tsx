@@ -11,7 +11,7 @@ const Home = () => {
       <ul className="space-y-2 mb-6">
         <li>
           <a
-            href="https://docs.rilldata.com/developers/embed/dashboards"
+            href="https://docs.rilldata.com/developers/embed/iframe"
             target="_blank"
             rel="noopener noreferrer"
             className="text-indigo-600 underline hover:text-indigo-800"
