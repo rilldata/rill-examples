@@ -1,0 +1,4 @@
+.env
+/.next
+/certificates
+/node_modules
