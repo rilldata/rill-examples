@@ -12,7 +12,7 @@ const ATTRIBUTES = [
 
 const FilterByCustomAttributesPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const [attributes, setAttributes] = useState(ATTRIBUTES[0]);
   const iframeBody = {
     type: "explore",

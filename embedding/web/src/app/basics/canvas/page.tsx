@@ -4,7 +4,7 @@ import { prettyIframeRequest } from "@/lib/prettyIframeRequest";
 
 const CanvasPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const iframeBody = {
     type: "canvas",
     resource: "auctions_canvas",

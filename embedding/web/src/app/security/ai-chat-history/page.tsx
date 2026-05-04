@@ -9,7 +9,7 @@ const USER_IDS = ["user-alice-123", "user-bob-456"];
 
 const AiChatHistoryPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const [userId, setUserId] = useState(USER_IDS[0]);
   const iframeBody = {
     type: "explore",

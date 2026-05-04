@@ -4,7 +4,7 @@ import { prettyIframeRequest } from "@/lib/prettyIframeRequest";
 
 const NavigationPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const iframeBody = {
     navigation: true,
   };

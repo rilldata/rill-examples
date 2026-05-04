@@ -4,7 +4,7 @@ import { prettyIframeRequest } from "@/lib/prettyIframeRequest";
 
 const DisablePivotsPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const iframeBody = {
     type: "explore",
     resource: "auctions_explore_hide_pivot",

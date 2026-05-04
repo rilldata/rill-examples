@@ -41,7 +41,7 @@ const NAV_ITEMS: { header: string; items: NavItem[] }[] = [
         external: true,
       },
       {
-        href: "https://github.com/rilldata/rill-examples/tree/main/embedding/web",
+        href: "https://github.com/rilldata/rill-examples/tree/main/embedding",
         label: "Source code",
         external: true,
       },

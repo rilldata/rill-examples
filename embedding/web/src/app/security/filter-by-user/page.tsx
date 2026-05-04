@@ -9,7 +9,7 @@ const USER_EMAILS = ["user1@fubo.tv", "user2@sling.com"];
 
 const FilterByUserPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const [userEmail, setUserEmail] = useState(USER_EMAILS[0]);
   const iframeBody = {
     type: "explore",

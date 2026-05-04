@@ -9,7 +9,7 @@ const THEMES = ["forest", "ocean", "sunset"];
 
 const ThemesPage = () => {
   const org = "demo";
-  const project = "rill-embed";
+  const project = "rill-embedding";
   const [theme, setTheme] = useState(THEMES[0]);
   const iframeBody = {
     type: "explore",
