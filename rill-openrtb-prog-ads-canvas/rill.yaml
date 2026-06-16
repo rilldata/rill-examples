@@ -17,3 +17,4 @@ mock_users:
 
 features:
 - canvasDashboards
+- cloud_editing

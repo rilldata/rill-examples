@@ -7,3 +7,4 @@ olap_connector: duckdb
 features:
   - cloudDataViewer
   - rillTime
+  - cloud_editing

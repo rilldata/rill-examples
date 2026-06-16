@@ -7,6 +7,7 @@ olap_connector: "clickhouse"
 
 features:
   clickhouseModeling: true
+  cloud_editing: true
 
 ignore_paths:
   - "/clickhouse_data"
