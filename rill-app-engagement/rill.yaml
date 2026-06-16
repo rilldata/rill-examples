@@ -7,3 +7,4 @@ features:
   - cloudDataViewer
   - rillTime
   - dashboardChat
+  - cloud_editing
