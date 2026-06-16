@@ -10,3 +10,4 @@ olap_connector: duckdb
 
 features:
   cloudDataViewer: true
+  cloud_editing: true

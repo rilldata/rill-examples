@@ -9,3 +9,4 @@ features:
   - clickhouseModeling
   - cloudDataViewer
   - rillTime
+  - cloud_editing

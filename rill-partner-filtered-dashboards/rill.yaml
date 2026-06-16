@@ -4,6 +4,9 @@ display_name: Partner-Filtered Dashboards Demo
 
 olap_connector: duckdb
 
+features:
+  cloud_editing: true
+
 mock_users:
   - email: admin@rilldata.com
     admin: true
