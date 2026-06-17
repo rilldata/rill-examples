@@ -4,3 +4,4 @@
 .env
 tmp
 .rillcloud
+.dev.env

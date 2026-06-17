@@ -77,9 +77,52 @@ rows:
             field: overall_spend
             type: quantitative
             zeroBasedOrigin: true
-        width: 12
+        width: 6
+      - donut_chart:
+          metrics_view: auction_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            type: nominal
+            field: device_type
+            limit: 20
+            sort: -measure
+          measure:
+            type: quantitative
+            field: requests
+            showTotal: true
+        width: 6
     height: 320px
   - items:
+      - combo_chart:
+          color:
+            field: measures
+            legendOrientation: top
+            type: value
+            colorMapping:
+              - value: Total Requests
+                color: hsl(238, 56%, 52%)
+          metrics_view: auction_metrics
+          x:
+            field: __time
+            limit: 20
+            sort: -y
+            type: temporal
+          y1:
+            field: requests
+            mark: bar
+            type: quantitative
+            zeroBasedOrigin: true
+          y2:
+            field: avg_bid_floor
+            mark: line
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 6
       - stacked_bar:
           metrics_view: bids_metrics
           title: ""
@@ -98,7 +141,7 @@ rows:
             field: win_rate
             type: quantitative
             zeroBasedOrigin: true
-        width: 12
+        width: 6
     height: 320px
   - items:
       - table:
