@@ -125,6 +125,26 @@ rows:
             field: measures
             legendOrientation: top
         width: 12
+    height: 40px
+  - items:
+      - donut_chart:
+          color:
+            field: placement_type
+            limit: 20
+            sort: -measure
+            type: nominal
+          innerRadius: 50
+          labels:
+            format: percent
+            show: true
+            threshold: 5
+          measure:
+            field: avg_bid_floor
+            showTotal: true
+            type: quantitative
+          metrics_view: auction_metrics
+          show_other: true
+        width: 12
   - items:
       - table:
           metrics_view: bids_metrics
