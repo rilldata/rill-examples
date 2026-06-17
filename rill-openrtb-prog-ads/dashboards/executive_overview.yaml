@@ -98,6 +98,32 @@ rows:
         width: 6
     height: 320px
   - items:
+      - image:
+          url: https://rilldata.com/favicon.ico
+          alignment:
+            horizontal: center
+            vertical: middle
+        width: 6
+      - donut_chart:
+          metrics_view: bids_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            field: advertiser_name
+            type: nominal
+            limit: 20
+            sort: -measure
+          measure:
+            field: overall_spend
+            type: quantitative
+            showTotal: true
+        width: 6
+    height: 320px
+  - items:
       - combo_chart:
           color:
             field: measures
