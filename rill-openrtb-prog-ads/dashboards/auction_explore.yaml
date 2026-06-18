@@ -4,6 +4,7 @@
 type: explore
 
 display_name: "Programmatic Ads Auction"
+description: "Programmatic Ads Auction Dashboard"
 metrics_view: auction_metrics
 
 dimensions: '*'
