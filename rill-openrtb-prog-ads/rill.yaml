@@ -13,6 +13,11 @@ mock_users:
   groups:
     - partners
 - email: test@domain.com
+- email: editor@domain.com
+  name: Editor User
+  admin: false
+  groups:
+    - editors
 
 models:
   refresh:
