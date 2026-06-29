@@ -196,3 +196,20 @@ rows:
           title: Per advertiser metrics – last 7 days
         width: 12
     height: 300px
+  - items:
+      - scatter_plot:
+          metrics_view: auction_metrics
+          color: primary
+          x:
+            type: quantitative
+            field: 1d_qps
+            zeroBasedOrigin: false
+          y:
+            type: quantitative
+            field: avg_bid_floor
+            zeroBasedOrigin: false
+          dimension:
+            type: nominal
+            field: ad_size
+            limit: 10
+        width: 12

@@ -13,7 +13,7 @@ measures:
     name: overall_spend
     expression: sum(media_spend_usd)/1000
     description: Total Spend
-    format_preset: currency_usd
+    format_preset: currency_eur
   - display_name: "Bids"
     name: total_bids
     expression: "sum(bid_cnt)"
@@ -58,17 +58,17 @@ measures:
     name: avg_bid_price
     expression: "sum(bid_price_usd)*1.0/sum(bid_cnt)/1000"
     description: "Average Bid Price"
-    format_preset: currency_usd
+    format_preset: currency_eur
   - display_name: "eCPM"
     name: ecpm
     expression: "sum(media_spend_usd)*1.0/1000/nullif(sum(imp_cnt),0)"
     description: "eCPM"
-    format_preset: currency_usd
+    format_preset: currency_eur
   - display_name: "Avg Bid Floor"
     name: avg_bid_floor
     expression: "sum(bid_floor)*1.0/sum(has_bid_floor_cnt)"
     description: "Average Bid Floor"
-    format_preset: currency_usd
+    format_preset: currency_eur
     
   - name: bids_7day_rolling_avg
     display_name: 7 Day Bid rolling avg
@@ -184,7 +184,7 @@ ai_instructions: |
   Markdown
 
   ## Link
-  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&measures=overall_spend%2Ctotal_bids%2Cwin_rate%2Cvideo_completes%2Cavg_bid_floor&dims=advertiser_name%2Csites_domain%2Capp_site_name%2Cdevice_type%2Ccreative_type%2Cpub_name](Explore change in advertising bids due to composition of advertisers)
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z\u0026tz=Europe%2FLondon\u0026compare_tr=rill-PP\u0026measures=overall_spend%2Ctotal_bids%2Cwin_rate%2Cvideo_completes%2Cavg_bid_floor\u0026dims=advertiser_name%2Csites_domain%2Capp_site_name%2Cdevice_type%2Ccreative_type%2Cpub_name](Explore change in advertising bids due to composition of advertisers)
 
   # Example
   
@@ -200,7 +200,7 @@ ai_instructions: |
   
   ## Link
 
-  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&grain=day&measures=overall_spend&dims=advertiser_name%2Csites_domain](Explore change in spend by advertiser)
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z\u0026tz=Europe%2FLondon\u0026grain=day\u0026measures=overall_spend\u0026dims=advertiser_name%2Csites_domain](Explore change in spend by advertiser)
   
   # Example
   
@@ -216,4 +216,4 @@ ai_instructions: |
     
   ## Link 
 
-  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z&tz=Europe%2FLondon&compare_tr=rill-PP&f=advertiser_name+IN+%28%27Hyundai%27%29&measures=overall_spend&dims=advertiser_name%2Ccampaign_name%2Csites_domain%2Cdevice_region](Explore Hyundai campaign spend and performance)
+  [https://ui.rilldata.com/demo/rill-openrtb-prog-ads/explore/bids_explore?tr=2025-05-17T23%3A00%3A00.000Z%2C2025-05-19T23%3A00%3A00.000Z\u0026tz=Europe%2FLondon\u0026compare_tr=rill-PP\u0026f=advertiser_name+IN+%28%27Hyundai%27%29\u0026measures=overall_spend\u0026dims=advertiser_name%2Ccampaign_name%2Csites_domain%2Cdevice_region](Explore Hyundai campaign spend and performance)
