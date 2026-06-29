@@ -23,7 +23,7 @@ measures:
     name: avg_bid_floor
     expression: "sum(bid_floor) / sum(has_bid_floor_cnt) "
     description: "Average Bid Floor"
-    format_preset: currency_usd
+    format_preset: currency_eur
   - display_name: "1D QPS"
     name: 1d_qps
     expression: "sum(bid_request_cnt) / 86400 "
