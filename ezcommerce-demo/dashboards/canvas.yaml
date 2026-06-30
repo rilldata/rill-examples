@@ -67,56 +67,6 @@ rows:
         width: 6
     height: 40px
   - items:
-      - heatmap:
-          color:
-            colorRange:
-              mode: scheme
-              scheme: sequential
-            field: max_sales_measure
-            type: quantitative
-          description: ""
-          metrics_view: data_metrics
-          title: ""
-          x:
-            field: Order Date
-            limit: 20
-            sort: -y
-            type: temporal
-          y:
-            field: Region
-            limit: 40
-            type: nominal
-        width: 12
-    height: 40px
-  - items:
-      - table:
-          metrics_view: data_metrics
-          columns:
-            - Product Name
-            - total_sales_measure
-          col_dimensions: []
-          measures:
-            - total_sales_measure
-          row_dimensions:
-            - Product Name
-          title: Top Selling Products (All Time)
-          time_filters: tr=inf&grain=month
-        width: 7
-      - table:
-          metrics_view: data_metrics
-          columns:
-            - Sub-Category
-            - total_sales_measure
-          col_dimensions: []
-          measures:
-            - total_sales_measure
-          row_dimensions:
-            - Sub-Category
-          time_filters: tr=rill-QTD&grain=week
-          title: Quarter to Date
-        width: 5
-    height: 321px
-  - items:
       - line_chart:
           color:
             type: value
@@ -149,6 +99,56 @@ rows:
             field: total_profit_measure
             zeroBasedOrigin: true
         width: 6
+    height: 40px
+  - items:
+      - table:
+          metrics_view: data_metrics
+          columns:
+            - Product Name
+            - total_sales_measure
+          col_dimensions: []
+          measures:
+            - total_sales_measure
+          row_dimensions:
+            - Product Name
+          title: Top Selling Products (All Time)
+          time_filters: tr=inf&grain=month
+        width: 6
+      - table:
+          metrics_view: data_metrics
+          columns:
+            - Sub-Category
+            - total_sales_measure
+          col_dimensions: []
+          measures:
+            - total_sales_measure
+          row_dimensions:
+            - Sub-Category
+          time_filters: tr=rill-QTD&grain=week
+          title: Quarter to Date
+        width: 6
+    height: 321px
+  - items:
+      - heatmap:
+          color:
+            colorRange:
+              mode: scheme
+              scheme: sequential
+            field: max_sales_measure
+            type: quantitative
+          description: ""
+          metrics_view: data_metrics
+          title: ""
+          x:
+            field: Order Date
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: Region
+            limit: 40
+            type: nominal
+        width: 12
     height: 40px
   - items:
       - stacked_bar_normalized:
