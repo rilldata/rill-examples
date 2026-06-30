@@ -20,11 +20,74 @@ rows:
             - percent_change
           time_filters: tr=rill-QTD&compare_tr=rill-PP&grain=week
           title: Quarter to Date
-        width: 5
+        width: 7
       - image:
           url: https://i.imgur.com/pUgSMm6.png
-        width: 7
+        width: 5
     height: 541px
+  - items:
+      - donut_chart:
+          color:
+            field: Category
+            limit: 20
+            type: nominal
+          innerRadius: 50
+          labels:
+            format: percent
+            show: true
+            threshold: 5
+          measure:
+            field: total_sales_measure
+            showTotal: true
+            type: quantitative
+          metrics_view: data_metrics
+          show_other: true
+        width: 6
+      - donut_chart:
+          color:
+            colorMapping:
+              - color: hsl(205, 100%, 65%)
+                value: Office Supplies
+              - color: hsl(42, 100%, 46%)
+                value: Furniture
+            field: Category
+            limit: 20
+            type: nominal
+          innerRadius: 50
+          labels:
+            format: percent
+            show: true
+            threshold: 5
+          measure:
+            field: total_profit_measure
+            showTotal: true
+            type: quantitative
+          metrics_view: data_metrics
+          show_other: true
+        width: 6
+    height: 40px
+  - items:
+      - heatmap:
+          color:
+            colorRange:
+              mode: scheme
+              scheme: sequential
+            field: max_sales_measure
+            type: quantitative
+          description: ""
+          metrics_view: data_metrics
+          title: ""
+          x:
+            field: Order Date
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: Region
+            limit: 40
+            type: nominal
+        width: 12
+    height: 40px
   - items:
       - table:
           metrics_view: data_metrics
@@ -53,6 +116,40 @@ rows:
           title: Quarter to Date
         width: 5
     height: 321px
+  - items:
+      - line_chart:
+          color:
+            type: value
+            field: rill_measures
+            legendOrientation: top
+          metrics_view: data_metrics
+          x:
+            field: Order Date
+            limit: 20
+            sort: -y
+            type: temporal
+          y:
+            field: total_sales_measure
+            type: quantitative
+            zeroBasedOrigin: true
+            fields:
+              - total_sales_measure
+              - total_profit_measure
+        width: 6
+      - area_chart:
+          metrics_view: data_metrics
+          color: primary
+          x:
+            type: temporal
+            field: Order Date
+            sort: -y
+            limit: 20
+          y:
+            type: quantitative
+            field: total_profit_measure
+            zeroBasedOrigin: true
+        width: 6
+    height: 40px
   - items:
       - stacked_bar_normalized:
           metrics_view: data_metrics
