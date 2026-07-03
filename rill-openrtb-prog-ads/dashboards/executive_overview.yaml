@@ -212,4 +212,27 @@ rows:
             type: nominal
             field: ad_size
             limit: 10
-        width: 12
+        width: 6
+      - combo_chart:
+          metrics_view: auction_metrics
+          x:
+            field: __time
+            limit: 20
+            sort: -y
+            type: temporal
+          y1:
+            type: quantitative
+            field: 1d_qps
+            zeroBasedOrigin: true
+            mark: bar
+          y2:
+            type: quantitative
+            field: requests
+            zeroBasedOrigin: true
+            mark: line
+          color:
+            type: value
+            field: measures
+            legendOrientation: top
+        width: 6
+    height: 40px
