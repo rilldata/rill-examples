@@ -26,6 +26,29 @@ rows:
         width: 5
     height: 541px
   - items:
+      - combo_chart:
+          color:
+            field: measures
+            legendOrientation: top
+            type: value
+          metrics_view: data_metrics
+          x:
+            field: Order Date
+            limit: 20
+            sort: -y
+            type: temporal
+          y1:
+            field: total_profit_measure
+            mark: bar
+            type: quantitative
+            zeroBasedOrigin: true
+          y2:
+            field: total_sales_measure
+            mark: line
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 12
+  - items:
       - donut_chart:
           color:
             field: Category
