@@ -1,0 +1,101 @@
+# Canvas YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: "DuckDB Developer Productivity"
+
+defaults:
+  time_range: P30D
+  comparison_mode: time
+
+rows:
+  - height: 72px
+    items:
+      - width: 12
+        markdown:
+          title: ""
+          description: ""
+          content: |
+            # DuckDB Developer Productivity
+
+            Summary of commit activity and code churn for the selected time range.
+          alignment:
+            horizontal: left
+            vertical: middle
+
+  - height: 160px
+    items:
+      - width: 12
+        kpi_grid:
+          metrics_view: duckdb_commits_metrics
+          measures:
+            - count_distinct_commit_hash
+            - count_distinct_username
+            - commits_per_distinct_user
+            - sum_of_additions
+            - sum_of_deletions
+            - count_files_touched_per_commit
+          comparison:
+            - delta
+            - percent_change
+
+  - height: 340px
+    items:
+      - width: 6
+        line_chart:
+          metrics_view: duckdb_commits_metrics
+          title: "Commits over time"
+          description: ""
+          color: hsl(240,100%,67%)
+          x:
+            field: date
+            type: temporal
+            limit: 60
+          y:
+            field: count_distinct_commit_hash
+            type: quantitative
+            zeroBasedOrigin: true
+      - width: 6
+        line_chart:
+          metrics_view: duckdb_commits_metrics
+          title: "Code changes over time"
+          description: ""
+          color: hsl(210, 70%, 50%)
+          x:
+            field: date
+            type: temporal
+            limit: 60
+          y:
+            field: sum_of_changes
+            type: quantitative
+            zeroBasedOrigin: true
+
+  - height: 360px
+    items:
+      - width: 8
+        table:
+          metrics_view: duckdb_commits_metrics
+          title: "Developer leaderboard"
+          description: "Ranked by commits (then additions)"
+          columns:
+            - username
+            - count_distinct_commit_hash
+            - sum_of_additions
+            - sum_of_deletions
+            - commits_per_distinct_user
+      - width: 4
+        bar_chart:
+          metrics_view: duckdb_commits_metrics
+          title: "Top file extensions"
+          description: "By number of commits touching files of this type"
+          color: hsl(45, 90%, 50%)
+          x:
+            field: file_extension
+            type: nominal
+            limit: 12
+            sort: -y
+            labelAngle: 0
+          y:
+            field: count_distinct_commit_hash
+            type: quantitative
+            zeroBasedOrigin: true
