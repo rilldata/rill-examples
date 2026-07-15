@@ -69,6 +69,10 @@ measures:
     name: count_distinct_username
     description: ""
     format_preset: humanize
+  - display_name: "Commits per distinct user"
+    name: commits_per_distinct_user
+    expression: count(distinct commit_hash) / nullif(count(distinct username), 0)
+    format_preset: humanize
   - display_name: "Code additions"
     expression: "sum(additions)"
     name: sum_of_additions
