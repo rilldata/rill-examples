@@ -19,5 +19,4 @@ models:
     every: 24h
 
 features:
-  chat_charts: true
   cloud_editing: true
