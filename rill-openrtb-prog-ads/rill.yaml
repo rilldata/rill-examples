@@ -21,6 +21,3 @@ models:
 features:
   chat_charts: true
   cloud_editing: true
-
-vars:
-  limit: 1234
