@@ -9,7 +9,4 @@ mock_users:
   - email: jane@partnercompany.com
 
 features:
-  - cloudDataViewer
-  - rillTime
-  - dashboardChat
-  - cloud_editing
+  cloud_editing: true
