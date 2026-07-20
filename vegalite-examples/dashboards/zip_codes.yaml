@@ -1,0 +1,53 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: "One Dot per Zipcode in the U.S."
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - custom_chart:
+          metrics_sql:
+            - select edge from user_flow_mock_metrics
+          metrics_view: user_flow_mock_metrics
+          vega_spec: |-
+            {
+              "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+              "width": 500,
+              "height": 300,
+              "data": {
+                "url": "public/zipcodes.csv"
+              },
+              "transform": [
+                {
+                  "calculate": "substring(datum.zip_code, 0, 1)",
+                  "as": "digit"
+                }
+              ],
+              "projection": {
+                "type": "albersUsa"
+              },
+              "mark": "circle",
+              "encoding": {
+                "longitude": {
+                  "field": "longitude",
+                  "type": "quantitative"
+                },
+                "latitude": {
+                  "field": "latitude",
+                  "type": "quantitative"
+                },
+                "size": {
+                  "value": 1
+                },
+                "color": {
+                  "field": "digit",
+                  "type": "nominal"
+                }
+              }
+            }
+        width: 12
+    height: 831px
+max_width: 1200

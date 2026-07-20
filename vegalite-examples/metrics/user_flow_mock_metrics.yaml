@@ -1,0 +1,85 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/metrics-views
+# This file was generated using AI.
+
+version: 1
+type: metrics_view 
+
+display_name: User Flow Mock
+connector: duckdb
+model: user_flow_mock
+timeseries: event_time
+
+dimensions:
+  - name: event_time
+    display_name: Event Time
+    column: event_time
+  - name: user_id
+    display_name: User Id
+    column: user_id
+  - name: session_id
+    display_name: Session Id
+    column: session_id
+  - name: step
+    display_name: Step
+    column: step
+  - name: source
+    display_name: Source
+    column: source
+  - name: device
+    display_name: Device
+    column: device
+  - name: country
+    display_name: Country
+    column: country
+  - name: plan
+    display_name: Plan
+    column: plan
+  - name: next_step
+    display_name: Next Step
+    column: next_step
+  - name: edge
+    display_name: Edge
+    column: edge
+
+measures:
+  - name: total_events_measure_measure
+    display_name: Total events
+    expression: COUNT(*)
+    description: Total number of recorded events in the user flow table.
+    format_preset: humanize
+  - name: total_users_measure_measure
+    display_name: Total users
+    expression: COUNT(DISTINCT user_id)
+    description: Number of unique users who generated events.
+    format_preset: humanize
+  - name: total_sessions_measure_measure
+    display_name: Total sessions
+    expression: COUNT(DISTINCT session_id)
+    description: Number of unique sessions captured in events.
+    format_preset: humanize
+  - name: total_revenue_measure_measure
+    display_name: Total revenue
+    expression: SUM(revenue)
+    description: Sum of revenue across all events.
+    format_preset: humanize
+  - name: average_revenue_per_event_measure_measure
+    display_name: Average revenue per event
+    expression: AVG(revenue)
+    description: Average revenue value per event record.
+    format_preset: humanize
+  - name: max_revenue_event_measure_measure
+    display_name: Max revenue (single event)
+    expression: MAX(revenue)
+    description: Highest revenue value observed on a single event.
+    format_preset: humanize
+  - name: min_revenue_event_measure_measure
+    display_name: Min revenue (single event)
+    expression: MIN(revenue)
+    description: Lowest revenue value observed on a single event.
+    format_preset: humanize
+  - name: distinct_steps_measure_measure
+    display_name: Distinct steps
+    expression: COUNT(DISTINCT step)
+    description: Number of unique flow steps observed.
+    format_preset: humanize

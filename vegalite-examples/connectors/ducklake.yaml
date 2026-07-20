@@ -1,0 +1,7 @@
+# Connector YAML
+# Reference documentation: https://docs.rilldata.com/developers/build/connectors/olap/duckdb
+
+type: connector
+
+driver: duckdb
+attach: "'https://blobs.duckdb.org/datalake/tpch-sf3.ducklake' AS __my_resource__ (TYPE ducklake);"
