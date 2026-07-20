@@ -1,0 +1,70 @@
+# Metrics view YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/metrics-views
+# This file was generated using AI.
+
+version: 1
+type: metrics_view 
+
+display_name: Orders
+connector: ducklake
+model: orders
+timeseries: o_orderdate
+
+dimensions:
+  - name: o_orderstatus
+    display_name: O Orderstatus
+    column: o_orderstatus
+  - name: o_orderdate
+    display_name: O Orderdate
+    column: o_orderdate
+  - name: o_orderpriority
+    display_name: O Orderpriority
+    column: o_orderpriority
+  - name: o_clerk
+    display_name: O Clerk
+    column: o_clerk
+  - name: o_comment
+    display_name: O Comment
+    column: o_comment
+
+measures:
+  - name: order_count_measure_measure
+    display_name: Order count
+    expression: COUNT(o_orderkey)
+    description: Total number of orders.
+    format_preset: humanize
+  - name: customer_count_measure_measure
+    display_name: Customer count
+    expression: COUNT(o_custkey)
+    description: Total number of customer references across orders (not distinct).
+    format_preset: humanize
+  - name: total_order_revenue_measure_measure
+    display_name: Total order revenue
+    expression: SUM(o_totalprice)
+    description: Sum of total price across all orders.
+    format_preset: humanize
+  - name: average_order_value_measure_measure
+    display_name: Average order value
+    expression: AVG(o_totalprice)
+    description: Average total price per order.
+    format_preset: humanize
+  - name: min_order_value_measure_measure
+    display_name: Minimum order value
+    expression: MIN(o_totalprice)
+    description: Smallest total price among orders.
+    format_preset: humanize
+  - name: max_order_value_measure_measure
+    display_name: Maximum order value
+    expression: MAX(o_totalprice)
+    description: Largest total price among orders.
+    format_preset: humanize
+  - name: average_ship_priority_measure_measure
+    display_name: Average ship priority
+    expression: AVG(o_shippriority)
+    description: Average ship priority value across orders.
+    format_preset: humanize
+  - name: ship_priority_sum_measure_measure
+    display_name: Total ship priority
+    expression: SUM(o_shippriority)
+    description: Sum of ship priority values across orders.
+    format_preset: humanize

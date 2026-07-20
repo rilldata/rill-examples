@@ -1,0 +1,54 @@
+# Explore YAML
+# Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
+
+type: canvas
+display_name: "Choropleth USA"
+defaults:
+  time_range: PT24H
+  comparison_mode: time
+rows:
+  - items:
+      - custom_chart:
+          metrics_sql:
+            - select edge from user_flow_mock_metrics
+          metrics_view: user_flow_mock_metrics
+          vega_spec: |-
+            {
+              "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+              "width": 500,
+              "height": 300,
+              "data": {
+                "url": "public/us-10m.json",
+                "format": {
+                  "type": "topojson",
+                  "feature": "counties"
+                }
+              },
+              "transform": [
+                {
+                  "lookup": "id",
+                  "from": {
+                    "data": {
+                      "url": "public/unemployment.tsv"
+                    },
+                    "key": "id",
+                    "fields": [
+                      "rate"
+                    ]
+                  }
+                }
+              ],
+              "projection": {
+                "type": "albersUsa"
+              },
+              "mark": "geoshape",
+              "encoding": {
+                "color": {
+                  "field": "rate",
+                  "type": "quantitative"
+                }
+              }
+            }
+        width: 12
+    height: 871px
+max_width: 1200

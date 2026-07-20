@@ -1,0 +1,200 @@
+type: model
+materialize: true
+
+# Mock user-flow event data for Sankey charts.
+#
+# Schema (event-level rows):
+# - event_time TIMESTAMP
+# - user_id VARCHAR
+# - session_id VARCHAR
+# - step VARCHAR            -- impression | click | subscription | activity
+# - next_step VARCHAR       -- LEAD(step) over (user_id, session_id) ordered by event_time
+# - edge VARCHAR            -- '<step> -> <next_step>' (NULL if next_step is NULL)
+# - source VARCHAR          -- acquisition channel/campaign source
+# - device VARCHAR
+# - country VARCHAR
+# - plan VARCHAR NULL       -- only for subscription/activity
+# - revenue DOUBLE NULL     -- only for subscription
+#
+# Intended use: Sankey edges can be built by grouping on (edge, source/device/country/plan, time).
+
+connector: duckdb
+
+sql: |
+  WITH
+  params AS (
+    SELECT
+      30::INT AS days,
+      6000::INT AS users
+  ),
+
+  -- Base users with deterministic-ish attributes derived from user_num
+  users AS (
+    SELECT
+      u AS user_num,
+      'u' || lpad(CAST(u AS VARCHAR), 6, '0') AS user_id,
+      -- Deterministic attribute assignment via modulo arithmetic
+      CASE (u % 6)
+        WHEN 0 THEN 'google_ads'
+        WHEN 1 THEN 'facebook_ads'
+        WHEN 2 THEN 'organic_search'
+        WHEN 3 THEN 'email'
+        WHEN 4 THEN 'referral'
+        ELSE 'direct'
+      END AS source,
+      CASE (u % 4)
+        WHEN 0 THEN 'mobile'
+        WHEN 1 THEN 'desktop'
+        WHEN 2 THEN 'tablet'
+        ELSE 'tv'
+      END AS device,
+      CASE (u % 8)
+        WHEN 0 THEN 'US'
+        WHEN 1 THEN 'CA'
+        WHEN 2 THEN 'GB'
+        WHEN 3 THEN 'DE'
+        WHEN 4 THEN 'FR'
+        WHEN 5 THEN 'IN'
+        WHEN 6 THEN 'BR'
+        ELSE 'AU'
+      END AS country,
+      CASE (u % 3)
+        WHEN 0 THEN 'basic'
+        WHEN 1 THEN 'pro'
+        ELSE 'team'
+      END AS plan
+    FROM range(0, (SELECT users FROM params)) t(u)
+  ),
+
+  -- One session per user per day (30 days). Session_id is stable per (user, day).
+  sessions AS (
+    SELECT
+      d AS day_offset,
+      (current_date - (d || ' days')::INTERVAL)::DATE AS event_date,
+      u.user_num,
+      u.user_id,
+      u.source,
+      u.device,
+      u.country,
+      u.plan,
+      's' || lpad(CAST(u.user_num AS VARCHAR), 6, '0') || '_' || strftime((current_date - (d || ' days')::INTERVAL)::DATE, '%Y%m%d') AS session_id,
+
+      -- Funnel transition flags (deterministic drop-off)
+      -- Impression always happens.
+      -- Click: ~55%
+      ((u.user_num * 17 + d * 13) % 100) < 55 AS has_click,
+      -- Subscription: ~18% of clickers
+      ((u.user_num * 29 + d * 7) % 100) < 18 AS has_subscription,
+      -- Activity: ~70% of subscribers
+      ((u.user_num * 31 + d * 11) % 100) < 70 AS has_activity,
+
+      -- Deterministic-ish time offsets within the day (minutes)
+      ((u.user_num * 3 + d * 5) % 1200) AS imp_min,
+      ((u.user_num * 7 + d * 11) % 180) + 1 AS click_delta_min,
+      ((u.user_num * 13 + d * 17) % 720) + 10 AS sub_delta_min,
+      ((u.user_num * 19 + d * 23) % 1440) + 30 AS act_delta_min
+    FROM range(0, (SELECT days FROM params)) t(d)
+    CROSS JOIN users u
+  ),
+
+  impression AS (
+    SELECT
+      (event_date::TIMESTAMP + (imp_min || ' minutes')::INTERVAL) AS event_time,
+      user_id,
+      session_id,
+      'impression' AS step,
+      source,
+      device,
+      country,
+      NULL::VARCHAR AS plan,
+      NULL::DOUBLE AS revenue
+    FROM sessions
+  ),
+
+  click AS (
+    SELECT
+      (event_date::TIMESTAMP + (imp_min || ' minutes')::INTERVAL + (click_delta_min || ' minutes')::INTERVAL) AS event_time,
+      user_id,
+      session_id,
+      'click' AS step,
+      source,
+      device,
+      country,
+      NULL::VARCHAR AS plan,
+      NULL::DOUBLE AS revenue
+    FROM sessions
+    WHERE has_click
+  ),
+
+  subscription AS (
+    SELECT
+      (event_date::TIMESTAMP
+        + (imp_min || ' minutes')::INTERVAL
+        + (click_delta_min || ' minutes')::INTERVAL
+        + (sub_delta_min || ' minutes')::INTERVAL
+      ) AS event_time,
+      user_id,
+      session_id,
+      'subscription' AS step,
+      source,
+      device,
+      country,
+      plan,
+      CASE plan
+        WHEN 'basic' THEN 9.99
+        WHEN 'pro' THEN 19.99
+        ELSE 49.99
+      END::DOUBLE AS revenue
+    FROM sessions
+    WHERE has_click AND has_subscription
+  ),
+
+  activity AS (
+    SELECT
+      (event_date::TIMESTAMP
+        + (imp_min || ' minutes')::INTERVAL
+        + (click_delta_min || ' minutes')::INTERVAL
+        + (sub_delta_min || ' minutes')::INTERVAL
+        + (act_delta_min || ' minutes')::INTERVAL
+      ) AS event_time,
+      user_id,
+      session_id,
+      'activity' AS step,
+      source,
+      device,
+      country,
+      plan,
+      NULL::DOUBLE AS revenue
+    FROM sessions
+    WHERE has_click AND has_subscription AND has_activity
+  ),
+
+  events AS (
+    SELECT * FROM impression
+    UNION ALL
+    SELECT * FROM click
+    UNION ALL
+    SELECT * FROM subscription
+    UNION ALL
+    SELECT * FROM activity
+  )
+
+  SELECT
+    event_time,
+    user_id,
+    session_id,
+    step,
+    source,
+    device,
+    country,
+    plan,
+    revenue,
+    LEAD(step) OVER (PARTITION BY user_id, session_id ORDER BY event_time) AS next_step,
+    CASE
+      WHEN LEAD(step) OVER (PARTITION BY user_id, session_id ORDER BY event_time) IS NULL THEN NULL
+      ELSE step || ' -> ' || LEAD(step) OVER (PARTITION BY user_id, session_id ORDER BY event_time)
+    END AS edge
+  FROM events
+
+output:
+  connector: duckdb
