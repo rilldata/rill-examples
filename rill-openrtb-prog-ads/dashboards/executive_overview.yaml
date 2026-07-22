@@ -151,17 +151,6 @@ rows:
         width: 6
     height: 383px
   - items:
-      - leaderboard:
-          dimensions:
-            - __time
-            - another_time_column
-            - app_site_name
-          measures:
-            - requests
-          metrics_view: auction_metrics
-          num_rows: 7
-        width: 12
-  - items:
       - combo_chart:
           color:
             field: measures
