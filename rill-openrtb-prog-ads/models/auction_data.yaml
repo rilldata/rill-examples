@@ -1,0 +1,13 @@
+# Model YAML
+# Reference documentation: https://docs.rilldata.com/developers/build/connectors/data-source/https
+
+type: model
+materialize: true
+
+connector: duckdb
+
+sql: |
+  select * from read_parquet('https://storage.googleapis.com/rilldata-public/auction_data.parquet')
+
+output:
+  connector: duckdb

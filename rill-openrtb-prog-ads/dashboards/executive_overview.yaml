@@ -98,6 +98,29 @@ rows:
         width: 6
     height: 320px
   - items:
+      - combo_chart:
+          color:
+            field: measures
+            legendOrientation: top
+            type: value
+          metrics_view: auction_metrics
+          x:
+            field: pub_name
+            limit: 20
+            type: nominal
+          y1:
+            field: 1d_qps
+            mark: bar
+            type: quantitative
+            zeroBasedOrigin: true
+          y2:
+            field: avg_bid_floor
+            mark: line
+            type: quantitative
+            zeroBasedOrigin: true
+        width: 12
+    height: 40px
+  - items:
       - kpi_grid:
           metrics_view: auction_metrics
           measures:
@@ -126,7 +149,18 @@ rows:
             type: quantitative
             showTotal: true
         width: 6
-    height: 320px
+    height: 383px
+  - items:
+      - leaderboard:
+          dimensions:
+            - __time
+            - another_time_column
+            - app_site_name
+          measures:
+            - requests
+          metrics_view: auction_metrics
+          num_rows: 7
+        width: 12
   - items:
       - combo_chart:
           color:
