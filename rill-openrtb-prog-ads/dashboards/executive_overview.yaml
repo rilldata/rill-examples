@@ -78,23 +78,18 @@ rows:
             type: quantitative
             zeroBasedOrigin: true
         width: 6
-      - donut_chart:
+      - bar_chart:
           metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: auction_type
+          color: primary
+          x:
+            type: temporal
+            field: __time
+            sort: -y
             limit: 20
-            sort: -measure
-          measure:
+          y:
             type: quantitative
-            field: requests
-            showTotal: true
+            field: 1d_qps
+            zeroBasedOrigin: true
           title: ""
           description: ""
         width: 6
