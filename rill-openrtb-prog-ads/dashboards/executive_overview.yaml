@@ -88,13 +88,15 @@ rows:
             threshold: 5
           color:
             type: nominal
-            field: device_type
+            field: auction_type
             limit: 20
             sort: -measure
           measure:
             type: quantitative
             field: requests
             showTotal: true
+          title: ""
+          description: ""
         width: 6
     height: 320px
   - items:
@@ -216,7 +218,7 @@ rows:
           row_dimensions:
             - advertiser_name
           time_filters: tr=P7D&compare_tr=rill-PW&grain=day
-          title: Per advertiser metrics – last 7 days
+          title: Per advertiser metrics – last 7 days
         width: 12
     height: 300px
   - items:
