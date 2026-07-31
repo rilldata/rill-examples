@@ -45,26 +45,6 @@ rows:
         width: 6
     height: 300px
   - items:
-      - donut_chart:
-          metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
-            limit: 20
-            sort: -measure
-          measure:
-            type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
       - stacked_bar:
           metrics_view: bids_metrics
           description: ""
@@ -97,6 +77,26 @@ rows:
             field: overall_spend
             type: quantitative
             zeroBasedOrigin: true
+        width: 6
+      - donut_chart:
+          metrics_view: auction_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            type: nominal
+            field: device_state
+            limit: 20
+            sort: -measure
+          measure:
+            type: quantitative
+            field: requests
+            showTotal: true
+          title: ""
+          description: ""
         width: 6
     height: 320px
   - items:
@@ -132,6 +132,7 @@ rows:
           metrics_view: auction_metrics
           num_rows: 10
         width: 12
+    height: 40px
   - items:
       - kpi_grid:
           metrics_view: auction_metrics
