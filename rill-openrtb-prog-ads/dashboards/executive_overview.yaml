@@ -100,6 +100,20 @@ rows:
         width: 6
     height: 320px
   - items:
+      - line_chart:
+          metrics_view: auction_metrics
+          color: primary
+          x:
+            type: temporal
+            field: __time
+            sort: -y
+            limit: 20
+          y:
+            type: quantitative
+            field: requests
+            zeroBasedOrigin: true
+        width: 12
+  - items:
       - combo_chart:
           color:
             field: measures
