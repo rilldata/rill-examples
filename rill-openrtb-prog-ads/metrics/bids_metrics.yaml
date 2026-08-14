@@ -14,62 +14,74 @@ measures:
     expression: sum(media_spend_usd)/1000
     description: Total Spend
     format_preset: currency_eur
+    tags: ["Spend"]
   - display_name: "Bids"
     name: total_bids
     expression: "sum(bid_cnt)"
     description: "Total Bids"
     format_preset: humanize
+    tags: ["Bids"]
   - display_name: "Impressions"
     name: impressions
     expression: "sum(imp_cnt)"
     description: "Total Impressions"
     format_preset: humanize
+    tags: ["Bids"]
   - display_name: "Win Rate"
     name: win_rate
     expression: "sum(imp_cnt)*1.0/sum(bid_cnt)"
     description: "Impressions / Bids"
     format_preset: percentage
+    tags: ["Bids"]
   - display_name: "Clicks"
     name: clicks
     expression: "sum(click_reg_cnt)"
     description: "Total Clicks"
     format_preset: humanize
+    tags: ["Engage"]
   - display_name: "CTR"
     name: ctr
     expression: "sum(click_reg_cnt)*1.0/nullif(sum(imp_cnt),0)"
     description: "Click Through Rate"
     format_preset: percentage
+    tags: ["Engage"]
   - display_name: "Video Starts"
     name: video_starts
     expression: "sum(video_start_cnt)"
     description: "Total Video Starts"
     format_preset: humanize
+    tags: ["Video"]
   - display_name: "Video Completes"
     name: video_completes
     expression: "sum(video_complete_cnt)"
     description: "Total Video Completes"
     format_preset: humanize
+    tags: ["Video"]
   - display_name: "Video Completion Rate"
     name: video_completion_rate
     expression: "sum(video_complete_cnt)*1.0/sum(video_start_cnt)"
     description: "Video Completion Rate"
     format_preset: percentage
+    tags: ["Video"]
   - display_name: "Avg Bid Price"
     name: avg_bid_price
     expression: "sum(bid_price_usd)*1.0/sum(bid_cnt)/1000"
     description: "Average Bid Price"
     format_preset: currency_eur
+    tags: ["Spend"]
   - display_name: "eCPM"
     name: ecpm
     expression: "sum(media_spend_usd)*1.0/1000/nullif(sum(imp_cnt),0)"
     description: "eCPM"
     format_preset: currency_eur
+    tags: ["Spend"]
   - display_name: "Avg Bid Floor"
     name: avg_bid_floor
     expression: "sum(bid_floor)*1.0/sum(has_bid_floor_cnt)"
     description: "Average Bid Floor"
     format_preset: currency_eur
-    
+    tags: ["Bids"]
+
   - name: bids_7day_rolling_avg
     display_name: 7 Day Bid rolling avg
     expression: AVG(total_bids)
@@ -77,94 +89,117 @@ measures:
     window:
       order: "__time"
       frame: RANGE BETWEEN INTERVAL 6 DAY PRECEDING AND CURRENT ROW
+    tags: ["Bids"]
 
 
 dimensions:
   - column: adomain
     name: adomain
     display_name: Adomain
+    tags: ["Campaign"]
   - column: advertiser_name
     name: advertiser_name
     display_name: Advertiser Name
+    tags: ["Campaign"]
   - display_name: App or Site
     name: app_or_site
     column: app_or_site
     description: ""
+    tags: ["Other"]
   - display_name: Site Domain
     name: sites_domain
     column: app_site_domain
     description: ""
+    tags: ["Campaign"]
   - column: app_site_name
     name: app_site_name
     display_name: App Name
+    tags: ["Other"]
   - name: auction_type
     display_name: Auction Type
     column: auction_type
     description: ""
+    tags: ["Bids"]
   - display_name: Bid Floor Bucket
     column: bid_floor_bucket
     description: ""
     name: bid_floor_bucket
+    tags: ["Bids"]
   - name: campaign_name
     display_name: Campaign Name
     column: campaign_name
     description: ""
+    tags: ["Campaign"]
   - name: creative_type
     display_name: Creative type
     column: creative_type
     description: ""
+    tags: ["Campaign"]
   - name: device_os
     display_name: Device OS
     column: device_os
     description:
+    tags: ["Other"]
   - name: device_osv
     display_name: Device OSV
     column: device_osv
     description: ""
+    tags: ["Other"]
   - name: device_region
     display_name: Device Region
     column: device_region
     description: ""
+    tags: ["Other"]
   - display_name: Device Type
     column: device_type
     description: ""
     name: device_type
+    tags: ["Other"]
   - name: interstitial
     display_name: Interstitial
     column: interstitial
     description: ""
+    tags: ["Other"]
   - name: line_item_name
     display_name: Line Item Name
     column: line_item_name
     description: ""
+    tags: ["Campaign"]
   - display_name: Placement Type
     column: placement_type
     description: ""
     name: placement_type
+    tags: ["Other"]
   - name: platform_browser
     display_name: Platform Browser
     column: platform_browser
     description: ""
+    tags: ["Other"]
   - name: player_size
     display_name: Player Size
     column: player_size
     description: ""
+    tags: ["Other"]
   - name: privacy
     display_name: Privacy
     column: privacy
     description: ""
+    tags: ["Other"]
   - name: pub_name
     display_name: Pub Name
     column: pub_name
     description: ""
+    tags: ["Other"]
   - name: sdk
     display_name: SDK
     column: sdk
     description: ""
+    tags: ["Other"]
   - name: video_activity
     display_name: Video Activity
     column: video_activity
     description: ""
+    tags: ["Other"]
 
 ai_instructions: |
   When you run queries with rill, you also include corresponding Rill Explore URLs in your answer. All URLs should start with the BASE_URL, which is defined below. 
