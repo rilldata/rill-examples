@@ -2,6 +2,12 @@
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
 type: canvas
+tags:
+  - dashboard
+  - canvas
+  - executive
+  - overview
+  - programmatic_ads
 display_name: Executive summary report
 defaults:
   time_range: 14D as of latest/D+1D
@@ -161,7 +167,7 @@ rows:
           row_dimensions:
             - advertiser_name
           time_filters: tr=P7D&compare_tr=rill-PW&grain=day
-          title: Per advertiser metrics – last 7 days
+          title: Per advertiser metrics – last 7 days
         width: 12
     height: 300px
 max_width: 1440
