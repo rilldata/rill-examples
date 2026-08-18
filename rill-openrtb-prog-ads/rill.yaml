@@ -25,7 +25,6 @@ models:
 
 features:
   cloud_editing: true
-  exports: '{{ ne .user.email "adam.kabak@rilldata.com" }}'
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
