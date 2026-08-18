@@ -3,6 +3,12 @@
 
 type: explore
 
+tags:
+  - dashboard
+  - explore
+  - bids
+  - programmatic_ads
+
 display_name: "Programmatic Ads Bids"
 metrics_view: bids_metrics
 
