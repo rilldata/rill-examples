@@ -25,7 +25,7 @@ models:
 
 features:
   cloud_editing: true
-  exports: '{{ not (has "partners" .user.groups) }}'
+  exports: '{{ ne .user.email "adam.kabak@rilldata.com" }}'
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
