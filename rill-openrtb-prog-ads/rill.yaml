@@ -24,13 +24,8 @@ models:
     every: 24h
 
 features:
-  - cloudDataViewer
-  - rillTime
-  - chat
-  - dashboardChat
-  - chat_charts
-  - exportHeader
-  - cloud_editing
+  cloud_editing: true
+  exports: '{{ not (has "partners" .user.groups) }}'
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
