@@ -86,14 +86,11 @@ dimensions:
 
 measures:
   - name: total_rows_measure_measure
-    display_name: Total Row Count
+    display_name: Total Rows
     expression: COUNT(*)
     description: Total number of records in auction_data.
     format_preset: humanize
-    tags:
-      - others
-    valid_percent_of_total: false
-    lower_is_better: false
+    tags: [ others ]
   - name: total_bid_requests_measure_measure
     display_name: Total Bid Requests
     expression: SUM(bid_request_cnt)
@@ -103,9 +100,12 @@ measures:
   - name: average_bid_requests_per_row_measure_measure
     display_name: Average Bid Requests per Row
     expression: AVG(bid_request_cnt)
-    description: Average bid_request_cnt value per record.
+    description: Average bid_request_cnt value
     format_preset: humanize
-    tags: [ requests ]
+    tags:
+      - requests
+    valid_percent_of_total: false
+    lower_is_better: false
   - name: total_has_bid_floor_count_measure_measure
     display_name: Total Has Bid Floor Count
     expression: SUM(has_bid_floor_cnt)
