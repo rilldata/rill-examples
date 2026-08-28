@@ -1,0 +1,77 @@
+# Scenario: handle late arrivals when the output has no single column that identifies a complete partition.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: MAX(updated_at) is returned beside each hour; an advancing watermark re-queues that existing hour.
+# Strategy: merge upserts rows by event_id instead of replacing every row of an output partition.
+# Prefer scenario 01: partition_overwrite is idempotent by construction; choose merge only when a partition column is unavailable.
+# Unique key: event_id must be stable, non-null, and unique, or merge can update the wrong row or leave duplicates.
+# Change behavior: patch adopts compatible new logic without rebuilding prior hours.
+# Watermark contrast: this example deliberately keeps the data-driven MAX(updated_at) form; scenarios 01, 02, and 04 use the clock-driven LEAST(now, start + interval) window.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+# Retry error reference: https://docs.snowflake.com/en/developer-guide/sql-api/reference
+# Driver retry format: https://github.com/snowflakedb/gosnowflake/blob/v1.15.0/retry.go
+type: model
+name: snowflake_03_hourly_merge_late
+connector: snowflake
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: changed_at  # Timestamp column from partition SQL; advances re-queue an existing partition.
+partitions_concurrency: 6  # Maximum partitions processed in parallel; tune to source capacity.
+timeout: 20m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "5 * * * *"  # five minutes after every hour; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: snowflake
+  sql: |
+    SELECT
+      DATE_TRUNC('HOUR', event_time) AS partition_hour,
+      MAX(updated_at) AS changed_at
+    FROM analytics.events
+    WHERE event_time >= DATEADD(hour, -168, CURRENT_TIMESTAMP())
+      AND event_time < DATE_TRUNC('HOUR', CURRENT_TIMESTAMP())
+    GROUP BY 1
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: snowflake
+    sql: |
+      SELECT
+        DATE_TRUNC('HOUR', event_time) AS partition_hour,
+        MAX(updated_at) AS changed_at
+      FROM analytics.events
+      WHERE event_time >= DATEADD(hour, -6, CURRENT_TIMESTAMP())
+        AND event_time < DATE_TRUNC('HOUR', CURRENT_TIMESTAMP())
+      GROUP BY 1
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  WHERE event_time >= '{{ .partition.partition_hour }}'::TIMESTAMP_NTZ
+    AND event_time < DATEADD(hour, 1, '{{ .partition.partition_hour }}'::TIMESTAMP_NTZ)
+
+retry:  # Retries apply to transient execution failures, not invalid SQL or schema errors.
+  attempts: 4  # Total attempts, including retries after the first failure.
+  delay: 15s  # Initial wait between attempts.
+  exponential_backoff: true  # Increase the delay after each failed attempt.
+  if_error_matches:  # Explicit matches replace Rill defaults; gosnowflake exposes this HTTP Status form.
+    - ".*HTTP Status: (408|429|5[0-9]{2}).*"  # Request timeout, rate limit, or server failure after driver retries.
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id

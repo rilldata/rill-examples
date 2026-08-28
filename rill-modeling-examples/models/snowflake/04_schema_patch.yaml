@@ -1,0 +1,71 @@
+# Scenario: demonstrate an additive, backward-compatible schema change without rebuilding historical output.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: recent days are re-queued by the watermark and new rows include the added traffic_source column.
+# Watermark: LEAST(now, date + 1 day) equals now while the day is inside its lateness window, then freezes at a constant.
+# Change behavior: patch switches future runs to the new logic while preserving already-loaded history.
+# Trade-off: historical rows are not recomputed; backfill affected partitions explicitly when consistency is needed.
+# Strategy: merge uses event_id to update existing events and insert newly arrived events.
+# Compare: scenario 05 shows the reset alternative for changes that must apply to all history.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: snowflake_04_schema_patch
+connector: snowflake
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: watermark_interval  # Any expression works, not just a column: this one advances with the clock, then freezes.
+
+refresh:
+  cron: "0 6 * * 1-5"  # weekdays at 06:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: snowflake
+  sql: |
+    SELECT
+      event_time::DATE AS partition_date,
+      LEAST(
+        CURRENT_TIMESTAMP()::TIMESTAMP_NTZ,
+        DATEADD(day, 1, event_time::DATE::TIMESTAMP_NTZ)
+      ) AS watermark_interval
+    FROM analytics.events
+    WHERE event_time >= DATEADD(day, -14, CURRENT_DATE())
+    GROUP BY 1
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: snowflake
+    sql: |
+      SELECT
+        event_time::DATE AS partition_date,
+        LEAST(
+          CURRENT_TIMESTAMP()::TIMESTAMP_NTZ,
+          DATEADD(day, 1, event_time::DATE::TIMESTAMP_NTZ)
+        ) AS watermark_interval
+      FROM analytics.events
+      WHERE event_time >= DATEADD(day, -1, CURRENT_DATE())
+      GROUP BY 1
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    COALESCE(traffic_source, 'unknown')::VARCHAR AS traffic_source,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  WHERE event_time >= '{{ .partition.partition_date }}'::TIMESTAMP_NTZ
+    AND event_time < DATEADD(day, 1, '{{ .partition.partition_date }}'::TIMESTAMP_NTZ)
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id

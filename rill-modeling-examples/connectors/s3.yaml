@@ -1,0 +1,10 @@
+# Scenario: Read-only S3 object-store connector shared by the S3 examples.
+# The S3 models run their SQL in DuckDB; this connector supplies credentials and powers glob partition discovery.
+# path_prefixes limits bucket introspection to the paths the examples actually read.
+type: connector
+driver: s3
+aws_access_key_id: "{{ .env.AWS_ACCESS_KEY_ID }}"
+aws_secret_access_key: "{{ .env.AWS_SECRET_ACCESS_KEY }}"
+region: "{{ .env.AWS_REGION }}"
+path_prefixes:
+  - s3://example-bucket

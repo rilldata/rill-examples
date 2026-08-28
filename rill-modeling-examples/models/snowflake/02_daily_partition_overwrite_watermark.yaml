@@ -1,0 +1,73 @@
+# Scenario: apply the recommended incremental pattern at a daily grain for large fact tables.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: partition SQL returns each recent date with MAX(updated_at); an advancing watermark re-queues that date.
+# Recommended: the same partition_overwrite, change_mode patch, and watermark combination as scenario 01, one day per partition.
+# Strategy: partition_overwrite replaces the whole day, so reprocessing a corrected day stays idempotent.
+# Change behavior: patch keeps existing days untouched; backfill explicitly when a change must apply to history.
+# Watermark: LEAST(now, date + 1 day) equals now while the day is inside its lateness window, then freezes at a constant.
+# Late data: the day is therefore re-queued on every refresh until it is a day old, and is never re-queued automatically after that.
+# Development: only the last two days are discovered, avoiding an accidental year-long local scan.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: snowflake_02_daily_partition_overwrite_watermark
+connector: snowflake
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: watermark_interval  # Any expression works, not just a column: this one advances with the clock, then freezes.
+partitions_concurrency: 4  # Maximum partitions processed in parallel; tune to source capacity.
+timeout: 30m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "0 2 * * *"  # daily at 02:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: snowflake
+  sql: |
+    SELECT
+      event_time::DATE AS partition_date,
+      LEAST(
+        CURRENT_TIMESTAMP()::TIMESTAMP_NTZ,
+        DATEADD(day, 1, event_time::DATE::TIMESTAMP_NTZ)
+      ) AS watermark_interval
+    FROM analytics.events
+    WHERE event_time >= DATEADD(day, -30, CURRENT_DATE())
+    GROUP BY 1
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: snowflake
+    sql: |
+      SELECT
+        event_time::DATE AS partition_date,
+        LEAST(
+          CURRENT_TIMESTAMP()::TIMESTAMP_NTZ,
+          DATEADD(day, 1, event_time::DATE::TIMESTAMP_NTZ)
+        ) AS watermark_interval
+      FROM analytics.events
+      WHERE event_time >= DATEADD(day, -2, CURRENT_DATE())
+      GROUP BY 1
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    event_time::DATE AS event_date,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  WHERE event_time >= '{{ .partition.partition_date }}'::TIMESTAMP_NTZ
+    AND event_time < DATEADD(day, 1, '{{ .partition.partition_date }}'::TIMESTAMP_NTZ)
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_date  # Column identifying the output rows that partition_overwrite replaces.

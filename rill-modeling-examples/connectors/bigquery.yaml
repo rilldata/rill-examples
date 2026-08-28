@@ -1,0 +1,7 @@
+# Scenario: Cost-capped BigQuery source connector shared by the BigQuery examples.
+# GOOGLE_APPLICATION_CREDENTIALS must contain the raw service-account JSON.
+type: connector
+driver: bigquery
+google_application_credentials: "{{ .env.GOOGLE_APPLICATION_CREDENTIALS }}"
+project_id: "{{ .env.BIGQUERY_PROJECT_ID }}"
+max_bytes_billed: 10000000000

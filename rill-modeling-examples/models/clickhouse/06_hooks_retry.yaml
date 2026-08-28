@@ -1,0 +1,74 @@
+# Scenario: add a source field before ingestion, export it to DuckDB, and retry transient ClickHouse failures.
+# Source and output: Exports data from ClickHouse into a materialized DuckDB table.
+# Flow: after an initial output exists, output.pre_exec adds ingestion_source; the query populates it; post_exec updates statistics.
+# Retries: exponential backoff spaces repeated attempts; if_error_matches replaces, not extends, Rill defaults.
+# Safety: ADD COLUMN IF NOT EXISTS is idempotent because retries may execute output.pre_exec more than once.
+# Strategy: partition_overwrite keeps a retried day free of duplicate output rows.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+# Runtime note: Current Rill releases do not support direct ClickHouse-to-DuckDB execution; this disabled spec is conceptual.
+# Retry error references: https://clickhouse.com/docs/concepts/features/configuration/settings/memory-overcommit and https://clickhouse.com/docs/reference/system-tables/errors
+# Driver error format: https://github.com/ClickHouse/clickhouse-go/blob/v2.41.0/lib/proto/exception.go
+type: model
+name: clickhouse_06_hooks_retry
+connector: clickhouse
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_concurrency: 3  # Maximum partitions processed in parallel; tune to source capacity.
+timeout: 25m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "0 2 * * *"  # daily at 02:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: clickhouse
+  sql: |
+    SELECT DISTINCT toDate(event_time) AS partition_date
+    FROM analytics.events
+    WHERE event_time >= today() - INTERVAL 30 DAY
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: clickhouse
+    sql: SELECT today() AS partition_date
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    toDate(event_time) AS event_date,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    'clickhouse' AS ingestion_source,
+    revenue
+  FROM analytics.events
+  WHERE event_time >= toDateTime('{{ .partition.partition_date }}')
+    AND event_time < toDateTime('{{ .partition.partition_date }}') + INTERVAL 1 DAY
+
+retry:  # Retries apply to transient execution failures, not invalid SQL or schema errors.
+  attempts: 5  # Total attempts, including retries after the first failure.
+  delay: 10s  # Initial wait between attempts.
+  exponential_backoff: true  # Increase the delay after each failed attempt.
+  if_error_matches:  # Explicit matches replace Rill defaults; clickhouse-go exposes codes and messages, not names.
+    - ".*OvercommitTracker.*"  # ClickHouse memory overcommit selected or rejected a query.
+    - ".*code: 202, message:.*"  # TOO_MANY_SIMULTANEOUS_QUERIES: concurrency admission rejected the query.
+    - ".*code: 209, message:.*"  # SOCKET_TIMEOUT: a ClickHouse socket operation timed out.
+    - ".*code: 210, message:.*"  # NETWORK_ERROR: ClickHouse reported a network-layer failure.
+    - ".*code: 745, message:.*"  # SERVER_OVERLOADED: server admission control rejected the query.
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_date  # Column identifying the output rows that partition_overwrite replaces.
+  pre_exec: |
+    ALTER TABLE IF EXISTS clickhouse_06_hooks_retry
+    ADD COLUMN IF NOT EXISTS ingestion_source VARCHAR DEFAULT 'unknown'
+  post_exec: |
+    ANALYZE clickhouse_06_hooks_retry

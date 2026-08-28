@@ -1,0 +1,6 @@
+# Scenario: Read-only ClickHouse source connector shared by the ClickHouse examples.
+# Use a native-protocol DSN such as clickhouse://user:password@host:9440/database?secure=true.
+type: connector
+driver: clickhouse
+mode: read
+dsn: "{{ .env.CLICKHOUSE_DSN }}"

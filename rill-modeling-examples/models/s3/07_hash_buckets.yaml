@@ -1,0 +1,50 @@
+# Scenario: split a prefix by stable hash buckets when the object layout carries no usable time component.
+# Source and output: Exports data from S3 into a materialized DuckDB table.
+# Flow: a DuckDB range query defines the buckets and each partition reads the prefix filtered to one bucket.
+# Strategy: merge upserts bucket results by event_id, so reprocessing a bucket updates instead of duplicates.
+# Trade-off: every bucket re-reads the whole prefix, so this costs far more object requests than glob partitions.
+# Prefer scenario 01 or 02 whenever the prefix is laid out by date or hour; hash buckets are a fallback for flat layouts.
+# Development: two buckets provide representative behavior while reducing local read and write volume.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: s3_07_hash_buckets
+connector: duckdb  # DuckDB reads the objects; the s3 connector supplies credentials.
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_concurrency: 8  # Maximum partitions processed in parallel; tune to request limits.
+
+refresh:
+  cron: "0 1 * * *"  # daily at 01:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: duckdb
+  sql: SELECT range AS bucket_id FROM range(0, 16)
+
+dev:  # Reduce the bucket count so a local run reads the prefix twice instead of sixteen times.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: duckdb
+    sql: SELECT range AS bucket_id FROM range(0, 2)
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM read_parquet('s3://example-bucket/analytics/events/dt=*/hour=*/*.parquet', union_by_name = true)
+  WHERE hash(event_id) % 16 = {{ .partition.bucket_id }}
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id

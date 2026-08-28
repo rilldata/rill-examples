@@ -1,0 +1,72 @@
+# Scenario: add a source field before ingestion, export it to DuckDB, and retry transient S3 failures.
+# Source and output: Exports data from S3 into a materialized DuckDB table.
+# Flow: after an initial output exists, output.pre_exec adds ingestion_source; the query populates it; post_exec updates statistics.
+# Retries: exponential backoff spaces repeated attempts; if_error_matches replaces, not extends, Rill defaults.
+# Safety: ADD COLUMN IF NOT EXISTS is idempotent because retries may execute output.pre_exec more than once.
+# Strategy: partition_overwrite keeps a retried date free of duplicate output rows.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+# Retry error reference: https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
+# DuckDB S3 reference: https://duckdb.org/docs/stable/core_extensions/httpfs/s3api
+type: model
+name: s3_06_hooks_retry
+connector: duckdb  # DuckDB reads the objects; the s3 connector supplies credentials.
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_concurrency: 3  # Maximum partitions processed in parallel; tune to request limits.
+timeout: 25m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "0 2 * * *"  # daily at 02:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each leaf date directory is one independently tracked partition.
+  glob:
+    connector: s3
+    path: s3://example-bucket/analytics/events/dt=*
+    partition: directory
+
+dev:  # Restrict local development to a single known date.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    glob:
+      connector: s3
+      path: s3://example-bucket/analytics/events/dt=2026-08-27
+      partition: directory
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    CAST(event_time AS DATE) AS event_date,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    's3' AS ingestion_source,
+    revenue
+  FROM read_parquet('{{ .partition.uri }}/**/*.parquet', union_by_name = true)
+
+retry:  # Retries apply to transient execution failures, not invalid SQL or schema errors.
+  attempts: 5  # Total attempts, including retries after the first failure.
+  delay: 10s  # Initial wait between attempts.
+  exponential_backoff: true  # Increase the delay after each failed attempt.
+  if_error_matches:  # Explicit matches replace Rill defaults; DuckDB surfaces S3 responses as IO and HTTP errors.
+    - ".*HTTP 5[0-9]{2}.*"  # S3 or the gateway returned a 5xx response; back off and retry.
+    - ".*SlowDown.*"  # S3 request-rate throttling on a hot prefix.
+    - ".*RequestTimeout.*"  # The connection to S3 timed out before the object was fully read.
+    - ".*InternalError.*"  # S3 reported a transient internal failure.
+    - ".*Connection reset by peer.*"  # The TCP connection dropped mid-transfer.
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_date  # Column identifying the output rows that partition_overwrite replaces.
+  pre_exec: |
+    ALTER TABLE IF EXISTS s3_06_hooks_retry
+    ADD COLUMN IF NOT EXISTS ingestion_source VARCHAR DEFAULT 'unknown'
+  post_exec: |
+    ANALYZE s3_06_hooks_retry

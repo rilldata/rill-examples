@@ -1,0 +1,36 @@
+# Scenario: establish the simplest non-incremental baseline for a small or moderately sized prefix.
+# Source and output: Exports data from S3 into a materialized DuckDB table.
+# Flow: every refresh re-reads the whole event prefix through DuckDB and replaces the materialized output.
+# Use when: the prefix is small enough that a full re-read is affordable on every schedule.
+# Trade-off: there is no partition bookkeeping, so runtime and request cost grow with every new file.
+# Development: the template narrows the read to one recent date without changing production SQL.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: s3_00_full_refresh
+connector: duckdb  # DuckDB reads the objects; the s3 connector supplies credentials.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+
+refresh:
+  cron: "0 4 * * *"  # daily at 04:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM read_parquet(
+    {{ if dev }}'s3://example-bucket/analytics/events/dt=2026-08-27/hour=*/*.parquet'{{ else }}'s3://example-bucket/analytics/events/dt=*/hour=*/*.parquet'{{ end }},
+    union_by_name = true
+  )
+
+output:
+  connector: duckdb
+  materialize: true

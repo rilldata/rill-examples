@@ -1,0 +1,36 @@
+# Scenario: establish the simplest non-incremental baseline for a small or moderately sized source table.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: every refresh re-runs the full source query and replaces the materialized DuckDB output.
+# Use when: a full scan is affordable and consistent full-history results matter more than incremental cost.
+# Trade-off: there is no partition bookkeeping, so runtime and warehouse cost grow with source history.
+# Development: the template limits the source query to one recent day without changing production SQL.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: snowflake_00_full_refresh
+connector: snowflake
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+
+refresh:
+  cron: "0 4 * * *"  # daily at 04:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  {{ if dev }}
+  WHERE event_time >= DATEADD(day, -1, CURRENT_TIMESTAMP())
+  {{ end }}
+
+output:
+  connector: duckdb
+  materialize: true

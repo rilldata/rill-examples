@@ -1,0 +1,69 @@
+# Scenario: handle rewritten object prefixes when the files can contain events from more than one hour.
+# Source and output: Exports data from S3 into a materialized DuckDB table.
+# Flow: glob discovery re-queues an hour prefix whose updated_on advanced; merge then upserts its rows by event_id.
+# Strategy: merge upserts rows by event_id instead of replacing every row of an output partition.
+# Prefer scenario 01: partition_overwrite is idempotent by construction; choose merge only when a partition column is unavailable.
+# Unique key: event_id must be stable, non-null, and unique, or merge can update the wrong row or leave duplicates.
+# Caveat: merge updates and inserts, but it never deletes; a row removed from a rewritten file stays in the output.
+# Watermark contrast: this example deliberately keeps the plain updated_on listing column; scenarios 01, 02, and 04 compute a lateness window instead.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+# Retry error reference: https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
+# DuckDB S3 reference: https://duckdb.org/docs/stable/core_extensions/httpfs/s3api
+type: model
+name: s3_03_hourly_merge_late
+connector: duckdb  # DuckDB reads the objects; the s3 connector supplies credentials.
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: updated_on  # Object-store modification time from the glob listing; a later value re-queues that prefix.
+partitions_concurrency: 6  # Maximum partitions processed in parallel; tune to request limits.
+timeout: 20m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "5 * * * *"  # five minutes after every hour; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each leaf hour directory is one independently tracked partition.
+  glob:
+    connector: s3
+    path: s3://example-bucket/analytics/events/dt=*/hour=*
+    partition: directory  # Emit directories, not individual files, so one partition covers a whole hour.
+
+dev:  # Restrict local development to a single known date.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    glob:
+      connector: s3
+      path: s3://example-bucket/analytics/events/dt=2026-08-27/hour=*
+      partition: directory
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM read_parquet('{{ .partition.uri }}/*.parquet', union_by_name = true)
+
+retry:  # Retries apply to transient execution failures, not invalid SQL or schema errors.
+  attempts: 4  # Total attempts, including retries after the first failure.
+  delay: 15s  # Initial wait between attempts.
+  exponential_backoff: true  # Increase the delay after each failed attempt.
+  if_error_matches:  # Explicit matches replace Rill defaults; DuckDB surfaces S3 responses as IO and HTTP errors.
+    - ".*HTTP 5[0-9]{2}.*"  # S3 or the gateway returned a 5xx response; back off and retry.
+    - ".*SlowDown.*"  # S3 request-rate throttling on a hot prefix.
+    - ".*RequestTimeout.*"  # The connection to S3 timed out before the object was fully read.
+    - ".*InternalError.*"  # S3 reported a transient internal failure.
+    - ".*Connection reset by peer.*"  # The TCP connection dropped mid-transfer.
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id
