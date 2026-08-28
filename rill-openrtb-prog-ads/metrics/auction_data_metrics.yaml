@@ -3,7 +3,7 @@
 # This file was generated using AI.
 
 version: 1
-type: metrics_view 
+type: metrics_view
 
 display_name: Auction Data
 connector: duckdb
@@ -14,75 +14,75 @@ dimensions:
   - name: app_site_name
     display_name: App Site Name
     column: app_site_name
-    tags: [inventory]
+    tags: [ inventory ]
   - name: app_site_domain
     display_name: App Site Domain
     column: app_site_domain
-    tags: [inventory]
+    tags: [ inventory ]
   - name: pub_name
     display_name: Pub Name
     column: pub_name
-    tags: [inventory]
+    tags: [ inventory ]
   - name: app_site_cat
     display_name: App Site Cat
     column: app_site_cat
-    tags: [inventory]
+    tags: [ inventory ]
   - name: ad_size
     display_name: Ad Size
     column: ad_size
-    tags: [inventory]
+    tags: [ inventory ]
   - name: device_region
     display_name: Device Region
     column: device_region
-    tags: [device]
+    tags: [ device ]
   - name: device_osv
     display_name: Device Osv
     column: device_osv
-    tags: [device]
+    tags: [ device ]
   - name: bid_floor_bucket
     display_name: Bid Floor Bucket
     column: bid_floor_bucket
-    tags: [pricing]
+    tags: [ pricing ]
   - name: platform_browser
     display_name: Platform Browser
     column: platform_browser
-    tags: [device]
+    tags: [ device ]
   - name: device_os
     display_name: Device Os
     column: device_os
-    tags: [device]
+    tags: [ device ]
   - name: device_type
     display_name: Device Type
     column: device_type
-    tags: [device]
+    tags: [ device ]
   - name: ad_position
     display_name: Ad Position
     column: ad_position
-    tags: [inventory]
+    tags: [ inventory ]
   - name: video_max_duration_bucket
     display_name: Video Max Duration Bucket
     column: video_max_duration_bucket
-    tags: [auction]
+    tags: [ auction ]
   - name: video_min_duration_bucket
     display_name: Video Min Duration Bucket
     column: video_min_duration_bucket
-    tags: [auction]
+    tags: [ auction ]
   - name: placement_type
     display_name: Placement Type
     column: placement_type
-    tags: [inventory]
+    tags: [ inventory ]
   - name: auction_type
     display_name: Auction Type
     column: auction_type
-    tags: [auction]
+    tags: [ auction ]
   - name: app_or_site
     display_name: App Or Site
     column: app_or_site
-    tags: [inventory]
+    tags: [ inventory ]
   - name: __time
     display_name: Time
     column: __time
-    tags: [time]
+    tags: [ time ]
 
 measures:
   - name: total_rows_measure_measure
@@ -90,46 +90,50 @@ measures:
     expression: COUNT(*)
     description: Total number of records in auction_data.
     format_preset: humanize
-    tags: [others]
+    tags: [ others ]
   - name: total_bid_requests_measure_measure
     display_name: Total Bid Requests
     expression: SUM(bid_request_cnt)
     description: Sum of bid requests across all records.
     format_preset: humanize
-    tags: [requests]
+    tags: [ requests ]
   - name: average_bid_requests_per_row_measure_measure
     display_name: Average Bid Requests per Row
     expression: AVG(bid_request_cnt)
-    description: Average bid_request_cnt value per record.
+    description: Average bid_request_cnt value
     format_preset: humanize
-    tags: [requests]
+    tags:
+      - requests
+    valid_percent_of_total: false
+    lower_is_better: false
   - name: total_has_bid_floor_count_measure_measure
     display_name: Total Has Bid Floor Count
     expression: SUM(has_bid_floor_cnt)
-    description: Total count of records/requests flagged as having a bid floor (summed from has_bid_floor_cnt).
+    description: Total count of records/requests flagged as having a bid floor
+      (summed from has_bid_floor_cnt).
     format_preset: humanize
-    tags: [pricing]
+    tags: [ pricing ]
   - name: average_bid_floor_measure_measure
     display_name: Average Bid Floor
     expression: AVG(bid_floor)
     description: Average bid floor value across all records.
     format_preset: humanize
-    tags: [pricing]
+    tags: [ pricing ]
   - name: minimum_bid_floor_measure_measure
     display_name: Minimum Bid Floor
     expression: MIN(bid_floor)
     description: Lowest bid floor value observed.
     format_preset: humanize
-    tags: [pricing]
+    tags: [ pricing ]
   - name: maximum_bid_floor_measure_measure
     display_name: Maximum Bid Floor
     expression: MAX(bid_floor)
     description: Highest bid floor value observed.
     format_preset: humanize
-    tags: [pricing]
+    tags: [ pricing ]
   - name: distinct_publishers_measure_measure
     display_name: Distinct Publishers
     expression: COUNT(DISTINCT pub_name)
     description: Number of unique publishers (pub_name) represented in the data.
     format_preset: humanize
-    tags: [inventory]
+    tags: [ inventory ]

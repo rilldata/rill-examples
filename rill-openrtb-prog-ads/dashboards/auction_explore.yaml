@@ -3,6 +3,10 @@
 
 type: explore
 
+tags:
+  - explore
+  - auctions
+
 display_name: "Programmatic Ads Auction"
 metrics_view: auction_metrics
 

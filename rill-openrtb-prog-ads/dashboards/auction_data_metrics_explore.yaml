@@ -3,6 +3,10 @@
 
 type: explore
 
+tags:
+  - explore
+  - auctions
+
 display_name: "Auction Data dashboard"
 metrics_view: auction_data_metrics
 
