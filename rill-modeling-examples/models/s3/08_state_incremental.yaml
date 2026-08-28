@@ -1,0 +1,63 @@
+# Scenario: show dbt-style state-based incremental ingestion and why partitions are the preferred alternative.
+# Source and output: Exports data from S3 into a materialized DuckDB table.
+# Flow: Rill stores the state query result after each run; the next run filters the source with that stored watermark.
+# Strategy: merge by event_id, because a state filter cannot guarantee that a row is loaded exactly once.
+# Trade-off: state is not idempotent. A failed or partially applied run cannot be replayed the way a partition can.
+# Constraint: state and partitions are mutually exclusive, so there is no per-partition retry or targeted backfill.
+# Object-store caveat: the filter runs after DuckDB opens every matching object, so this saves writes but not list and read cost.
+# Prefer scenario 01 or 02, which read only the prefixes that actually changed.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: s3_08_state_incremental
+connector: duckdb  # DuckDB reads the objects; the s3 connector supplies credentials.
+incremental: true  # Reuse the stored state instead of rewriting the full output on every run.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+timeout: 30m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "0 3 * * *"  # daily at 03:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+state:  # Evaluated after each successful run; the result is available as .state in the next run.
+  connector: duckdb  # State is computed against the DuckDB output table.
+  sql: SELECT MAX(updated_at) AS max_updated_at FROM s3_08_state_incremental
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM read_parquet('s3://example-bucket/analytics/events/dt=*/hour=*/*.parquet', union_by_name = true)
+  {{ if incremental }}
+  WHERE updated_at > CAST('{{ .state.max_updated_at }}' AS TIMESTAMP)
+  {{ end }}
+
+dev:  # Bound the local initial load; without partitions the first run would otherwise read every object.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  sql: |
+    SELECT
+      event_id,
+      event_time,
+      updated_at,
+      user_id,
+      region,
+      event_type,
+      revenue
+    FROM read_parquet('s3://example-bucket/analytics/events/dt=2026-08-27/hour=*/*.parquet', union_by_name = true)
+    {{ if incremental }}
+    WHERE updated_at > CAST('{{ .state.max_updated_at }}' AS TIMESTAMP)
+    {{ end }}
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id

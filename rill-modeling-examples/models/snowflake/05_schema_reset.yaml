@@ -1,0 +1,52 @@
+# Scenario: demonstrate a breaking schema or semantic change that must be consistent across all historical rows.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: monthly partitions bound each source query, but a definition change causes the output to be rebuilt.
+# Change behavior: reset automatically drops and recreates the model after its specification changes.
+# Use when: renaming columns, changing types, or changing business logic makes mixed historical schemas unsafe.
+# Trade-off: reset is operationally simple but can trigger an expensive full-history source scan.
+# Compare: scenario 04 uses patch when mixed historical logic is acceptable.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: snowflake_05_schema_reset
+connector: snowflake
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: reset  # Definition changes automatically rebuild all historical output.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+
+refresh:
+  cron: "0 3 1 * *"  # monthly on day 1 at 03:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: snowflake
+  sql: |
+    SELECT DISTINCT DATE_TRUNC('MONTH', event_time)::DATE AS partition_month
+    FROM analytics.events
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: snowflake
+    sql: SELECT DATE_TRUNC('MONTH', CURRENT_DATE())::DATE AS partition_month
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    DATE_TRUNC('MONTH', event_time)::DATE AS event_month,
+    updated_at,
+    CAST(revenue AS NUMBER(18, 4)) AS revenue_amount,
+    user_id,
+    region,
+    event_type
+  FROM analytics.events
+  WHERE event_time >= '{{ .partition.partition_month }}'::TIMESTAMP_NTZ
+    AND event_time < DATEADD(month, 1, '{{ .partition.partition_month }}'::TIMESTAMP_NTZ)
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_month  # Column identifying the output rows that partition_overwrite replaces.

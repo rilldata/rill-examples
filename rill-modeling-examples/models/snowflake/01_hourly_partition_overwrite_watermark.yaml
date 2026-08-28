@@ -1,0 +1,84 @@
+# Scenario: the recommended incremental pattern: hourly partitions replaced idempotently, with automatic late-data handling.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: partition SQL returns each recent closed hour with MAX(updated_at); an advancing watermark re-queues that hour.
+# Recommended: partition_overwrite for idempotency, change_mode patch for cheap definition changes, and a watermark for late data.
+# Strategy: partition_overwrite replaces every row for the hour, so a retried or re-queued hour never duplicates rows.
+# Change behavior: patch adopts a new definition immediately instead of triggering an automatic full-history rebuild.
+# Watermark: LEAST(now, hour + 3h) equals now while the hour is inside its lateness window, then freezes at a constant.
+# Late data: the hour is therefore re-queued on every refresh for three hours, and is never re-queued automatically after that.
+# Development: only the last few closed hours are discovered, keeping local scans small.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+# Retry error reference: https://docs.snowflake.com/en/developer-guide/sql-api/reference
+# Driver retry format: https://github.com/snowflakedb/gosnowflake/blob/v1.15.0/retry.go
+type: model
+name: snowflake_01_hourly_partition_overwrite_watermark
+connector: snowflake
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: watermark_interval  # Any expression works, not just a column: this one advances with the clock, then freezes.
+partitions_concurrency: 4  # Maximum partitions processed in parallel; tune to source capacity.
+timeout: 20m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "5 * * * *"  # five minutes after every hour; interpreted in time_zone (production by default). # At 5 minutes past the hour, every hour, every day
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: snowflake
+  sql: |
+    SELECT
+      DATE_TRUNC('HOUR', event_time) AS partition_hour,
+      LEAST(
+        CURRENT_TIMESTAMP()::TIMESTAMP_NTZ,
+        DATEADD(hour, 3, DATE_TRUNC('HOUR', event_time))
+      ) AS watermark_interval
+    FROM analytics.events
+    WHERE event_time >= DATEADD(hour, -48, CURRENT_TIMESTAMP())
+      AND event_time < DATE_TRUNC('HOUR', CURRENT_TIMESTAMP())
+    GROUP BY 1
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: snowflake
+    sql: |
+      SELECT
+        DATE_TRUNC('HOUR', event_time) AS partition_hour,
+        LEAST(
+          CURRENT_TIMESTAMP()::TIMESTAMP_NTZ,
+          DATEADD(hour, 3, DATE_TRUNC('HOUR', event_time))
+        ) AS watermark_interval
+      FROM analytics.events
+      WHERE event_time >= DATEADD(hour, -3, CURRENT_TIMESTAMP())
+        AND event_time < DATE_TRUNC('HOUR', CURRENT_TIMESTAMP())
+      GROUP BY 1
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    DATE_TRUNC('HOUR', event_time) AS event_hour,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  WHERE event_time >= '{{ .partition.partition_hour }}'::TIMESTAMP_NTZ
+    AND event_time < DATEADD(hour, 1, '{{ .partition.partition_hour }}'::TIMESTAMP_NTZ)
+
+retry:  # Retries apply to transient execution failures, not invalid SQL or schema errors.
+  attempts: 5  # Total attempts, including retries after the first failure.
+  delay: 10s  # Initial wait between attempts.
+  exponential_backoff: true  # Increase the delay after each failed attempt.
+  if_error_matches:  # Explicit matches replace Rill defaults; gosnowflake exposes this HTTP Status form.
+    - ".*HTTP Status: (408|429|5[0-9]{2}).*"  # Request timeout, rate limit, or server failure after driver retries.
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_hour  # Column identifying the output rows that partition_overwrite replaces.

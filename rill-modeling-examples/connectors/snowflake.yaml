@@ -1,0 +1,7 @@
+# Scenario: Read-only Snowflake source connector shared by the Snowflake examples.
+# A DSN keeps authentication details out of version control. Set a finite requestTimeout (for example, 60 seconds)
+# so gosnowflake can return an HTTP Status error before the model timeout when demonstrating outer Rill retries.
+type: connector
+driver: snowflake
+dsn: "{{ .env.SNOWFLAKE_DSN }}"
+parallel_fetch_limit: 4

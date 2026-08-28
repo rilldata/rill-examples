@@ -1,0 +1,83 @@
+# Scenario: the recommended incremental pattern: hourly partitions replaced idempotently, with automatic late-data handling.
+# Source and output: Exports data from ClickHouse into a materialized DuckDB table.
+# Flow: partition SQL returns each recent closed hour with MAX(updated_at); an advancing watermark re-queues that hour.
+# Recommended: partition_overwrite for idempotency, change_mode patch for cheap definition changes, and a watermark for late data.
+# Strategy: partition_overwrite replaces every row for the hour, so a retried or re-queued hour never duplicates rows.
+# Change behavior: patch adopts a new definition immediately instead of triggering an automatic full-history rebuild.
+# Watermark: LEAST(now, hour + 3h) equals now while the hour is inside its lateness window, then freezes at a constant.
+# Late data: the hour is therefore re-queued on every refresh for three hours, and is never re-queued automatically after that.
+# Development: only the last few closed hours are discovered, keeping local scans small.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+# Runtime note: Current Rill releases do not support direct ClickHouse-to-DuckDB execution; this disabled spec is conceptual.
+# Retry error references: https://clickhouse.com/docs/concepts/features/configuration/settings/memory-overcommit and https://clickhouse.com/docs/reference/system-tables/errors
+# Driver error format: https://github.com/ClickHouse/clickhouse-go/blob/v2.41.0/lib/proto/exception.go
+type: model
+name: clickhouse_01_hourly_partition_overwrite_watermark
+connector: clickhouse
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: watermark_interval  # Any expression works, not just a column: this one advances with the clock, then freezes.
+partitions_concurrency: 4  # Maximum partitions processed in parallel; tune to source capacity.
+timeout: 20m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "5 * * * *"  # five minutes after every hour; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: clickhouse
+  sql: |
+    SELECT
+      toStartOfHour(event_time) AS partition_hour,
+      least(now(), toStartOfHour(event_time) + INTERVAL 3 HOUR) AS watermark_interval
+    FROM analytics.events
+    WHERE event_time >= now() - INTERVAL 48 HOUR
+      AND event_time < toStartOfHour(now())
+    GROUP BY 1
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: clickhouse
+    sql: |
+      SELECT
+        toStartOfHour(event_time) AS partition_hour,
+        least(now(), toStartOfHour(event_time) + INTERVAL 3 HOUR) AS watermark_interval
+      FROM analytics.events
+      WHERE event_time >= now() - INTERVAL 3 HOUR
+        AND event_time < toStartOfHour(now())
+      GROUP BY 1
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    toStartOfHour(event_time) AS event_hour,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  WHERE event_time >= parseDateTimeBestEffort('{{ .partition.partition_hour }}')
+    AND event_time < parseDateTimeBestEffort('{{ .partition.partition_hour }}') + INTERVAL 1 HOUR
+
+retry:  # Retries apply to transient execution failures, not invalid SQL or schema errors.
+  attempts: 5  # Total attempts, including retries after the first failure.
+  delay: 10s  # Initial wait between attempts.
+  exponential_backoff: true  # Increase the delay after each failed attempt.
+  if_error_matches:  # Explicit matches replace Rill defaults; clickhouse-go exposes codes and messages, not names.
+    - ".*OvercommitTracker.*"  # ClickHouse memory overcommit selected or rejected a query.
+    - ".*code: 202, message:.*"  # TOO_MANY_SIMULTANEOUS_QUERIES: concurrency admission rejected the query.
+    - ".*code: 209, message:.*"  # SOCKET_TIMEOUT: a ClickHouse socket operation timed out.
+    - ".*code: 210, message:.*"  # NETWORK_ERROR: ClickHouse reported a network-layer failure.
+    - ".*code: 745, message:.*"  # SERVER_OVERLOADED: server admission control rejected the query.
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_hour  # Column identifying the output rows that partition_overwrite replaces.

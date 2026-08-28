@@ -1,0 +1,64 @@
+# Scenario: show dbt-style state-based incremental ingestion and why partitions are the preferred alternative.
+# Source and output: Exports data from BigQuery into a materialized DuckDB table.
+# Flow: Rill stores the state query result after each run; the next run filters the source with that stored watermark.
+# Strategy: merge by event_id, because a state filter cannot guarantee that a row is loaded exactly once.
+# Trade-off: state is not idempotent. A failed or partially applied run cannot be replayed the way a partition can.
+# Constraint: state and partitions are mutually exclusive, so there is no per-partition retry or targeted backfill.
+# Prefer scenario 01 or 02 unless the source genuinely has no column that can define partitions.
+# Boundary: the filter is strictly greater than the stored value, so updated_at must be monotonic and set on every change.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: bigquery_08_state_incremental
+connector: bigquery
+incremental: true  # Reuse the stored state instead of rescanning the full source on every run.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+timeout: 30m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "0 3 * * *"  # daily at 03:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+state:  # Evaluated after each successful run; the result is available as .state in the next run.
+  connector: duckdb  # State is computed against the DuckDB output table, not the source warehouse.
+  sql: SELECT MAX(updated_at) AS max_updated_at FROM bigquery_08_state_incremental
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM `analytics.events`
+  {{ if incremental }}
+  WHERE updated_at > TIMESTAMP('{{ .state.max_updated_at }}')
+  {{ end }}
+
+dev:  # Bound the local initial load; without partitions the first run would otherwise scan all history.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  sql: |
+    SELECT
+      event_id,
+      event_time,
+      updated_at,
+      user_id,
+      region,
+      event_type,
+      revenue
+    FROM `analytics.events`
+    WHERE event_time >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 2 DAY)
+    {{ if incremental }}
+      AND updated_at > TIMESTAMP('{{ .state.max_updated_at }}')
+    {{ end }}
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id

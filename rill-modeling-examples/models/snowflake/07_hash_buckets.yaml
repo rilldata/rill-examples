@@ -1,0 +1,62 @@
+# Scenario: split a very large table by stable hash buckets when time windows are skewed or poorly distributed.
+# Source and output: Exports data from Snowflake into a materialized DuckDB table.
+# Flow: each bucket is a partition and MAX(updated_at) re-queues buckets containing changed events.
+# Strategy: merge upserts bucket results by event_id, so reprocessing a bucket updates instead of duplicates.
+# Trade-off: watermark discovery groups the source by hash and may be costlier than native time partition pruning.
+# Prefer scenario 01 or 02 when the source has a usable time column; hash buckets are a fallback for skewed data.
+# Development: two buckets provide representative behavior while reducing local scan and write volume.
+# Watermark contrast: hash buckets have no time key to add an interval to, so this example must use the data-driven MAX(updated_at) form.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: snowflake_07_hash_buckets
+connector: snowflake
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: changed_at  # Timestamp column from partition SQL; advances re-queue an existing partition.
+partitions_concurrency: 8  # Maximum partitions processed in parallel; tune to source capacity.
+
+refresh:
+  cron: "0 1 * * *"  # daily at 01:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each result row defines one independently tracked partition.
+  connector: snowflake
+  sql: |
+    SELECT
+      MOD(ABS(HASH(event_id)), 16) AS bucket_id,
+      MAX(updated_at) AS changed_at
+    FROM analytics.events
+    GROUP BY 1
+
+dev:  # Override partition discovery locally to keep development scans small.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    connector: snowflake
+    sql: |
+      SELECT
+        MOD(ABS(HASH(event_id)), 2) AS bucket_id,
+        MAX(updated_at) AS changed_at
+      FROM analytics.events
+      GROUP BY 1
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM analytics.events
+  WHERE MOD(ABS(HASH(event_id)), 16) = {{ .partition.bucket_id }}
+
+output:
+  connector: duckdb
+  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
+  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
+    - event_id

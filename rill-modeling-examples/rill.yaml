@@ -1,0 +1,6 @@
+# Scenario: Safe project shell for browsing the model gallery.
+# The individual model resources remain disabled until explicitly enabled.
+compiler: rillv1
+title: Rill Model Patterns
+description: Partition-based and state-based model examples for Snowflake, BigQuery, ClickHouse, and S3
+olap_connector: duckdb

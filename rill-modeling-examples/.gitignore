@@ -1,0 +1,6 @@
+.env
+.rill/
+data/
+*.db
+*.duckdb
+.DS_Store

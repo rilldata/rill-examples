@@ -1,0 +1,80 @@
+# Scenario: apply the recommended object-storage pattern at a daily grain when hourly prefixes are too small to be worth tracking.
+# Source and output: Exports data from S3 into a materialized DuckDB table.
+# Flow: glob discovery lists each date directory with its updated_on timestamp; a rewritten date becomes pending again.
+# Recommended: the same partition_overwrite, change_mode patch, and watermark combination as scenario 01, one day per partition.
+# Strategy: partition_overwrite replaces the whole day, so reprocessing a corrected day stays idempotent.
+# Change behavior: patch keeps existing days untouched; backfill explicitly when a change must apply to history.
+# Watermark: LEAST(now, date + 1 day) equals now while the day is inside its window, then freezes; GREATEST folds in updated_on.
+# Trade-off: fewer, larger partitions reduce bookkeeping but make each retry more expensive.
+# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
+# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
+# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
+type: model
+name: s3_02_daily_partition_overwrite_watermark
+connector: duckdb  # DuckDB reads the objects; the s3 connector supplies credentials.
+incremental: true  # Track completed partitions and process only new or re-queued partitions.
+change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
+materialize: true  # Persist the cross-connector result for fast downstream queries.
+partitions_watermark: watermark_interval  # Any expression works, not just a listing column: this one advances with the clock, then freezes.
+partitions_concurrency: 4  # Maximum partitions processed in parallel; tune to request limits.
+timeout: 30m  # Abort one model execution after this duration.
+
+refresh:
+  cron: "0 2 * * *"  # daily at 02:00; interpreted in time_zone (production by default).
+  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
+  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+
+partitions:  # Each leaf date directory is one independently tracked partition.
+  glob:
+    connector: s3
+    path: s3://example-bucket/analytics/events/dt=*
+    partition: directory  # Emit directories, not individual files, so one partition covers a whole date.
+    transform_sql: |  # Project only uri and the watermark; keeping updated_on would make it part of the partition identity.
+      SELECT
+        uri,
+        GREATEST(
+          CAST(updated_on AS TIMESTAMP),
+          LEAST(
+            CAST(now() AS TIMESTAMP),
+            strptime(regexp_extract(uri, 'dt=(\d{4}-\d{2}-\d{2})', 1), '%Y-%m-%d')
+            + INTERVAL 1 DAY
+          )
+        ) AS watermark_interval
+      FROM {{ .table }}
+
+dev:  # Restrict local development to a single known date.
+  change_mode: reset  # Rebuild only the small development slice after edits.
+  partitions:
+    glob:
+      connector: s3
+      path: s3://example-bucket/analytics/events/dt=2026-08-27
+      partition: directory
+      transform_sql: |  # Project only uri and the watermark; keeping updated_on would make it part of the partition identity.
+        SELECT
+          uri,
+          GREATEST(
+            CAST(updated_on AS TIMESTAMP),
+            LEAST(
+              CAST(now() AS TIMESTAMP),
+              strptime(regexp_extract(uri, 'dt=(\d{4}-\d{2}-\d{2})', 1), '%Y-%m-%d')
+              + INTERVAL 1 DAY
+            )
+          ) AS watermark_interval
+        FROM {{ .table }}
+
+sql: |
+  SELECT
+    event_id,
+    event_time,
+    CAST(event_time AS DATE) AS event_date,
+    updated_at,
+    user_id,
+    region,
+    event_type,
+    revenue
+  FROM read_parquet('{{ .partition.uri }}/**/*.parquet', union_by_name = true)
+
+output:
+  connector: duckdb
+  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
+  partition_by: event_date  # Column identifying the output rows that partition_overwrite replaces.
