@@ -1,6 +1,8 @@
 # Explore YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
+tags: ["canvas", "executive", "auctions", "bids"]
+
 type: canvas
 display_name: Executive summary report
 defaults:

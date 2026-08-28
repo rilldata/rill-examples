@@ -2,6 +2,7 @@
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
 type: canvas
+tags: ["dashboard", "canvas", "executive", "overview", "themed"]
 display_name: "[Themed] Executive summary report"
 defaults:
   time_range: PT24H
@@ -164,7 +165,7 @@ rows:
             - clicks
           row_dimensions:
             - advertiser_name
-          time_filters: tr=P7D&compare_tr=rill-PW&grain=day
+          time_filters: "tr=P7D&compare_tr=rill-PW&grain=day"
           title: Per advertiser metrics – last 7 days
         width: 12
     height: 300px
