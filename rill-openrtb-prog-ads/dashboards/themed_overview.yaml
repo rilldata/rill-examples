@@ -2,7 +2,7 @@
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
 type: canvas
-tags: ["dashboard", "canvas", "executive", "overview", "themed"]
+tags: ["canvas", "executive", "auctions", "bids"]
 display_name: "[Themed] Executive summary report"
 defaults:
   time_range: PT24H
