@@ -1,7 +1,7 @@
 # Explore YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
-tags: ["canvas", "executive", "auctions", "bids"]
+tags: [ "canvas", "executive", "auctions", "bids" ]
 
 type: canvas
 display_name: Executive summary report
@@ -9,6 +9,155 @@ defaults:
   time_range: PT24H
   comparison_mode: time
 rows:
+  - tabs:
+      - label: Overview
+        rows:
+          [
+            {
+                items:
+                  [
+                    {
+                        kpi_grid:
+                          {
+                            metrics_view: auction_metrics,
+                            measures: [ requests, avg_bid_floor, 1d_qps ],
+                            comparison: [ delta, percent_change ],
+                            sparkline: right,
+                            title: Auctions
+                          },
+                        width: 6
+                      }
+                  ]
+              },
+            {
+                items:
+                  [
+                    {
+                        leaderboard:
+                          {
+                            dimensions: [ another_time_column, app_site_name ],
+                            measures: [ requests ],
+                            metrics_view: auction_metrics,
+                            num_rows: 10
+                          },
+                        width: 12
+                      },
+                    {
+                        combo_chart:
+                          {
+                            color: { field: measures, legendOrientation: top, type: value },
+                            metrics_view: auction_metrics,
+                            x: { field: pub_name, limit: 20, type: nominal },
+                            y1: { field: 1d_qps, mark: bar, type: quantitative, zeroBasedOrigin: true },
+                            y2:
+                              {
+                                field: avg_bid_floor,
+                                mark: line,
+                                type: quantitative,
+                                zeroBasedOrigin: true
+                              }
+                          },
+                        width: 12
+                      }
+                  ]
+              }
+          ]
+      - label: Detailed
+        rows:
+          [
+            {
+                items:
+                  [
+                    {
+                        stacked_bar:
+                          {
+                            metrics_view: bids_metrics,
+                            description: "",
+                            color: { field: device_type, type: nominal },
+                            vl_config: "{
+
+                              \  \"range\": {
+
+                              \    \"category\": [
+
+                              \      \"#1f77b4\",
+
+                              \      \"#ff7f0e\",
+
+                              \      \"#2ca02c\",
+
+                              \      \"#d62728\",
+
+                              \      \"#9467bd\",
+
+                              \      \"#8c564b\",
+
+                              \      \"#e377c2\",
+
+                              \      \"#7f7f7f\",
+
+                              \      \"#bcbd22\",
+
+                              \      \"#17becf\"
+
+                              \    ]
+
+                              \  }
+
+                              }",
+                            x: { field: __time, limit: 20, sort: -y, type: temporal },
+                            y: { field: overall_spend, type: quantitative, zeroBasedOrigin: true }
+                          },
+                        width: 6
+                      },
+                    {
+                        kpi_grid:
+                          {
+                            metrics_view: bids_metrics,
+                            measures: [ overall_spend, total_bids, impressions ],
+                            comparison: [ delta, percent_change, previous ],
+                            sparkline: right,
+                            title: Bids
+                          },
+                        width: 6
+                      }
+                  ]
+              },
+            {
+                items:
+                  [
+                    {
+                        donut_chart:
+                          {
+                            metrics_view: auction_metrics,
+                            innerRadius: 50,
+                            show_other: true,
+                            labels: { show: true, format: percent, threshold: 5 },
+                            color: { type: nominal, field: device_state, limit: 20, sort: -measure },
+                            measure: { type: quantitative, field: requests, showTotal: true },
+                            title: "",
+                            description: ""
+                          },
+                        width: 6
+                      }
+                  ]
+              },
+            {
+                items:
+                  [
+                    {
+                        line_chart:
+                          {
+                            metrics_view: auction_metrics,
+                            color: primary,
+                            x: { type: temporal, field: __time, sort: -y, limit: 20 },
+                            y: { type: quantitative, field: requests, zeroBasedOrigin: true }
+                          },
+                        width: 12
+                      }
+                  ]
+              }
+          ]
   - items:
       - markdown:
           title: ""
@@ -19,136 +168,6 @@ rows:
             vertical: middle
         width: 12
     height: 80px
-  - items:
-      - kpi_grid:
-          metrics_view: bids_metrics
-          measures:
-            - overall_spend
-            - total_bids
-            - impressions
-          comparison:
-            - delta
-            - percent_change
-            - previous
-          sparkline: right
-          title: Bids
-        width: 6
-      - kpi_grid:
-          metrics_view: auction_metrics
-          measures:
-            - requests
-            - avg_bid_floor
-            - 1d_qps
-          comparison:
-            - delta
-            - percent_change
-          sparkline: right
-          title: Auctions
-        width: 6
-    height: 300px
-  - items:
-      - stacked_bar:
-          metrics_view: bids_metrics
-          description: ""
-          color:
-            field: device_type
-            type: nominal
-          vl_config: |-
-            {
-              "range": {
-                "category": [
-                  "#1f77b4",
-                  "#ff7f0e",
-                  "#2ca02c",
-                  "#d62728",
-                  "#9467bd",
-                  "#8c564b",
-                  "#e377c2",
-                  "#7f7f7f",
-                  "#bcbd22",
-                  "#17becf"
-                ]
-              }
-            }
-          x:
-            field: __time
-            limit: 20
-            sort: -y
-            type: temporal
-          y:
-            field: overall_spend
-            type: quantitative
-            zeroBasedOrigin: true
-        width: 6
-      - donut_chart:
-          metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
-            limit: 20
-            sort: -measure
-          measure:
-            type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
-    height: 320px
-  - items:
-      - line_chart:
-          metrics_view: auction_metrics
-          color: primary
-          x:
-            type: temporal
-            field: __time
-            sort: -y
-            limit: 20
-          y:
-            type: quantitative
-            field: requests
-            zeroBasedOrigin: true
-        width: 12
-  - items:
-      - combo_chart:
-          color:
-            field: measures
-            legendOrientation: top
-            type: value
-          metrics_view: auction_metrics
-          x:
-            field: pub_name
-            limit: 20
-            type: nominal
-          y1:
-            field: 1d_qps
-            mark: bar
-            type: quantitative
-            zeroBasedOrigin: true
-          y2:
-            field: avg_bid_floor
-            mark: line
-            type: quantitative
-            zeroBasedOrigin: true
-        width: 12
-    height: 40px
-  - items:
-      - leaderboard:
-          dimensions:
-            - another_time_column
-            - app_site_name
-          measures:
-            - requests
-          metrics_view: auction_metrics
-          num_rows: 10
-        width: 12
-    height: 40px
   - items:
       - kpi_grid:
           metrics_view: auction_metrics
