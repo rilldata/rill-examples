@@ -25,6 +25,7 @@ models:
 
 features:
   cloud_editing: true
+  personal_canvases: true
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.
