@@ -201,6 +201,15 @@ dimensions:
     description: ""
     tags: ["Other"]
 
+security:
+  access: true
+  exclude:
+    - if: "'{{ .user.email }}' = 'adam.kabab@rilldata.com'"
+      names:
+        - total_bids
+        - impressions
+        - win_rate
+
 ai_instructions: |
   When you run queries with rill, you also include corresponding Rill Explore URLs in your answer. All URLs should start with the BASE_URL, which is defined below. 
 
