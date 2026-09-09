@@ -47,26 +47,30 @@ rows:
         width: 6
     height: 300px
   - items:
-      - donut_chart:
+      - combo_chart:
           metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
+          x:
+            type: temporal
+            field: __time
+            sort: -y
             limit: 20
-            sort: -measure
-          measure:
+          y1:
             type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
+            field: avg_bid_floor
+            zeroBasedOrigin: true
+            mark: bar
+          y2:
+            type: quantitative
+            field: 1d_qps
+            zeroBasedOrigin: true
+            mark: line
+          color:
+            type: value
+            field: measures
+            legendOrientation: top
+        width: 12
+    height: 40px
+  - items:
       - stacked_bar:
           metrics_view: bids_metrics
           description: ""
@@ -100,20 +104,43 @@ rows:
             type: quantitative
             zeroBasedOrigin: true
         width: 6
+      - donut_chart:
+          metrics_view: auction_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            type: nominal
+            field: device_state
+            limit: 20
+            sort: -measure
+          measure:
+            type: quantitative
+            field: requests
+            showTotal: true
+          title: ""
+          description: ""
+        width: 6
     height: 320px
   - items:
-      - line_chart:
+      - scatter_plot:
           metrics_view: auction_metrics
           color: primary
           x:
-            type: temporal
-            field: __time
-            sort: -y
-            limit: 20
-          y:
             type: quantitative
+            field: 1d_qps
+            zeroBasedOrigin: false
+          y:
             field: requests
+            type: quantitative
             zeroBasedOrigin: true
+          dimension:
+            type: nominal
+            field: platform_browser
+            limit: 10
         width: 12
     height: 40px
   - items:
