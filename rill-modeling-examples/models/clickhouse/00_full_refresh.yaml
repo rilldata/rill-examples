@@ -1,37 +1,52 @@
-# Scenario: establish the simplest non-incremental baseline for a small or moderately sized source table.
-# Source and output: Exports data from ClickHouse into a materialized DuckDB table.
-# Flow: every refresh re-runs the full source query and replaces the materialized DuckDB output.
-# Use when: a full scan is affordable and consistent full-history results matter more than incremental cost.
-# Trade-off: there is no partition bookkeeping, so runtime and warehouse cost grow with source history.
-# Development: the template limits the source query to one recent day without changing production SQL.
-# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
-# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
-# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
-# Runtime note: Current Rill releases do not support direct ClickHouse-to-DuckDB execution; this disabled spec is conceptual.
+# Scenario: full-refresh S3-to-ClickHouse baseline for a bounded Parquet dataset.
+# ClickHouse executes s3() and materializes the result as a MergeTree table.
 type: model
 name: clickhouse_00_full_refresh
 connector: clickhouse
-materialize: true  # Persist the cross-connector result for fast downstream queries.
+materialize: true
 
 refresh:
-  cron: "0 4 * * *"  # daily at 04:00; interpreted in time_zone (production by default).
-  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
-  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+  cron: "0 4 * * *"
+  time_zone: UTC
+  # disable: true
 
 sql: |
   SELECT
-    event_id,
-    event_time,
-    updated_at,
-    user_id,
-    region,
-    event_type,
-    revenue
-  FROM analytics.events
+    CAST(event_id AS UUID) AS event_id,
+    CAST(event_time AS DateTime64(3, 'UTC')) AS event_time,
+    toDate(event_time) AS event_date,
+    CAST(updated_at AS DateTime64(3, 'UTC')) AS updated_at,
+    CAST(user_id AS UInt64) AS user_id,
+    CAST(region AS String) AS region,
+    CAST(event_type AS String) AS event_type,
+    CAST(revenue AS Decimal(18, 4)) AS revenue
+  FROM s3(
+    's3://example-bucket/analytics/events/dt=*/hour=*/*.parquet',
+    '{{ .env.AWS_ACCESS_KEY_ID }}',
+    '{{ .env.AWS_SECRET_ACCESS_KEY }}',
+    'Parquet'
+  )
   {{ if dev }}
   WHERE event_time >= now() - INTERVAL 1 DAY
   {{ end }}
 
 output:
-  connector: duckdb
-  materialize: true
+  connector: clickhouse
+  partition_by: toYYYYMM(event_date)
+  order_by: (event_date, region, event_type, user_id, event_time, event_id)
+  primary_key: (event_date, region, event_type, user_id)
+  ttl: event_time + INTERVAL 365 DAY DELETE
+  query_settings: use_structure_from_insertion_table_in_table_functions = 0
+  columns: |
+    (
+      event_id UUID,
+      event_time DateTime64(3, 'UTC'),
+      event_date Date,
+      updated_at DateTime64(3, 'UTC'),
+      user_id UInt64,
+      region LowCardinality(String),
+      event_type LowCardinality(String),
+      revenue Decimal(18, 4),
+      INDEX idx_event_id event_id TYPE bloom_filter(0.01) GRANULARITY 4,
+      INDEX idx_user_id user_id TYPE bloom_filter(0.01) GRANULARITY 4
+    )

@@ -1,6 +1,6 @@
-# Scenario: Safe project shell for browsing the model gallery.
-# The individual model resources remain disabled until explicitly enabled.
+# Scenario: Metadata for the model gallery.
+# Starting this directory reconciles its resources; inspect or copy examples without starting the gallery root.
 compiler: rillv1
 title: Rill Model Patterns
-description: Partition-based and state-based model examples for Snowflake, BigQuery, ClickHouse, and S3
+description: Partition-based and state-based model examples, including production S3-to-ClickHouse ingestion
 olap_connector: duckdb
