@@ -32,7 +32,6 @@ rows:
               - width: 7
                 kpi_grid:
                   metrics_view: metrics_margin_metrics
-                  title: Last 4 Weeks
                   measures:
                     - total_cost
                     - total_revenue
@@ -44,6 +43,7 @@ rows:
                     - percent_change
                   sparkline: right
                   time_filters: tr=P4W&grain=day
+                  title: Last 4 Weeks
               - width: 5
                 heatmap:
                   color:
