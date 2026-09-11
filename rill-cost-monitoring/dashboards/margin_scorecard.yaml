@@ -1,14 +1,20 @@
-# Explore YAML
+# Canvas YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/canvas-dashboards
 
 type: canvas
+display_name: Margin Scorecard
+
+filters:
+  enable: false
+
 defaults:
   time_range: PT24H
   comparison_mode: time
-display_name: Margin Scorecard
+
 rows:
   - items:
-      - markdown:
+      - width: 12
+        markdown:
           title: ""
           description: ""
           content: |+
@@ -17,55 +23,241 @@ rows:
           alignment:
             horizontal: left
             vertical: middle
-        width: 12
     height: 40px
-  - items:
-      - kpi_grid:
-          metrics_view: metrics_margin_metrics
-          measures:
-            - total_cost
-            - total_revenue
-            - net_revenue
-            - gross_margin_percent
-            - unique_customers
-          comparison:
-            - delta
-            - percent_change
-          sparkline: right
-          time_filters: tr=P4W&grain=day
-          title: Last 4 Weeks
-        width: 12
-    height: 128px
-  - items:
-      - kpi_grid:
-          metrics_view: metrics_margin_metrics
-          measures:
-            - total_cost
-            - total_revenue
-            - net_revenue
-            - gross_margin_percent
-            - unique_customers
-          comparison:
-            - delta
-            - percent_change
-          sparkline: right
-          time_filters: tr=rill-QTD&grain=day
-          title: Quarter to date
-        width: 12
-    height: 128px
-  - items:
-      - table:
-          metrics_view: metrics_margin_metrics
-          columns:
-            - customer
-            - total_cost
-            - total_revenue
-            - net_revenue
-            - gross_margin_percent
-            - unique_customers
-          time_filters: tr=rill-QTD&compare_tr=rill-PP&grain=day
-          title: Margin by Customer - Quarter to date
-        width: 12
-    height: 300px
-filters:
-  enable: false
+  - name: overview
+    tabs:
+      - label: Overview
+        rows:
+          - items:
+              - width: 7
+                kpi_grid:
+                  metrics_view: metrics_margin_metrics
+                  measures:
+                    - total_cost
+                    - total_revenue
+                    - net_revenue
+                    - gross_margin_percent
+                    - unique_customers
+                  comparison:
+                    - delta
+                    - percent_change
+                  sparkline: right
+                  time_filters: tr=P4W&grain=day
+                  title: Last 4 Weeks
+              - width: 5
+                heatmap:
+                  color:
+                    field: total_cost
+                    legendOrientation: bottom
+                    type: quantitative
+                  dimension_filters: plan_name IN ('Standard Plan')
+                  metrics_view: metrics_margin_metrics
+                  show_data_labels: true
+                  time_filters: tr=rill-QTD&grain=day
+                  title: Total Cost (Standard Plan x SKU)
+                  x:
+                    field: plan_name
+                    limit: 12
+                    type: nominal
+                  y:
+                    field: sku_description
+                    limit: 8
+                    type: nominal
+            height: 128px
+          - items:
+              - table:
+                  metrics_view: metrics_margin_metrics
+                  columns:
+                    - customer
+                    - plan_name
+                    - total_cost
+                    - total_revenue
+                    - net_revenue
+                width: 12
+          - items:
+              - combo_chart:
+                  color:
+                    field: measures
+                    legendOrientation: top
+                    type: value
+                  description: ""
+                  metrics_view: metrics_margin_metrics
+                  time_filters: tr=P12W&grain=week
+                  title: Revenue & Cost (Last 12 Weeks)
+                  x:
+                    field: __time
+                    type: temporal
+                    showAxisTitle: false
+                  y1:
+                    field: total_cost
+                    mark: bar
+                    type: quantitative
+                    zeroBasedOrigin: true
+                  y2:
+                    field: total_revenue
+                    mark: line
+                    type: quantitative
+                    zeroBasedOrigin: true
+                width: 12
+            height: 40px
+          - items:
+              - width: 5
+                donut_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: Revenue Share by Plan (QTD)
+                  time_filters: tr=rill-QTD&grain=day
+                  innerRadius: 55
+                  color:
+                    field: plan_name
+                    type: nominal
+                    limit: 12
+                    sort: -measure
+                  measure:
+                    field: total_revenue
+                    type: quantitative
+                    showTotal: true
+              - width: 7
+                donut_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: Cost Share by Component (QTD)
+                  time_filters: tr=rill-QTD&grain=day
+                  innerRadius: 55
+                  color:
+                    field: component
+                    type: nominal
+                    limit: 12
+                    sort: -measure
+                  measure:
+                    field: total_cost
+                    type: quantitative
+                    showTotal: true
+            height: 320px
+      - label: Customers
+        rows:
+          - height: 320px
+            items:
+              - width: 12
+                bar_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: Net Revenue by Customer (Top 15, QTD)
+                  time_filters: tr=rill-QTD&grain=day
+                  x:
+                    field: customer
+                    type: nominal
+                    limit: 15
+                    sort: -y
+                    labelAngle: -45
+                  y:
+                    field: net_revenue
+                    type: quantitative
+                    zeroBasedOrigin: true
+          - height: 360px
+            items:
+              - width: 12
+                scatter_plot:
+                  metrics_view: metrics_margin_metrics
+                  title: Revenue vs Gross Margin % by Customer (QTD)
+                  time_filters: tr=rill-QTD&grain=day
+                  x:
+                    field: total_revenue
+                    type: quantitative
+                    zeroBasedOrigin: false
+                  y:
+                    field: gross_margin_percent
+                    type: quantitative
+                    zeroBasedOrigin: false
+                  dimension:
+                    field: customer
+                    type: nominal
+                    limit: 50
+                  size:
+                    field: net_revenue
+                    type: quantitative
+          - height: 380px
+            items:
+              - width: 12
+                table:
+                  metrics_view: metrics_margin_metrics
+                  title: Margin by Customer - Quarter to date
+                  columns:
+                    - customer
+                    - total_cost
+                    - total_revenue
+                    - net_revenue
+                    - gross_margin_percent
+                    - unique_customers
+                  time_filters: tr=rill-QTD&compare_tr=rill-PP&grain=day
+      - label: Cost Drivers
+        rows:
+          - height: 320px
+            items:
+              - width: 9
+                bar_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: Total Cost by Component (Top 10, QTD)
+                  time_filters: tr=rill-QTD&grain=day
+                  x:
+                    field: component
+                    type: nominal
+                    limit: 10
+                    sort: -y
+                    labelAngle: -45
+                  y:
+                    field: total_cost
+                    type: quantitative
+                    zeroBasedOrigin: true
+              - width: 3
+                bar_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: Total Cost by Region (Top 10, QTD)
+                  time_filters: tr=rill-QTD&grain=day
+                  x:
+                    field: location
+                    type: nominal
+                    limit: 10
+                    sort: -y
+                    labelAngle: -45
+                  y:
+                    field: total_cost
+                    type: quantitative
+                    zeroBasedOrigin: true
+          - height: 360px
+            items:
+              - combo_chart:
+                  color:
+                    field: measures
+                    legendOrientation: top
+                    type: value
+                  metrics_view: metrics_margin_metrics
+                  time_filters: tr=rill-QTD&grain=day
+                  title: Revenue vs Cost by Component (Top 12, QTD)
+                  x:
+                    field: component
+                    labelAngle: -45
+                    limit: 12
+                    sort: -y
+                    type: nominal
+                  y1:
+                    field: total_cost
+                    mark: bar
+                    type: quantitative
+                    zeroBasedOrigin: true
+                  y2:
+                    field: unique_customers
+                    mark: line
+                    type: quantitative
+                    zeroBasedOrigin: true
+                width: 12
+          - height: 380px
+            items:
+              - width: 12
+                table:
+                  metrics_view: metrics_margin_metrics
+                  title: Margin by Plan - Quarter to date
+                  time_filters: tr=rill-QTD&grain=day
+                  columns:
+                    - plan_name
+                    - total_revenue
+                    - total_cost
+                    - net_revenue
+                    - gross_margin_percent

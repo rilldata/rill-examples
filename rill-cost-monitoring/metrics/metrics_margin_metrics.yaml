@@ -15,58 +15,71 @@ dimensions:
     display_name: Customer
     column: company
     description: "The name of the customer"
+    tags: [customer, billing]
   - name: plan_name
     display_name: Plan Name
     column: plan_name
     description: "The name of the billing plan"
+    tags: [billing, customer]
   - name: location
     display_name: "Cost by Region"
     column: "location"
     description: "The region incurring costs"
+    tags: [geography, cost_allocation]
   - name: component
     display_name: Cost by Component
     column: component
     description: "The component generating costs"
+    tags: [infrastructure, cost_allocation]
   - name: app_name
     display_name: "Cost by App Name"
     column: "app_name"
     description: "The app generating costs"
+    tags: [product, cost_allocation]
   - name: sku_description
     display_name: "Cost by SKU"
     column: "sku_description"
     description: "The sku description for costs"
+    tags: [product, billing]
   - name: pipeline
     display_name: "Cost by Data Pipeline"
     column: "pipeline"
     description: "The pipeline incurring costs"
+    tags: [pipeline, infrastructure]
   - name: environment
     display_name: "Cost by Environment"
     column: "environment"
     description: "The environment incurring costs"
-    
+    tags: [environment, infrastructure]
+
 measures:
   - display_name: "Total Cost"
     expression: "SUM(cost)"
     name: total_cost
     description: "The sum of cost"
     format_preset: currency_usd
+    tags: [cost, finance, kpi]
   - display_name: "Total Revenue"
     expression: SUM(revenue)
     name: total_revenue
     description: The sum of revenue
     format_preset: currency_usd
+    tags: [revenue, finance, kpi]
   - display_name: "Net Revenue"
     expression: "SUM(revenue) - SUM(cost)"
     name: net_revenue
     description: "The sum of revenue minus the sum of cost"
     format_preset: currency_usd
+    tags: [margin, profitability, finance]
   - display_name: "Gross Margin %"
     expression: "(SUM(revenue) - SUM(cost))/SUM(revenue)"
     name: gross_margin_percent
     description: "Net revenue divided by sum of revenue"
     format_preset: percentage
+    tags: [margin, ratio, profitability]
   - display_name: "Unique Customers"
     expression: "COUNT(DISTINCT company)"
     name: unique_customers
     description: "The count of unique companies"
     format_preset: humanize
+    tags: [customer, kpi, finance]
