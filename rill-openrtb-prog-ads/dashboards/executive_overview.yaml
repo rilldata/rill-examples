@@ -147,17 +147,7 @@ rows:
             type: value
             field: measures
             legendOrientation: top
-        width: 6
-      - leaderboard:
-          metrics_view: auction_metrics
-          measures:
-            - requests
-          dimensions:
-            - __time
-            - another_time_column
-            - app_site_name
-          num_rows: 7
-        width: 6
+        width: 12
     height: 40px
   - items:
       - scatter_plot:
