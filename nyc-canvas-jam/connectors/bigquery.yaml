@@ -1,3 +1,2 @@
 type: connector
-
-driver: gcs
+driver: bigquery
