@@ -1,8 +1,8 @@
-# Source YAML
-# Reference documentation: https://docs.rilldata.com/reference/project-files/sources
+type: model
 
-type: source
+# Read from BigQuery and materialize into the default OLAP connector (DuckDB)
+connector: bigquery
 
-connector: "bigquery"
-sql: "SELECT * FROM `bigquery-public-data.new_york_taxi_trips.taxi_zone_geom`"
-project_id: "rilldata"
+sql: |
+  SELECT *
+  FROM `bigquery-public-data.new_york_taxi_trips.taxi_zone_geom`
