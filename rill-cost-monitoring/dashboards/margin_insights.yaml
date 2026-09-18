@@ -2,9 +2,6 @@ type: canvas
 version: 1
 display_name: "Margin Insights"
 
-tags:
-  - canvas
-
 defaults:
   time_range: P30D
   comparison_mode: time
