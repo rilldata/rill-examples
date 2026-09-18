@@ -15,42 +15,42 @@ dimensions:
     display_name: Customer
     column: company
     description: "The name of the customer"
-    tags: [customer, billing]
+    tags: [customer]
   - name: plan_name
     display_name: Plan Name
     column: plan_name
     description: "The name of the billing plan"
-    tags: [billing, customer]
+    tags: [plan]
   - name: location
     display_name: "Cost by Region"
     column: "location"
     description: "The region incurring costs"
-    tags: [geography, cost_allocation]
+    tags: [geography]
   - name: component
     display_name: Cost by Component
     column: component
     description: "The component generating costs"
-    tags: [infrastructure, cost_allocation]
+    tags: [component]
   - name: app_name
     display_name: "Cost by App Name"
     column: "app_name"
     description: "The app generating costs"
-    tags: [product, cost_allocation]
+    tags: [application]
   - name: sku_description
     display_name: "Cost by SKU"
     column: "sku_description"
     description: "The sku description for costs"
-    tags: [product, billing]
+    tags: [sku]
   - name: pipeline
     display_name: "Cost by Data Pipeline"
     column: "pipeline"
     description: "The pipeline incurring costs"
-    tags: [pipeline, infrastructure]
+    tags: [pipeline]
   - name: environment
     display_name: "Cost by Environment"
     column: "environment"
     description: "The environment incurring costs"
-    tags: [environment, infrastructure]
+    tags: [environment]
 
 measures:
   - display_name: "Total Cost"
@@ -58,28 +58,28 @@ measures:
     name: total_cost
     description: "The sum of cost"
     format_preset: currency_usd
-    tags: [cost, finance, kpi]
+    tags: [cost]
   - display_name: "Total Revenue"
     expression: SUM(revenue)
     name: total_revenue
     description: The sum of revenue
     format_preset: currency_usd
-    tags: [revenue, finance, kpi]
+    tags: [revenue]
   - display_name: "Net Revenue"
     expression: "SUM(revenue) - SUM(cost)"
     name: net_revenue
     description: "The sum of revenue minus the sum of cost"
     format_preset: currency_usd
-    tags: [margin, profitability, finance]
+    tags: [net_revenue]
   - display_name: "Gross Margin %"
     expression: "(SUM(revenue) - SUM(cost))/SUM(revenue)"
     name: gross_margin_percent
     description: "Net revenue divided by sum of revenue"
     format_preset: percentage
-    tags: [margin, ratio, profitability]
+    tags: [margin_percent]
   - display_name: "Unique Customers"
     expression: "COUNT(DISTINCT company)"
     name: unique_customers
     description: "The count of unique companies"
     format_preset: humanize
-    tags: [customer, kpi, finance]
+    tags: [customer_count]
