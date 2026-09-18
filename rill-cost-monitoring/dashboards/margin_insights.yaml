@@ -1,5 +1,6 @@
 type: canvas
 version: 1
+
 display_name: "Margin Insights"
 
 defaults:
@@ -7,178 +8,170 @@ defaults:
   comparison_mode: time
 
 rows:
-  - items:
-      - width: 12
-        markdown:
-          content: >
-            # Margin Insights
+  - name: overview
+    tabs:
+      
+      - label: "Customers"
+        name: customers
+        rows:
+          - height: 72px
+            items:
+              - width: 12
+                markdown:
+                  content: |
+                    ## Customers
 
+                    Identify the customers driving net revenue and margin performance.
+                  alignment:
+                    horizontal: left
+                    vertical: middle
 
-            Track revenue, cost, and margin performance over time and identify
-            the customers and cost components driving outcomes.
-          alignment:
-            horizontal: left
-            vertical: middle
-    height: 90px
-  - items:
-      - width: 12
-        kpi_grid:
-          metrics_view: metrics_margin_metrics
-          measures:
-            - total_revenue
-            - total_cost
-            - net_revenue
-            - gross_margin_percent
-          comparison:
-            - percent_change
-            - previous
-          sparkline: right
-    height: 220px
-  - items:
-      - width: 12
-        custom_chart:
-          metrics_sql:
-            - |
-              SELECT
-                date_trunc('day', __time) AS day,
-                gross_margin_percent
-              FROM metrics_margin_metrics
-              ORDER BY day
-              LIMIT 500
-          vega_spec: >
-            {
-              "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-              "width": "container",
-              "height": "container",
-              "autosize": {"type": "fit"},
-              "data": {"name": "query1"},
-              "mark": {"type": "line", "point": false, "color": "#457B9D"},
-              "encoding": {
-                "x": {
-                  "field": "day",
-                  "type": "temporal",
-                  "title": "Date"
-                },
-                "y": {
-                  "field": "gross_margin_percent",
-                  "type": "quantitative",
-                  "title": "Gross Margin %",
-                  "axis": {"format": ".0%"}
-                },
-                "tooltip": [
-                  {"field": "day", "type": "temporal", "title": "Date"},
-                  {"field": "gross_margin_percent", "type": "quantitative", "title": "Gross Margin %", "format": ".2%"}
-                ]
-              }
-            }
-    height: 420px
-  - items:
-      - width: 6
-        custom_chart:
-          metrics_sql:
-            - |
-              SELECT
-                customer,
-                net_revenue
-              FROM metrics_margin_metrics
-              ORDER BY net_revenue DESC
-              LIMIT 10
-          vega_spec: >
-            {
-              "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-              "width": "container",
-              "height": "container",
-              "autosize": {"type": "fit"},
-              "data": {"name": "query1"},
-              "title": "Net Revenue by Customer (Top 10)",
-              "mark": {"type": "bar"},
-              "encoding": {
-                "y": {
-                  "field": "customer",
-                  "type": "nominal",
-                  "sort": "-x",
-                  "title": "Customer"
-                },
-                "x": {
-                  "field": "net_revenue",
-                  "type": "quantitative",
-                  "title": "Net Revenue",
-                  "axis": {"format": "$,.0f"}
-                },
-                "color": {"value": "#4C78A8"},
-                "tooltip": [
-                  {"field": "customer", "type": "nominal", "title": "Customer"},
-                  {"field": "net_revenue", "type": "quantitative", "title": "Net Revenue", "format": "$,.2f"}
-                ]
-              }
-            }
-      - width: 6
-        custom_chart:
-          metrics_sql:
-            - |
-              SELECT
-                component,
-                total_cost
-              FROM metrics_margin_metrics
-              ORDER BY total_cost DESC
-              LIMIT 10
-          vega_spec: >
-            {
-              "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-              "width": "container",
-              "height": "container",
-              "autosize": {"type": "fit"},
-              "data": {"name": "query1"},
-              "title": "Total Cost by Component (Top 10)",
-              "mark": {"type": "bar"},
-              "encoding": {
-                "y": {
-                  "field": "component",
-                  "type": "nominal",
-                  "sort": "-x",
-                  "title": "Component"
-                },
-                "x": {
-                  "field": "total_cost",
-                  "type": "quantitative",
-                  "title": "Total Cost",
-                  "axis": {"format": "$,.0f"}
-                },
-                "color": {"value": "#D63946"},
-                "tooltip": [
-                  {"field": "component", "type": "nominal", "title": "Component"},
-                  {"field": "total_cost", "type": "quantitative", "title": "Total Cost", "format": "$,.2f"}
-                ]
-              }
-            }
-    height: 420px
-  - items:
-      - bar_chart:
-          metrics_view: metrics_margin_metrics
-          color: primary
-          x:
-            type: temporal
-            field: __time
-            sort: -y
-            limit: 20
-          y:
-            type: quantitative
-            field: total_cost
-            zeroBasedOrigin: true
-        width: 12
-    height: 351px
-  - items:
-      - width: 12
-        table:
-          metrics_view: metrics_margin_metrics
-          title: Customer Margin Summary
-          columns:
-            - customer
-            - total_revenue
-            - total_cost
-            - net_revenue
-            - gross_margin_percent
-          sort:
-            - net_revenue desc
-          limit: 50
-    height: 460px
+          - height: 380px
+            items:
+              - width: 6
+                bar_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: "Top Customers by Net Revenue"
+                  x:
+                    field: customer
+                    type: nominal
+                    limit: 15
+                    sort: -y
+                    labelAngle: 0
+                  y:
+                    field: net_revenue
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+              - width: 6
+                bar_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: "Customers by Gross Margin %"
+                  x:
+                    field: customer
+                    type: nominal
+                    limit: 15
+                    sort: -y
+                    labelAngle: 0
+                  y:
+                    field: gross_margin_percent
+                    type: quantitative
+                    zeroBasedOrigin: false
+
+          - height: 420px
+            items:
+              - width: 12
+                table:
+                  metrics_view: metrics_margin_metrics
+                  title: "Customer Detail"
+                  columns:
+                    - customer
+                    - total_revenue
+                    - total_cost
+                    - net_revenue
+                    - gross_margin_percent
+                  hide_totals_row: false
+
+      - label: "Cost Drivers"
+        name: cost_drivers
+        rows:
+          - height: 72px
+            items:
+              - width: 12
+                markdown:
+                  content: |
+                    ## Cost Drivers
+
+                    Understand which components contribute most to total cost and how they trend over time.
+                  alignment:
+                    horizontal: left
+                    vertical: middle
+
+          - height: 380px
+            items:
+              - width: 6
+                bar_chart:
+                  metrics_view: metrics_margin_metrics
+                  title: "Top Cost Components"
+                  x:
+                    field: component
+                    type: nominal
+                    limit: 15
+                    sort: -y
+                    labelAngle: 0
+                  y:
+                    field: total_cost
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+              - width: 6
+                stacked_bar:
+                  metrics_view: metrics_margin_metrics
+                  title: "Cost Over Time by Component"
+                  color:
+                    field: component
+                    type: nominal
+                    limit: 8
+                    legendOrientation: top
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 60
+                  y:
+                    field: total_cost
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+          - height: 420px
+            items:
+              - width: 12
+                custom_chart:
+                  metrics_sql:
+                    - |
+                      WITH base AS (
+                        SELECT component, total_cost
+                        FROM metrics_margin_metrics
+                        ORDER BY total_cost DESC
+                        LIMIT 50
+                      ),
+                      totals AS (
+                        SELECT SUM(total_cost) AS total_cost_all
+                        FROM base
+                      )
+                      SELECT
+                        component,
+                        total_cost,
+                        CASE
+                          WHEN total_cost_all = 0 THEN 0
+                          ELSE total_cost / total_cost_all
+                        END AS cost_share
+                      FROM base
+                      CROSS JOIN totals
+                      ORDER BY total_cost DESC
+                  vega_spec: |
+                    {
+                      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                      "width": "container",
+                      "height": "container",
+                      "autosize": {"type": "fit"},
+                      "data": {"name": "query1"},
+                      "mark": {"type": "bar"},
+                      "encoding": {
+                        "y": {
+                          "field": "component",
+                          "type": "nominal",
+                          "sort": "-x",
+                          "title": "Component"
+                        },
+                        "x": {
+                          "field": "total_cost",
+                          "type": "quantitative",
+                          "title": "Total Cost"
+                        },
+                        "tooltip": [
+                          {"field": "component", "type": "nominal", "title": "Component"},
+                          {"field": "total_cost", "type": "quantitative", "title": "Total Cost"},
+                          {"field": "cost_share", "type": "quantitative", "title": "Share of Total Cost", "format": ".1%"}
+                        ]
+                      }
+                    }
