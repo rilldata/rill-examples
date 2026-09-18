@@ -10,28 +10,28 @@ defaults:
 rows:
   - name: overview
     tabs:
-      
-      - label: "Customers"
+      - label: Customers
         name: customers
         rows:
           - height: 72px
             items:
               - width: 12
                 markdown:
-                  content: |
+                  content: >
                     ## Customers
 
-                    Identify the customers driving net revenue and margin performance.
+
+                    Identify the customers driving net revenue and margin
+                    performance.
                   alignment:
                     horizontal: left
                     vertical: middle
-
           - height: 380px
             items:
               - width: 6
                 bar_chart:
                   metrics_view: metrics_margin_metrics
-                  title: "Top Customers by Net Revenue"
+                  title: Top Customers by Net Revenue
                   x:
                     field: customer
                     type: nominal
@@ -42,11 +42,10 @@ rows:
                     field: net_revenue
                     type: quantitative
                     zeroBasedOrigin: true
-
               - width: 6
                 bar_chart:
                   metrics_view: metrics_margin_metrics
-                  title: "Customers by Gross Margin %"
+                  title: Customers by Gross Margin %
                   x:
                     field: customer
                     type: nominal
@@ -57,13 +56,12 @@ rows:
                     field: gross_margin_percent
                     type: quantitative
                     zeroBasedOrigin: false
-
           - height: 420px
             items:
               - width: 12
                 table:
                   metrics_view: metrics_margin_metrics
-                  title: "Customer Detail"
+                  title: Customer Detail
                   columns:
                     - customer
                     - total_revenue
@@ -71,28 +69,27 @@ rows:
                     - net_revenue
                     - gross_margin_percent
                   hide_totals_row: false
-
-      - label: "Cost Drivers"
+      - label: Cost Drivers
         name: cost_drivers
         rows:
-          - height: 72px
-            items:
+          - items:
               - width: 12
                 markdown:
-                  content: |
+                  content: >
                     ## Cost Drivers
 
-                    Understand which components contribute most to total cost and how they trend over time.
+
+                    Understand which components contribute most to total cost
+                    and how they trend over time.
                   alignment:
                     horizontal: left
                     vertical: middle
-
-          - height: 380px
-            items:
+            height: 72px
+          - items:
               - width: 6
                 bar_chart:
                   metrics_view: metrics_margin_metrics
-                  title: "Top Cost Components"
+                  title: Top Cost Components
                   x:
                     field: component
                     type: nominal
@@ -103,11 +100,10 @@ rows:
                     field: total_cost
                     type: quantitative
                     zeroBasedOrigin: true
-
               - width: 6
                 stacked_bar:
                   metrics_view: metrics_margin_metrics
-                  title: "Cost Over Time by Component"
+                  title: Cost Over Time by Component
                   color:
                     field: component
                     type: nominal
@@ -121,57 +117,22 @@ rows:
                     field: total_cost
                     type: quantitative
                     zeroBasedOrigin: true
-
-          - height: 420px
-            items:
-              - width: 12
-                custom_chart:
-                  metrics_sql:
-                    - |
-                      WITH base AS (
-                        SELECT component, total_cost
-                        FROM metrics_margin_metrics
-                        ORDER BY total_cost DESC
-                        LIMIT 50
-                      ),
-                      totals AS (
-                        SELECT SUM(total_cost) AS total_cost_all
-                        FROM base
-                      )
-                      SELECT
-                        component,
-                        total_cost,
-                        CASE
-                          WHEN total_cost_all = 0 THEN 0
-                          ELSE total_cost / total_cost_all
-                        END AS cost_share
-                      FROM base
-                      CROSS JOIN totals
-                      ORDER BY total_cost DESC
-                  vega_spec: |
-                    {
-                      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-                      "width": "container",
-                      "height": "container",
-                      "autosize": {"type": "fit"},
-                      "data": {"name": "query1"},
-                      "mark": {"type": "bar"},
-                      "encoding": {
-                        "y": {
-                          "field": "component",
-                          "type": "nominal",
-                          "sort": "-x",
-                          "title": "Component"
-                        },
-                        "x": {
-                          "field": "total_cost",
-                          "type": "quantitative",
-                          "title": "Total Cost"
-                        },
-                        "tooltip": [
-                          {"field": "component", "type": "nominal", "title": "Component"},
-                          {"field": "total_cost", "type": "quantitative", "title": "Total Cost"},
-                          {"field": "cost_share", "type": "quantitative", "title": "Share of Total Cost", "format": ".1%"}
-                        ]
-                      }
-                    }
+            height: 380px
+  - items:
+      - heatmap:
+          metrics_view: metrics_margin_metrics
+          x:
+            type: nominal
+            field: customer
+            limit: 40
+          y:
+            type: nominal
+            field: plan_name
+            limit: 40
+          color:
+            type: quantitative
+            field: gross_margin_percent
+            colorRange:
+              mode: scheme
+              scheme: sequential
+        width: 12
