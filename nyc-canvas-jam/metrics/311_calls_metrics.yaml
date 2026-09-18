@@ -31,6 +31,12 @@ dimensions:
   - name: status
     display_name: Status
     column: status
+  - name: geo
+    display_name: Geo
+    type: geo
+    expression: |
+      CASE WHEN longitude IS NULL OR latitude IS NULL THEN NULL
+      ELSE ST_Point2D(longitude, latitude) END
 
 measures:
   - expression: COUNT(unique_key)

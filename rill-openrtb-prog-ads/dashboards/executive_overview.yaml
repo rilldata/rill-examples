@@ -71,6 +71,26 @@ rows:
         width: 12
     height: 40px
   - items:
+      - donut_chart:
+          metrics_view: auction_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            type: nominal
+            field: device_state
+            limit: 20
+            sort: -measure
+          measure:
+            type: quantitative
+            field: requests
+            showTotal: true
+          title: ""
+          description: ""
+        width: 6
       - stacked_bar:
           metrics_view: bids_metrics
           description: ""
@@ -104,29 +124,13 @@ rows:
             type: quantitative
             zeroBasedOrigin: true
         width: 6
-      - donut_chart:
-          metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
-            limit: 20
-            sort: -measure
-          measure:
-            type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
     height: 320px
   - items:
       - combo_chart:
+          color:
+            field: measures
+            legendOrientation: top
+            type: value
           metrics_view: auction_metrics
           x:
             field: __time
@@ -134,19 +138,15 @@ rows:
             sort: -y
             type: temporal
           y1:
-            type: quantitative
-            field: requests
-            zeroBasedOrigin: true
+            field: 1d_qps
             mark: bar
-          y2:
             type: quantitative
-            field: avg_bid_floor
             zeroBasedOrigin: true
+          y2:
+            field: avg_bid_floor
             mark: line
-          color:
-            type: value
-            field: measures
-            legendOrientation: top
+            type: quantitative
+            zeroBasedOrigin: true
         width: 12
     height: 40px
   - items:
