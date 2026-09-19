@@ -11,6 +11,10 @@ timeseries: __time
 smallest_time_grain: "day"
 
 dimensions:
+  - name: __time
+    display_name: Event Timestamp
+    column: __time
+    type: time
   - name: customer
     display_name: Customer
     column: company
