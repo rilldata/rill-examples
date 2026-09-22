@@ -126,18 +126,27 @@ rows:
         width: 6
     height: 320px
   - items:
-      - stacked_bar_normalized:
+      - combo_chart:
           metrics_view: auction_metrics
-          color: primary
           x:
             field: __time
             limit: 20
             sort: -y
             type: temporal
-          y:
+          y1:
             type: quantitative
             field: avg_bid_floor
             zeroBasedOrigin: true
+            mark: bar
+          y2:
+            type: quantitative
+            field: 1d_qps
+            zeroBasedOrigin: true
+            mark: line
+          color:
+            type: value
+            field: measures
+            legendOrientation: top
         width: 12
     height: 40px
   - items:
