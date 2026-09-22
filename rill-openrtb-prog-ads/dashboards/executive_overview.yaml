@@ -71,26 +71,6 @@ rows:
         width: 12
     height: 40px
   - items:
-      - donut_chart:
-          metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
-            limit: 20
-            sort: -measure
-          measure:
-            type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
       - stacked_bar:
           metrics_view: bids_metrics
           description: ""
@@ -124,28 +104,39 @@ rows:
             type: quantitative
             zeroBasedOrigin: true
         width: 6
+      - donut_chart:
+          metrics_view: auction_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            type: nominal
+            field: device_state
+            limit: 20
+            sort: -measure
+          measure:
+            type: quantitative
+            field: requests
+            showTotal: true
+          title: ""
+          description: ""
+        width: 6
     height: 320px
   - items:
-      - combo_chart:
-          color:
-            field: measures
-            legendOrientation: top
-            type: value
+      - stacked_bar_normalized:
           metrics_view: auction_metrics
+          color: primary
           x:
             field: __time
             limit: 20
             sort: -y
             type: temporal
-          y1:
-            field: 1d_qps
-            mark: bar
+          y:
             type: quantitative
-            zeroBasedOrigin: true
-          y2:
             field: avg_bid_floor
-            mark: line
-            type: quantitative
             zeroBasedOrigin: true
         width: 12
     height: 40px
