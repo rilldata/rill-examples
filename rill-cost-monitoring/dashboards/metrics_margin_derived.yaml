@@ -1,0 +1,9 @@
+type: explore
+metrics_view: metrics_margin_metrics
+display_name: "Margin (Derived)"
+
+dimensions: '*'
+measures: '*'
+
+defaults:
+  time_range: P30D
