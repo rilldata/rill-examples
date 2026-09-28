@@ -31,16 +31,16 @@ rows:
           - items:
               - width: 7
                 kpi_grid:
-                  metrics_view: metrics_margin_metrics
+                  comparison:
+                    - delta
+                    - percent_change
                   measures:
                     - total_cost
                     - total_revenue
                     - net_revenue
                     - gross_margin_percent
                     - unique_customers
-                  comparison:
-                    - delta
-                    - percent_change
+                  metrics_view: metrics_margin_metrics
                   sparkline: right
                   time_filters: tr=P4W&grain=day
                   title: Last 4 Weeks
