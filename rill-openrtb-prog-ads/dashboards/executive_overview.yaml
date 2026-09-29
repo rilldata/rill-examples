@@ -13,7 +13,10 @@ rows:
       - markdown:
           title: ""
           description: ""
-          content: "# Executive summary report"
+          content: |
+            # Executive summary report
+
+            _Note: Currency values are converted to USD using a fixed rate of **1 EUR = 1.08 USD**._
           alignment:
             horizontal: left
             vertical: middle
@@ -31,7 +34,7 @@ rows:
             - percent_change
             - previous
           sparkline: right
-          title: Bids
+          title: Bids (USD)
         width: 6
       - kpi_grid:
           metrics_view: auction_metrics
@@ -43,12 +46,13 @@ rows:
             - delta
             - percent_change
           sparkline: right
-          title: Auctions
+          title: Auctions (USD)
         width: 6
     height: 300px
   - items:
       - combo_chart:
           metrics_view: auction_metrics
+          title: Avg Bid Floor (USD) vs 1D QPS
           x:
             type: temporal
             field: __time
@@ -71,8 +75,29 @@ rows:
         width: 12
     height: 40px
   - items:
+      - donut_chart:
+          metrics_view: auction_metrics
+          innerRadius: 50
+          show_other: true
+          labels:
+            show: true
+            format: percent
+            threshold: 5
+          color:
+            type: nominal
+            field: device_state
+            limit: 20
+            sort: -measure
+          measure:
+            type: quantitative
+            field: requests
+            showTotal: true
+          title: ""
+          description: ""
+        width: 6
       - stacked_bar:
           metrics_view: bids_metrics
+          title: Advertising Spend Overall (USD)
           description: ""
           color:
             field: device_type
@@ -104,30 +129,11 @@ rows:
             type: quantitative
             zeroBasedOrigin: true
         width: 6
-      - donut_chart:
-          metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
-            limit: 20
-            sort: -measure
-          measure:
-            type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
     height: 320px
   - items:
       - combo_chart:
           metrics_view: auction_metrics
+          title: Avg Bid Floor (USD) vs 1D QPS
           x:
             field: __time
             limit: 20
@@ -169,25 +175,27 @@ rows:
     height: 40px
   - items:
       - combo_chart:
+          metrics_view: auction_metrics
+          title: Avg Bid Floor (USD) vs Requests
+          x:
+            type: temporal
+            field: __time
+            sort: -y
+            limit: 20
+          y1:
+            type: quantitative
+            field: avg_bid_floor
+            zeroBasedOrigin: true
+            mark: bar
+          y2:
+            type: quantitative
+            field: requests
+            zeroBasedOrigin: true
+            mark: line
           color:
+            type: value
             field: measures
             legendOrientation: top
-            type: value
-          metrics_view: auction_metrics
-          x:
-            field: pub_name
-            limit: 20
-            type: nominal
-          y1:
-            field: 1d_qps
-            mark: bar
-            type: quantitative
-            zeroBasedOrigin: true
-          y2:
-            field: avg_bid_floor
-            mark: line
-            type: quantitative
-            zeroBasedOrigin: true
         width: 12
     height: 40px
   - items:
@@ -211,9 +219,11 @@ rows:
           comparison:
             - delta
             - percent_change
+          title: Auctions (USD)
         width: 6
       - donut_chart:
           metrics_view: bids_metrics
+          title: Advertising Spend Overall by Advertiser (USD)
           innerRadius: 50
           show_other: true
           labels:
@@ -233,6 +243,7 @@ rows:
     height: 383px
   - items:
       - combo_chart:
+          title: Total Requests vs Avg Bid Floor (USD)
           color:
             field: measures
             legendOrientation: top
@@ -297,12 +308,14 @@ rows:
           row_dimensions:
             - advertiser_name
           time_filters: tr=P7D&compare_tr=rill-PW&grain=day
-          title: Per advertiser metrics – last 7 days
+          title: Per advertiser metrics (USD) – last 7 days
+          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR = 1.08 USD."
         width: 12
     height: 300px
   - items:
       - scatter_plot:
           metrics_view: auction_metrics
+          title: Avg Bid Floor (USD) vs 1D QPS
           color: primary
           x:
             type: quantitative
