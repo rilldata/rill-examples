@@ -1,6 +1,7 @@
-# Scenario: Read-only ClickHouse source connector shared by the ClickHouse examples.
+# Scenario: Read-write ClickHouse OLAP connector used by the S3-to-ClickHouse examples.
+# The ClickHouse user needs CREATE, INSERT, ALTER, and DROP privileges for model tables.
 # Use a native-protocol DSN such as clickhouse://user:password@host:9440/database?secure=true.
 type: connector
 driver: clickhouse
-mode: read
+mode: readwrite
 dsn: "{{ .env.CLICKHOUSE_DSN }}"

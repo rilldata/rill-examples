@@ -1,65 +1,84 @@
-# Scenario: show dbt-style state-based incremental ingestion and why partitions are the preferred alternative.
-# Source and output: Exports data from ClickHouse into a materialized DuckDB table.
-# Flow: Rill stores the state query result after each run; the next run filters the source with that stored watermark.
-# Strategy: merge by event_id, because a state filter cannot guarantee that a row is loaded exactly once.
-# Trade-off: state is not idempotent. A failed or partially applied run cannot be replayed the way a partition can.
-# Constraint: state and partitions are mutually exclusive, so there is no per-partition retry or targeted backfill.
-# Prefer scenario 01 or 02 unless the source genuinely has no column that can define partitions.
-# Boundary: the filter is strictly greater than the stored value, so updated_at must be monotonic and set on every change.
-# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
-# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
-# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
-# Runtime note: Current Rill releases do not support direct ClickHouse-to-DuckDB execution; this disabled spec is conceptual.
+# Scenario: state-based S3 ingestion into ClickHouse when no usable partition exists.
+# This scans the S3 prefix to find rows newer than the stored watermark; prefer
+# scenarios 01 or 02 for idempotent retries and targeted backfills.
 type: model
 name: clickhouse_08_state_incremental
 connector: clickhouse
-incremental: true  # Reuse the stored state instead of rescanning the full source on every run.
-change_mode: patch  # Recommended: adopt a new definition immediately without an automatic history rebuild.
-materialize: true  # Persist the cross-connector result for fast downstream queries.
-timeout: 30m  # Abort one model execution after this duration.
+incremental: true
+change_mode: patch
+materialize: true
+timeout: 30m
 
 refresh:
-  cron: "0 3 * * *"  # daily at 03:00; interpreted in time_zone (production by default).
-  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
-  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+  cron: "0 3 * * *"
+  time_zone: UTC
+  # disable: true
 
-state:  # Evaluated after each successful run; the result is available as .state in the next run.
-  connector: duckdb  # State is computed against the DuckDB output table, not the source warehouse.
-  sql: SELECT MAX(updated_at) AS max_updated_at FROM clickhouse_08_state_incremental
+state:
+  connector: clickhouse
+  sql: SELECT max(updated_at) AS max_updated_at FROM clickhouse_08_state_incremental
 
 sql: |
   SELECT
-    event_id,
-    event_time,
-    updated_at,
-    user_id,
-    region,
-    event_type,
-    revenue
-  FROM analytics.events
+    CAST(event_id AS UUID) AS event_id,
+    CAST(event_time AS DateTime64(3, 'UTC')) AS event_time,
+    toDate(event_time) AS event_date,
+    CAST(updated_at AS DateTime64(3, 'UTC')) AS updated_at,
+    CAST(user_id AS UInt64) AS user_id,
+    CAST(region AS String) AS region,
+    CAST(event_type AS String) AS event_type,
+    CAST(revenue AS Decimal(18, 4)) AS revenue
+  FROM s3(
+    's3://example-bucket/analytics/events/dt=*/hour=*/*.parquet',
+    '{{ .env.AWS_ACCESS_KEY_ID }}',
+    '{{ .env.AWS_SECRET_ACCESS_KEY }}',
+    'Parquet'
+  )
   {{ if incremental }}
-  WHERE updated_at > parseDateTimeBestEffort('{{ .state.max_updated_at }}')
+  WHERE updated_at >= parseDateTime64BestEffort('{{ .state.max_updated_at }}', 3)
   {{ end }}
 
-dev:  # Bound the local initial load; without partitions the first run would otherwise scan all history.
-  change_mode: reset  # Rebuild only the small development slice after edits.
+dev:
+  change_mode: reset
   sql: |
     SELECT
-      event_id,
-      event_time,
-      updated_at,
-      user_id,
-      region,
-      event_type,
-      revenue
-    FROM analytics.events
-    WHERE event_time >= now() - INTERVAL 2 DAY
+      CAST(event_id AS UUID) AS event_id,
+      CAST(event_time AS DateTime64(3, 'UTC')) AS event_time,
+      toDate(event_time) AS event_date,
+      CAST(updated_at AS DateTime64(3, 'UTC')) AS updated_at,
+      CAST(user_id AS UInt64) AS user_id,
+      CAST(region AS String) AS region,
+      CAST(event_type AS String) AS event_type,
+      CAST(revenue AS Decimal(18, 4)) AS revenue
+    FROM s3(
+      's3://example-bucket/analytics/events/dt=2026-08-27/hour=*/*.parquet',
+      '{{ .env.AWS_ACCESS_KEY_ID }}',
+      '{{ .env.AWS_SECRET_ACCESS_KEY }}',
+      'Parquet'
+    )
     {{ if incremental }}
-      AND updated_at > parseDateTimeBestEffort('{{ .state.max_updated_at }}')
+    WHERE updated_at >= parseDateTime64BestEffort('{{ .state.max_updated_at }}', 3)
     {{ end }}
 
 output:
-  connector: duckdb
-  incremental_strategy: merge  # Upsert by unique_key; use when no single output column identifies a partition.
-  unique_key:  # Required for merge; columns must form a stable, non-null, truly unique row identity.
-    - event_id
+  connector: clickhouse
+  incremental_strategy: merge
+  engine: ReplacingMergeTree(updated_at)
+  partition_by: toYYYYMM(event_date)
+  order_by: (event_date, event_id)
+  primary_key: (event_date, event_id)
+  ttl: event_time + INTERVAL 365 DAY DELETE
+  query_settings: use_structure_from_insertion_table_in_table_functions = 0
+  columns: |
+    (
+      event_id UUID,
+      event_time DateTime64(3, 'UTC'),
+      event_date Date,
+      updated_at DateTime64(3, 'UTC'),
+      user_id UInt64,
+      region LowCardinality(String),
+      event_type LowCardinality(String),
+      revenue Decimal(18, 4),
+      INDEX idx_event_id event_id TYPE bloom_filter(0.01) GRANULARITY 4,
+      INDEX idx_user_id user_id TYPE bloom_filter(0.01) GRANULARITY 4
+    )

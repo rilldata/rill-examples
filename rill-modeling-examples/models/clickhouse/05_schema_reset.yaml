@@ -1,53 +1,70 @@
-# Scenario: demonstrate a breaking schema or semantic change that must be consistent across all historical rows.
-# Source and output: Exports data from ClickHouse into a materialized DuckDB table.
-# Flow: monthly partitions bound each source query, but a definition change causes the output to be rebuilt.
-# Change behavior: reset automatically drops and recreates the model after its specification changes.
-# Use when: renaming columns, changing types, or changing business logic makes mixed historical schemas unsafe.
-# Trade-off: reset is operationally simple but can trigger an expensive full-history source scan.
-# Compare: scenario 04 uses patch when mixed historical logic is acceptable.
-# Model YAML reference: https://docs.rilldata.com/reference/project-files/models
-# Incremental models guide: https://docs.rilldata.com/developers/build/models/incremental-models
-# Partitioned models guide: https://docs.rilldata.com/developers/build/models/partitioned-models
-# Runtime note: Current Rill releases do not support direct ClickHouse-to-DuckDB execution; this disabled spec is conceptual.
+# Scenario: reset the ClickHouse table when a breaking schema change must apply to all history.
 type: model
 name: clickhouse_05_schema_reset
 connector: clickhouse
-incremental: true  # Track completed partitions and process only new or re-queued partitions.
-change_mode: reset  # Definition changes automatically rebuild all historical output.
-materialize: true  # Persist the cross-connector result for fast downstream queries.
+incremental: true
+change_mode: reset
+materialize: true
+partitions_watermark: updated_on
 
 refresh:
-  cron: "0 3 1 * *"  # monthly on day 1 at 03:00; interpreted in time_zone (production by default).
-  time_zone: UTC  # Prevent host-local timezone differences from shifting the schedule.
-  # disable: true  # Uncomment to keep this resource inactive; it ships commented so a copied example runs as-is.
+  cron: "0 3 1 * *"
+  time_zone: UTC
+  # disable: true
 
-partitions:  # Each result row defines one independently tracked partition.
-  connector: clickhouse
-  sql: |
-    SELECT DISTINCT toStartOfMonth(event_time) AS partition_month
-    FROM analytics.events
-
-dev:  # Override partition discovery locally to keep development scans small.
-  change_mode: reset  # Rebuild only the small development slice after edits.
-  partitions:
-    connector: clickhouse
-    sql: SELECT toStartOfMonth(today()) AS partition_month
+partitions:
+  glob:
+    connector: s3
+    path: s3://example-bucket/analytics/events/dt=*
+    partition: directory
 
 sql: |
+  WITH toDate(
+    extract('{{ .partition.uri }}', 'dt=([0-9]{4}-[0-9]{2}-[0-9]{2})')
+  ) AS source_date
   SELECT
-    event_id,
-    event_time,
-    toStartOfMonth(event_time) AS event_month,
-    updated_at,
-    CAST(revenue AS Decimal(18, 4)) AS revenue_amount,
-    user_id,
-    region,
-    event_type
-  FROM analytics.events
-  WHERE event_time >= toDateTime('{{ .partition.partition_month }}')
-    AND event_time < toDateTime('{{ .partition.partition_month }}') + INTERVAL 1 MONTH
+    CAST(event_id AS UUID) AS event_id,
+    CAST(event_time AS DateTime64(3, 'UTC')) AS event_time,
+    source_date AS event_date,
+    CAST(updated_at AS DateTime64(3, 'UTC')) AS updated_at,
+    CAST(user_id AS UInt64) AS user_id,
+    CAST(region AS String) AS region,
+    CAST(event_type AS String) AS event_type,
+    CAST(revenue AS Decimal(18, 4)) AS revenue_amount
+  FROM s3(
+    '{{ .partition.uri }}/hour=*/*.parquet',
+    '{{ .env.AWS_ACCESS_KEY_ID }}',
+    '{{ .env.AWS_SECRET_ACCESS_KEY }}',
+    'Parquet'
+  )
+  WHERE CAST(event_time AS DateTime64(3, 'UTC')) >= toDateTime(source_date, 'UTC')
+    AND CAST(event_time AS DateTime64(3, 'UTC')) < toDateTime(source_date, 'UTC') + INTERVAL 1 DAY
+
+dev:
+  partitions:
+    glob:
+      connector: s3
+      path: s3://example-bucket/analytics/events/dt=2026-08-27
+      partition: directory
 
 output:
-  connector: duckdb
-  incremental_strategy: partition_overwrite  # Replace the complete output partition; idempotent for retries.
-  partition_by: event_month  # Column identifying the output rows that partition_overwrite replaces.
+  connector: clickhouse
+  incremental_strategy: partition_overwrite
+  partition_by: event_date
+  order_by: (event_date, region, event_type, user_id, event_time, event_id)
+  primary_key: (event_date, region, event_type, user_id)
+  ttl: event_time + INTERVAL 365 DAY DELETE
+  query_settings: use_structure_from_insertion_table_in_table_functions = 0
+  columns: |
+    (
+      event_id UUID,
+      event_time DateTime64(3, 'UTC'),
+      event_date Date,
+      updated_at DateTime64(3, 'UTC'),
+      user_id UInt64,
+      region LowCardinality(String),
+      event_type LowCardinality(String),
+      revenue_amount Decimal(18, 4),
+      INDEX idx_event_id event_id TYPE bloom_filter(0.01) GRANULARITY 4,
+      INDEX idx_user_id user_id TYPE bloom_filter(0.01) GRANULARITY 4
+    )
