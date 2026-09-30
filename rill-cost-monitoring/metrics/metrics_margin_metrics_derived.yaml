@@ -14,42 +14,42 @@ dimensions:
     column: company
     display_name: Customer
     description: The name of the customer
-    tags: [customer, application]
+    tags: [Customer, Application]
   - name: plan_name
     column: plan_name
     display_name: Plan Name
     description: The name of the billing plan
-    tags: [plan, customer]
+    tags: [Plan, Customer]
   - name: location
     column: location
     display_name: Cost by Region
     description: The region incurring costs
-    tags: [geography, environment]
+    tags: [Geography, Environment]
   - name: component
     column: component
     display_name: Cost by Component
     description: The component generating costs
-    tags: [component, application]
+    tags: [Component, Application]
   - name: app_name
     column: app_name
     display_name: Cost by App Name
     description: The app generating costs
-    tags: [application, component]
+    tags: [Application, Component]
   - name: sku_description
     column: sku_description
     display_name: Cost by SKU
     description: The sku description for costs
-    tags: [sku, component]
+    tags: [SKU, Component]
   - name: pipeline
     column: pipeline
     display_name: Cost by Data Pipeline
     description: The pipeline incurring costs
-    tags: [component, application, environment]
+    tags: [Component, Application, Environment]
   - name: environment
     column: environment
     display_name: Cost by Environment
     description: The environment incurring costs
-    tags: [environment, geography]
+    tags: [Environment, Geography]
 
 measures:
   - name: total_cost
@@ -57,28 +57,28 @@ measures:
     display_name: Total Cost
     description: The sum of cost
     format_preset: currency_usd
-    tags: [cost, profitability]
+    tags: [Cost, Profitability]
 
   - name: total_revenue
     expression: SUM(revenue)
     display_name: Total Revenue
     description: The sum of revenue
     format_preset: currency_usd
-    tags: [revenue, profitability]
+    tags: [Revenue, Profitability]
 
   - name: net_revenue
     expression: SUM(revenue) - SUM(cost)
     display_name: Net Revenue
     description: The sum of revenue minus the sum of cost
     format_preset: currency_usd
-    tags: [revenue, margin, profitability]
+    tags: [Revenue, Margin, Profitability]
 
   - name: gross_margin_percent
     expression: (SUM(revenue) - SUM(cost)) / NULLIF(SUM(revenue), 0)
     display_name: Gross Margin %
     description: Net revenue divided by sum of revenue
     format_preset: percentage
-    tags: [margin, percent, profitability]
+    tags: [Margin, Percent, Profitability]
     valid_percent_of_total: false
 
   - name: gross_margin_dollars
@@ -86,14 +86,14 @@ measures:
     display_name: Gross Margin ($)
     description: Gross margin in dollars (revenue minus cost)
     format_preset: currency_usd
-    tags: [margin, profitability]
+    tags: [Margin, Profitability]
 
   - name: cost_to_revenue_ratio
     expression: SUM(cost) / NULLIF(SUM(revenue), 0)
     display_name: Cost to Revenue Ratio
     description: Cost divided by revenue
     format_preset: percentage
-    tags: [cost, revenue, ratio, profitability]
+    tags: [Cost, Revenue, Ratio, Profitability]
     valid_percent_of_total: false
 
 
