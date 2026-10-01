@@ -12,3 +12,64 @@ measures: '*'
 defaults:
   comparison_mode: time
   time_range: P3W
+
+# Curated AI prompts for common margin / revenue / cost analysis workflows.
+# Note: Results respect the metrics view security policies (row-level security by `company`
+# with admin bypass). Non-admin users may not see `total_revenue` due to column security.
+ai_prompts:
+  - name: "Margin trend summary"
+    prompt: |
+      Summarize the trend of Gross Margin % (gross_margin_percent) over the selected time range.
+      Call out any sustained increases/decreases and relate them to changes in Total Cost (total_cost)
+      and Net Revenue (net_revenue) where possible.
+
+      Important: Results must respect row-level security (company filter). If I am not an admin and
+      total_revenue is hidden, do not use total_revenue in the analysis.
+
+  - name: "Anomaly detection"
+    prompt: |
+      Detect any anomalies or sudden changes in Gross Margin % (gross_margin_percent), Net Revenue (net_revenue),
+      or Total Cost (total_cost) within the selected time range.
+      Identify the date/time of the change and quantify the impact.
+
+      Important: Results must respect row-level security (company filter). If I am not an admin and
+      total_revenue is hidden, do not use total_revenue in the analysis.
+
+  - name: "Top drivers of margin change"
+    prompt: |
+      What are the top drivers of the change in Gross Margin % (gross_margin_percent) compared to the previous period?
+      Break down the change by the most impactful dimensions (try component, sku_description, app_name, plan_name,
+      environment, pipeline, location, customer) and quantify each driver's contribution.
+
+      Important: Results must respect row-level security (company filter). If I am not an admin and
+      total_revenue is hidden, do not use total_revenue in the analysis.
+
+  - name: "Breakdown by dimension"
+    prompt: |
+      Break down Net Revenue (net_revenue), Total Cost (total_cost), Gross Margin % (gross_margin_percent),
+      and Unique Customers (unique_customers) by component and sku_description.
+      Highlight the best and worst performers and explain what stands out.
+
+      Important: Results must respect row-level security (company filter). If I am not an admin and
+      total_revenue is hidden, do not use total_revenue in the analysis.
+
+  - name: "Compare vs previous period"
+    prompt: |
+      Compare the current period vs the previous period for Net Revenue (net_revenue), Total Cost (total_cost),
+      Gross Margin % (gross_margin_percent), and Unique Customers (unique_customers).
+      Provide absolute and percent changes, and explain the main reasons for the differences.
+
+      Important: Results must respect row-level security (company filter). If I am not an admin and
+      total_revenue is hidden, do not use total_revenue in the analysis.
+
+  - name: "Explain metric definitions"
+    prompt: |
+      Explain what each metric means and how to interpret it in this dashboard:
+      - Total Cost (total_cost)
+      - Net Revenue (net_revenue)
+      - Total Revenue (total_revenue) (note: may be hidden for non-admin users)
+      - Gross Margin % (gross_margin_percent)
+      - Unique Customers (unique_customers)
+
+      Also explain how row-level security works here (company-based filtering with admin bypass) and how that affects
+      what I can see in the results.

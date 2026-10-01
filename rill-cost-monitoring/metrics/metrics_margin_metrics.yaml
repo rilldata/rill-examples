@@ -10,6 +10,17 @@ model: metrics_margin_model
 timeseries: __time
 smallest_time_grain: "day"
 
+security:
+  access: true
+  row_filter: >
+    (
+      {{ if .user.admin }} true {{ else }} lower(company) = lower('{{ .user.company }}') {{ end }}
+    )
+  exclude:
+    - if: "NOT {{ .user.admin }}"
+      names:
+        - total_revenue
+
 dimensions:
   - name: __time
     display_name: Event Timestamp
