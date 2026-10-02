@@ -8,3 +8,9 @@ features:
   - rillTime
   - chat
   - cloud_editing
+
+mock_users:
+  - email: demo12345@shopify-rill-test.com
+    company: Shopify
+  - email: admin@shopify-rill-test.com
+    admin: true
