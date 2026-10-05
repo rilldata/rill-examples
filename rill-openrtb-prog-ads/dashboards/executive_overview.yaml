@@ -131,6 +131,19 @@ rows:
         width: 6
     height: 320px
   - items:
+      - map:
+          color:
+            colorRange:
+              mode: scheme
+              scheme: tealblues
+            measure: avg_bid_floor
+          geo_dimension:
+            field: device_country
+          metrics_view: auction_metrics
+          title: Requests by Country
+        width: 12
+    height: 320px
+  - items:
       - combo_chart:
           metrics_view: auction_metrics
           title: Avg Bid Floor (USD) vs 1D QPS
@@ -309,7 +322,8 @@ rows:
             - advertiser_name
           time_filters: tr=P7D&compare_tr=rill-PW&grain=day
           title: Per advertiser metrics (USD) – last 7 days
-          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR = 1.08 USD."
+          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR =
+            1.08 USD."
         width: 12
     height: 300px
   - items:
