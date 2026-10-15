@@ -82,6 +82,13 @@ measures:
     format_preset: currency_eur
     tags: ["Bids"]
 
+  - display_name: Ad spend per Auction
+    name: ad_spend_per_auction
+    expression: "sum(media_spend_usd)/1000/nullif(sum(bid_cnt),0)"
+    description: "Overall spend divided by number of auctions. NOTE: This currently uses bid_cnt as a fallback denominator because auction_cnt is not present in bids_data_model. If/when auction_cnt is added, update this measure to use sum(auction_cnt)."
+    format_preset: currency_eur
+    tags: ["Spend"]
+
   - name: bids_7day_rolling_avg
     display_name: 7 Day Bid rolling avg
     expression: AVG(total_bids)

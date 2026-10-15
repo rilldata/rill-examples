@@ -13,16 +13,30 @@ rows:
       - markdown:
           title: ""
           description: ""
-          content: |
+          content: >
             # Executive summary report
 
-            _Note: Currency values are converted to USD using a fixed rate of **1 EUR = 1.08 USD**._
+
+            _Note: Currency values are converted to USD using a fixed rate of
+            **1 EUR = 1.08 USD**._
           alignment:
             horizontal: left
             vertical: middle
         width: 12
     height: 80px
   - items:
+      - kpi_grid:
+          metrics_view: auction_metrics
+          measures:
+            - requests
+            - avg_bid_floor
+            - 1d_qps
+          comparison:
+            - delta
+            - percent_change
+          sparkline: right
+          title: Auctions (USD)
+        width: 6
       - kpi_grid:
           metrics_view: bids_metrics
           measures:
@@ -35,18 +49,6 @@ rows:
             - previous
           sparkline: right
           title: Bids (USD)
-        width: 6
-      - kpi_grid:
-          metrics_view: auction_metrics
-          measures:
-            - requests
-            - avg_bid_floor
-            - 1d_qps
-          comparison:
-            - delta
-            - percent_change
-          sparkline: right
-          title: Auctions (USD)
         width: 6
     height: 300px
   - items:
@@ -322,8 +324,8 @@ rows:
             - advertiser_name
           time_filters: tr=P7D&compare_tr=rill-PW&grain=day
           title: Per advertiser metrics (USD) – last 7 days
-          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR =
-            1.08 USD."
+          description: Currency columns (overall_spend, ecpm) are converted using 1 EUR =
+            1.08 USD.
         width: 12
     height: 300px
   - items:
