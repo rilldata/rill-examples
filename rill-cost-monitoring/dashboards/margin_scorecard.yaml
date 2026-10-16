@@ -44,25 +44,31 @@ rows:
                   sparkline: right
                   time_filters: tr=P4W&grain=day
                   title: Last 4 Weeks
-              - width: 5
-                heatmap:
-                  color:
-                    field: total_cost
-                    legendOrientation: bottom
-                    type: quantitative
-                  dimension_filters: plan_name IN ('Standard Plan')
+              - combo_chart:
                   metrics_view: metrics_margin_metrics
-                  show_data_labels: true
-                  time_filters: tr=rill-QTD&grain=day
-                  title: Total Cost (Standard Plan x SKU)
                   x:
-                    field: plan_name
+                    field: __time
                     limit: 12
-                    type: nominal
-                  y:
-                    field: sku_description
-                    limit: 8
-                    type: nominal
+                    type: temporal
+                  y1:
+                    type: quantitative
+                    field: total_revenue
+                    zeroBasedOrigin: true
+                    mark: bar
+                  y2:
+                    type: quantitative
+                    field: total_cost
+                    zeroBasedOrigin: true
+                    mark: line
+                  color:
+                    type: value
+                    field: measures
+                    legendOrientation: top
+                  title: Total Cost (Standard Plan x SKU)
+                  description: ""
+                  time_filters: tr=rill-QTD&grain=day
+                  dimension_filters: plan_name IN ('Standard Plan')
+                width: 5
             height: 128px
           - items:
               - table:
