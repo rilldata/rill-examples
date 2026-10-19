@@ -1,0 +1,8 @@
+type: connector
+driver: mcp
+url: https://mcp.atlassian.com/v1/mcp
+display_name: Atlassian
+ai_instructions: >
+  Use Atlassian to look up Jira issues and Confluence pages.
+  Never create or update anything unless the user explicitly asks.
+auth: oauth

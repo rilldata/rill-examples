@@ -1,0 +1,10 @@
+type: connector
+driver: mcp
+url: https://api.githubcopilot.com/mcp/
+display_name: GitHub
+ai_instructions: >
+  Use GitHub to look up repositories, issues and pull requests.
+  Never create or modify anything unless the user explicitly asks.
+headers:
+  Authorization: "Bearer {{ .env.GITHUB_PAT }}"
+  X-MCP-Toolsets: "repos,issues,pull_requests"

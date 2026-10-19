@@ -1,0 +1,35 @@
+type: connector
+driver: mcp
+url: https://mcp.linear.app/mcp
+display_name: Linear
+ai_instructions: >
+  Use Linear to look up issues and projects.
+  Never create or update issues unless the user explicitly asks.
+auth: oauth
+security:
+  access: true
+  include:
+    - if: true
+      names:
+        - list_issues
+        - get_issue
+        - list_comments
+        - list_issue_statuses
+        - list_issue_labels
+        - list_projects
+        - get_project
+        - list_milestones
+        - get_milestone
+        - list_cycles
+        - list_initiatives
+        - get_initiative
+        - get_status_updates
+        - list_teams
+        - get_team
+        - list_users
+        - get_user
+        - list_documents
+        - get_document
+        - search_documentation
+        - save_issue
+        - save_comment

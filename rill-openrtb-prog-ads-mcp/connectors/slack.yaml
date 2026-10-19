@@ -1,0 +1,11 @@
+type: connector
+driver: mcp
+url: https://mcp.slack.com/mcp
+display_name: Slack
+ai_instructions: >
+  Use Slack to search messages and read channels.
+  Never post messages unless the user explicitly asks.
+auth: oauth
+oauth_client_id: "{{ .env.SLACK_MCP_CLIENT_ID }}"
+oauth_client_secret: "{{ .env.SLACK_MCP_CLIENT_SECRET }}"
+oauth_scopes: [search:read.public, search:read.users, channels:read, channels:history, users:read, users:read.email]
