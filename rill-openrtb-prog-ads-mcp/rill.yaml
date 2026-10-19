@@ -1,0 +1,22 @@
+compiler: rillv1
+
+display_name: Open RTB Ads with MCP
+description: Open RTB Ads with external MCP servers
+
+olap_connector: duckdb
+
+mock_users:
+- email: someone@rilldata.com
+  name: John Doe
+  admin: true
+- email: jane@partnercompany.com
+  groups:
+    - partners
+- email: test@domain.com
+
+models:
+  refresh:
+    every: 24h
+
+features:
+  cloud_editing: true

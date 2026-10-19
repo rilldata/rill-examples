@@ -1,0 +1,6 @@
+type: connector
+driver: mcp
+url: https://huggingface.co/mcp
+display_name: Hugging Face
+ai_instructions: Use Hugging Face to search models, datasets and papers.
+auth: oauth

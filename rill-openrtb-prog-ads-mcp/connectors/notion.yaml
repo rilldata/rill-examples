@@ -1,0 +1,32 @@
+type: connector
+driver: mcp
+url: https://mcp.notion.com/mcp
+display_name: Notion
+ai_instructions: >
+  Use Notion to search and read pages and databases.
+  Never create or edit pages unless the user explicitly asks.
+auth: oauth
+security:
+  access: true
+  include:
+    - if: true
+      names:
+        - notion-search
+        - notion-fetch
+        - notion-query-data-sources
+        - notion-query-multiple-data-sources
+        - notion-query-meeting-notes
+        - notion-list-recent-pages
+        - notion-list-shared-pages
+        - notion-list-private-pages
+        - notion-list-favorite-pages
+        - notion-list-page-backlinks
+        - notion-get-comments
+        - notion-get-users
+        - notion-get-teams
+        - notion-get-self
+        - notion-check-mcp-next-steps
+        - notion-show-advanced-analysis-next-steps
+        - notion-create-pages
+        - notion-update-page
+        - notion-create-comment
