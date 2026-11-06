@@ -47,6 +47,7 @@ rows:
             - percent_change
           sparkline: right
           title: Auctions (USD)
+          time_filters: grain=day
         width: 6
     height: 300px
   - items:
@@ -309,7 +310,8 @@ rows:
             - advertiser_name
           time_filters: tr=P7D&compare_tr=rill-PW&grain=day
           title: Per advertiser metrics (USD) – last 7 days
-          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR = 1.08 USD."
+          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR =
+            1.08 USD."
         width: 12
     height: 300px
   - items:
