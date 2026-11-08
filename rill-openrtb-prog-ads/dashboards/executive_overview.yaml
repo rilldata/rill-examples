@@ -5,351 +5,546 @@ tags: [ "canvas", "executive", "auctions", "bids" ]
 
 type: canvas
 display_name: Executive summary report
+
 defaults:
   time_range: PT24H
   comparison_mode: time
-rows:
-  - items:
-      - markdown:
-          title: ""
-          description: ""
-          content: |
-            # Executive summary report
 
-            _Note: Currency values are converted to USD using a fixed rate of **1 EUR = 1.08 USD**._
-          alignment:
-            horizontal: left
-            vertical: middle
-        width: 12
-    height: 80px
-  - items:
-      - kpi_grid:
-          metrics_view: bids_metrics
-          measures:
-            - overall_spend
-            - total_bids
-            - impressions
-          comparison:
-            - delta
-            - percent_change
-            - previous
-          sparkline: right
-          title: Bids (USD)
-        width: 6
-      - kpi_grid:
-          metrics_view: auction_metrics
-          measures:
-            - requests
-            - avg_bid_floor
-            - 1d_qps
-          comparison:
-            - delta
-            - percent_change
-          sparkline: right
-          title: Auctions (USD)
-        width: 6
-    height: 300px
-  - items:
-      - combo_chart:
-          metrics_view: auction_metrics
-          title: Avg Bid Floor (USD) vs 1D QPS
-          x:
-            type: temporal
-            field: __time
-            sort: -y
-            limit: 20
-          y1:
-            type: quantitative
-            field: avg_bid_floor
-            zeroBasedOrigin: true
-            mark: bar
-          y2:
-            type: quantitative
-            field: 1d_qps
-            zeroBasedOrigin: true
-            mark: line
-          color:
-            type: value
-            field: measures
-            legendOrientation: top
-        width: 12
-    height: 40px
-  - items:
-      - donut_chart:
-          metrics_view: auction_metrics
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            type: nominal
-            field: device_state
-            limit: 20
-            sort: -measure
-          measure:
-            type: quantitative
-            field: requests
-            showTotal: true
-          title: ""
-          description: ""
-        width: 6
-      - stacked_bar:
-          metrics_view: bids_metrics
-          title: Advertising Spend Overall (USD)
-          description: ""
-          color:
-            field: device_type
-            type: nominal
-          vl_config: |-
-            {
-              "range": {
-                "category": [
-                  "#1f77b4",
-                  "#ff7f0e",
-                  "#2ca02c",
-                  "#d62728",
-                  "#9467bd",
-                  "#8c564b",
-                  "#e377c2",
-                  "#7f7f7f",
-                  "#bcbd22",
-                  "#17becf"
-                ]
-              }
-            }
-          x:
-            field: __time
-            limit: 20
-            sort: -y
-            type: temporal
-          y:
-            field: overall_spend
-            type: quantitative
-            zeroBasedOrigin: true
-        width: 6
-    height: 320px
-  - items:
-      - combo_chart:
-          metrics_view: auction_metrics
-          title: Avg Bid Floor (USD) vs 1D QPS
-          x:
-            field: __time
-            limit: 20
-            sort: -y
-            type: temporal
-          y1:
-            type: quantitative
-            field: avg_bid_floor
-            zeroBasedOrigin: true
-            mark: bar
-          y2:
-            type: quantitative
-            field: 1d_qps
-            zeroBasedOrigin: true
-            mark: line
-          color:
-            type: value
-            field: measures
-            legendOrientation: top
-        width: 12
-    height: 40px
-  - items:
-      - scatter_plot:
-          metrics_view: auction_metrics
-          color: primary
-          x:
-            type: quantitative
-            field: 1d_qps
-            zeroBasedOrigin: false
-          y:
-            field: requests
-            type: quantitative
-            zeroBasedOrigin: true
-          dimension:
-            type: nominal
-            field: platform_browser
-            limit: 10
-        width: 12
-    height: 40px
-  - items:
-      - combo_chart:
-          metrics_view: auction_metrics
-          title: Avg Bid Floor (USD) vs Requests
-          x:
-            type: temporal
-            field: __time
-            sort: -y
-            limit: 20
-          y1:
-            type: quantitative
-            field: avg_bid_floor
-            zeroBasedOrigin: true
-            mark: bar
-          y2:
-            type: quantitative
-            field: requests
-            zeroBasedOrigin: true
-            mark: line
-          color:
-            type: value
-            field: measures
-            legendOrientation: top
-        width: 12
-    height: 40px
-  - items:
-      - leaderboard:
-          dimensions:
-            - another_time_column
-            - app_site_name
-          measures:
-            - requests
-          metrics_view: auction_metrics
-          num_rows: 10
-        width: 12
-    height: 40px
-  - items:
-      - kpi_grid:
-          metrics_view: auction_metrics
-          measures:
-            - requests
-            - avg_bid_floor
-            - 1d_qps
-          comparison:
-            - delta
-            - percent_change
-          title: Auctions (USD)
-        width: 6
-      - donut_chart:
-          metrics_view: bids_metrics
-          title: Advertising Spend Overall by Advertiser (USD)
-          innerRadius: 50
-          show_other: true
-          labels:
-            show: true
-            format: percent
-            threshold: 5
-          color:
-            field: advertiser_name
-            type: nominal
-            limit: 20
-            sort: -measure
-          measure:
-            field: overall_spend
-            type: quantitative
-            showTotal: true
-        width: 6
-    height: 383px
-  - items:
-      - combo_chart:
-          title: Total Requests vs Avg Bid Floor (USD)
-          color:
-            field: measures
-            legendOrientation: top
-            type: value
-            colorMapping:
-              - value: Total Requests
-                color: hsl(238, 56%, 52%)
-          metrics_view: auction_metrics
-          x:
-            field: __time
-            limit: 20
-            sort: -y
-            type: temporal
-          y1:
-            field: requests
-            mark: bar
-            type: quantitative
-            zeroBasedOrigin: true
-          y2:
-            field: avg_bid_floor
-            mark: line
-            type: quantitative
-            zeroBasedOrigin: true
-        width: 6
-      - stacked_bar:
-          metrics_view: bids_metrics
-          title: ""
-          description: ""
-          color:
-            field: auction_type
-            type: nominal
-          x:
-            field: bid_floor_bucket
-            limit: 30
-            showAxisTitle: true
-            showNull: false
-            sort: -x
-            type: nominal
-          y:
-            field: win_rate
-            type: quantitative
-            zeroBasedOrigin: true
-        width: 6
-    height: 320px
-  - items:
-      - table:
-          metrics_view: bids_metrics
-          columns:
-            - advertiser_name
-            - overall_spend
-            - total_bids
-            - impressions
-            - ctr
-            - ecpm
-          col_dimensions: []
-          measures:
-            - overall_spend
-            - total_bids
-            - impressions
-            - win_rate
-            - clicks
-          row_dimensions:
-            - advertiser_name
-          time_filters: tr=P7D&compare_tr=rill-PW&grain=day
-          title: Per advertiser metrics (USD) – last 7 days
-          description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR = 1.08 USD."
-        width: 12
-    height: 300px
-  - items:
-      - scatter_plot:
-          metrics_view: auction_metrics
-          title: Avg Bid Floor (USD) vs 1D QPS
-          color: primary
-          x:
-            type: quantitative
-            field: 1d_qps
-            zeroBasedOrigin: false
-          y:
-            type: quantitative
-            field: avg_bid_floor
-            zeroBasedOrigin: false
-          dimension:
-            type: nominal
-            field: ad_size
-            limit: 10
-        width: 6
-      - combo_chart:
-          metrics_view: auction_metrics
-          x:
-            field: __time
-            limit: 20
-            sort: -y
-            type: temporal
-          y1:
-            type: quantitative
-            field: 1d_qps
-            zeroBasedOrigin: true
-            mark: bar
-          y2:
-            type: quantitative
-            field: requests
-            zeroBasedOrigin: true
-            mark: line
-          color:
-            type: value
-            field: measures
-            legendOrientation: top
-        width: 6
-    height: 40px
+rows:
+  - name: overview_tabs
+    tabs:
+      # ----------------------------
+      # TAB 1: Executive overview
+      # ----------------------------
+      - label: Executive overview
+        rows:
+          - height: 80px
+            items:
+              - width: 12
+                markdown:
+                  title: ""
+                  description: ""
+                  content: |
+                    # Executive summary report
+
+                    _Note: Currency values are converted to USD using a fixed rate of **1 EUR = 1.08 USD**._
+                  alignment:
+                    horizontal: left
+                    vertical: middle
+
+          # Keep existing KPI grids (reorganized into this first tab)
+          - height: 300px
+            items:
+              - width: 6
+                kpi_grid:
+                  metrics_view: bids_metrics
+                  title: Bids (USD)
+                  measures:
+                    - overall_spend
+                    - total_bids
+                    - impressions
+                  comparison:
+                    - delta
+                    - percent_change
+                    - previous
+                  sparkline: right
+              - width: 6
+                kpi_grid:
+                  metrics_view: auction_metrics
+                  title: Auctions (USD)
+                  measures:
+                    - requests
+                    - avg_bid_floor
+                    - 1d_qps
+                  comparison:
+                    - delta
+                    - percent_change
+                  sparkline: right
+                  time_filters: grain=day
+
+          - height: 50px
+            items:
+              - width: 12
+                markdown:
+                  content: |
+                    ## At-a-glance trends
+
+                    Key time-series and distribution views for the last 24 hours.
+                  alignment:
+                    horizontal: left
+                    vertical: middle
+
+          - height: 360px
+            items:
+              - width: 12
+                combo_chart:
+                  metrics_view: auction_metrics
+                  title: Avg Bid Floor (USD) vs 1D QPS
+                  x:
+                    type: temporal
+                    field: __time
+                    limit: 20
+                    sort: -y
+                  y1:
+                    type: quantitative
+                    field: avg_bid_floor
+                    zeroBasedOrigin: true
+                    mark: bar
+                  y2:
+                    type: quantitative
+                    field: 1d_qps
+                    zeroBasedOrigin: true
+                    mark: line
+                  color:
+                    type: value
+                    field: measures
+                    legendOrientation: top
+
+          - height: 320px
+            items:
+              - width: 6
+                donut_chart:
+                  metrics_view: auction_metrics
+                  title: Requests by State
+                  description: Distribution of auction requests by device_state.
+                  innerRadius: 50
+                  show_other: true
+                  labels:
+                    show: true
+                    format: percent
+                    threshold: 5
+                  color:
+                    type: nominal
+                    field: device_state
+                    limit: 20
+                    sort: -measure
+                  measure:
+                    type: quantitative
+                    field: requests
+                    showTotal: true
+              - width: 6
+                stacked_bar:
+                  metrics_view: bids_metrics
+                  title: Advertising Spend Overall (USD) by Device Type
+                  color:
+                    field: device_type
+                    type: nominal
+                  vl_config: |-
+                    {
+                      "range": {
+                        "category": [
+                          "#1f77b4",
+                          "#ff7f0e",
+                          "#2ca02c",
+                          "#d62728",
+                          "#9467bd",
+                          "#8c564b",
+                          "#e377c2",
+                          "#7f7f7f",
+                          "#bcbd22",
+                          "#17becf"
+                        ]
+                      }
+                    }
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 20
+                    sort: -y
+                  y:
+                    field: overall_spend
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+          - height: 320px
+            items:
+              - width: 6
+                scatter_plot:
+                  metrics_view: auction_metrics
+                  title: Requests vs 1D QPS by Browser
+                  description: Each point is a platform_browser value.
+                  color: primary
+                  x:
+                    type: quantitative
+                    field: 1d_qps
+                    zeroBasedOrigin: false
+                  y:
+                    type: quantitative
+                    field: requests
+                    zeroBasedOrigin: true
+                  dimension:
+                    type: nominal
+                    field: platform_browser
+                    limit: 10
+              - width: 6
+                area_chart:
+                  metrics_view: bids_metrics
+                  title: Impressions over Time
+                  description: Area trend of impressions in the selected time range.
+                  color: primary
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 40
+                  y:
+                    field: impressions
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+          - height: 320px
+            items:
+              - width: 12
+                table:
+                  metrics_view: bids_metrics
+                  title: Per advertiser metrics (USD) – last 7 days
+                  description: "Currency columns (overall_spend, ecpm) are converted using 1 EUR =
+                    1.08 USD."
+                  time_filters: tr=P7D&compare_tr=rill-PW&grain=day
+                  columns:
+                    - advertiser_name
+                    - overall_spend
+                    - total_bids
+                    - impressions
+                    - ctr
+                    - ecpm
+
+      # ----------------------------
+      # TAB 2: Auctions deep dive
+      # ----------------------------
+      - label: Auctions deep dive
+        rows:
+          - height: 70px
+            items:
+              - width: 12
+                markdown:
+                  content: >
+                    # Auctions deep dive
+
+
+                    Breakdown of auction volume, bid floors, and performance by
+                    key dimensions.
+                  alignment:
+                    horizontal: left
+                    vertical: middle
+          - height: 220px
+            items:
+              - width: 12
+                kpi_grid:
+                  metrics_view: auction_metrics
+                  title: Auction KPIs
+                  measures:
+                    - requests
+                    - avg_bid_floor
+                    - 1d_qps
+                  comparison:
+                    - delta
+                    - percent_change
+                    - previous
+                  sparkline: right
+          - height: 360px
+            items:
+              - width: 6
+                bar_chart:
+                  metrics_view: auction_metrics
+                  title: Requests by Device Country
+                  description: Top countries by request volume.
+                  color: primary
+                  x:
+                    field: device_country
+                    type: nominal
+                    limit: 15
+                    sort: -y
+                  y:
+                    field: requests
+                    type: quantitative
+                    zeroBasedOrigin: true
+              - width: 6
+                bar_chart:
+                  metrics_view: auction_metrics
+                  title: Avg Bid Floor (USD) by Auction Type
+                  description: Average bid floor by auction_type.
+                  color: secondary
+                  x:
+                    field: auction_type
+                    type: nominal
+                    limit: 20
+                    sort: -y
+                  y:
+                    field: avg_bid_floor
+                    type: quantitative
+                    zeroBasedOrigin: true
+          - items:
+              - width: 12
+                line_chart:
+                  metrics_view: auction_metrics
+                  title: Requests over Time
+                  description: Time-series of total requests.
+                  color: primary
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 60
+                  y:
+                    field: requests
+                    type: quantitative
+                    zeroBasedOrigin: true
+          - height: 360px
+            items:
+              - width: 6
+                donut_chart:
+                  metrics_view: auction_metrics
+                  title: Requests by Placement Type
+                  innerRadius: 50
+                  show_other: true
+                  labels:
+                    show: true
+                    format: percent
+                    threshold: 5
+                  color:
+                    field: placement_type
+                    type: nominal
+                    limit: 12
+                    sort: -measure
+                  measure:
+                    field: requests
+                    type: quantitative
+                    showTotal: true
+              - width: 6
+                scatter_plot:
+                  metrics_view: auction_metrics
+                  title: Avg Bid Floor (USD) vs 1D QPS by Ad Size
+                  description: Each point is an ad_size value.
+                  color: primary
+                  x:
+                    type: quantitative
+                    field: 1d_qps
+                    zeroBasedOrigin: false
+                  y:
+                    type: quantitative
+                    field: avg_bid_floor
+                    zeroBasedOrigin: false
+                  dimension:
+                    type: nominal
+                    field: ad_size
+                    limit: 10
+          - height: 380px
+            items:
+              - width: 12
+                heatmap:
+                  metrics_view: auction_metrics
+                  title: Requests heatmap (Device OS × Device Type)
+                  description: Relative request volume across device_os and device_type.
+                  color:
+                    field: requests
+                    type: quantitative
+                  x:
+                    field: device_os
+                    type: nominal
+                    limit: 12
+                  y:
+                    field: device_type
+                    type: nominal
+                    limit: 12
+                    sort: -color
+          - height: 360px
+            items:
+              - width: 12
+                leaderboard:
+                  metrics_view: auction_metrics
+                  title: Top App/Site Names by Requests
+                  description: Ranked list of app_site_name values.
+                  dimensions:
+                    - app_site_name
+                  measures:
+                    - requests
+                  num_rows: 15
+          - height: 360px
+            items:
+              - width: 12
+                table:
+                  metrics_view: auction_metrics
+                  title: Auction performance by Publisher
+                  description: Requests, avg bid floor, and 1D QPS by pub_name.
+                  columns:
+                    - pub_name
+                    - requests
+                    - avg_bid_floor
+                    - 1d_qps
+
+      # ----------------------------
+      # TAB 3: Bids & advertisers
+      # ----------------------------
+      - label: Bids & advertisers
+        rows:
+          - height: 70px
+            items:
+              - width: 12
+                markdown:
+                  content: |
+                    # Bids & advertisers
+
+                    Spend, bids, and engagement metrics with advertiser and inventory breakdowns.
+                  alignment:
+                    horizontal: left
+                    vertical: middle
+
+          - height: 220px
+            items:
+              - width: 12
+                kpi_grid:
+                  metrics_view: bids_metrics
+                  title: Bid KPIs (USD)
+                  measures:
+                    - overall_spend
+                    - total_bids
+                    - impressions
+                    - clicks
+                  comparison:
+                    - delta
+                    - percent_change
+                    - previous
+                  sparkline: right
+
+          - height: 360px
+            items:
+              - width: 12
+                line_chart:
+                  metrics_view: bids_metrics
+                  title: Spend (USD) over Time
+                  description: Overall spend trend.
+                  color: primary
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 60
+                  y:
+                    field: overall_spend
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+          - height: 360px
+            items:
+              - width: 6
+                donut_chart:
+                  metrics_view: bids_metrics
+                  title: Spend by Advertiser (USD)
+                  description: Share of spend by advertiser_name.
+                  innerRadius: 50
+                  show_other: true
+                  labels:
+                    show: true
+                    format: percent
+                    threshold: 5
+                  color:
+                    field: advertiser_name
+                    type: nominal
+                    limit: 20
+                    sort: -measure
+                  measure:
+                    field: overall_spend
+                    type: quantitative
+                    showTotal: true
+              - width: 6
+                bar_chart:
+                  metrics_view: bids_metrics
+                  title: Top Publishers by Spend (USD)
+                  description: Ranked by overall_spend.
+                  color: primary
+                  x:
+                    field: pub_name
+                    type: nominal
+                    limit: 15
+                    sort: -y
+                  y:
+                    field: overall_spend
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+          - height: 360px
+            items:
+              - width: 6
+                stacked_bar:
+                  metrics_view: bids_metrics
+                  title: Spend (USD) by Device OS
+                  description: Stacked spend by device_os.
+                  color:
+                    field: device_os
+                    type: nominal
+                    limit: 10
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 40
+                  y:
+                    field: overall_spend
+                    type: quantitative
+                    zeroBasedOrigin: true
+              - width: 6
+                area_chart:
+                  metrics_view: bids_metrics
+                  title: CTR over Time
+                  description: CTR trend (area).
+                  color: secondary
+                  x:
+                    field: __time
+                    type: temporal
+                    limit: 60
+                  y:
+                    field: ctr
+                    type: quantitative
+                    zeroBasedOrigin: true
+
+          - height: 360px
+            items:
+              - width: 6
+                scatter_plot:
+                  metrics_view: bids_metrics
+                  title: eCPM vs CTR by Advertiser
+                  description: Each point is an advertiser_name value.
+                  x:
+                    field: ecpm
+                    type: quantitative
+                    zeroBasedOrigin: false
+                  y:
+                    field: ctr
+                    type: quantitative
+                    zeroBasedOrigin: false
+                  dimension:
+                    field: advertiser_name
+                    type: nominal
+                    limit: 15
+                  color:
+                    field: device_type
+                    type: nominal
+                    limit: 6
+                    legendOrientation: top
+              - width: 6
+                leaderboard:
+                  metrics_view: bids_metrics
+                  title: Top Campaigns by Bids
+                  description: Ranked list of campaign_name values.
+                  dimensions:
+                    - campaign_name
+                  measures:
+                    - total_bids
+                    - impressions
+                    - clicks
+                  num_rows: 15
+
+          - height: 360px
+            items:
+              - width: 12
+                table:
+                  metrics_view: bids_metrics
+                  title: Advertiser performance table
+                  description: Spend, bids, impressions, and engagement by advertiser.
+                  sort_by: overall_spend
+                  sort_dir: desc
+                  columns:
+                    - advertiser_name
+                    - overall_spend
+                    - total_bids
+                    - impressions
+                    - clicks
+                    - ctr
+                    - ecpm
