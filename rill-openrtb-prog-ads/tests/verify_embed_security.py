@@ -132,15 +132,44 @@ measures:
                         raise AssertionError("Local runtime did not reconcile: " + log.read()[-6000:])
                     time.sleep(0.3)
                 print("Local runtime ready; querying exact source security blocks.", flush=True)
-                request = urllib.request.Request(
-                    f"http://127.0.0.1:{port}/v1/instances/default",
-                    headers={"Authorization": "Bearer " + token({"email": "viewer@example.com", "admin": False, "embed": True})},
-                )
-                with urllib.request.urlopen(request, timeout=10) as response:
-                    flags = json.load(response)["instance"]["featureFlags"]
-                assert flags.get("dashboardChat") is True, "Embedded dashboard AI is not enabled"
-                print("Embedded dashboard AI capability enabled.", flush=True)
-                checks = 1
+                def resolved_flags(attributes):
+                    request = urllib.request.Request(
+                        f"http://127.0.0.1:{port}/v1/instances/default",
+                        headers={"Authorization": "Bearer " + token(attributes)},
+                    )
+                    with urllib.request.urlopen(request, timeout=10) as response:
+                        return json.load(response)["instance"]["featureFlags"]
+
+                def camel(key):
+                    head, *rest = key.split("_")
+                    return head + "".join(part.title() for part in rest)
+
+                # Every flag in rill.yaml must keep its fallback without an override and follow a signed boolean override.
+                templates = dict(re.findall(r"""(?m)^  ([a-z_]+): '\{\{ if hasKey \.user "feature_\1" \}\}.*\{\{ else \}\}(.*)\{\{ end \}\}'$""", features))
+                assert templates and len(templates) == len(re.findall(r"(?m)^  [a-z_]+:", features)), "Every feature flag must accept a signed override"
+                fallback = {"true": (True, True), "false": (False, False), "{{ not .user.embed }}": (False, True), "{{ .user.embed }}": (True, False)}
+                embed = {"email": "viewer@example.com", "admin": False, "embed": True}
+                member = {"email": "viewer@example.com", "admin": False}
+                checks = 0
+                embedded, signed_in = resolved_flags(embed), resolved_flags(member)
+                for key, value in templates.items():
+                    expected_embed, expected_member = fallback[value]
+                    assert embedded.get(camel(key)) is expected_embed, (key, "embed fallback", embedded.get(camel(key)))
+                    assert signed_in.get(camel(key)) is expected_member, (key, "member fallback", signed_in.get(camel(key)))
+                    checks += 2
+                for enabled in (True, False):
+                    overridden = resolved_flags({**embed, **{"feature_" + key: enabled for key in templates}})
+                    for key in templates:
+                        assert overridden.get(camel(key)) is enabled, (key, enabled, overridden.get(camel(key)))
+                        checks += 1
+                for raw, expected in (("true", True), ("false", False), ("1", False), ("true || true", False), ([True], False)):
+                    assert resolved_flags({**embed, "feature_exports": raw}).get("exports") is expected, ("malformed override", raw)
+                    checks += 1
+                chat_off = resolved_flags({**embed, "feature_chat": False, "feature_dashboard_chat": True})
+                assert chat_off.get("chat") is False and chat_off.get("dashboardChat") is False, "Rill must keep dashboard chat off when chat is off"
+                assert embedded.get("dashboardChat") is True, "Embedded dashboard AI is not enabled"
+                checks += 2
+                print(f"Feature flags: {len(templates)} templated flags passed {checks} fallback and override checks.", flush=True)
                 for name in policies:
                     bids = name == "bids_metrics"
                     cases = [
@@ -185,7 +214,7 @@ measures:
                     assert status in (400, 403), ("Existing field restriction was lost", status)
                     checks += 1
                     print("Existing email-based field exclusion preserved.", flush=True)
-                print(f"PASS: {checks} backend security checks.", flush=True)
+                print(f"PASS: {checks} backend security and feature-flag checks.", flush=True)
             finally:
                 runtime.terminate()
                 try:

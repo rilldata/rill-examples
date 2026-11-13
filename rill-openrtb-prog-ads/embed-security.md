@@ -42,9 +42,27 @@ Public access without a mode is intentional for this demo, not a complete multi-
 
 ## Open the AI sidebar
 
-`features.dashboard_chat: true` enables the dashboard AI sidebar in embeds. The default runtime behavior disables this capability for embedded users even when general project chat is enabled. The host page can then use `setAiPane(true)` and `setAiPane(false)` to open and close it; those calls control visibility only.
+`dashboard_chat` falls back to `true`, which enables the dashboard AI sidebar in embeds. The default runtime behavior disables this capability for embedded users even when general project chat is enabled. The host page can then use `setAiPane(true)` and `setAiPane(false)` to open and close it. Those calls control visibility only: `getAiPane` reports the requested pane state, and the sidebar renders only when `dashboardChat` also resolves to true for that embed.
 
-This flag takes effect after the branch is merged and deployed. The backend verification below also checks that dashboard chat resolves to enabled for an embedded identity. It does not send an AI prompt or test generated answers.
+## Override feature flags per embed
+
+Every flag under `features` keeps its fallback value unless the trusted embed backend signs a boolean `feature_<flag>` user attribute. The override applies only to that embed token. It does not change the project for anyone else. For example, these attributes disable exports and enable dashboard chat for one embed:
+
+```json
+{
+  "email": "viewer@damedetrefle.com",
+  "domain": "damedetrefle.com",
+  "admin": false,
+  "feature_exports": false,
+  "feature_dashboard_chat": true
+}
+```
+
+Only the boolean `true` (or the string `"true"`) enables a flag; any other value disables it. Rill still forces `dashboard_chat` and `chat_memory` off when `chat` is off. Overrides travel in `attributes`, so they cannot be combined with `user_email` or `user_id`.
+
+Without an override, each flag resolves exactly as its previous untemplated value or runtime default did. Production fallbacks match the deployed v0.91.3 runtime defaults, so `alerts` and `reports` stay enabled for embeds. That runtime does not define `mcp_charts`, `embedded_bookmarks`, or `canvas_excel_export`, so they are not templated here. Because the fallbacks are written into `rill.yaml`, a later runtime default change will not apply to this project until the fallback is updated.
+
+Feature flags mainly control the UI; backend permissions and security policies are enforced independently. Like the security mode, override attributes must be decided by a trusted backend, never by an untrusted visitor.
 
 ## Verify before deployment
 
@@ -54,7 +72,7 @@ With Python 3 and the Rill CLI available, run from the repository root:
 python3 rill-openrtb-prog-ads/tests/verify_embed_security.py
 ```
 
-The script copies the exact security blocks from every metrics view into a temporary project with synthetic data and queries a local Rill backend. It checks unrestricted access, allowed and denied user domains, advertiser and site filters, combined filters, malformed and missing attributes, quoted values, SQL-injection attempts, and cross-metrics access. On branches with the existing email-based field exclusion, it checks that exclusion too.
+The script copies the exact security blocks from every metrics view into a temporary project with synthetic data and queries a local Rill backend. It checks unrestricted access, allowed and denied user domains, advertiser and site filters, combined filters, malformed and missing attributes, quoted values, SQL-injection attempts, and cross-metrics access. On branches with the existing email-based field exclusion, it checks that exclusion too. It also resolves every templated feature flag for embedded and signed-in identities, with and without signed overrides, including malformed override values.
 
 The fixture verifies policy behavior, not the original project's full ingestion, charts, or cloud deployment. It does not use cloud credentials or modify a deployed project. The local attributes token is a Rill Developer testing mechanism and is not accepted by Rill Cloud.
 
