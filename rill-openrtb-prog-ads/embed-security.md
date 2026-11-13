@@ -40,6 +40,12 @@ Use `attributes` rather than `user_email` when passing the mode: the iframe API 
 
 Public access without a mode is intentional for this demo, not a complete multi-tenant security design. Production applications should enforce their default restrictions independently of an optional test selector.
 
+## Open the AI sidebar
+
+`features.dashboard_chat: true` enables the dashboard AI sidebar in embeds. The default runtime behavior disables this capability for embedded users even when general project chat is enabled. The host page can then use `setAiPane(true)` and `setAiPane(false)` to open and close it; those calls control visibility only.
+
+This flag takes effect after the branch is merged and deployed. The backend verification below also checks that dashboard chat resolves to enabled for an embedded identity. It does not send an AI prompt or test generated answers.
+
 ## Verify before deployment
 
 With Python 3 and the Rill CLI available, run from the repository root:
