@@ -14,6 +14,24 @@ mock_users:
     - partners
 - email: test@domain.com
 
+- email: embed-domain@rilldata.com
+  admin: false
+  embed_security_mode: user_domain
+- email: embed-denied@outside.example
+  admin: false
+  embed_security_mode: user_domain
+- email: embed-advertiser@advertiser.example
+  admin: false
+  embed_security_mode: advertiser
+  advertiser_name: Grocery Outlet
+- email: embed-site@damedetrefle.com
+  admin: false
+  embed_security_mode: site_domain
+- email: embed-combined@damedetrefle.com
+  admin: false
+  embed_security_mode: advertiser_domain
+  advertiser_name: Grocery Outlet
+
 models:
   refresh:
     every: 24h
