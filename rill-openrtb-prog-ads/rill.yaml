@@ -37,5 +37,31 @@ models:
     every: 24h
 
 features:
-  dashboard_chat: true
-  cloud_editing: true
+  # Each flag keeps the value below unless the trusted embed backend signs a boolean
+  # feature_<flag> user attribute, which overrides it for that embed only. See embed-security.md.
+  exports: '{{ if hasKey .user "feature_exports" }}{{ eq (toString .user.feature_exports) "true" }}{{ else }}true{{ end }}'
+  cloud_data_viewer: '{{ if hasKey .user "feature_cloud_data_viewer" }}{{ eq (toString .user.feature_cloud_data_viewer) "true" }}{{ else }}false{{ end }}'
+  dimension_search: '{{ if hasKey .user "feature_dimension_search" }}{{ eq (toString .user.feature_dimension_search) "true" }}{{ else }}false{{ end }}'
+  two_tiered_navigation: '{{ if hasKey .user "feature_two_tiered_navigation" }}{{ eq (toString .user.feature_two_tiered_navigation) "true" }}{{ else }}false{{ end }}'
+  rill_time: '{{ if hasKey .user "feature_rill_time" }}{{ eq (toString .user.feature_rill_time) "true" }}{{ else }}true{{ end }}'
+  hide_public_url: '{{ if hasKey .user "feature_hide_public_url" }}{{ eq (toString .user.feature_hide_public_url) "true" }}{{ else }}{{ .user.embed }}{{ end }}'
+  export_header: '{{ if hasKey .user "feature_export_header" }}{{ eq (toString .user.feature_export_header) "true" }}{{ else }}false{{ end }}'
+  alerts: '{{ if hasKey .user "feature_alerts" }}{{ eq (toString .user.feature_alerts) "true" }}{{ else }}{{ not .user.embed }}{{ end }}'
+  reports: '{{ if hasKey .user "feature_reports" }}{{ eq (toString .user.feature_reports) "true" }}{{ else }}{{ not .user.embed }}{{ end }}'
+  chat: '{{ if hasKey .user "feature_chat" }}{{ eq (toString .user.feature_chat) "true" }}{{ else }}true{{ end }}'
+  dashboard_chat: '{{ if hasKey .user "feature_dashboard_chat" }}{{ eq (toString .user.feature_dashboard_chat) "true" }}{{ else }}true{{ end }}'
+  developer_chat: '{{ if hasKey .user "feature_developer_chat" }}{{ eq (toString .user.feature_developer_chat) "true" }}{{ else }}true{{ end }}'
+  chat_charts: '{{ if hasKey .user "feature_chat_charts" }}{{ eq (toString .user.feature_chat_charts) "true" }}{{ else }}true{{ end }}'
+  mcp_charts: '{{ if hasKey .user "feature_mcp_charts" }}{{ eq (toString .user.feature_mcp_charts) "true" }}{{ else }}true{{ end }}'
+  chat_memory: '{{ if hasKey .user "feature_chat_memory" }}{{ eq (toString .user.feature_chat_memory) "true" }}{{ else }}true{{ end }}'
+  deploy: '{{ if hasKey .user "feature_deploy" }}{{ eq (toString .user.feature_deploy) "true" }}{{ else }}true{{ end }}'
+  developer_agent: '{{ if hasKey .user "feature_developer_agent" }}{{ eq (toString .user.feature_developer_agent) "true" }}{{ else }}true{{ end }}'
+  sticky_dashboard_state: '{{ if hasKey .user "feature_sticky_dashboard_state" }}{{ eq (toString .user.feature_sticky_dashboard_state) "true" }}{{ else }}false{{ end }}'
+  disable_persistent_dashboard_state: '{{ if hasKey .user "feature_disable_persistent_dashboard_state" }}{{ eq (toString .user.feature_disable_persistent_dashboard_state) "true" }}{{ else }}false{{ end }}'
+  cloud_editing: '{{ if hasKey .user "feature_cloud_editing" }}{{ eq (toString .user.feature_cloud_editing) "true" }}{{ else }}true{{ end }}'
+  custom_charts: '{{ if hasKey .user "feature_custom_charts" }}{{ eq (toString .user.feature_custom_charts) "true" }}{{ else }}false{{ end }}'
+  custom_components: '{{ if hasKey .user "feature_custom_components" }}{{ eq (toString .user.feature_custom_components) "true" }}{{ else }}false{{ end }}'
+  personal_canvases: '{{ if hasKey .user "feature_personal_canvases" }}{{ eq (toString .user.feature_personal_canvases) "true" }}{{ else }}false{{ end }}'
+  embedded_bookmarks: '{{ if hasKey .user "feature_embedded_bookmarks" }}{{ eq (toString .user.feature_embedded_bookmarks) "true" }}{{ else }}false{{ end }}'
+  ai: '{{ if hasKey .user "feature_ai" }}{{ eq (toString .user.feature_ai) "true" }}{{ else }}true{{ end }}'
+  canvas_excel_export: '{{ if hasKey .user "feature_canvas_excel_export" }}{{ eq (toString .user.feature_canvas_excel_export) "true" }}{{ else }}false{{ end }}'
