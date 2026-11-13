@@ -58,7 +58,8 @@ def main():
     policies = {path.stem: security_block(path) for path in sources}
     with tempfile.TemporaryDirectory(prefix="embed-security-") as directory:
         fixture = Path(directory)
-        (fixture / "rill.yaml").write_text("compiler: rillv1\nolap_connector: duckdb\n")
+        features = re.search(r"(?ms)^features:\n.*?(?=^\S|\Z)", (PROJECT / "rill.yaml").read_text()).group()
+        (fixture / "rill.yaml").write_text("compiler: rillv1\nolap_connector: duckdb\n" + features)
         values = ",\n".join("(" + sql_string(a) + ", " + sql_string(d) + ", " + str(n) + ")" for a, d, n in ROWS)
         (fixture / "fixture_data.sql").write_text(
             "-- @materialize: true\nSELECT *, current_timestamp AS __time, 5 AS imp_cnt, 1.5 AS bid_floor, 'bucket' AS bid_floor_bucket, 'auction' AS auction_type\n"
@@ -131,7 +132,15 @@ measures:
                         raise AssertionError("Local runtime did not reconcile: " + log.read()[-6000:])
                     time.sleep(0.3)
                 print("Local runtime ready; querying exact source security blocks.", flush=True)
-                checks = 0
+                request = urllib.request.Request(
+                    f"http://127.0.0.1:{port}/v1/instances/default",
+                    headers={"Authorization": "Bearer " + token({"email": "viewer@example.com", "admin": False, "embed": True})},
+                )
+                with urllib.request.urlopen(request, timeout=10) as response:
+                    flags = json.load(response)["instance"]["featureFlags"]
+                assert flags.get("dashboardChat") is True, "Embedded dashboard AI is not enabled"
+                print("Embedded dashboard AI capability enabled.", flush=True)
+                checks = 1
                 for name in policies:
                     bids = name == "bids_metrics"
                     cases = [
