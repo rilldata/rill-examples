@@ -37,6 +37,24 @@ security:
     {{- else -}}
     false
     {{- end -}}
+  rules:
+    # Deny explicitly whenever the access condition above is false. An access condition only adds access,
+    # so it cannot remove the access that a dashboard-scoped embed token grants to its metrics view.
+    - type: access
+      action: deny
+      if: >-
+        {{- $mode := get .user "embed_security_mode" -}}
+        {{- if not (hasKey .user "embed_security_mode") -}}
+        false
+        {{- else if not (kindIs "string" $mode) -}}
+        true
+        {{- else if eq $mode "user_domain" -}}
+        {{ not (and (kindIs "string" .user.domain) (eq .user.domain "rilldata.com")) }}
+        {{- else if eq $mode "site_domain" -}}
+        {{ not (and (kindIs "string" .user.domain) (not (empty .user.domain))) }}
+        {{- else -}}
+        true
+        {{- end -}}
 
 annotations:
   - model: annotations_auction
