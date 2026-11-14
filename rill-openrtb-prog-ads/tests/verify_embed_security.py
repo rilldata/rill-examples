@@ -56,6 +56,11 @@ def main():
         raise SystemExit("Install the Rill CLI before running this check.")
     sources = sorted((PROJECT / "metrics").glob("*.yaml"))
     policies = {path.stem: security_block(path) for path in sources}
+    # Rill Cloud embed tokens scoped to a dashboard carry an extra rule that allows its metrics view.
+    # Each "_scoped" copy reproduces that grant, so denials must come from explicit deny rules, not from a false access condition.
+    for name, policy in list(policies.items()):
+        assert "\n  rules:\n" in policy, f"{name} must declare explicit deny rules"
+        policies[name + "_scoped"] = policy + "    - type: access\n      action: allow\n"
     with tempfile.TemporaryDirectory(prefix="embed-security-") as directory:
         fixture = Path(directory)
         features = re.search(r"(?ms)^features:\n.*?(?=^\S|\Z)", (PROJECT / "rill.yaml").read_text()).group()
@@ -66,7 +71,7 @@ def main():
             "FROM (VALUES " + values + ") AS data(advertiser_name, app_site_domain, bid_cnt)\n"
         )
         for name, policy in policies.items():
-            bids = name == "bids_metrics"
+            bids = name.startswith("bids_metrics")
             fields = """dimensions:
   - name: sites_domain
     column: app_site_domain
@@ -103,7 +108,7 @@ measures:
             ], stdout=log, stderr=subprocess.STDOUT)
             try:
                 def query(name, attributes):
-                    bids = name == "bids_metrics"
+                    bids = name.startswith("bids_metrics")
                     body = {"dimensions": [{"name": "advertiser_name"}, {"name": "sites_domain"}] if bids else [{"name": "app_site_domain"}],
                             "measures": [{"name": "total_bids" if bids else "requests"}], "limit": 100}
                     request = urllib.request.Request(
@@ -171,7 +176,7 @@ measures:
                 checks += 2
                 print(f"Feature flags: {len(templates)} templated flags passed {checks} fallback and override checks.", flush=True)
                 for name in policies:
-                    bids = name == "bids_metrics"
+                    bids = name.startswith("bids_metrics")
                     cases = [
                         ("public baseline", {}, 6 if bids else 4),
                         ("allowed user domain", {"embed_security_mode": "user_domain", "domain": "rilldata.com"}, 6 if bids else 4),
@@ -210,9 +215,10 @@ measures:
                         checks += 1
                     print(f"{name}: {len(cases)} policy cases passed", flush=True)
                 if "exclude:" in policies["bids_metrics"]:
-                    status, _ = query("bids_metrics", {"email": "adam.kabak@rilldata.com", "admin": False, "embed": True})
-                    assert status in (400, 403), ("Existing field restriction was lost", status)
-                    checks += 1
+                    for name in ("bids_metrics", "bids_metrics_scoped"):
+                        status, _ = query(name, {"email": "adam.kabak@rilldata.com", "admin": False, "embed": True})
+                        assert status in (400, 403), ("Existing field restriction was lost", name, status)
+                        checks += 1
                     print("Existing email-based field exclusion preserved.", flush=True)
                 print(f"PASS: {checks} backend security and feature-flag checks.", flush=True)
             finally:
