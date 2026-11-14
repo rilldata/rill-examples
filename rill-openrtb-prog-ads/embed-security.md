@@ -12,6 +12,8 @@ The demo supports opt-in security scenarios through the signed `embed_security_m
 
 The policies run in the metrics views, so metrics API calls and dashboards inherit them. Site-domain filtering uses the underlying `app_site_domain` column; its bids dimension is named `sites_domain`. `user_domain` controls overall access based on the user's email domain, whereas `site_domain` filters dataset rows. These are separate scenarios.
 
+Each metrics view pairs its `access` condition with an explicit `deny` rule using the negated condition. An `access` condition only adds access, so on its own it cannot remove the access that a dashboard-scoped embed token grants to that dashboard's metrics view. The deny rule makes the denial hold for scoped and unscoped tokens alike.
+
 SQL literals escape apostrophes. An explicitly empty mode does not fall back to public access. Existing email-based field exclusions remain in effect.
 
 ## Pass attributes from the embed backend
@@ -72,7 +74,7 @@ With Python 3 and the Rill CLI available, run from the repository root:
 python3 rill-openrtb-prog-ads/tests/verify_embed_security.py
 ```
 
-The script copies the exact security blocks from every metrics view into a temporary project with synthetic data and queries a local Rill backend. It checks unrestricted access, allowed and denied user domains, advertiser and site filters, combined filters, malformed and missing attributes, quoted values, SQL-injection attempts, and cross-metrics access. On branches with the existing email-based field exclusion, it checks that exclusion too. It also resolves every templated feature flag for embedded and signed-in identities, with and without signed overrides, including malformed override values.
+The script copies the exact security blocks from every metrics view into a temporary project with synthetic data and queries a local Rill backend. It checks unrestricted access, allowed and denied user domains, advertiser and site filters, combined filters, malformed and missing attributes, quoted values, SQL-injection attempts, and cross-metrics access. On branches with the existing email-based field exclusion, it checks that exclusion too. Every case also runs against a copy of each metrics view with an extra allow rule, reproducing the grant in a dashboard-scoped Rill Cloud embed token, so denials must come from explicit deny rules. It also resolves every templated feature flag for embedded and signed-in identities, with and without signed overrides, including malformed override values.
 
 The fixture verifies policy behavior, not the original project's full ingestion, charts, or cloud deployment. It does not use cloud credentials or modify a deployed project. The local attributes token is a Rill Developer testing mechanism and is not accepted by Rill Cloud.
 
