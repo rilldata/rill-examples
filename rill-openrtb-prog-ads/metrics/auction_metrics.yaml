@@ -13,8 +13,30 @@ timeseries: "__time"
 smallest_time_grain: "hour"
 
 security:
-  access: true
-  #row_filter: pub_name in (select pub_name from pub_user_mapping where user_email = '{{.user.email}}' )
+  access: >-
+    {{- $mode := get .user "embed_security_mode" -}}
+    {{- if not (hasKey .user "embed_security_mode") -}}
+    true
+    {{- else if not (kindIs "string" $mode) -}}
+    false
+    {{- else if eq $mode "user_domain" -}}
+    {{ and (kindIs "string" .user.domain) (eq .user.domain "rilldata.com") }}
+    {{- else if eq $mode "site_domain" -}}
+    {{ and (kindIs "string" .user.domain) (not (empty .user.domain)) }}
+    {{- else -}}
+    false
+    {{- end -}}
+  row_filter: >-
+    {{- $mode := get .user "embed_security_mode" | toString -}}
+    {{- if not (hasKey .user "embed_security_mode") -}}
+    true
+    {{- else if eq $mode "user_domain" -}}
+    true
+    {{- else if eq $mode "site_domain" -}}
+    app_site_domain = '{{ .user.domain | toString | replace "'" "''" }}'
+    {{- else -}}
+    false
+    {{- end -}}
 
 annotations:
   - model: annotations_auction

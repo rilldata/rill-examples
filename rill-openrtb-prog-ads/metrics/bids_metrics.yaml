@@ -13,8 +13,39 @@ timeseries: "__time"
 smallest_time_grain: "hour"
 
 security:
-  access: true
-  #row_filter: advertiser_name in (select advertiser_name from advertiser_user_mapping where user_email = '{{.user.email}}' )
+  access: >-
+    {{- $mode := get .user "embed_security_mode" -}}
+    {{- if not (hasKey .user "embed_security_mode") -}}
+    true
+    {{- else if not (kindIs "string" $mode) -}}
+    false
+    {{- else if eq $mode "user_domain" -}}
+    {{ and (kindIs "string" .user.domain) (eq .user.domain "rilldata.com") }}
+    {{- else if eq $mode "advertiser" -}}
+    {{ and (kindIs "string" .user.advertiser_name) (not (empty .user.advertiser_name)) }}
+    {{- else if eq $mode "advertiser_domain" -}}
+    {{ and (kindIs "string" .user.advertiser_name) (not (empty .user.advertiser_name)) (kindIs "string" .user.domain) (not (empty .user.domain)) }}
+    {{- else if eq $mode "site_domain" -}}
+    {{ and (kindIs "string" .user.domain) (not (empty .user.domain)) }}
+    {{- else -}}
+    false
+    {{- end -}}
+  row_filter: >-
+    {{- $mode := get .user "embed_security_mode" | toString -}}
+    {{- if not (hasKey .user "embed_security_mode") -}}
+    true
+    {{- else if eq $mode "user_domain" -}}
+    true
+    {{- else if eq $mode "advertiser" -}}
+    advertiser_name = '{{ .user.advertiser_name | toString | replace "'" "''" }}'
+    {{- else if eq $mode "advertiser_domain" -}}
+    advertiser_name = '{{ .user.advertiser_name | toString | replace "'" "''" }}'
+    AND app_site_domain = '{{ .user.domain | toString | replace "'" "''" }}'
+    {{- else if eq $mode "site_domain" -}}
+    app_site_domain = '{{ .user.domain | toString | replace "'" "''" }}'
+    {{- else -}}
+    false
+    {{- end -}}
 
 measures:
   - display_name: Advertising Spend Overall
