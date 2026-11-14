@@ -45,3 +45,6 @@ For Marketplaces/Technology Providers:
 ## Extra Dashboard
 
 An additional dashboard is created with row policies enabled for specific emails. This is used in our embed examples found, [here](https://rill-embedding-example.netlify.app/).
+## Embedded security examples
+
+See [Test embedded dashboard security](embed-security.md) for advertiser, user-domain, and site-domain policies, mock identities, and the local backend verification command.

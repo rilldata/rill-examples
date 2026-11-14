@@ -19,13 +19,54 @@ mock_users:
   groups:
     - editors
 
+- email: embed-domain@rilldata.com
+  admin: false
+  embed_security_mode: user_domain
+- email: embed-denied@outside.example
+  admin: false
+  embed_security_mode: user_domain
+- email: embed-advertiser@advertiser.example
+  admin: false
+  embed_security_mode: advertiser
+  advertiser_name: Grocery Outlet
+- email: embed-site@damedetrefle.com
+  admin: false
+  embed_security_mode: site_domain
+- email: embed-combined@damedetrefle.com
+  admin: false
+  embed_security_mode: advertiser_domain
+  advertiser_name: Grocery Outlet
+
 models:
   refresh:
     every: 24h
 
 features:
-  cloud_editing: true
-  personal_canvases: true
+  # Each flag keeps the value below unless the trusted embed backend signs a boolean
+  # feature_<flag> user attribute, which overrides it for that embed only. See embed-security.md.
+  exports: '{{ if hasKey .user "feature_exports" }}{{ eq (toString .user.feature_exports) "true" }}{{ else }}true{{ end }}'
+  cloud_data_viewer: '{{ if hasKey .user "feature_cloud_data_viewer" }}{{ eq (toString .user.feature_cloud_data_viewer) "true" }}{{ else }}false{{ end }}'
+  dimension_search: '{{ if hasKey .user "feature_dimension_search" }}{{ eq (toString .user.feature_dimension_search) "true" }}{{ else }}false{{ end }}'
+  two_tiered_navigation: '{{ if hasKey .user "feature_two_tiered_navigation" }}{{ eq (toString .user.feature_two_tiered_navigation) "true" }}{{ else }}false{{ end }}'
+  rill_time: '{{ if hasKey .user "feature_rill_time" }}{{ eq (toString .user.feature_rill_time) "true" }}{{ else }}true{{ end }}'
+  hide_public_url: '{{ if hasKey .user "feature_hide_public_url" }}{{ eq (toString .user.feature_hide_public_url) "true" }}{{ else }}{{ .user.embed }}{{ end }}'
+  export_header: '{{ if hasKey .user "feature_export_header" }}{{ eq (toString .user.feature_export_header) "true" }}{{ else }}false{{ end }}'
+  alerts: '{{ if hasKey .user "feature_alerts" }}{{ eq (toString .user.feature_alerts) "true" }}{{ else }}true{{ end }}'
+  reports: '{{ if hasKey .user "feature_reports" }}{{ eq (toString .user.feature_reports) "true" }}{{ else }}true{{ end }}'
+  chat: '{{ if hasKey .user "feature_chat" }}{{ eq (toString .user.feature_chat) "true" }}{{ else }}true{{ end }}'
+  dashboard_chat: '{{ if hasKey .user "feature_dashboard_chat" }}{{ eq (toString .user.feature_dashboard_chat) "true" }}{{ else }}true{{ end }}'
+  developer_chat: '{{ if hasKey .user "feature_developer_chat" }}{{ eq (toString .user.feature_developer_chat) "true" }}{{ else }}true{{ end }}'
+  chat_charts: '{{ if hasKey .user "feature_chat_charts" }}{{ eq (toString .user.feature_chat_charts) "true" }}{{ else }}true{{ end }}'
+  chat_memory: '{{ if hasKey .user "feature_chat_memory" }}{{ eq (toString .user.feature_chat_memory) "true" }}{{ else }}true{{ end }}'
+  deploy: '{{ if hasKey .user "feature_deploy" }}{{ eq (toString .user.feature_deploy) "true" }}{{ else }}true{{ end }}'
+  developer_agent: '{{ if hasKey .user "feature_developer_agent" }}{{ eq (toString .user.feature_developer_agent) "true" }}{{ else }}true{{ end }}'
+  sticky_dashboard_state: '{{ if hasKey .user "feature_sticky_dashboard_state" }}{{ eq (toString .user.feature_sticky_dashboard_state) "true" }}{{ else }}false{{ end }}'
+  disable_persistent_dashboard_state: '{{ if hasKey .user "feature_disable_persistent_dashboard_state" }}{{ eq (toString .user.feature_disable_persistent_dashboard_state) "true" }}{{ else }}false{{ end }}'
+  cloud_editing: '{{ if hasKey .user "feature_cloud_editing" }}{{ eq (toString .user.feature_cloud_editing) "true" }}{{ else }}true{{ end }}'
+  custom_charts: '{{ if hasKey .user "feature_custom_charts" }}{{ eq (toString .user.feature_custom_charts) "true" }}{{ else }}false{{ end }}'
+  custom_components: '{{ if hasKey .user "feature_custom_components" }}{{ eq (toString .user.feature_custom_components) "true" }}{{ else }}false{{ end }}'
+  personal_canvases: '{{ if hasKey .user "feature_personal_canvases" }}{{ eq (toString .user.feature_personal_canvases) "true" }}{{ else }}true{{ end }}'
+  ai: '{{ if hasKey .user "feature_ai" }}{{ eq (toString .user.feature_ai) "true" }}{{ else }}true{{ end }}'
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.

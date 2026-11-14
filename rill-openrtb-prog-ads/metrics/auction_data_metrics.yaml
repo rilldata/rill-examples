@@ -1,6 +1,5 @@
 # Metrics view YAML
 # Reference documentation: https://docs.rilldata.com/reference/project-files/metrics-views
-# This file was generated using AI.
 
 version: 1
 type: metrics_view
@@ -9,6 +8,32 @@ display_name: Auction Data
 connector: duckdb
 model: auction_data
 timeseries: __time
+
+security:
+  access: >-
+    {{- $mode := get .user "embed_security_mode" -}}
+    {{- if not (hasKey .user "embed_security_mode") -}}
+    true
+    {{- else if not (kindIs "string" $mode) -}}
+    false
+    {{- else if eq $mode "user_domain" -}}
+    {{ and (kindIs "string" .user.domain) (eq .user.domain "rilldata.com") }}
+    {{- else if eq $mode "site_domain" -}}
+    {{ and (kindIs "string" .user.domain) (not (empty .user.domain)) }}
+    {{- else -}}
+    false
+    {{- end -}}
+  row_filter: >-
+    {{- $mode := get .user "embed_security_mode" | toString -}}
+    {{- if not (hasKey .user "embed_security_mode") -}}
+    true
+    {{- else if eq $mode "user_domain" -}}
+    true
+    {{- else if eq $mode "site_domain" -}}
+    app_site_domain = '{{ .user.domain | toString | replace "'" "''" }}'
+    {{- else -}}
+    false
+    {{- end -}}
 
 dimensions:
   - name: app_site_name
