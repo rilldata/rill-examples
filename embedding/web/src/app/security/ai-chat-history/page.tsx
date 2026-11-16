@@ -3,14 +3,15 @@
 import { useState } from "react";
 import CodeWithSource from "@/components/CodeWithSource";
 import RillEmbed from "@/components/RillEmbed";
+import UserIdentityPicker, {
+  DEMO_USER_IDS,
+} from "@/components/UserIdentityPicker";
 import { prettyIframeRequest } from "@/lib/prettyIframeRequest";
-
-const USER_IDS = ["user-alice-123", "user-bob-456"];
 
 const AiChatHistoryPage = () => {
   const org = "demo";
   const project = "rill-embedding";
-  const [userId, setUserId] = useState(USER_IDS[0]);
+  const [userId, setUserId] = useState(DEMO_USER_IDS[0]);
   const iframeBody = {
     type: "explore",
     resource: "auctions_explore",
@@ -34,26 +35,7 @@ const AiChatHistoryPage = () => {
         preserved independently.
       </p>
 
-      <div>
-        <h3 className="text-sm font-semibold text-gray-700 mb-2">
-          Select user
-        </h3>
-        <div className="flex gap-2">
-          {USER_IDS.map((id) => (
-            <button
-              key={id}
-              onClick={() => setUserId(id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium border ${
-                userId === id
-                  ? "bg-indigo-600 text-white border-indigo-600"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-              }`}
-            >
-              {id}
-            </button>
-          ))}
-        </div>
-      </div>
+      <UserIdentityPicker userId={userId} onUserIdChange={setUserId} />
 
       <CodeWithSource
         title="Iframe request"

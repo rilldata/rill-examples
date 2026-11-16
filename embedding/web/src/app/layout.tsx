@@ -33,6 +33,18 @@ const NAV_ITEMS: { header: string; items: NavItem[] }[] = [
     ],
   },
   {
+    header: "User features",
+    items: [
+      { href: "/user-features/reports", label: "Reports" },
+      { href: "/user-features/alerts", label: "Alerts" },
+      { href: "/user-features/bookmarks", label: "Bookmarks" },
+      {
+        href: "/user-features/personal-canvases",
+        label: "Personal canvases",
+      },
+    ],
+  },
+  {
     header: "Reference",
     items: [
       {

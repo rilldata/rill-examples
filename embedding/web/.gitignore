@@ -2,3 +2,4 @@
 /.next
 /certificates
 /node_modules
+tsconfig.tsbuildinfo
