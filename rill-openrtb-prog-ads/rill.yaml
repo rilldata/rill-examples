@@ -51,12 +51,13 @@ features:
   rill_time: '{{ if hasKey .user "feature_rill_time" }}{{ eq (toString .user.feature_rill_time) "true" }}{{ else }}true{{ end }}'
   hide_public_url: '{{ if hasKey .user "feature_hide_public_url" }}{{ eq (toString .user.feature_hide_public_url) "true" }}{{ else }}{{ .user.embed }}{{ end }}'
   export_header: '{{ if hasKey .user "feature_export_header" }}{{ eq (toString .user.feature_export_header) "true" }}{{ else }}false{{ end }}'
-  alerts: '{{ if hasKey .user "feature_alerts" }}{{ eq (toString .user.feature_alerts) "true" }}{{ else }}true{{ end }}'
-  reports: '{{ if hasKey .user "feature_reports" }}{{ eq (toString .user.feature_reports) "true" }}{{ else }}true{{ end }}'
+  alerts: '{{ if hasKey .user "feature_alerts" }}{{ eq (toString .user.feature_alerts) "true" }}{{ else }}{{ not .user.embed }}{{ end }}'
+  reports: '{{ if hasKey .user "feature_reports" }}{{ eq (toString .user.feature_reports) "true" }}{{ else }}{{ not .user.embed }}{{ end }}'
   chat: '{{ if hasKey .user "feature_chat" }}{{ eq (toString .user.feature_chat) "true" }}{{ else }}true{{ end }}'
   dashboard_chat: '{{ if hasKey .user "feature_dashboard_chat" }}{{ eq (toString .user.feature_dashboard_chat) "true" }}{{ else }}true{{ end }}'
   developer_chat: '{{ if hasKey .user "feature_developer_chat" }}{{ eq (toString .user.feature_developer_chat) "true" }}{{ else }}true{{ end }}'
   chat_charts: '{{ if hasKey .user "feature_chat_charts" }}{{ eq (toString .user.feature_chat_charts) "true" }}{{ else }}true{{ end }}'
+  mcp_charts: '{{ if hasKey .user "feature_mcp_charts" }}{{ eq (toString .user.feature_mcp_charts) "true" }}{{ else }}true{{ end }}'
   chat_memory: '{{ if hasKey .user "feature_chat_memory" }}{{ eq (toString .user.feature_chat_memory) "true" }}{{ else }}true{{ end }}'
   deploy: '{{ if hasKey .user "feature_deploy" }}{{ eq (toString .user.feature_deploy) "true" }}{{ else }}true{{ end }}'
   developer_agent: '{{ if hasKey .user "feature_developer_agent" }}{{ eq (toString .user.feature_developer_agent) "true" }}{{ else }}true{{ end }}'
@@ -66,7 +67,9 @@ features:
   custom_charts: '{{ if hasKey .user "feature_custom_charts" }}{{ eq (toString .user.feature_custom_charts) "true" }}{{ else }}false{{ end }}'
   custom_components: '{{ if hasKey .user "feature_custom_components" }}{{ eq (toString .user.feature_custom_components) "true" }}{{ else }}false{{ end }}'
   personal_canvases: '{{ if hasKey .user "feature_personal_canvases" }}{{ eq (toString .user.feature_personal_canvases) "true" }}{{ else }}true{{ end }}'
+  embedded_bookmarks: '{{ if hasKey .user "feature_embedded_bookmarks" }}{{ eq (toString .user.feature_embedded_bookmarks) "true" }}{{ else }}false{{ end }}'
   ai: '{{ if hasKey .user "feature_ai" }}{{ eq (toString .user.feature_ai) "true" }}{{ else }}true{{ end }}'
+  canvas_excel_export: '{{ if hasKey .user "feature_canvas_excel_export" }}{{ eq (toString .user.feature_canvas_excel_export) "true" }}{{ else }}false{{ end }}'
 
 ai_instructions: |
   You are a data analyst, responding to questions from business users with precision, clarity, and concision.

@@ -62,7 +62,7 @@ Every flag under `features` keeps its fallback value unless the trusted embed ba
 
 Only the boolean `true` (or the string `"true"`) enables a flag; any other value disables it. Rill still forces `dashboard_chat` and `chat_memory` off when `chat` is off. Overrides travel in `attributes`, so they cannot be combined with `user_email` or `user_id`.
 
-Without an override, each flag resolves exactly as its previous untemplated value or runtime default did. Production fallbacks match the deployed v0.91.3 runtime defaults, so `alerts` and `reports` stay enabled for embeds. That runtime does not define `mcp_charts`, `embedded_bookmarks`, or `canvas_excel_export`, so they are not templated here. Because the fallbacks are written into `rill.yaml`, a later runtime default change will not apply to this project until the fallback is updated.
+Without an override, each flag resolves exactly as its previous untemplated value or runtime default did. This branch runs the production demo content on the stage environment, which is built from current Rill source. Fallbacks match the current runtime defaults, including `alerts` and `reports` being disabled for embeds, and `mcp_charts`, `embedded_bookmarks`, and `canvas_excel_export` are templated because that runtime defines them. Because the fallbacks are written into `rill.yaml`, a later runtime default change will not apply to this project until the fallback is updated.
 
 Feature flags mainly control the UI; backend permissions and security policies are enforced independently. Like the security mode, override attributes must be decided by a trusted backend, never by an untrusted visitor.
 
