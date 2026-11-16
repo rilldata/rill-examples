@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack --experimental-https",
+    "dev": "next dev --turbopack --experimental-https --port 4000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 4000",
     "lint": "next lint"
   },
   "dependencies": {

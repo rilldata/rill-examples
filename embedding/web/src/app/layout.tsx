@@ -19,6 +19,7 @@ const NAV_ITEMS: { header: string; items: NavItem[] }[] = [
       { href: "/customization/themes", label: "Themes" },
       { href: "/customization/disable-pivots", label: "Disable pivots" },
       { href: "/customization/ui-state", label: "UI state" },
+      { href: "/customization/user-features", label: "User features" },
     ],
   },
   {

@@ -21,5 +21,17 @@ mock_users:
 # Note the use of .user.embed to disable certain features in embeds.
 features:
   dashboard_chat: true
-  exports: "{{ not .user.embed }}"
+  exports: true
   cloud_editing: true
+  # Enable explicitly, they are disabled in embeds by default
+  reports: true
+  alerts: true
+  # Enable since these are disabled by default
+  personal_canvases: true
+  embedded_bookmarks: true
+
+# Page in the embedding app that opens dashboards from the "Open" link in
+# report and alert emails created in embeds. Rill appends a rill_open query
+# parameter. See web/src/app/customization/user-features/open/page.tsx.
+embeds:
+  open_url: https://rill-embedding-example.netlify.app/customization/user-features/open
