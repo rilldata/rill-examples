@@ -19,6 +19,7 @@ const NAV_ITEMS: { header: string; items: NavItem[] }[] = [
       { href: "/customization/themes", label: "Themes" },
       { href: "/customization/disable-pivots", label: "Disable pivots" },
       { href: "/customization/ui-state", label: "UI state" },
+      { href: "/customization/user-features", label: "User features" },
     ],
   },
   {
@@ -30,18 +31,6 @@ const NAV_ITEMS: { header: string; items: NavItem[] }[] = [
         label: "Filter by custom attributes",
       },
       { href: "/security/ai-chat-history", label: "AI chat history" },
-    ],
-  },
-  {
-    header: "User features",
-    items: [
-      { href: "/user-features/reports", label: "Reports" },
-      { href: "/user-features/alerts", label: "Alerts" },
-      { href: "/user-features/bookmarks", label: "Bookmarks" },
-      {
-        href: "/user-features/personal-canvases",
-        label: "Personal canvases",
-      },
     ],
   },
   {

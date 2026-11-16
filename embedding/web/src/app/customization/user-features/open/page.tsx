@@ -26,23 +26,16 @@ const OpenEmbed = () => {
   if (!rillOpen) {
     return (
       <p>
-        This page opens dashboards from the <strong>Open</strong> link in
-        report and alert emails, and expects a <code>rill_open</code> query
-        parameter. To try it, create a{" "}
+        This page opens dashboards from the <strong>Open</strong> link in report
+        and alert emails, and expects a <code>rill_open</code> query parameter.
+        To try it, create a report or alert on the{" "}
         <Link
-          href="/user-features/reports"
+          href="/customization/user-features"
           className="text-indigo-600 underline hover:text-indigo-800"
         >
-          report
+          user features
         </Link>{" "}
-        or an{" "}
-        <Link
-          href="/user-features/alerts"
-          className="text-indigo-600 underline hover:text-indigo-800"
-        >
-          alert
-        </Link>{" "}
-        and click the link in the email.
+        page and click the link in the email.
       </p>
     );
   }
@@ -73,8 +66,8 @@ const OpenEmbed = () => {
       <CodeWithSource
         title="Iframe request"
         code={prettyIframeRequest(org, project, iframeBody)}
-        sourceLabel="embedding/web/src/app/user-features/open/page.tsx"
-        sourceUrl="https://github.com/rilldata/rill-examples/blob/main/embedding/web/src/app/user-features/open/page.tsx"
+        sourceLabel="embedding/web/src/app/customization/user-features/open/page.tsx"
+        sourceUrl="https://github.com/rilldata/rill-examples/blob/main/embedding/web/src/app/customization/user-features/open/page.tsx"
       />
 
       <RillEmbed org={org} project={project} body={iframeBody} />

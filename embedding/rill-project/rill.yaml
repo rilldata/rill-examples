@@ -32,6 +32,6 @@ features:
 
 # Page in the embedding app that opens dashboards from the "Open" link in
 # report and alert emails created in embeds. Rill appends a rill_open query
-# parameter. See web/src/app/user-features/open/page.tsx.
+# parameter. See web/src/app/customization/user-features/open/page.tsx.
 embeds:
-  open_url: https://rill-embedding-example.netlify.app/user-features/open
+  open_url: https://rill-embedding-example.netlify.app/customization/user-features/open
